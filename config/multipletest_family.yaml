@@ -1,0 +1,21 @@
+# Family-wise trial register — schema per ADR-0008 Decision 6.
+# Every scan (exploration or confirmation tier) APPENDS one per-trial record.
+# DSR consumes (N_eff estimated from clustering metadata, cross-trial SR
+# variance); PBO consumes the trial matrix reconstructed from
+# return_series_ref pointers. A raw count is NOT a sufficient input
+# (ADR-0007 Decision 3).
+schema_version: 1
+screening_error_rate_target: null   # registered once, project-wide, per ADR-0002 (c) methodology memo; null until registered
+families: []
+# families:
+#   - family_id: <slug>
+#     correction: romano-wolf | benjamini-hochberg-prds | benjamini-yekutieli
+#     prds_argument_ref: <path or null>          # required iff correction = benjamini-hochberg-prds
+#     trials:
+#       - hid: <HID or scan id>
+#         sharpe_estimate: <float>
+#         return_series_ref: <shadow-ledger partition reference, ADR-0003>
+#         clustering:                             # metadata sufficient to estimate N_eff
+#           cluster_key: <e.g. base-expert lineage / conditioning-cell overlap>
+#           notes: <free text>
+#         registered_at: <ISO-8601>

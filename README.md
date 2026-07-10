@@ -1,6 +1,20 @@
 # SKIE-Universe-2
 
-SKIE-Universe-2 (quant project bootstrapped from s-koirala/dotfiles)
+Meta-strategy allocation research program (SKIE Universe 2.0): online
+strategy selection over an arsenal of expert strategies, with the allocator —
+not the individual strategy — as the unit of statistical inference. Founding
+governance: ADR-0001..0010 under [docs/decisions/](docs/decisions/).
+
+## Residual risk (founding audit, 2026-07-10)
+
+The founding ADR set passed a 3-round audit-remediate loop (final verdict
+accept, both branches; trail at
+[docs/audits/audit_trail_2026-07-10_founding-adrs.md](docs/audits/audit_trail_2026-07-10_founding-adrs.md)).
+Standing residual: governance prose constrains nothing numerically until
+implementation — the SPA/StepM/DSR/PBO constructions, registered quantile
+level + horizon, TOST α/power calibration, and per-trial register schema must
+be re-audited against the ADR text at first implementation. Five logged
+minors remain open (see trail §Open).
 
 ## Status
 

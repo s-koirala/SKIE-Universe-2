@@ -1,0 +1,14 @@
+# Burned-data ledger — schema per ADR-0008 Decision 5.
+# Every OOS span consumed by any HID is recorded here (mirrored from Expert
+# Card §7); a burned span is dead to successor hypotheses' confirmation-tier
+# evidence. Updated per evaluation window under the ADR-0004 rolling regime.
+schema_version: 1
+burned_spans: []
+# burned_spans:
+#   - hid: <HID>
+#     instrument: <symbol>
+#     start: <YYYY-MM-DD>
+#     end: <YYYY-MM-DD>
+#     purpose: admission-scan | rolling-eval | confirmation
+#     recorded_at: <ISO-8601>
+#     expert_card_ref: <path>
