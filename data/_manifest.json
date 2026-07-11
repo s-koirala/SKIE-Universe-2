@@ -1,16 +1,16 @@
 {
-  "$generated_at": "2026-07-11T04:24:00+00:00",
+  "$generated_at": "2026-07-11T04:44:07+00:00",
   "$generator": "~/.claude/scripts/build_data_manifest.py@0.1.0",
-  "$git_head": "0a6be3b51faf88a591204617190b412cc29a02b5",
+  "$git_head": "50b0f3e2b8db74302d3b3c7b9faff1ef14641151",
   "files": {
     "data/processed/_provenance/vendor_legacy_1min_20260711.json": {
       "license": null,
       "notes": null,
-      "retrieval_timestamp": "2026-07-11T02:03:06+00:00",
-      "retriever_git_head": "0a6be3b51faf88a591204617190b412cc29a02b5",
+      "retrieval_timestamp": "2026-07-11T04:44:07+00:00",
+      "retriever_git_head": "50b0f3e2b8db74302d3b3c7b9faff1ef14641151",
       "retriever_script": "scripts/build_data_manifest.py",
-      "sha256": "3a074b86ccf889eec83f904fd10b26ad7bb96e1727cff10ac38465155ef27368",
-      "size_bytes": 8101,
+      "sha256": "b4c847e04ba91e09dc020c54cb55f754f00e4301b6cb0bd4995aaefff17006c6",
+      "size_bytes": 8019,
       "snapshot_date": null,
       "source_uri": null
     },
