@@ -28,8 +28,12 @@ jobs:
       - name: Tests
         run: uv run pytest -q
 
-      - name: Data-manifest drift check
-        run: uv run python scripts/build_data_manifest.py --check
+      - name: Data-manifest drift check (committed subset)
+        # Full drift check (build_data_manifest.py --check) runs at
+        # materialization and pre-push where local data exists; on a fresh
+        # clone only committed files are present, so CI verifies the
+        # committed subset against the manifest.
+        run: uv run python scripts/audits/check_data_manifest_committed.py
 
       - name: CITATION.cff validation
         run: uv run python scripts/hooks/precommit_citation_cff.py CITATION.cff

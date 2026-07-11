@@ -6,7 +6,24 @@
 # (ADR-0007 Decision 3).
 schema_version: 1
 screening_error_rate_target: null   # registered once, project-wide, per ADR-0002 (c) methodology memo; null until registered
-families: []
+families:
+  - family_id: h900-dwell-time-feasibility
+    # Singleton methodology-gate family: one pre-registered analysis with no
+    # selection surface, hence no correction due (H900 design.md §8). Any
+    # post-hoc scan on the same substrate joins this family and triggers the
+    # multipletest-gate.
+    correction: none-singleton
+    prds_argument_ref: null
+    trials:
+      - hid: H900
+        sharpe_estimate: null   # not a Sharpe-family trial; dwell-time feasibility gate
+        return_series_ref: null # no return series; sojourn-distribution study
+        clustering:
+          cluster_key: h900-singleton
+          notes: >-
+            Founding feasibility gate per ADR-0004 Decision 6; frozen design at
+            research/01_hypothesis_register/H900/design.md.
+        registered_at: "2026-07-10"
 # families:
 #   - family_id: <slug>
 #     correction: romano-wolf | benjamini-hochberg-prds | benjamini-yekutieli

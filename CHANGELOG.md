@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning 2.0.0](https://semver.org/spec/
 
 ## [Unreleased]
 
+### Added (research program launch, 2026-07-10)
+- **Phase B** — retro Expert Cards H100–H104 (ADR-0009) from 1.0 evidence for
+  H050/H052a/H053/H054/H055; register digest; burned-data ledger seeded with
+  11 spans; closes `P1-2.0-RETRO-CARD-1.0-REGISTER`. 3-round audit-remediate
+  accept (10 confirmed findings remediated, 0 refuted); trail at
+  `docs/audits/audit_trail_2026-07-10_phaseB-retro-expert-cards.md`.
+- **Phase C** — `skie_universe2` package: numerical-fidelity port of the 1.0
+  roll-adjusted ingest (bit-exact vs the registered 1.0 reference on shared
+  columns), shadow-ledger writer per ADR-0003 (journaled two-phase commit,
+  atomic partition claims, locked JSONL trails, covariate registry), ADR-0011
+  registry-refusal gate, ES+NQ evidence bars materialized with `pit_provisional`
+  PIT flags and a machine-readable December-roll substrate-defect register
+  (operator follow-up `P1-2.0-DATABENTO-DEC-ROLL-REPULL`). 105 tests. 3-round
+  audit-remediate accept (2 criticals remediated); trail at
+  `docs/audits/audit_trail_2026-07-10_phaseC-substrate-shadow-ledger.md`.
+- **Phase A pre-registration** — H900 dwell-time feasibility gate (ADR-0004
+  Decision 6) frozen: 11-section design at
+  `research/01_hypothesis_register/H900/design.md`, singleton multipletest
+  family registered, freeze ReproLog with `config_resolved_sha256` = design
+  SHA-256.
+
 ### Fixed
 - `uv sync` failure on fresh clone: empty `[build-system]` table in
   `pyproject.toml` replaced with explicit `[tool.uv] package = false`

@@ -1,0 +1,56 @@
+# Instrument roll-rule parameters consumed by the Phase C roll-adjusted
+# ingest (src/skie_universe2/data/ingest/vendor_legacy_1min_roll_adjusted.py).
+#
+# Lifted verbatim from SKIE-Universe 1.0 config/instruments.yaml (sibling
+# repo, HEAD at lift time recorded in
+# docs/audits/benchmark_comparison_phaseC_ingest_2026-07-10.md) per the
+# ADR-0008 audit-and-lift obligation. Only the roll_rule blocks are lifted:
+# 2.0's cost model lands with the execution subpackage (ADR-0006 Decision 4),
+# so the 1.0 fee/commission fields are intentionally absent here.
+#
+# Sources (retrieved 2026-04-15 / 2026-05-12 in the 1.0 audit trail):
+#   - CME rollover guidance (roll ~8 calendar days before last-trade as
+#     volume/OI migrate): https://www.cmegroup.com/trading/equity-index/rolldates.html
+#   - CME contract month codes: https://www.cmegroup.com/month-codes.html
+
+instruments:
+  ES:
+    exchange: CME
+    description: E-mini S&P 500
+    roll_rule:
+      codes: [H, M, U, Z]       # justify: CME equity-index quarterly cycle per product spec (https://www.cmegroup.com/month-codes.html); declared explicitly because the config loaders are fail-closed (round-1 audit CODE-1-1) - no silent default
+      method: volume_crossover  # justify: provisional 1.0 Phase-0 choice; follow-up P1-ROLL-METHOD compares OI-crossover vs volume-crossover on realized slippage (carried into 2.0 backlog)
+      window_days: 5            # justify: provisional pending roll-persistence study (1.0 P1-ROLL-WINDOW); 5 sessions because OI crossover typically stabilizes within one trading week — lifted unchanged so the 2.0 output is comparable to the 1.0 benchmark
+      reference: "CME rollover page https://www.cmegroup.com/trading/equity-index/rolldates.html (retrieved 2026-04-15)"
+  NQ:
+    exchange: CME
+    description: E-mini Nasdaq-100
+    roll_rule:
+      codes: [H, M, U, Z]       # justify: see ES roll_rule.codes
+      method: volume_crossover  # justify: see ES (P1-ROLL-METHOD)
+      window_days: 5            # justify: see ES roll_rule.window_days (P1-ROLL-WINDOW)
+      reference: "CME rollover page https://www.cmegroup.com/trading/equity-index/rolldates.html (retrieved 2026-04-15)"
+  MCL:
+    exchange: NYMEX
+    description: Micro WTI Crude Oil
+    roll_rule:
+      codes: [F, G, H, J, K, M, N, Q, U, V, X, Z]  # justify: MCL active months per CME product spec; verified 2026-05-12 against contract calendar (1.0 audit trail)
+      method: volume_crossover  # justify: see ES (P1-ROLL-METHOD); energy/metals cadence under P1-ROLL-METALS-ENERGY-CALIBRATE
+      window_days: 3            # justify: energy rolls typically migrate volume/OI 3-5 sessions before LTD per CME energy rolldates page; provisional pending P1-ROLL-METALS-ENERGY-CALIBRATE (lifted unchanged from 1.0)
+      reference: "CME Micro WTI contract spec https://www.cmegroup.com/markets/energy/crude-oil/micro-wti-crude-oil-futures.contractSpecs.html (retrieved 2026-05-12)"
+  MGC:
+    exchange: COMEX
+    description: Micro Gold Futures (10 troy oz)
+    roll_rule:
+      codes: [F, G, H, J, K, M, N, Q, U, V, X, Z]  # justify: MGC primary active months per CME are G/J/M/Q/V/Z; Databento parent-symbology carries all 12 monthly contracts; volume-driven argmax selects the actual front-month (1.0, expanded 2026-05-12)
+      method: volume_crossover  # justify: see ES (P1-ROLL-METHOD)
+      window_days: 3            # justify: metals roll typically migrates 3-5 sessions before LTD; provisional pending P1-ROLL-METALS-ENERGY-CALIBRATE (lifted unchanged from 1.0)
+      reference: "CME Micro Gold contract spec https://www.cmegroup.com/markets/metals/precious/e-micro-gold.contractSpecs.html (retrieved 2026-05-12)"
+  SIL:
+    exchange: COMEX
+    description: Micro Silver Futures (1000 troy oz)
+    roll_rule:
+      codes: [F, G, H, J, K, M, N, Q, U, V, X, Z]  # justify: SIL primary active months per CME are H/K/N/U/Z; Databento parent-symbology carries all 12 monthly contracts; volume-driven argmax selects the actual front-month (1.0, expanded 2026-05-12)
+      method: volume_crossover  # justify: see ES (P1-ROLL-METHOD)
+      window_days: 3            # justify: see MGC roll_rule.window_days (P1-ROLL-METALS-ENERGY-CALIBRATE)
+      reference: "CME 1000 oz Silver contract spec https://www.cmegroup.com/markets/metals/precious/1000-oz-silver.contractSpecs.html (retrieved 2026-05-12)"
