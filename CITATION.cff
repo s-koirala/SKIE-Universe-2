@@ -29,7 +29,7 @@ keywords:
 # Zenodo-minted concept DOI; leave the placeholder until the first Zenodo
 # release. Per rules/publishing.md SKIE workflow, each release tagged
 # `skie-v{MAJOR.MINOR}` gets a fresh DOI under the concept DOI.
-doi: <<TODO: Zenodo concept DOI on first release>>
+doi: "<<TODO: Zenodo concept DOI on first release>>"
 
 # Optional: preferred citation if the work has a canonical published form
 # (manuscript, paper). Comment out the block if not applicable.
@@ -40,7 +40,7 @@ preferred-citation:
   title: "<<TODO>>"
   year: 2026
   journal: "<<TODO>>"
-  doi: <<TODO>>
+  doi: "<<TODO>>"
 
 # References — auto-populated by /cite-add (R1-C); each entry must conform
 # to CFF v1.2.0 reference schema. Start empty.

@@ -33,29 +33,38 @@ venv/
 
 # =====================================================================
 # Data (gitignored by default; un-ignore specific subdirs as needed)
+# NB: exclude directory *contents* (`X/*`, `X/**`) rather than the
+# directory itself (`X/`) — git cannot re-include a file whose parent
+# directory is excluded, so `!.gitkeep`-style negations only work with
+# contents-level patterns (gitignore(5), PATTERN FORMAT).
 # =====================================================================
-data/raw/
-data/interim/
-data/processed/
-data/external/
+data/raw/*
+data/interim/*
+data/processed/*
+data/external/*
 !data/_manifest.json
 !data/expectations.yaml
 !data/processed/_provenance/
-!**/.gitkeep
 
 # =====================================================================
 # Artifacts and runs (gitignored; track via DVC or git-lfs if needed)
 # =====================================================================
-artifacts/
-runs/
-outputs/
+artifacts/**
+!artifacts/**/
+runs/**
+!runs/**/
+outputs/**
+!outputs/**/
 
 # =====================================================================
-# Logs (ReproLogs are tracked manually only when referenced by a commit)
+# Logs (ReproLogs are tracked manually only when referenced by a commit;
+# use `git add -f` for individual ReproLog JSONs)
 # =====================================================================
-logs/
-!logs/reproducibility/.gitkeep
-!logs/reproducibility/env/.gitkeep
+logs/**
+!logs/**/
+
+# Directory placeholders (last so they win over all excludes above)
+!**/.gitkeep
 
 # =====================================================================
 # Notebooks (stripped via nbstripout)

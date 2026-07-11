@@ -38,16 +38,30 @@ viz = [
     "great_tables",     # publication tables (R2-C)
 ]
 
-[build-system]
 # Defer per memo §5 Q1 default = no build-system declaration; matches
-# SKIE-Universe pattern. Uncomment to make installable:
+# SKIE-Universe pattern. To make installable, add:
+# [build-system]
 # requires = ["hatchling"]
 # build-backend = "hatchling.build"
+# and drop `package = false` below.
+
+[tool.uv]
+# Research repo, not a distributable package: uv must not attempt to build
+# or install the project itself (an empty [build-system] table is
+# schema-invalid and breaks `uv sync` on a fresh clone).
+package = false
 
 [tool.ruff]
 line-length = 100  # justify: user's CLAUDE.md tooling defaults; matches SKIE-Universe
 target-version = "py311"
 src = ["src"]
+# Vendored verbatim from s-koirala/dotfiles (linted in its home repo);
+# excluded here so local lint config does not force divergence from upstream.
+extend-exclude = [
+    "scripts/hooks/precommit_seed_guard.py",
+    "scripts/hooks/precommit_citation_cff.py",
+    "scripts/build_data_manifest.py",
+]
 
 [tool.ruff.lint]
 # Justify: E/F/W from pycodestyle/pyflakes; I from isort; N for naming;
