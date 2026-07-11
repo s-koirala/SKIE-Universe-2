@@ -43,6 +43,12 @@ _REPRO_FIELDS = {
     "config_resolved_sha256",
     "host",
     "env_id",
+    # REPRODUCIBILITY-1-1 (round-1 H900 audit) provenance-integrity
+    # extension: dirty-tree flag + working-tree content hash, emitted by
+    # every capture() so a recorded git_head cannot silently masquerade
+    # as a pin when the tree is dirty.
+    "git_dirty",
+    "working_tree_hash",
 }
 
 # Fixture covariate registry: family toy_momentum_cov registers exactly

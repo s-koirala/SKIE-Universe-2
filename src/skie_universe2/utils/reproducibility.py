@@ -11,6 +11,15 @@ self-contained port of SKIE-Universe 1.0
 
 Records land at ``logs/reproducibility/repro_log_{run_id}.json`` per the
 CLAUDE.md reproducibility contract.
+
+Round-1 audit REPRODUCIBILITY-1-1 extension: two provenance-integrity
+fields beyond the frozen 13 — ``git_dirty`` (True when the working tree
+differs from ``git_head``, i.e. the recorded HEAD does NOT pin the run)
+and ``working_tree_hash`` (SHA-256 over the dirty files' contents:
+sorted ``status path file-sha256`` lines from ``git status --porcelain
+-uall``). A clean tree records ``git_dirty=False`` and a null hash, so
+old records (which lack the fields) deserialize with the safe default
+of "unknown provenance" only when genuinely absent.
 """
 
 from __future__ import annotations
@@ -53,6 +62,10 @@ class ReproLog:
     config_resolved_sha256: str | None
     host: dict[str, str]
     env_id: str
+    # REPRODUCIBILITY-1-1 extension fields (see module docstring).
+    # Defaults keep pre-extension records readable via ReproLog.read.
+    git_dirty: bool = False
+    working_tree_hash: str | None = None
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -107,6 +120,48 @@ def _git_head(root: Path) -> str:
         return out.stdout.strip()
     except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
         return "unknown"
+
+
+def _git_status_porcelain(root: Path) -> list[str]:
+    try:
+        out = subprocess.run(
+            ["git", "-C", str(root), "status", "--porcelain=v1", "-uall", "--no-renames"],
+            capture_output=True,
+            text=True,
+            check=True,
+            timeout=_SUBPROCESS_TIMEOUT_SEC,
+        )
+        return [ln for ln in out.stdout.splitlines() if ln.strip()]
+    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
+        return []
+
+
+def _working_tree_hash(root: Path, status_lines: list[str]) -> str | None:
+    """Deterministic content hash of everything not pinned by git_head.
+
+    ``git stash create`` omits untracked files and ``git write-tree``
+    mutates the index, so the hash is built directly: one line per
+    dirty/untracked file — ``<status> <path> <sha256-of-content>``
+    (deleted files hash as the literal ``deleted``) — sorted, joined,
+    SHA-256'd. Returns None for a clean tree.
+    """
+    if not status_lines:
+        return None
+    entries: list[str] = []
+    for ln in status_lines:
+        status, path_part = ln[:2], ln[3:]
+        if path_part.startswith('"') and path_part.endswith('"'):
+            path_part = path_part[1:-1]
+        f = root / path_part
+        if f.is_file():
+            digest = file_sha256(f)
+        elif f.exists():
+            digest = "non-regular-file"
+        else:
+            digest = "deleted"
+        entries.append(f"{status.strip() or '??'} {path_part} {digest}")
+    joined = "\n".join(sorted(entries)).encode("utf-8")
+    return hashlib.sha256(joined).hexdigest()
 
 
 def _pip_freeze_bytes() -> bytes:
@@ -169,6 +224,8 @@ def capture(
     uv_lock = paths.root / "uv.lock"
     lock_id = file_sha256(uv_lock) if uv_lock.is_file() else "no-uv-lock"
 
+    status_lines = _git_status_porcelain(paths.root)
+
     return ReproLog(
         run_id=run_id or uuid.uuid4().hex,
         phase=phase,
@@ -183,6 +240,8 @@ def capture(
         config_resolved_sha256=config_resolved_sha256,
         host=_host_info(),
         env_id=env_id or lock_id,
+        git_dirty=bool(status_lines),
+        working_tree_hash=_working_tree_hash(paths.root, status_lines),
     )
 
 

@@ -27,6 +27,17 @@ and this project adheres to [Semantic Versioning 2.0.0](https://semver.org/spec/
   `research/01_hypothesis_register/H900/design.md`, singleton multipletest
   family registered, freeze ReproLog with `config_resolved_sha256` = design
   SHA-256.
+- **Phase A execution (2026-07-11) — H900 verdict: GO.** Registered §10 H1
+  criterion met on BOTH instruments (ES pooled KM median dwell 12 bars CI
+  [10,14] vs break-even 4.45; NQ 9 bars CI [8,10] vs 2.54; inclusive
+  sensitivity also GO). 1.0 HMM toolkit + stationary-bootstrap ports,
+  dwell/KM/CUSUM/cost modules, 146 new tests (suite 251). 3-round
+  audit-remediate accept (10 confirmed findings remediated incl. a PW
+  block-length selector defect and a fee erratum, 0 refuted); trail at
+  `docs/audits/audit_trail_2026-07-11_phaseA-h900-dwell-feasibility.md`;
+  report at `reports/H900/H900_dwell_feasibility_report_2026-07-11.md`.
+  The allocator program proceeds; 4-state diag Gaussian HMM registered as
+  the ADR-0002 conditioning-set candidate.
 
 ### Fixed
 - `uv sync` failure on fresh clone: empty `[build-system]` table in
