@@ -3,12 +3,83 @@
 # Card §7); a burned span is dead to successor hypotheses' confirmation-tier
 # evidence. Updated per evaluation window under the ADR-0004 rolling regime.
 schema_version: 1
-burned_spans: []
-# burned_spans:
-#   - hid: <HID>
-#     instrument: <symbol>
-#     start: <YYYY-MM-DD>
-#     end: <YYYY-MM-DD>
-#     purpose: admission-scan | rolling-eval | confirmation
-#     recorded_at: <ISO-8601>
-#     expert_card_ref: <path>
+burned_spans:
+  # Retro Expert Cards, P1-2.0-RETRO-CARD-1.0-REGISTER (2026-07-10):
+  # spans consumed by the SKIE-Universe 1.0 runs whose evidence these cards admit.
+  - hid: H100
+    instrument: ES
+    start: 2024-01-01
+    end: 2024-12-12
+    purpose: admission-scan
+    recorded_at: "2026-07-10"
+    expert_card_ref: docs/reports/expert_card_H050_retro_2026-07-10.md
+  - hid: H100
+    instrument: NQ
+    start: 2024-01-01
+    end: 2025-12-11
+    purpose: admission-scan
+    recorded_at: "2026-07-10"
+    expert_card_ref: docs/reports/expert_card_H050_retro_2026-07-10.md
+  - hid: H101
+    instrument: ES
+    start: 2023-07-01
+    end: 2024-12-31
+    purpose: admission-scan
+    recorded_at: "2026-07-10"
+    expert_card_ref: docs/reports/expert_card_H052a_retro_2026-07-10.md
+  - hid: H101
+    instrument: NQ
+    start: 2023-07-01
+    end: 2024-12-31
+    purpose: admission-scan
+    recorded_at: "2026-07-10"
+    expert_card_ref: docs/reports/expert_card_H052a_retro_2026-07-10.md
+  - hid: H102
+    instrument: ES
+    start: 2024-01-03
+    end: 2025-12-03
+    purpose: admission-scan
+    recorded_at: "2026-07-10"
+    expert_card_ref: docs/reports/expert_card_H053_retro_2026-07-10.md
+  - hid: H102
+    instrument: NQ
+    start: 2024-01-03
+    end: 2025-12-18
+    purpose: admission-scan
+    recorded_at: "2026-07-10"
+    expert_card_ref: docs/reports/expert_card_H053_retro_2026-07-10.md
+  - hid: H103
+    instrument: ES
+    start: 2025-01-01
+    end: 2025-12-03
+    purpose: admission-scan
+    recorded_at: "2026-07-10"
+    expert_card_ref: docs/reports/expert_card_H054_retro_2026-07-10.md
+  - hid: H104
+    instrument: ES
+    start: 2024-01-01
+    end: 2026-05-15
+    purpose: admission-scan
+    recorded_at: "2026-07-10"
+    expert_card_ref: docs/reports/expert_card_H055_retro_2026-07-10.md
+  - hid: H104
+    instrument: NQ
+    start: 2024-01-01
+    end: 2026-05-15
+    purpose: admission-scan
+    recorded_at: "2026-07-10"
+    expert_card_ref: docs/reports/expert_card_H055_retro_2026-07-10.md
+  - hid: H104
+    instrument: MGC
+    start: 2024-01-01
+    end: 2026-05-15
+    purpose: admission-scan
+    recorded_at: "2026-07-10"
+    expert_card_ref: docs/reports/expert_card_H055_retro_2026-07-10.md
+  - hid: H104
+    instrument: SIL
+    start: 2024-01-01
+    end: 2026-05-15
+    purpose: admission-scan
+    recorded_at: "2026-07-10"
+    expert_card_ref: docs/reports/expert_card_H055_retro_2026-07-10.md
