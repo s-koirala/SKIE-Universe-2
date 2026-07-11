@@ -1,0 +1,24 @@
+{
+  "config_resolved_sha256": "548f009ae505816a1b2aeb8693681224e080449b458013e87d6f3df3c8f4c43c",
+  "dataset_checksums": {
+    "reports/H900/h900_spells_inclusive.parquet": "d9a7a40200203126e1be067c8d0957927799f74ead794f790a0673d0ead55155",
+    "reports/H900/h900_spells_primary.parquet": "f90482b475e8a1e9845d404ed79cba35c084083409d47f8ac0d4a686850d966b"
+  },
+  "env_id": "895c2a01970a35acab67fc9ad567e74f8d8aa809dd117380dde911ae177a9c99",
+  "git_dirty": true,
+  "git_head": "5f555be10f63aec93e53f4cee08733c9eb275b16",
+  "host": {
+    "cpu": "AMD64",
+    "os": "Windows 11",
+    "python": "3.12.13"
+  },
+  "hypothesis_id": "H900",
+  "model_hash": "ed560cb817602cbb733ce3fc96738cefcfb6d15c069dd08208919a1bcf783bcd",
+  "phase": "h900-dwell-feasibility-sensitivity-regen",
+  "pip_freeze_path": "logs/reproducibility/env/715a95cc13db4e1aafae0d5197ec77ee612216adb60ce02153e5616b3d65c4f6.txt",
+  "pip_freeze_sha256": "715a95cc13db4e1aafae0d5197ec77ee612216adb60ce02153e5616b3d65c4f6",
+  "rng_seed": 20260710,
+  "run_id": "bc5b16aef8ae4ed487868879632ccc9f",
+  "timestamp_utc": "2026-07-11T15:31:55.804055+00:00",
+  "working_tree_hash": "18aa222409e0ffb487eec3ab7b71c8061528ef098d8eecffcbfa3a49332c0eda"
+}

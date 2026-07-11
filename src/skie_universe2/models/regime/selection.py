@@ -1,0 +1,285 @@
+"""Model selection across ``(n_states, covariance_type)`` grids.
+
+Port provenance (ADR-0008 audit-and-lift)
+-----------------------------------------
+
+Numerical-fidelity port of SKIE-Universe 1.0
+``SKIE-Universe@ce018515:src/skie_ninja/models/regime/selection.py`` for the
+H900 dwell-time feasibility gate
+(research/01_hypothesis_register/H900/design.md). Only package import
+paths were renamed and one additive extension was made:
+``select_gaussian_hmm`` accepts an explicit ``restart_seeds`` sequence
+forwarded to every grid-cell fit (H900 design.md §5/§11 registered restart-
+seed rule); the numerical paths are otherwise identical
+to the 1.0 source. Applicable 1.0 unit tests are ported alongside under
+``tests/``.
+
+Cycle 3 scope: BIC (Schwarz 1978) on the training fold. The joint
+BIC + walk-forward cross-validated log-likelihood rule mandated by
+ADR-0005 requires the walk-forward engine (Cycle 4 deliverable) and
+is tracked as ``P1-HMM-WFCV``. Until Cycle 4 lands, the selector
+falls back to BIC-only — ADR-0005 explicitly calls BIC the primary
+criterion with CV as a secondary tiebreaker.
+
+P1-HMM-FULL-COV-1DIM-REDUNDANT (2026-04-26)
+-------------------------------------------
+
+When ``x.shape[1] == 1`` (single-feature emission dimension), the
+covariance parameterisations ``{spherical, diag, full}`` are
+**model-class equivalent**: each encodes one positive scalar variance
+per state, identical likelihood, identical BIC parameter count
+(``k_covar = N``). Only ``tied`` is materially different at d=1
+(single shared scalar across states; ``k_covar = 1``). See the
+addendum at
+``research/01_hypothesis_register/H050/hmm_covariance_d1_equivalence_addendum_2026-04-26.md``
+for the formal proof and the in-house Tier-5 microbench evidence.
+
+To preserve pre-registered grid fidelity (design.md may bind
+``covariance_type ∈ {diag, full}`` literally) while removing
+redundant computation, ``select_gaussian_hmm`` performs **deduplication
+by model-class signature** at d=1: when the grid contains multiple
+``{spherical, diag, full}`` entries for the same ``n_states``, only
+the first is fit; subsequent equivalent entries reuse the fit's
+log-likelihood and BIC, recorded as aliased ``SelectionCandidate``
+entries with ``n_restarts_used = 0`` to mark the alias. The pre-reg
+grid is preserved on the audit trail (every entry produces a
+candidate); only the redundant compute is skipped.
+
+References
+----------
+
+  - Schwarz, G. 1978. "Estimating the Dimension of a Model". *Annals
+    of Statistics* 6(2): 461-464. https://doi.org/10.1214/aos/1176344136
+  - Celeux, G. & Durand, J.-B. 2008. "Selecting hidden Markov model
+    state number with cross-validated likelihood". *Computational
+    Statistics* 23(4): 541-564. https://doi.org/10.1007/s00180-007-0097-1
+  - Pohle, J., Langrock, R., van Beest, F. M., & Schmidt, N. M.
+    2017. "Selecting the Number of States in Hidden Markov Models:
+    Pragmatic Solutions Illustrated Using Animal Movement". *Journal
+    of Agricultural, Biological and Environmental Statistics* 22(3):
+    270-293. https://doi.org/10.1007/s13253-017-0283-8
+
+Follow-ups (deferred, see audit trail)
+--------------------------------------
+
+  - ``P1-HMM-WFCV``: walk-forward-CV held-out log-likelihood scoring
+    and BIC+CV joint selection (ADR-0005).
+  - ``P1-HMM-ADAPTIVE-RESTART``: bootstrap-ε stopping rule.
+  - ``P1-HMM-PERM-TEST``: permutation-based BIC-differential
+    significance test.
+"""
+
+from __future__ import annotations
+
+from collections.abc import Sequence
+from dataclasses import dataclass
+
+import numpy as np
+import numpy.typing as npt
+
+from skie_universe2.models.regime._core import CovarianceType, bic
+from skie_universe2.models.regime.hmm import GaussianHMM
+
+
+@dataclass(frozen=True)
+class SelectionCandidate:
+    """Single grid-point fit record."""
+
+    n_states: int
+    covariance_type: CovarianceType
+    log_likelihood: float
+    bic: float
+    n_restarts_used: int
+
+
+@dataclass(frozen=True)
+class SelectionResult:
+    """Output of :func:`select_gaussian_hmm`.
+
+    ``best_model`` is a fitted :class:`GaussianHMM` with the
+    BIC-minimising ``(n_states, covariance_type)``.
+    """
+
+    best_model: GaussianHMM
+    best_n_states: int
+    best_covariance_type: CovarianceType
+    candidates: tuple[SelectionCandidate, ...]
+    criterion: str  # "bic" (Cycle 3) or "bic+wfcv" (after Cycle 4)
+
+
+def select_gaussian_hmm(
+    x: npt.NDArray[np.float64],
+    *,
+    n_states_grid: tuple[int, ...],
+    covariance_types: tuple[CovarianceType, ...] = ("diag",),
+    seed: int,
+    em_tol: float | None = None,
+    max_iter: int | None = None,
+    min_var: float | None = None,
+    min_restarts: int = 5,
+    max_restarts: int = 20,
+    restart_seeds: Sequence[int] | None = None,
+) -> SelectionResult:
+    """Fit a grid of Gaussian HMMs and return the BIC-minimiser.
+
+    Parameters
+    ----------
+    x
+        (T, d) observations. Selection is performed on this single
+        training fold — no walk-forward CV in Cycle 3 (see module
+        docstring).
+    n_states_grid
+        Explicit grid of ``N`` values. ADR-0005 requires each entry
+        bounded below by 2 and bounded above by the largest K such
+        that ``mean within-state sample size > 30 · d``; the caller
+        is responsible for that bound (the hypothesis pre-registration
+        is where it should be recorded).
+    covariance_types
+        Tuple over ``{"spherical", "diag", "tied", "full"}``. Defaults
+        to ``("diag",)`` — the single most-common choice for
+        financial-return emissions. Broader grids cost more compute;
+        callers should pre-register the grid.
+    seed
+        Master RNG seed. Per-grid-point RNG seeds are derived
+        deterministically via ``SeedSequence.spawn`` so fit
+        reproducibility is independent of grid iteration order.
+    restart_seeds
+        2.0 additive extension (H900 design.md §5/§11): when given,
+        EVERY grid cell is fit with exactly this restart-seed sequence
+        (restart i → restart_seeds[i]); the per-cell SeedSequence
+        derivation is bypassed. Grid-order independence then holds
+        trivially (all cells share the same seeds).
+
+    Returns
+    -------
+    :class:`SelectionResult`
+        Carries the BIC-minimising fitted model plus the full grid
+        of candidate scores for audit.
+    """
+    x_arr = np.asarray(x, dtype=np.float64)
+    if x_arr.ndim == 1:
+        x_arr = x_arr.reshape(-1, 1)
+
+    if not n_states_grid:
+        raise ValueError("n_states_grid must be non-empty.")
+    if not covariance_types:
+        raise ValueError("covariance_types must be non-empty.")
+    for n in n_states_grid:
+        if n < 2:
+            raise ValueError(f"n_states grid entries must be >= 2 (ADR-0005); got {n}.")
+
+    ss = np.random.SeedSequence(int(seed))
+    # SeedSequence.spawn gives independent substreams for each grid
+    # point; the order-independence matters so re-ordering the grid
+    # inputs in a pre-registration change does not change the fits.
+    n_points = len(n_states_grid) * len(covariance_types)
+    sub_seeds = ss.spawn(n_points)
+
+    candidates: list[SelectionCandidate] = []
+    best_model: GaussianHMM | None = None
+    best_bic = np.inf
+    best_n: int = -1
+    best_cov: CovarianceType = covariance_types[0]
+
+    # Per (n_states, model_class_signature) → (log_likelihood, fitted_model).
+    # At d=1, {spherical, diag, full} all collapse to the same model class
+    # (one positive scalar variance per state; identical likelihood and k).
+    # `tied` remains a separate class (single shared scalar across states).
+    # See module docstring §"P1-HMM-FULL-COV-1DIM-REDUNDANT".
+    dim = x_arr.shape[1]
+    fit_cache: dict[tuple[int, str], tuple[float, GaussianHMM]] = {}
+
+    def _model_class_signature(cov: CovarianceType) -> str:
+        if dim == 1 and cov in ("spherical", "diag", "full"):
+            return "d1_per_state_scalar"
+        return cov
+
+    idx = 0
+    for n in n_states_grid:
+        for cov in covariance_types:
+            seed_i = int(sub_seeds[idx].generate_state(1)[0])
+            idx += 1
+            sig = (n, _model_class_signature(cov))
+            if sig in fit_cache:
+                # Model-class duplicate: reuse the prior fit's likelihood.
+                # BIC is recomputed under the requested cov_type label so
+                # the count_free_parameters identity at d=1 is exercised
+                # (and any future drift would surface as a BIC mismatch in
+                # tests/unit/test_hmm_core.py::test_d1_param_count_equivalence_class).
+                # The strict `<` cache-hit promotion is unreachable today
+                # (BIC is identical within the equivalence class; see
+                # test_d1_bic_equivalence_class) but is kept as defensive
+                # logic so that any future drift cannot silently desynchronise
+                # `best_model` from `best_cov` — the cached fitted model is
+                # promoted alongside the cov label.
+                ll, cached_model = fit_cache[sig]
+                bic_score = bic(
+                    log_likelihood=ll,
+                    n_states=n,
+                    dim=dim,
+                    covariance_type=cov,
+                    t_len=x_arr.shape[0],
+                )
+                candidates.append(
+                    SelectionCandidate(
+                        n_states=n,
+                        covariance_type=cov,
+                        log_likelihood=ll,
+                        bic=bic_score,
+                        n_restarts_used=0,  # alias marker
+                    )
+                )
+                if bic_score < best_bic:
+                    best_bic = bic_score
+                    best_model = cached_model
+                    best_n = n
+                    best_cov = cov
+                continue
+
+            model = GaussianHMM(
+                n_states=n,
+                covariance_type=cov,
+                em_tol=em_tol if em_tol is not None else GaussianHMM.em_tol,
+                max_iter=max_iter if max_iter is not None else GaussianHMM.max_iter,
+                min_var=min_var if min_var is not None else GaussianHMM.min_var,
+            )
+            model.fit(
+                x_arr,
+                seed=seed_i,
+                min_restarts=min_restarts,
+                max_restarts=max_restarts,
+                restart_seeds=restart_seeds,
+            )
+            assert model.fit_result_ is not None
+            ll = model.fit_result_.best_log_likelihood
+            bic_score = bic(
+                log_likelihood=ll,
+                n_states=n,
+                dim=dim,
+                covariance_type=cov,
+                t_len=x_arr.shape[0],
+            )
+            fit_cache[sig] = (ll, model)
+            candidates.append(
+                SelectionCandidate(
+                    n_states=n,
+                    covariance_type=cov,
+                    log_likelihood=ll,
+                    bic=bic_score,
+                    n_restarts_used=model.fit_result_.n_restarts_used,
+                )
+            )
+            if bic_score < best_bic:
+                best_bic = bic_score
+                best_model = model
+                best_n = n
+                best_cov = cov
+
+    assert best_model is not None
+    return SelectionResult(
+        best_model=best_model,
+        best_n_states=best_n,
+        best_covariance_type=best_cov,
+        candidates=tuple(candidates),
+        criterion="bic",
+    )

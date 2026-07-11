@@ -4,19 +4,35 @@
 # Lifted verbatim from SKIE-Universe 1.0 config/instruments.yaml (sibling
 # repo, HEAD at lift time recorded in
 # docs/audits/benchmark_comparison_phaseC_ingest_2026-07-10.md) per the
-# ADR-0008 audit-and-lift obligation. Only the roll_rule blocks are lifted:
-# 2.0's cost model lands with the execution subpackage (ADR-0006 Decision 4),
-# so the 1.0 fee/commission fields are intentionally absent here.
+# ADR-0008 audit-and-lift obligation. Originally only the roll_rule blocks
+# were lifted ("2.0's cost model lands with the execution subpackage,
+# ADR-0006 Decision 4"); the H900 frozen design
+# (research/01_hypothesis_register/H900/design.md §7) registers the
+# `futures_rt_v1` break-even cost schedule as living HERE ("Commission +
+# spread schedule: CME retail schedule as registered in
+# config/instruments.yaml (ported from 1.0 with CME-cited fees)"), so the
+# ES/NQ contract-spec + fee fields are now lifted verbatim from
+# SKIE-Universe@ce018515:config/instruments.yaml with their 1.0 citation
+# comments. Consumed by src/skie_universe2/costs/futures_rt_v1.py.
 #
 # Sources (retrieved 2026-04-15 / 2026-05-12 in the 1.0 audit trail):
 #   - CME rollover guidance (roll ~8 calendar days before last-trade as
 #     volume/OI migrate): https://www.cmegroup.com/trading/equity-index/rolldates.html
 #   - CME contract month codes: https://www.cmegroup.com/month-codes.html
+#   - CME exchange fees: https://www.cmegroup.com/company/clearing-fees.html
+#   - NFA assessment fee ($0.02/side): NFA Rulebook Section 13
 
 instruments:
   ES:
     exchange: CME
     description: E-mini S&P 500
+    tick_size: 0.25                                 # CME product spec (lifted 1.0)
+    tick_value: 12.50                               # $50 * 0.25 = $12.50/tick, CME product spec (lifted 1.0)
+    multiplier: 50.0                                # USD per index point, CME product spec (lifted 1.0)
+    commission_per_side_usd: 0.85                   # NinjaTrader Brokerage Unlimited, Q1-2026 published rate, retrieved 2026-04-15 from https://ninjatrader.com/pricing/ (placeholder; broker-specific — lifted 1.0)
+    exchange_fee_usd: 1.38                          # CME E-mini equity-index NON-member electronic exchange+clearing fee per side, eff. 2024-02-01, broker fee notices (retrieved 2026-07-11). ERRATUM per round-1 audit LITERATURE-1-2: the 1.0-carried $1.18 was annotated 'Individual Member eff. 2024-02' but cannot be matched to that schedule; retail (non-member) is the binding rate for this program.
+    nfa_fee_usd: 0.02                               # NFA Rulebook Section 13, Schedule of Dues and Assessment Fees, eff. 2024-01-01 (lifted 1.0)
+    slippage_ticks_per_side: 1                      # justify: 1-tick-per-side market-order slippage prior, lifted from 1.0 futures_orb_v1 (SKIE-Universe@ce018515 src/skie_ninja/backtest/costs/futures_orb_v1.py); conservative floor pending empirical calibration (1.0 follow-up P1-H052A-COST-CALIBRATION-EMPIRICAL); Tier-0 fidelity per ADR-0006
     roll_rule:
       codes: [H, M, U, Z]       # justify: CME equity-index quarterly cycle per product spec (https://www.cmegroup.com/month-codes.html); declared explicitly because the config loaders are fail-closed (round-1 audit CODE-1-1) - no silent default
       method: volume_crossover  # justify: provisional 1.0 Phase-0 choice; follow-up P1-ROLL-METHOD compares OI-crossover vs volume-crossover on realized slippage (carried into 2.0 backlog)
@@ -25,6 +41,13 @@ instruments:
   NQ:
     exchange: CME
     description: E-mini Nasdaq-100
+    tick_size: 0.25                                 # CME product spec (lifted 1.0)
+    tick_value: 5.00                                # $20 * 0.25 = $5.00/tick, CME product spec (lifted 1.0)
+    multiplier: 20.0                                # USD per index point, CME product spec (lifted 1.0)
+    commission_per_side_usd: 0.85                   # NinjaTrader Brokerage Unlimited, Q1-2026 published rate, retrieved 2026-04-15 (placeholder; broker-specific — lifted 1.0)
+    exchange_fee_usd: 1.38                          # CME E-mini equity-index NON-member electronic, eff. 2024-02-01, broker fee notices (retrieved 2026-07-11). ERRATUM per round-1 audit LITERATURE-1-2 — see ES exchange_fee_usd note.
+    nfa_fee_usd: 0.02                               # NFA Rulebook Section 13, eff. 2024-01-01 (lifted 1.0)
+    slippage_ticks_per_side: 1                      # justify: see ES slippage_ticks_per_side (1.0 futures_orb_v1 1-tick prior)
     roll_rule:
       codes: [H, M, U, Z]       # justify: see ES roll_rule.codes
       method: volume_crossover  # justify: see ES (P1-ROLL-METHOD)

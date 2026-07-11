@@ -1,0 +1,84 @@
+{
+  "alpha": 0.05,
+  "decision_rule": "GO iff 95% CI lower bound of pooled D_med > D_be(mu=1.2e-4) for the BIC-selected model on >=1 instrument (design.md \u00a710); precision gate per \u00a78 (CI half-width < 25% of point estimate).",
+  "hypothesis_id": "H900",
+  "instruments": {
+    "ES": {
+      "break_even_frontier_bars": {
+        "0.00012": 4.450470373994039,
+        "0.00027": 3.6446534995529065,
+        "1e-05": 20.405644487928473,
+        "4e-05": 7.351411121982118
+      },
+      "c_switch_account_dollar_sensitivity": 0.0029543598264365027,
+      "c_switch_notional": 0.00017405644487928474,
+      "d_be_central_bars": 4.450470373994039,
+      "detection_latency_median_bars": 3.0,
+      "h1_met": true,
+      "n_alarms_pooled": 2912,
+      "n_bootstrap_undefined": 0,
+      "n_events_pooled": 3685,
+      "n_spells_pooled": 3720,
+      "n_transitions_pooled": 3720,
+      "pooled_ci_half_width_bars": 2.0,
+      "pooled_ci_high_bars": 14.0,
+      "pooled_ci_low_bars": 10.0,
+      "pooled_median_dwell_bars": 12.0,
+      "precision_ok": true,
+      "reference_price_unadjusted_median": 3390.0,
+      "session_truncated_sensitivity": {
+        "method": "stationary bootstrap over the chronological truncated-rule spell sequence, PW automatic block length, B=2000, percentile CI (design \u00a78 registered method)",
+        "n_bootstrap_undefined": 0,
+        "n_events_pooled": 3699,
+        "n_spells_pooled": 5239,
+        "pooled_ci_high_bars": 69.02499999999986,
+        "pooled_ci_low_bars": 35.0,
+        "pooled_median_dwell_bars": 49.0,
+        "spell_block_length": 99.94472197774225
+      },
+      "spell_block_length": 1.7301715039937975,
+      "switch_cost_usd": 29.5
+    },
+    "NQ": {
+      "break_even_frontier_bars": {
+        "0.00012": 2.539307521891639,
+        "0.00027": 2.2396922319518398,
+        "1e-05": 8.47169026269967,
+        "4e-05": 3.6179225656749177
+      },
+      "c_switch_account_dollar_sensitivity": 0.0014510522673147432,
+      "c_switch_notional": 6.47169026269967e-05,
+      "d_be_central_bars": 2.539307521891639,
+      "detection_latency_median_bars": 2.0,
+      "h1_met": true,
+      "n_alarms_pooled": 3665,
+      "n_bootstrap_undefined": 0,
+      "n_events_pooled": 4452,
+      "n_spells_pooled": 4489,
+      "n_transitions_pooled": 4489,
+      "pooled_ci_half_width_bars": 1.0,
+      "pooled_ci_high_bars": 10.0,
+      "pooled_ci_low_bars": 8.0,
+      "pooled_median_dwell_bars": 9.0,
+      "precision_ok": true,
+      "reference_price_unadjusted_median": 11203.0,
+      "session_truncated_sensitivity": {
+        "method": "stationary bootstrap over the chronological truncated-rule spell sequence, PW automatic block length, B=2000, percentile CI (design \u00a78 registered method)",
+        "n_bootstrap_undefined": 0,
+        "n_events_pooled": 4466,
+        "n_spells_pooled": 6007,
+        "pooled_ci_high_bars": 41.0,
+        "pooled_ci_low_bars": 24.0,
+        "pooled_median_dwell_bars": 32.0,
+        "spell_block_length": 86.08578102815824
+      },
+      "spell_block_length": 2.9665639207449273,
+      "switch_cost_usd": 14.5
+    }
+  },
+  "mu_central": 0.00012,
+  "n_bootstrap": 2000,
+  "seed": 20260710,
+  "variant": "primary",
+  "verdict": "GO"
+}

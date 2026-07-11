@@ -39,6 +39,22 @@ data = [
     "polars==1.40.0",
 ]
 
+# Justify: the H900 dwell-time study (research/01_hypothesis_register/H900/
+# design.md §5) mandates a numerical-fidelity port of the SKIE-Universe 1.0
+# HMM toolkit (src/skie_ninja/models/regime/), whose k-means++ EM warm start
+# is implemented via sklearn.cluster.KMeans (Arthur & Vassilvitskii 2007) and
+# whose forward-backward hot loops dispatch to numba @njit kernels (1.0
+# _em_kernels.py; 400-1200x measured speedup over the scipy path at the
+# production T — see the 1.0 module docstring benchmark table). Rewriting
+# either would forfeit the exact-port fidelity the design requires; without
+# numba the 15-window x 6-cell x 5-restart EM grid is computationally
+# infeasible (O(100 h) on the scipy path). numba 0.66 constrains numpy<2.5,
+# which is why the lock resolves numpy 2.4.x.
+models = [
+    "scikit-learn",
+    "numba",
+]
+
 # Justify: matplotlib/seaborn for figures; defaults set by deliver-results
 # skill's skie.mplstyle (R2-C).
 viz = [
@@ -87,6 +103,22 @@ ignore = ["PLR0913"]
 # document. The magic-number policy (CLAUDE.md) targets tunable
 # analysis parameters, which tests do not introduce.
 "tests/*" = ["PLR2004"]
+# Justify: numerical-fidelity ports of SKIE-Universe@ce018515 (H900
+# design.md §5 mandates porting the 1.0 HMM toolkit + bootstrap with
+# their unit tests; ADR-0008 audit-and-lift). The 1.0 source predates
+# this repo's lint profile; renaming its math-notation identifiers
+# (log_B, M, K_N, ...) or restructuring its branches would break 1:1
+# diffability against the audited 1.0 source and risk transcription
+# defects in verified numerical code. Scoped to the ported files only.
+"src/skie_universe2/models/regime/_core.py" = ["N802", "N803", "N806", "PLR2004", "PLR0912", "PLR0915", "PLR1730"]
+"src/skie_universe2/models/regime/_em_kernels.py" = ["N802", "N803", "N806", "PLR2004", "PLR0912", "PLR1730"]
+"src/skie_universe2/models/regime/hmm.py" = ["N802", "N803", "N806", "PLR2004", "PLR0912", "PLR0915", "PLC0415", "I001", "SIM114", "PLR1714"]
+"src/skie_universe2/models/regime/selection.py" = ["N802", "N803", "N806", "PLR2004", "PLR0912"]
+"src/skie_universe2/inference/bootstrap.py" = ["N802", "N803", "N806", "PLR2004", "PLR0912", "PLR1730"]
+"tests/test_regime_hmm_core.py" = ["N802", "N803", "N806", "I001", "F401", "PLC0415"]
+"tests/test_regime_hmm_fit.py" = ["N802", "N803", "N806"]
+"tests/test_regime_hmm_selection.py" = ["PLC0206"]
+"tests/test_inference_bootstrap.py" = ["N802", "N803", "N806", "I001", "B905", "B017"]
 
 [tool.pytest.ini_options]
 pythonpath = [".", "src"]

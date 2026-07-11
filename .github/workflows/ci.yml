@@ -20,7 +20,9 @@ jobs:
           version: "0.11.7"
 
       - name: Sync environment (frozen lockfile)
-        run: uv sync --frozen --extra dev --extra data --extra viz
+        # --all-extras so new dependency groups (e.g. `models`) are always
+        # exercised by CI without editing this file
+        run: uv sync --frozen --all-extras
 
       - name: Lint
         run: uv run ruff check .
