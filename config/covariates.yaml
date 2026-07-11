@@ -1,0 +1,34 @@
+# Registered conditioning-covariate sets for shadow-ledger writes —
+# mandated by ADR-0003 Decision 6 + ADR-0008 Decision 4 (pre-registered
+# conditioning sets), enforced by
+# src/skie_universe2/ledger/shadow_ledger.py (round-1 audit QUANT-1-7).
+#
+# Keyed by EXPERT FAMILY = the expert_id name before '@' (version bumps
+# keep the family's registered covariate set; changing the set is a new
+# registration entry written at pre-registration time, i.e. when the
+# family's design.md is frozen — post-hoc covariates require a fresh
+# registered cycle per ADR-0008 Decision 4).
+#
+# Enforcement: a ledger frame's cov_* columns must EXACTLY equal the
+# registered set for every expert family present in the frame. A family
+# absent from this file has the empty registered set — any cov_* column
+# is refused. This makes cross-partition covariate-set drift within a
+# family impossible by construction.
+#
+# Column naming: covariates are Float64 wide columns prefixed cov_
+# (ADR-0003 Decision 6 storage convention).
+
+schema_version: 1
+
+expert_families:
+  # Documented example (no live registration yet — Phase A/B admission
+  # candidates register here when their design.md freezes):
+  #
+  #   toy_momentum:
+  #     registered_at: "2026-07-10"
+  #     design_md: "research/toy_momentum/design.md"
+  #     covariates:
+  #       - cov_realized_vol_60m
+  #       - cov_session_phase
+  #
+  {}

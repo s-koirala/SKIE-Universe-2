@@ -33,10 +33,34 @@ sources:
     intended_use: >-
       Sole raw substrate for the Phase C roll-adjusted continuous-contract
       evidence bars and shadow-ledger backfill (ADR-0003 Decision 5).
+    substrate_defects:
+      - id: DEC_ROLL_LATE_COMMIT
+        severity: critical
+        confirmed: "2026-07-10 (round-1 audit QUANT-1-1; verified against the Phase C provenance roll events)"
+        description: >-
+          Per-year ES/NQ raw files contain only same-year-expiry contracts,
+          so the December volume-crossover into the next year's H (March)
+          contract is invisible until the next year's file begins. Every
+          Z->H roll 2016-2025 therefore commits at the FIRST JANUARY
+          session, ~3 weeks after the true mid-December crossover (CME
+          guidance: volume migrates ~8 calendar days before last-trade).
+          Bars in each late window (~Dec 08 .. first January session, per
+          year) carry a misattributed front-month in every derivative built
+          from this store, including the registered 1.0 reference output —
+          the Phase C bit-exact benchmark match therefore demonstrates port
+          fidelity, NOT substrate correctness. Machine-readable per-run
+          detail is emitted in the roll-adjusted provenance coverage_gaps
+          field.
+        repair: >-
+          Re-pull December-spanning windows (at minimum Dec 01 -> Jan 15
+          around each year boundary, all affected symbols) from Databento
+          GLBX.MDP3. Requires operator-authorized spend (1.0 ADR-0023
+          precedent). Registered follow-up: P1-2.0-DATABENTO-DEC-ROLL-REPULL.
+          Do NOT patch in code — the defect is in the raw substrate.
 
   skie_universe_1_processed_roll_adjusted:
     kind: sibling_repo_reference   # reference-only per ADR-0011 Decision 2
-    location: "C:/Users/skoir/Documents/SKIE-Universe/data/processed/vendor_legacy_1min_roll_adjusted/"
+    location: "~/Documents/SKIE-Universe/data/processed/vendor_legacy_1min_roll_adjusted/"
     partitioning: "symbol={ES,MCL,MGC,NQ,SIL}"
     usable_as_evidence: false
     note: >-
@@ -48,7 +72,7 @@ sources:
 
   skie_universe_1_kpi_reports:
     kind: sibling_repo_reference
-    location: "C:/Users/skoir/Documents/SKIE-Universe/reports/"
+    location: "~/Documents/SKIE-Universe/reports/"
     usable_as_evidence: false
     note: >-
       Read-only input for Phase B retro Expert Cards

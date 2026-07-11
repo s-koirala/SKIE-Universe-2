@@ -1,0 +1,21 @@
+{
+  "config_resolved_sha256": "c896f8647ba4bfe74a7b38171816d4d0baa03a9f6b8fda075165d59e1a324446",
+  "dataset_checksums": {
+    "docs/audits/benchmark_comparison_phaseC_ingest_2026-07-10.md": "a851a53c3126cbc7fa5c491ddde0729a15d2eb3f356a7ede9fab378be151f47d"
+  },
+  "env_id": "8fef285be288ae55c21433f0032db4c5b9b2bb81f39c12a81aacbc0565422773",
+  "git_head": "0a6be3b51faf88a591204617190b412cc29a02b5",
+  "host": {
+    "cpu": "AMD64",
+    "os": "Windows 11",
+    "python": "3.12.13"
+  },
+  "hypothesis_id": "phaseC_benchmark_comparison",
+  "model_hash": null,
+  "phase": "audit",
+  "pip_freeze_path": "logs/reproducibility/env/3d4c048066b61eb8b6eaf6b35ad74a08ed451b118f803219de0f10ae64ab0875.txt",
+  "pip_freeze_sha256": "3d4c048066b61eb8b6eaf6b35ad74a08ed451b118f803219de0f10ae64ab0875",
+  "rng_seed": 42,
+  "run_id": "a3c1c917f57e4d888354b653b32b3f26",
+  "timestamp_utc": "2026-07-11T02:06:11.928483+00:00"
+}

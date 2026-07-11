@@ -28,6 +28,15 @@ data = [
     "scipy",
     "pandera",
     "pyarrow",          # parquet
+    # justify: the Phase C roll-adjusted ingest is a numerical-fidelity port
+    # of SKIE-Universe 1.0 src/skie_ninja/data/ingest/*.py, which is
+    # implemented in polars. Rewriting in pandas would forfeit the exact
+    # benchmark comparison mandated by config/data_sources.yaml
+    # (skie_universe_1_processed_roll_adjusted). Pinned ==1.40.0 to match the
+    # 1.0 reference venv exactly: frame_sha256 canonicalization is documented
+    # as a polars-version surface (1.0 utils/hashing.py docstring), so a
+    # version skew would confound the numerical cross-validation.
+    "polars==1.40.0",
 ]
 
 # Justify: matplotlib/seaborn for figures; defaults set by deliver-results
@@ -70,6 +79,14 @@ extend-exclude = [
 # research code where signatures grow naturally).
 select = ["E", "F", "W", "I", "N", "B", "UP", "SIM", "PL"]
 ignore = ["PLR0913"]
+
+[tool.ruff.lint.per-file-ignores]
+# Justify: test assertions compare against literal expectations derived
+# from the synthetic fixtures defined in the same file (e.g. 5 fixture
+# rows, 64 hex chars of SHA-256) — naming each would obscure, not
+# document. The magic-number policy (CLAUDE.md) targets tunable
+# analysis parameters, which tests do not introduce.
+"tests/*" = ["PLR2004"]
 
 [tool.pytest.ini_options]
 pythonpath = [".", "src"]
