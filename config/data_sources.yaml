@@ -1,0 +1,56 @@
+# Upstream data-source registry — mandated by ADR-0011 Decision 3.
+# Every external source consumed by this project must be registered here
+# BEFORE ingest; ingest modules refuse unregistered sources.
+#
+# Checksums: machine-level raw files carry SHA-256 in their retrieval-time
+# provenance sidecars (ADR-0011 Decision 4); per-file SHA-256 of everything
+# materialized under data/ lands in data/_manifest.json at ingest time.
+# This registry records locations, licenses, and coverage — not per-file
+# hashes.
+
+schema_version: 1
+
+sources:
+  vendor_skie_ninja_legacy_raw_1min:
+    kind: vendor_raw
+    location: "~/datasets/vendor_skie_ninja_legacy/raw_1min/"
+    vendor_chain: "Databento GLBX.MDP3 ohlcv-1m -> per-symbol/per-year CSV"
+    file_pattern: "{SYMBOL}_{YEAR|YEARH1|''}_1min_databento.csv"
+    symbols: [ES, NQ, MCL, MGC, SIL]
+    coverage_note: >-
+      ES/NQ per-year files 2015-2026H1 plus undated full-history files;
+      MCL/MGC/SIL full-history CSV + .dbn.zst. Row counts and per-file
+      SHA-256 recorded at ingest into data/_manifest.json.
+    license:
+      status: verified
+      note: "Databento research-tier license; same owner as this repo (s-koirala)."
+      verified_at: "2026-04-23"
+      verified_by: "user-confirmation-2026-04-23 (1.0 audit trail)"
+    upstream_reference: >-
+      SKIE-Universe 1.0 docs/audits/audit_trail_2026-04-23_vendor-legacy-1min-ingest.md
+      (3,733,906 rows ES 2020-2025 + NQ 2020-2024 at first ingest; store has
+      since been extended to 2015-2026H1 and additional symbols).
+    intended_use: >-
+      Sole raw substrate for the Phase C roll-adjusted continuous-contract
+      evidence bars and shadow-ledger backfill (ADR-0003 Decision 5).
+
+  skie_universe_1_processed_roll_adjusted:
+    kind: sibling_repo_reference   # reference-only per ADR-0011 Decision 2
+    location: "C:/Users/skoir/Documents/SKIE-Universe/data/processed/vendor_legacy_1min_roll_adjusted/"
+    partitioning: "symbol={ES,MCL,MGC,NQ,SIL}"
+    usable_as_evidence: false
+    note: >-
+      NOT an ingest source. Registered only as the numerical
+      cross-validation benchmark for the ported Phase C ingest module
+      (CLAUDE.md Verification: confirm numerical results against a
+      reference implementation). 2.0 evidence bars are re-materialized from
+      vendor_skie_ninja_legacy_raw_1min.
+
+  skie_universe_1_kpi_reports:
+    kind: sibling_repo_reference
+    location: "C:/Users/skoir/Documents/SKIE-Universe/reports/"
+    usable_as_evidence: false
+    note: >-
+      Read-only input for Phase B retro Expert Cards
+      (P1-2.0-RETRO-CARD-1.0-REGISTER). Cards cite report paths + 1.0 git
+      HEAD at read time; no data copied.

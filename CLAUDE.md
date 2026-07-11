@@ -30,6 +30,7 @@ The ten founding ADRs in [docs/decisions/](docs/decisions/) are standing rules:
 | [ADR-0008](docs/decisions/ADR-0008-integrity-non-negotiables.md) | PIT canaries, bar-level costs, ReproLog, pre-registered scans, burned-data ledger, trial register — every tier |
 | [ADR-0009](docs/decisions/ADR-0009-expert-card-terminal-deliverable.md) | Expert Card (8 sections) is the mandatory terminal deliverable; "fail" is not a disposition |
 | [ADR-0010](docs/decisions/ADR-0010-live-capital-escalation.md) | Live size earned by live-vs-shadow tracking on a pre-declared escalation schedule |
+| [ADR-0011](docs/decisions/ADR-0011-two-level-data-storage-and-provenance-policy.md) | Two-level data storage: machine-level raw store + project-level processed; upstreams registered in [config/data_sources.yaml](config/data_sources.yaml); no cross-repo processed imports |
 
 Open follow-ups registered at founding: `P1-2.0-RETRO-CARD-1.0-REGISTER`
 (retro-card H050/H052a/H053/H054/H055 from 1.0 KPI reports — first admission
@@ -49,8 +50,9 @@ skill. All commits use
 with `--role={idea|code|prose|audit|multi}` per ICMJE 2026 disclosure.
 
 Dataset provenance: `data/_manifest.json` (managed by
-`~/.claude/scripts/build_data_manifest.py`). Run `--check` mode in CI to
-detect drift.
+`scripts/build_data_manifest.py`, vendored from
+`~/.claude/scripts/build_data_manifest.py` in s-koirala/dotfiles). Run
+`--check` mode in CI to detect drift.
 
 ## Quickstart
 

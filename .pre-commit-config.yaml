@@ -5,12 +5,15 @@
 ##   - ruff (lint + format)
 ##   - nbstripout (notebook output cleanup)
 ##   - nbqa (apply ruff to notebooks)
-##   - seed-guard (~/.claude/hooks/precommit_seed_guard.py) — flags un-seeded
+##   - seed-guard (scripts/hooks/precommit_seed_guard.py) — flags un-seeded
 ##     RNG calls and magic numbers in Python / notebook code
-##   - citation-cff (~/.claude/hooks/precommit_citation_cff.py) — validates
+##   - citation-cff (scripts/hooks/precommit_citation_cff.py) — validates
 ##     CITATION.cff against CFF v1.2.0 minimum schema
-##   - data-manifest-check (~/.claude/scripts/build_data_manifest.py --check)
+##   - data-manifest-check (scripts/build_data_manifest.py --check)
 ##     — exits non-zero if data/ files have drifted since last manifest update
+##
+## Local hook scripts are vendored from s-koirala/dotfiles (~/.claude/hooks/,
+## ~/.claude/scripts/) so a fresh clone needs no machine-local paths.
 
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
@@ -31,26 +34,26 @@ repos:
       - id: nbqa-ruff
         args: [--fix]
 
-  # Local hooks from ~/.claude/hooks/
+  # Local hooks (vendored under scripts/; repo-relative so any clone works)
   - repo: local
     hooks:
       - id: seed-guard
         name: Seed + magic-number guard
-        entry: python -m claude_precommit_seed_guard
+        entry: uv run --no-sync python scripts/hooks/precommit_seed_guard.py
         language: system
         files: \.(py|ipynb)$
         pass_filenames: true
 
       - id: citation-cff
         name: CITATION.cff validator (CFF v1.2.0)
-        entry: python C:/Users/skoir/.claude/hooks/precommit_citation_cff.py
+        entry: uv run --no-sync python scripts/hooks/precommit_citation_cff.py
         language: system
         files: ^CITATION\.cff(\.tmpl)?$
         pass_filenames: true
 
       - id: data-manifest-check
         name: Data manifest drift check
-        entry: python C:/Users/skoir/.claude/scripts/build_data_manifest.py --check
+        entry: uv run --no-sync python scripts/build_data_manifest.py --check
         language: system
         pass_filenames: false
         always_run: true
