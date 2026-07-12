@@ -1,0 +1,108 @@
+# Conditioning-covariate registry — the ADR-0002 Decision (b) project-standard
+# conditioning set plus its pre-registered extensions.
+#
+# ADR-0002(b): the regime covariates on which conditional gross edge is scanned
+# must be frozen in an expert's design.md BEFORE any scan runs. The
+# project-standard set below may be adopted "by reference"; any extension
+# requires pre-registration (a frozen source design.md / feasibility gate) and
+# is recorded here with its provenance. A conditioning covariate discovered
+# post hoc requires a new admission cycle with a fresh trial-register entry
+# (ADR-0002 Consequences/obligation; ADR-0008 Decision 4).
+#
+# ADR-0001 Decision 5 (binding on every entry): latent regime estimates may
+# enter ONLY as covariates that tilt allocator priors (ADR-0001 D5, verbatim),
+# NEVER as binary position gates. They may additionally define conditional-edge
+# scan cells for admission (ADR-0002(c)). H050 is the controlling precedent
+# (a wrong latent-state model is worse than none). Registration here authorizes
+# covariate / scan-cell use, not gating.
+#
+# PIT / anti-look-ahead: every covariate must be computable at bar t from data
+# available at t (causal only; no smoothing). Model-derived covariates use the
+# forward filter, never the forward-backward smoother.
+#
+# Cell definition: `cells` gives the conditional-edge scan partition for
+# ADR-0002(c) (Romano-Wolf-corrected within the scan). `ledger_column` is the
+# cov_-prefixed Float64 wide column an expert conditioned on this covariate
+# registers in config/covariates.yaml at its own design freeze (ADR-0003 D6);
+# it is NOT auto-added to any expert here.
+
+schema_version: 1
+
+# ---------------------------------------------------------------------------
+# Project-standard conditioning set (ADR-0002(b), adopt-by-reference).
+# Enumerated here from the ADR so "adopt by reference" is machine-concrete;
+# the ADR text remains the normative source.
+# ---------------------------------------------------------------------------
+project_standard:
+  time_of_day_bucket:
+    description: Intraday session-phase bucket (open / mid / close cadence).
+    kind: exogenous
+    cells: session-phase buckets (registered per expert; CME RTH/ETH aware)
+    ledger_column: cov_time_of_day_bucket
+  realized_vol_percentile:
+    description: Trailing realized-volatility percentile of the instrument.
+    kind: exogenous
+    cells: percentile bands (registered per expert)
+    ledger_column: cov_realized_vol_percentile
+  variance_ratio_state:
+    description: Variance-ratio trend/range classification (Lo & MacKinlay 1988).
+    kind: exogenous
+    cells: {trend, range}
+    ledger_column: cov_variance_ratio_state
+    reference: https://doi.org/10.1093/rfs/1.1.41
+  macro_calendar_proximity:
+    description: Proximity to scheduled macro releases / roll dates.
+    kind: exogenous
+    cells: proximity buckets (registered per expert)
+    ledger_column: cov_macro_calendar_proximity
+  spread_liquidity_regime:
+    description: Bid-ask spread / liquidity regime classification.
+    kind: exogenous
+    cells: liquidity bands (registered per expert)
+    ledger_column: cov_spread_liquidity_regime
+
+# ---------------------------------------------------------------------------
+# Pre-registered extensions (each carries a frozen-gate provenance record).
+# ---------------------------------------------------------------------------
+extensions:
+  regime_hmm_h900:
+    status: candidate  # candidate | adopted; candidate = available for adoption, not yet used by an admitted expert
+    registered_at: "2026-07-11"
+    registered_by: >-
+      H900 dwell-time feasibility gate — verdict GO (ADR-0004 Decision 6).
+      §10 GO consequence: "the winning regime family is registered as the
+      candidate conditioning covariate set for ADR-0002 admission scans."
+    source_design_md: research/01_hypothesis_register/H900/design.md
+    source_design_sha256: "548f009ae505816a1b2aeb8693681224e080449b458013e87d6f3df3c8f4c43c"
+    source_report: reports/H900/H900_dwell_feasibility_report_2026-07-11.md
+    description: >-
+      Filtered regime label of the H900 winning family: a Gaussian HMM, 4
+      states, diagonal covariance, on the standardized emission vector
+      (ret_5m, log rvol_5m_24h) with training-window standardization moments
+      only. BIC-selected in 30/30 window x instrument fits (report §3.3).
+    kind: model_derived
+    model:
+      family: gaussian_hmm
+      n_states: 4
+      covariance_type: diag
+      features: [ret_5m@1.0.0, rvol_5m_24h@1.0.0]  # registered feature ids (design §3)
+      emission_vector: (ret_5m, log rvol_5m_24h)  # log is an emission transform of rvol_5m_24h
+      standardization: training-window moments only (no eval leakage)
+      state_estimate: causal_forward_filter  # MAP of the forward filter; NEVER the forward-backward smoother
+    cells: the 4 filtered MAP regime states (categorical, 4 levels)
+    ledger_column: cov_regime_state_h900  # Float64 MAP state index 0..3 (per-expert registration in covariates.yaml at freeze)
+    adr_0001_d5_compliance: >-
+      Registered as a conditioning covariate / allocator prior-tilt ONLY. Use as
+      a binary position gate is prohibited (ADR-0001 D5; H050 precedent). Any
+      expert adopting this must scan conditional gross edge over the 4 regime
+      cells (ADR-0002(c), Romano-Wolf within the scan), never gate on the state.
+    detection_cost_caveat: >-
+      Switching-cost budgeting for any regime-conditioned admission scan must
+      use a realistic (unsupervised) detection latency, not the supervised
+      CUSUM oracle. H900 CUSUM L_detect = 2-3 bars (report §3.2); the BOCPD
+      sensitivity (P1-2.0-H900-BOCPD-SENSITIVITY) shows a live detector
+      corroborates only ~46-48% of filtered transitions, and the true
+      live-unsupervised latency is unquantified pending
+      P1-2.0-H900-BOCPD-WHITENED. Budget switch costs accordingly.
+    references:
+      - https://doi.org/10.1109/5.18626  # Rabiner 1989 (HMM forward filter / state estimation)

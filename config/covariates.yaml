@@ -17,6 +17,12 @@
 #
 # Column naming: covariates are Float64 wide columns prefixed cov_
 # (ADR-0003 Decision 6 storage convention).
+#
+# Candidate conditioning covariates (the ADR-0002(b) project-standard set and
+# its pre-registered extensions, e.g. the H900 regime family) live in
+# config/conditioning_covariates.yaml. An expert that conditions on one of
+# those registers the corresponding cov_ column HERE at its own design freeze;
+# this file stays empty until the first such expert is admitted.
 
 schema_version: 1
 
