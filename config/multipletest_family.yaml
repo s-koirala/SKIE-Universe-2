@@ -24,6 +24,26 @@ families:
             Founding feasibility gate per ADR-0004 Decision 6; frozen design at
             research/01_hypothesis_register/H900/design.md.
         registered_at: "2026-07-10"
+  - family_id: allocator-confirmation-kelly-sweep
+    # STATUS: proposed — enacted only on ADR-0013 acceptance (aggressive
+    # geometric-growth mandate). Registers the Kelly-fraction sweep as a
+    # trial-family EXPANSION per ADR-0013 Decision 4: every
+    # (allocator-config x Kelly-fraction) pair over the registered grid
+    # {0.5, 0.75, 1.0, 1.25} is a DISTINCT trial carried in this family and covered
+    # by the ADR-0007 SPA/StepM correction over the enlarged family. Loss
+    # differentials are re-defined on geometric (log-wealth) growth (ADR-0013
+    # Decision 2). Expanding the family by the Kelly dimension is strictly MORE
+    # conservative (larger N); aggressive sizing is paid for by honest
+    # multiplicity accounting, never exempted from it (ADR-0013 Decision 4 /
+    # Consequences). Per ADR-0013 Consequences this file must carry the
+    # (config x Kelly-fraction) family BEFORE the first swept scan.
+    status: proposed
+    correction: romano-wolf   # ADR-0007 Decision 3 SPA existence test + StepM identification over the enlarged family; the screening/FWER alpha LEVEL is cost-tuned via follow-up P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE, which may permit benjamini-hochberg for the identification step where the registered error-rate-cost analysis supports it (ADR-0013 Decision 6) and must be frozen before any swept scan
+    prds_argument_ref: null   # required iff the calibrate follow-up resolves correction to benjamini-hochberg-prds
+    # grid endpoints (0.5 half-Kelly / 1.25 leveraged) and 0.25 spacing are an OUTPUT of calibration follow-ups P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE and P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE, not hand-tuned constants
+    kelly_fraction_grid: [0.5, 0.75, 1.0, 1.25]  # registered swept hyperparameter (ADR-0013 Decision 3); pre-registered sweep values, not hand-tuned constants; brackets the estimation-error-adjusted geometric-growth optimum from half-Kelly (~0.5) through leveraged (1.25) so the data-selected winner is not structurally floored above the growth optimum; winning fraction data-selected by best geometric growth over the joint (config x fraction) space
+    trials: []   # no swept confirmation scan has run; one per-trial record per (config x Kelly-fraction) pair is appended here before the first swept scan (ADR-0013 Consequences)
+    registered_at: "2026-07-12"
 # families:
 #   - family_id: <slug>
 #     correction: romano-wolf | benjamini-hochberg-prds | benjamini-yekutieli

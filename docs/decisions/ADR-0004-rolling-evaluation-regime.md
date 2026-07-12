@@ -6,9 +6,12 @@ status: accepted
 date: 2026-07-10
 supersedes: "SKIE-Universe 1.0 single-fold walk-forward disposition convention (sibling repo; not amended in place)"
 superseded_by: ""
+amended_by: "ADR-0013 (proposed 2026-07-12)"
 ---
 
 # ADR-0004 — Rolling evaluation regime
+
+> **Amended by [ADR-0013](ADR-0013-aggressive-geometric-growth-mandate.md) (proposed 2026-07-12) — aggressive geometric-growth mandate.** Decision 4 primary metric becomes geometric (compounded/Kelly log-wealth) growth swept over the Kelly grid {0.5, 0.75, 1.0, 1.25} with the lower-tail terminal-wealth quantile demoted to a monitored non-binding guardrail, and Decision 3 refit-cadence selection re-anchored to out-of-window geometric growth; bootstrap/CV machinery retained. Decisions are NOT rewritten here; the authoritative amendment record is the ADR-0013 amendment map. Enacted only on ADR-0013 acceptance; overfitting-detection/integrity clauses are retained non-waivable.
 
 ## Context
 

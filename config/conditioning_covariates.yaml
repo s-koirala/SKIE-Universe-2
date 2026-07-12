@@ -103,6 +103,15 @@ extensions:
       sensitivity (P1-2.0-H900-BOCPD-SENSITIVITY) shows a live detector
       corroborates only ~46-48% of filtered transitions, and the true
       live-unsupervised latency is unquantified pending
-      P1-2.0-H900-BOCPD-WHITENED. Budget switch costs accordingly.
+      P1-2.0-H900-BOCPD-WHITENED. Budget switch costs accordingly — and, under
+      the ADR-0013 aggressive geometric-growth mandate (STATUS: proposed), this
+      is MORE binding, not less: at leverage/compounding an oracle
+      (supervised-CUSUM) switch-cost assumption manufactures fake compounded
+      edge, which the geometric-growth objective realizes as negative log-wealth
+      growth (ruin) rather than mere underperformance, so the realistic
+      (unsupervised) latency requirement tightens as the registered Kelly
+      fraction rises across the sweep {0.5, 0.75, 1.0, 1.25} (ADR-0013 Decisions
+      2-3). This RATIONALE reframes, and does not relax, the budgeting rule; the
+      ADR-0001 D5 covariate/prior-tilt-not-gate constraint above is unchanged.
     references:
       - https://doi.org/10.1109/5.18626  # Rabiner 1989 (HMM forward filter / state estimation)

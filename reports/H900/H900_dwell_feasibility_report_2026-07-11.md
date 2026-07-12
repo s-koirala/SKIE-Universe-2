@@ -502,7 +502,14 @@ time series + pooled), detection latency (time series pooled to distribution,
 plus miss rate per §5.5). Not applicable at this pre-allocator gate: regret vs
 switching oracle, turnover-adjusted net edge, terminal-wealth lower-tail
 quantile — these require an allocator and become reportable objects from the
-first ADR-0007 exploration cycle onward.
+first ADR-0007 exploration cycle onward. Note: under the proposed
+aggressive-geometric-growth mandate ([ADR-0013](../../docs/decisions/ADR-0013-aggressive-geometric-growth-mandate.md),
+status: proposed) the terminal-wealth lower-tail quantile is demoted from the
+primary/binding wealth metric to a monitored, non-binding guardrail, and
+geometric (compounded/Kelly log-wealth) growth becomes the new primary
+decision/ranking metric; when this metric family becomes reportable it is
+computed and reported under that demotion (no change to any figure in this
+report).
 
 ## 9. Follow-ups registered by this report
 

@@ -6,9 +6,12 @@ status: accepted
 date: 2026-07-10
 supersedes: ""
 superseded_by: ""
+amended_by: "ADR-0013 (proposed 2026-07-12)"
 ---
 
 # ADR-0002 — Arsenal admission standard
+
+> **Amended by [ADR-0013](ADR-0013-aggressive-geometric-growth-mandate.md) (proposed 2026-07-12) — aggressive geometric-growth mandate.** (c) discovery-error target cost-tuned looser and (d) non-redundancy re-expressed on marginal log-wealth-growth contribution; admission bar made deliberately more permissive; (a) leakage-canary and (b) frozen-conditioning-set gates and the per-scan trial-register multiplicity retained. Decisions are NOT rewritten here; the authoritative amendment record is the ADR-0013 amendment map. Enacted only on ADR-0013 acceptance; overfitting-detection/integrity clauses are retained non-waivable.
 
 ## Context
 

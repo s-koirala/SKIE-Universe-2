@@ -6,9 +6,12 @@ status: accepted
 date: 2026-07-10
 supersedes: ""
 superseded_by: ""
+amended_by: "ADR-0013 (proposed 2026-07-12)"
 ---
 
 # ADR-0010 — Live-capital escalation schedule
+
+> **Amended by [ADR-0013](ADR-0013-aggressive-geometric-growth-mandate.md) (proposed 2026-07-12) — aggressive geometric-growth mandate.** Decision 1 ramp steepened (initial lift bounded by the overfitting-detection margin, never a raw backtest-Kelly point estimate), Decision 2 leverage ceiling re-derived from the geometric-growth objective, and Decision 3 TOST alpha/delta/power re-weighted for faster promotion; the earn-by-live-measurement kernel and CUSUM demotion are retained. Decisions are NOT rewritten here; the authoritative amendment record is the ADR-0013 amendment map. Enacted only on ADR-0013 acceptance; overfitting-detection/integrity clauses are retained non-waivable.
 
 ## Context
 

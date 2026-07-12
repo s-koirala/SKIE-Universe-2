@@ -14,6 +14,35 @@ evaluation over the shadow ledger with purge + embargo; Hansen SPA +
 Romano-Wolf StepM identification + DSR + PBO gate at the allocator
 confirmation tier only.
 
+Capital posture is optimism + exponential (compounded) growth via a high-risk
+methodology (ADR-0013, proposed). The **primary decision/ranking metric is
+geometric (compounded / Kelly log-wealth) growth** — mean log-wealth growth
+rate — computed on the shadow ledger, replacing the lower-tail terminal-wealth
+quantile as the binding objective. The position-layer **Kelly fraction is a
+registered swept hyperparameter over {0.5, 0.75, 1.0, 1.25}**, reported for all
+points; the winner is data-selected by best geometric growth over the joint
+(allocator-config × Kelly-fraction) space, never hand-tuned — but no fraction is
+selected on geometric growth until the BLOCKING `P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE`
+memo is frozen (interior maximum / grid bracketing / ruin handling on the
+shadow-ledger fat-tailed distribution). The lower-tail
+terminal-wealth quantile is **demoted to a monitored, non-binding guardrail**
+(still computed at the same bootstrap/block length and reported, but it informs
+rather than vetoes). Discovery alpha (SPA / StepM FWER, or FDR where the cost
+analysis supports it) is **cost-tuned looser** via the registered
+error-rate-cost follow-up `P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE`
+(missed compounding weighted above false discovery; the level is the analysis
+output, not a constant). ADR-0002 admission is loosened toward aggressive
+inclusion (conditional-edge + non-redundancy structure kept; non-redundancy
+re-expressed on marginal log-wealth growth); the ADR-0010 live-capital ramp is
+steepened for a proven champion. The overfitting/integrity core —
+Deflated-Sharpe, PBO, matched-turnover random rotor, PIT canaries, trial
+register, ReproLog, shadow ledger — is **NON-WAIVABLE and more binding under
+leverage**: an overfit champion at leverage ruins (negative geometric growth on
+a fake edge) rather than merely underperforming, so aggression on sizing and
+discovery is bought with strictly more conservative multiplicity accounting,
+never weaker correction. The whole reframe is STATUS: proposed and enacted only
+on ADR-0013 acceptance.
+
 ## Founding governance (binding; read before any research work)
 
 The ten founding ADRs in [docs/decisions/](docs/decisions/) are standing rules:
@@ -24,13 +53,15 @@ The ten founding ADRs in [docs/decisions/](docs/decisions/) are standing rules:
 | [ADR-0002](docs/decisions/ADR-0002-arsenal-admission-standard.md) | Arsenal admission: conditional gross edge + non-redundancy; no standalone burden |
 | [ADR-0003](docs/decisions/ADR-0003-shadow-ledger-canonical-object.md) | Shadow ledger (every expert × asset × bar, counterfactual, append-only) is the sole evidence source |
 | [ADR-0004](docs/decisions/ADR-0004-rolling-evaluation-regime.md) | Rolling-origin evaluation only; metric family incl. regret vs switching oracle; dwell-time feasibility gate first |
-| [ADR-0005](docs/decisions/ADR-0005-three-layer-separation.md) | Signal / position-policy / execution layer separation; fractional Kelly with registered lower-tail-quantile binding; no cross-layer tuning |
+| [ADR-0005](docs/decisions/ADR-0005-three-layer-separation.md) | Signal / position-policy / execution layer separation; fractional Kelly with registered lower-tail-quantile binding (amended by ADR-0013 to the swept-fraction {0.5,0.75,1.0,1.25} / geometric-growth form; quantile demoted to guardrail); no cross-layer tuning |
 | [ADR-0006](docs/decisions/ADR-0006-execution-fidelity-tiers.md) | Execution tiers 0/1/2; scalping/limit-order claims unreportable below Tier 2 |
 | [ADR-0007](docs/decisions/ADR-0007-two-tier-discovery-pipeline.md) | Exploration tier (cheap, labeled) + confirmation ladder incl. non-waivable matched-turnover random rotor |
 | [ADR-0008](docs/decisions/ADR-0008-integrity-non-negotiables.md) | PIT canaries, bar-level costs, ReproLog, pre-registered scans, burned-data ledger, trial register — every tier |
 | [ADR-0009](docs/decisions/ADR-0009-expert-card-terminal-deliverable.md) | Expert Card (8 sections) is the mandatory terminal deliverable; "fail" is not a disposition |
 | [ADR-0010](docs/decisions/ADR-0010-live-capital-escalation.md) | Live size earned by live-vs-shadow tracking on a pre-declared escalation schedule |
 | [ADR-0011](docs/decisions/ADR-0011-two-level-data-storage-and-provenance-policy.md) | Two-level data storage: machine-level raw store + project-level processed; upstreams registered in [config/data_sources.yaml](config/data_sources.yaml); no cross-repo processed imports |
+| [ADR-0012](docs/decisions/ADR-0012-standing-incumbent-allocator.md) (proposed) | Standing incumbent allocator (champion-challenger): the current best allocator configuration is the live default + live-capital anchor; a challenger dethrones it only via the ADR-0007 ladder by a geometric-growth-improvement margin after a minimum champion dwell (proposed; sits atop ADR-0013) |
+| [ADR-0013](docs/decisions/ADR-0013-aggressive-geometric-growth-mandate.md) (proposed) | Aggressive geometric-growth mandate: geometric (compounded/Kelly log-wealth) growth becomes the primary objective; Kelly fraction a registered swept hyperparameter {0.5,0.75,1.0,1.25} winner data-selected; lower-tail terminal-wealth quantile demoted to a monitored non-binding guardrail; discovery alpha cost-tuned looser; ADR-0002 admission loosened; ADR-0010 ramp steepened; DSR/PBO/rotor/canaries/register/ReproLog/ledger non-waivable and more binding under leverage. Amends ADRs 0002/0004/0005/0007/0010 |
 
 Open follow-ups registered at founding: `P1-2.0-RETRO-CARD-1.0-REGISTER`
 (retro-card H050/H052a/H053/H054/H055 from 1.0 KPI reports — first admission

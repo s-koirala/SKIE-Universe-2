@@ -5,6 +5,30 @@ strategy selection over an arsenal of expert strategies, with the allocator —
 not the individual strategy — as the unit of statistical inference. Founding
 governance: ADR-0001..0010 under [docs/decisions/](docs/decisions/).
 
+## SKIE Universe 2.0 — capital philosophy
+
+2.0 is reframed from a risk-averse tail-protection posture to **optimism +
+exponential (compounded/geometric) growth pursued through a high-risk
+methodology**. The primary decision/ranking metric is **geometric growth =
+Kelly-optimal log-wealth growth rate**. The Kelly fraction is a registered
+hyperparameter swept over the grid {0.5, 0.75, 1.0, 1.25} — bracketing the
+estimation-error-adjusted geometric-growth optimum from half-Kelly (the
+estimation-error shrink point) through leveraged, so the data-selected winner is
+not structurally floored above the growth optimum — with the winning fraction
+data-selected by best geometric growth over the joint (config × fraction) space.
+The lower-tail terminal-wealth quantile is demoted from the binding decision
+metric to a monitored, non-binding guardrail (still computed and reported; it
+informs, it does not veto).
+
+The overfitting/integrity core — Deflated Sharpe, PBO, the matched-turnover
+random rotor, PIT canaries, the family-wise trial register, the ReproLog, and
+the shadow ledger — is **non-waivable and more important under leverage**: an
+overfit champion at leverage does not merely underperform, it ruins via negative
+geometric growth, so these gates are the backstop that licenses the looser
+admission screen and steeper ramp. See
+[ADR-0013](docs/decisions/ADR-0013-aggressive-geometric-growth-mandate.md)
+(proposed).
+
 ## Residual risk (founding audit, 2026-07-10)
 
 The founding ADR set passed a 3-round audit-remediate loop (final verdict

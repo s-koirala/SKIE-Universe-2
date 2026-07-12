@@ -131,4 +131,12 @@ evaluation must budget realistic (unsupervised) detection**: switch costs should
 be charged against the ~half of regime changes a live detector corroborates, at
 dwell-comparable latency, not against the CUSUM oracle's 1–3 bars. Carried to the
 allocator confirmation tier via `P1-2.0-H900-BOCPD-WHITENED` and the
-switch-cost-realism note in the arsenal-admission lineage.
+switch-cost-realism note in the arsenal-admission lineage. Under the proposed
+aggressive-geometric-growth mandate ([ADR-0013](../../docs/decisions/ADR-0013-aggressive-geometric-growth-mandate.md),
+status: proposed) this switch-cost-budgeting obligation is not a risk-aversion
+residual but a geometric-growth protection: assuming the CUSUM-oracle 1–3-bar
+latency inflates the apparent compounded (log-wealth) edge, and an overstated
+edge over-bets and drives negative geometric growth (ruin) at the swept
+Kelly fractions ≥ 1×, so the obligation to charge switch costs against the
+realistically corroborated ~half of regime changes STRENGTHENS — not weakens —
+under the mandate.
