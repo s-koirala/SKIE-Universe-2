@@ -29,9 +29,21 @@ Deterministic: single registered seed (20260710); RNG only via
 numpy Generator seeded explicitly; no wall-clock dependence in any
 numeric path.
 
+Also computes the registered BOCPD sensitivity detector
+(P1-2.0-H900-BOCPD-SENSITIVITY, report §6 deviation 1) alongside CUSUM, and
+archives the filtered emission sequences + fitted params so any future
+detector runs without an HMM refit.
+
 Usage:
     uv run python scripts/run_h900_dwell_study.py [--variant both]
         [--out reports/H900] [--skip-canary] [--max-windows N (dev only)]
+
+The committed BOCPD-sensitivity artifacts under reports/H900/ were produced by
+the exact command (out dir differs from the default so the frozen CUSUM
+artifacts are reproduced side-by-side and diffed, then promoted):
+    uv run python scripts/run_h900_dwell_study.py --variant both \
+        --out reports/H900_bocpd_run
+    uv run python scripts/audits/check_h900_bocpd_reproduction.py
 """
 
 from __future__ import annotations
@@ -68,6 +80,7 @@ from skie_universe2.features.regime_emissions import (  # noqa: E402
     pit_canary_future_mutation,
     standardize,
 )
+from skie_universe2.inference.bocpd import bocpd_detection_delays  # noqa: E402
 from skie_universe2.inference.bootstrap import politis_white_block_length  # noqa: E402
 from skie_universe2.inference.cusum import cusum_detection_delays  # noqa: E402
 from skie_universe2.inference.survival import (  # noqa: E402
@@ -100,17 +113,28 @@ COVARIANCE_GRID = ("diag", "full")  # justify: H900 design.md §5 registered gri
 ALPHA = 0.05  # justify: H900 design.md §8 registered alpha
 PURGE_BARS = MAX_FEATURE_LOOKBACK_BARS  # justify: design §6 purge = max feature lookback (288)
 INSTRUMENTS = ("ES", "NQ")  # justify: H900 design.md §2 registered universe
+VARIANTS = ("primary", "inclusive")  # justify: design §2 exclusion variants (single source)
 SAMPLE_START = date(2015, 1, 2)  # justify: design §2 sample period start
 SAMPLE_END = date(2025, 12, 31)  # justify: design §2 sample period end
-# Bootstrap replication count for the pooled-median CI: the 1.0
-# LW2008/H052a studentised-bootstrap convention (n=2000, see
-# docs/reports/expert_card_H052a_retro §2) carried unchanged; MC error
-# of the 2.5/97.5 percentile at B=2000 is well inside reporting
-# precision.
-N_BOOTSTRAP = 2000  # justify: 1.0 bootstrap replication convention (H052a LW2008 n=2000)
+# Bootstrap replication count for the pooled-median CI. The resampling
+# procedure is the stationary bootstrap of Politis & Romano 1994 (JASA
+# 89:1303-1313) applied to the chronological spell sequence; B=2000 is the
+# internal SKIE-Universe 1.0 replication convention (H052a §2) carried
+# unchanged. MC error of the 2.5/97.5 percentile at B=2000 is well inside
+# reporting precision. (Not attributable to Ledoit & Wolf 2008, which
+# concerns pairwise Sharpe-ratio tests, a different procedure — LITERATURE-1-3.)
+N_BOOTSTRAP = 2000  # justify: 1.0 replication convention; Politis-Romano 1994 stationary bootstrap
 # Precision requirement (design §8): pooled D_med 95% CI half-width
 # must be < 25% of the point estimate, else indeterminate.
 PRECISION_HALF_WIDTH_FRAC = 0.25  # justify: H900 design.md §8 registered precision gate
+# BOCPD run-length truncation (P1-2.0-H900-BOCPD-SENSITIVITY): a safety cap
+# only, bounding the per-transition recursion to O(T * R_max). The median
+# filtered dwell is 8-27 bars, so 200 is ~7-25x the regime scale; run-length
+# mass beyond it folds into the tail with negligible effect. The fold is
+# mass-preserving (logsumexp of the truncated tail into the last retained
+# state, run_length_posterior); a fold-mass assertion is covered by
+# tests/test_bocpd_latency.py::test_run_length_truncation_preserves_normalization.
+BOCPD_MAX_RUN_LENGTH = 200  # justify: >=7x max regime dwell; mass-preserving fold (QUANT-1-7)
 DATASET = "vendor_legacy_1min_roll_adjusted"
 PROVENANCE_FILE = "vendor_legacy_1min_roll_adjusted_20260711.json"
 
@@ -255,6 +279,13 @@ def run_variant(  # noqa: PLR0912, PLR0915 — single-pass orchestrator mandated
     cell_rows: list[CellResult] = []
     spell_rows: list[dict] = []
     latency_rows: list[dict] = []
+    # P1-2.0-H900-BOCPD-SENSITIVITY: parallel BOCPD detector outputs + the
+    # filtered-sequence archive that closes the "no refit needed" gap (the
+    # emission sequences a detector consumes were not archived by the
+    # original run; see report §6 deviation 1).
+    bocpd_latency_rows: list[dict] = []
+    filt_seq_rows: list[dict] = []
+    fit_params: list[dict] = []
     per_instrument: dict[str, dict] = {}
 
     for symbol in instruments:
@@ -317,6 +348,8 @@ def run_variant(  # noqa: PLR0912, PLR0915 — single-pass orchestrator mandated
         pooled_events: list[np.ndarray] = []
         pooled_delay: list[np.ndarray] = []
         pooled_delay_event: list[np.ndarray] = []
+        pooled_bocpd_delay: list[np.ndarray] = []
+        pooled_bocpd_delay_event: list[np.ndarray] = []
         eval_prices: list[np.ndarray] = []
 
         for w in windows:
@@ -499,6 +532,12 @@ def run_variant(  # noqa: PLR0912, PLR0915 — single-pass orchestrator mandated
                             model.params_.covars,
                             model.params_.covariance_type,
                         )
+                        # BOCPD hazard = 1 / median window filtered dwell
+                        # (optimistic per-transition estimand; the eval-fold
+                        # cadence biases D_be conservatively -- longer dwell ->
+                        # smaller hazard -> larger L_detect -- so it cannot
+                        # manufacture a GO). Deviation logged in report §6.
+                        haz_w = 1.0 / float(np.median(dur_c)) if dur_c.size else None
                         for seg in np.unique(seg_eval):
                             m = seg_eval == seg
                             dd = cusum_detection_delays(
@@ -521,6 +560,78 @@ def run_variant(  # noqa: PLR0912, PLR0915 — single-pass orchestrator mandated
                                         "threshold": float(dd.threshold[k]),
                                     }
                                 )
+                            # BOCPD sensitivity detector on the SAME filtered
+                            # change-points (P1-2.0-H900-BOCPD-SENSITIVITY):
+                            # per-transition-anchored, model-light (consumes the
+                            # standardized emissions, not the HMM densities),
+                            # P>=0.5 Bayes-majority alarm. Also reports BOCPD's
+                            # own change-location estimate ("when the change
+                            # happened").
+                            gidx = np.flatnonzero(m)
+                            db = bocpd_detection_delays(
+                                z_eval[m],
+                                states[m],
+                                model.params_.log_transmat,
+                                hazard=haz_w,
+                                max_run_length=BOCPD_MAX_RUN_LENGTH,
+                            )
+                            pooled_bocpd_delay.append(db.delay_bars.astype(float))
+                            pooled_bocpd_delay_event.append(db.event)
+                            for k in range(db.delay_bars.size):
+                                det_local = int(db.detected_cp_index[k])
+                                true_g = int(gidx[int(db.true_cp_index[k])])
+                                det_g = int(gidx[det_local]) if det_local >= 0 else -1
+                                bocpd_latency_rows.append(
+                                    {
+                                        "instrument": symbol,
+                                        "variant": variant,
+                                        "window_id": w.window_id,
+                                        "n_states": n,
+                                        "covariance_type": cov,
+                                        "from_state": int(db.from_state[k]),
+                                        "to_state": int(db.to_state[k]),
+                                        "delay_bars": int(db.delay_bars[k]),
+                                        "event": bool(db.event[k]),
+                                        "hazard": float(db.hazard[k]),
+                                        "true_cp_ts": ts_eval[true_g].item(),
+                                        "detected_cp_ts": (
+                                            ts_eval[det_g].item() if det_g >= 0 else None
+                                        ),
+                                    }
+                                )
+                            # Archive the filtered emission sequence so any
+                            # future detector needs no refit (closes the gap).
+                            seg_states = states[m]
+                            seg_z = z_eval[m]
+                            for bi in range(seg_states.size):
+                                filt_seq_rows.append(
+                                    {
+                                        "instrument": symbol,
+                                        "variant": variant,
+                                        "window_id": w.window_id,
+                                        "segment": int(seg),
+                                        "bar_index": bi,
+                                        "state": int(seg_states[bi]),
+                                        "z0": float(seg_z[bi, 0]),
+                                        "z1": float(seg_z[bi, 1]),
+                                    }
+                                )
+                        # Fitted params for the selected window (means, covars,
+                        # log-transmat) — the second half of the refit-free
+                        # archive: recovers the emission densities any
+                        # model-based detector needs.
+                        fit_params.append(
+                            {
+                                "instrument": symbol,
+                                "variant": variant,
+                                "window_id": w.window_id,
+                                "n_states": n,
+                                "covariance_type": cov,
+                                "means": model.params_.means.tolist(),
+                                "covars": model.params_.covars.tolist(),
+                                "log_transmat": model.params_.log_transmat.tolist(),
+                            }
+                        )
             sel_txt = f"{selected_key[0]}-{selected_key[1]}" if selected_key else "none"
             print(
                 f"[{variant}/{symbol}] window {w.window_id} "
@@ -550,6 +661,62 @@ def run_variant(  # noqa: PLR0912, PLR0915 — single-pass orchestrator mandated
         d_be_central = break_even_dwell_bars(
             detection_latency_bars=l_detect, c_switch=c_switch, mu_per_bar=MU_CENTRAL
         )
+        # ---- BOCPD sensitivity detector (P1-2.0-H900-BOCPD-SENSITIVITY) ----
+        # Identical pooling + break-even machinery as the CUSUM primary; the
+        # ONLY change is the detector. Answers: does the GO survive under the
+        # registered sensitivity detector's latency?
+        bocpd_delay_pool = np.concatenate(pooled_bocpd_delay) if pooled_bocpd_delay else np.empty(0)
+        bocpd_delay_ev_pool = (
+            np.concatenate(pooled_bocpd_delay_event)
+            if pooled_bocpd_delay_event
+            else np.empty(0, dtype=bool)
+        )
+        l_detect_bocpd = (
+            km_median(km_fit(bocpd_delay_pool, bocpd_delay_ev_pool))
+            if bocpd_delay_pool.size
+            else float("nan")
+        )
+        d_be_central_bocpd = break_even_dwell_bars(
+            detection_latency_bars=l_detect_bocpd, c_switch=c_switch, mu_per_bar=MU_CENTRAL
+        )
+        # Diagnostic (QUANT-1-3 / QUANT-2-1): the KM L_detect assumes
+        # non-informative censoring, but the censoring time is the successor
+        # sojourn length, linked to detection difficulty across pooled
+        # transition types, so the pooled KM median is NOT distribution-free.
+        # Report the median of the UNCENSORED alarm delays as a companion
+        # (alarm-selected, biased LOW). The KM median's bias direction is
+        # conditional on the unresolved attribution of the censored non-alarming
+        # transitions (soft flip vs missed genuine change; report §4), so the
+        # two do NOT unconditionally bracket the truth and this does NOT show
+        # independence from the censoring model (see report §4/§5.1).
+        _bocpd_events = (
+            bocpd_delay_pool[bocpd_delay_ev_pool] if bocpd_delay_pool.size else bocpd_delay_pool
+        )
+        event_delay_median_bocpd = (
+            float(np.median(_bocpd_events)) if _bocpd_events.size else float("nan")
+        )
+        bocpd_sensitivity = {
+            "detector": (
+                "BOCPD (Adams & MacKay 2007); per-transition-anchored; "
+                "hazard = 1/median(eval-window filtered dwell) (conservative "
+                "eval-fold cadence); alarm = posterior mass >= 0.5 that the "
+                "run started at/after the change (Bayes 0-1-loss boundary); "
+                "MAP run length reports the detected change location only. "
+                "Per-window hazards recorded in h900_bocpd_latency_*.parquet."
+            ),
+            "detection_latency_median_bars": l_detect_bocpd,
+            "event_delay_median_bars_uncensored": event_delay_median_bocpd,
+            "n_transitions_pooled": int(bocpd_delay_pool.size),
+            "n_alarms_pooled": int(bocpd_delay_ev_pool.sum()),
+            "break_even_frontier_bars": {
+                f"{mu:g}": break_even_dwell_bars(
+                    detection_latency_bars=l_detect_bocpd, c_switch=c_switch, mu_per_bar=mu
+                )
+                for mu in MU_GRID
+            },
+            "d_be_central_bars": d_be_central_bocpd,
+            "h1_met": bool(precision_ok and pooled.ci_low > d_be_central_bocpd),
+        }
         # Session-truncated sensitivity, registered §8 bootstrap method
         # (round-2 audit QUANT-2-1). Fresh seeded Generator so the result
         # is identical whether computed inline or regenerated from the
@@ -587,6 +754,7 @@ def run_variant(  # noqa: PLR0912, PLR0915 — single-pass orchestrator mandated
             },
             "d_be_central_bars": d_be_central,
             "h1_met": bool(precision_ok and pooled.ci_low > d_be_central),
+            "bocpd_sensitivity": bocpd_sensitivity,
         }
 
     # ---- §10 verdict ----
@@ -599,10 +767,22 @@ def run_variant(  # noqa: PLR0912, PLR0915 — single-pass orchestrator mandated
     else:
         verdict = "NO-GO"
 
+    # BOCPD-sensitivity verdict: the registered §10 rule re-evaluated with the
+    # BOCPD detector's latency substituted into D_be. GO-robust means the GO
+    # does not depend on which registered detector measures L_detect.
+    any_h1_bocpd = any(v["bocpd_sensitivity"]["h1_met"] for v in per_instrument.values())
+    if any_h1_bocpd:
+        bocpd_verdict = "GO"
+    elif not all_precise:
+        bocpd_verdict = "indeterminate — insufficient spells"
+    else:
+        bocpd_verdict = "NO-GO"
+
     blob = {
         "hypothesis_id": "H900",
         "variant": variant,
         "verdict": verdict,
+        "bocpd_sensitivity_verdict": bocpd_verdict,
         "decision_rule": (
             "GO iff 95% CI lower bound of pooled D_med > D_be(mu=1.2e-4) for the "
             "BIC-selected model on >=1 instrument (design.md §10); precision gate "
@@ -625,9 +805,29 @@ def run_variant(  # noqa: PLR0912, PLR0915 — single-pass orchestrator mandated
     (out_dir / f"h900_verdict_{variant}.json").write_text(
         json.dumps(blob, indent=2, sort_keys=True), encoding="utf-8"
     )
+    # P1-2.0-H900-BOCPD-SENSITIVITY committed artifacts (small).
+    pl.DataFrame(bocpd_latency_rows).write_parquet(
+        out_dir / f"h900_bocpd_latency_{variant}.parquet"
+    )
+    (out_dir / f"h900_fit_params_{variant}.json").write_text(
+        json.dumps(fit_params, indent=2, sort_keys=True), encoding="utf-8"
+    )
+    # Filtered-sequence archive -> gitignored interim store (ADR-0011 two-level
+    # policy: bulk data stays local, provenance is committed). This closes the
+    # "no refit needed" gap: any future detector re-runs from (z, states) here
+    # plus the committed fitted params, without an HMM refit.
+    seq_dir = paths.ensure(paths.data_interim / "h900_filtered_sequences")
+    pl.DataFrame(filt_seq_rows).write_parquet(seq_dir / f"{variant}.parquet")
+    print(
+        f"[{variant}] BOCPD-sensitivity verdict: {bocpd_verdict} "
+        f"(archived {len(filt_seq_rows)} filtered-sequence bars)",
+        flush=True,
+    )
     written = [
         out_dir / f"h900_spells_{variant}.parquet",
         out_dir / f"h900_latency_{variant}.parquet",
+        out_dir / f"h900_bocpd_latency_{variant}.parquet",
+        out_dir / f"h900_fit_params_{variant}.json",
         out_dir / f"h900_window_summary_{variant}.csv",
         out_dir / f"h900_verdict_{variant}.json",
     ]
@@ -680,7 +880,7 @@ def regen_sensitivity(paths: ProjectPaths, out_dir: Path) -> list[Path]:
     rewritten.
     """
     written: list[Path] = []
-    for variant in ("primary", "inclusive"):
+    for variant in VARIANTS:
         spells = pl.read_parquet(out_dir / f"h900_spells_{variant}.parquet")
         verdict_path = out_dir / f"h900_verdict_{variant}.json"
         blob = json.loads(verdict_path.read_text(encoding="utf-8"))
@@ -712,7 +912,7 @@ def regen_sensitivity(paths: ProjectPaths, out_dir: Path) -> list[Path]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--variant", choices=["primary", "inclusive", "both"], default="both")
+    parser.add_argument("--variant", choices=[*VARIANTS, "both"], default="both")
     parser.add_argument("--out", default="reports/H900")
     parser.add_argument("--skip-canary", action="store_true")
     parser.add_argument(
@@ -790,7 +990,7 @@ def main() -> int:
         )
         print("PIT canary: PASS (features before cut invariant to future mutation)", flush=True)
 
-    variants = ["primary", "inclusive"] if args.variant == "both" else [args.variant]
+    variants = list(VARIANTS) if args.variant == "both" else [args.variant]
     written_this_run: list[Path] = []
     for variant in variants:
         blob, written = run_variant(

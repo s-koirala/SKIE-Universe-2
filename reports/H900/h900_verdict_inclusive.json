@@ -1,9 +1,25 @@
 {
   "alpha": 0.05,
+  "bocpd_sensitivity_verdict": "NO-GO",
   "decision_rule": "GO iff 95% CI lower bound of pooled D_med > D_be(mu=1.2e-4) for the BIC-selected model on >=1 instrument (design.md \u00a710); precision gate per \u00a78 (CI half-width < 25% of point estimate).",
   "hypothesis_id": "H900",
   "instruments": {
     "ES": {
+      "bocpd_sensitivity": {
+        "break_even_frontier_bars": {
+          "0.00012": 67.44982880099212,
+          "0.00027": 66.6443683559965,
+          "1e-05": 83.39794561190546,
+          "4e-05": 70.34948640297637
+        },
+        "d_be_central_bars": 67.44982880099212,
+        "detection_latency_median_bars": 66.0,
+        "detector": "BOCPD (Adams & MacKay 2007); per-transition-anchored; hazard = 1/median(eval-window filtered dwell) (conservative eval-fold cadence); alarm = posterior mass >= 0.5 that the run started at/after the change (Bayes 0-1-loss boundary); MAP run length reports the detected change location only. Per-window hazards recorded in h900_bocpd_latency_*.parquet.",
+        "event_delay_median_bars_uncensored": 9.0,
+        "h1_met": false,
+        "n_alarms_pooled": 1987,
+        "n_transitions_pooled": 4162
+      },
       "break_even_frontier_bars": {
         "0.00012": 3.4498288009921216,
         "0.00027": 2.6443683559964986,
@@ -40,6 +56,21 @@
       "switch_cost_usd": 29.5
     },
     "NQ": {
+      "bocpd_sensitivity": {
+        "break_even_frontier_bars": {
+          "0.00012": 47.54069514023532,
+          "0.00027": 47.240308951215695,
+          "1e-05": 53.488341682823865,
+          "4e-05": 48.622085420705965
+        },
+        "d_be_central_bars": 47.54069514023532,
+        "detection_latency_median_bars": 47.0,
+        "detector": "BOCPD (Adams & MacKay 2007); per-transition-anchored; hazard = 1/median(eval-window filtered dwell) (conservative eval-fold cadence); alarm = posterior mass >= 0.5 that the run started at/after the change (Bayes 0-1-loss boundary); MAP run length reports the detected change location only. Per-window hazards recorded in h900_bocpd_latency_*.parquet.",
+        "event_delay_median_bars_uncensored": 5.0,
+        "h1_met": false,
+        "n_alarms_pooled": 2570,
+        "n_transitions_pooled": 5303
+      },
       "break_even_frontier_bars": {
         "0.00012": 2.540695140235322,
         "0.00027": 2.240308951215699,

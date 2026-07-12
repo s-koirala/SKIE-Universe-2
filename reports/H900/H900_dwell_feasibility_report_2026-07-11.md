@@ -506,8 +506,16 @@ first ADR-0007 exploration cycle onward.
 
 ## 9. Follow-ups registered by this report
 
-- `P1-2.0-H900-BOCPD-SENSITIVITY` — BOCPD latency sensitivity on the archived
-  filtered sequences (deviation 1).
+- `P1-2.0-H900-BOCPD-SENSITIVITY` — **CLOSED 2026-07-11** (deviation 1). BOCPD
+  sensitivity computed: CUSUM GO reproduced bit-identically, but BOCPD (unsupervised)
+  verdict NO-GO both variants — the GO is supervised-detection-dependent. Detailed
+  in [H900_bocpd_sensitivity_2026-07-11.md](H900_bocpd_sensitivity_2026-07-11.md).
+  Refined finding: NO-GO is a corroboration-rate result (BOCPD confirms ~46-48% of
+  filtered transitions, at dwell-comparable latency), not a detection-speed result.
+- `P1-2.0-H900-BOCPD-WHITENED` — **NEW** (registered by the BOCPD sensitivity audit,
+  QUANT-1-5): whitened/AR-robust BOCPD variant to remove the iid-within-run
+  misspecification on the autocorrelated log_rvol emission, which biases L_detect
+  upward. Carried to the allocator confirmation tier.
 - Winning regime family (4-state diag Gaussian HMM on standardized
   (ret_5m, log rvol_5m_24h)) → candidate conditioning covariate set for
   ADR-0002 admission scans (per §10 GO consequence).
