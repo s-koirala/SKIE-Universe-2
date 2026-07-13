@@ -6,12 +6,12 @@ status: accepted
 date: 2026-07-10
 supersedes: ""
 superseded_by: ""
-amended_by: "ADR-0013 (proposed 2026-07-12)"
+amended_by: "ADR-0013 (accepted 2026-07-12)"
 ---
 
 # ADR-0007 — Two-tier discovery pipeline
 
-> **Amended by [ADR-0013](ADR-0013-aggressive-geometric-growth-mandate.md) (proposed 2026-07-12) — aggressive geometric-growth mandate.** Decisions 1/3 discovery alpha cost-tuned looser (FDR permitted for identification where justified) and the SPA/StepM family expanded by the Kelly-fraction dimension, and Decision 2 ladder adjudication re-anchored to geometric growth; SPA/StepM/DSR/PBO and the matched-turnover random rotor are retained non-waivable. Decisions are NOT rewritten here; the authoritative amendment record is the ADR-0013 amendment map. Enacted only on ADR-0013 acceptance; overfitting-detection/integrity clauses are retained non-waivable.
+> **Amended by [ADR-0013](ADR-0013-aggressive-geometric-growth-mandate.md) (accepted 2026-07-12) — aggressive geometric-growth mandate.** Decisions 1/3 discovery alpha cost-tuned looser (FDR permitted for identification where justified) and the SPA/StepM family expanded by the Kelly-fraction dimension, and Decision 2 ladder adjudication re-anchored to geometric growth; SPA/StepM/DSR/PBO and the matched-turnover random rotor are retained non-waivable. Decisions are NOT rewritten here; the authoritative amendment record is the ADR-0013 amendment map. Enacted on ADR-0013 acceptance (2026-07-12); overfitting-detection/integrity clauses are retained non-waivable.
 
 ## Context
 

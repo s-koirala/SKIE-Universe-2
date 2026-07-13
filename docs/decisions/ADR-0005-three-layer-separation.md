@@ -6,12 +6,12 @@ status: accepted
 date: 2026-07-10
 supersedes: ""
 superseded_by: ""
-amended_by: "ADR-0013 (proposed 2026-07-12)"
+amended_by: "ADR-0013 (accepted 2026-07-12)"
 ---
 
 # ADR-0005 — Three-layer separation: signal / position policy / execution
 
-> **Amended by [ADR-0013](ADR-0013-aggressive-geometric-growth-mandate.md) (proposed 2026-07-12) — aggressive geometric-growth mandate.** Decision 2 Kelly fraction becomes a registered swept hyperparameter {0.5, 0.75, 1.0, 1.25} (no a-priori below-1 cap; winner data-selected by geometric growth) and the binding lower-tail-terminal-wealth-quantile clause is demoted to a monitored non-binding guardrail; the pyramiding gate and pre-registration discipline are retained. Decisions are NOT rewritten here; the authoritative amendment record is the ADR-0013 amendment map. Enacted only on ADR-0013 acceptance; overfitting-detection/integrity clauses are retained non-waivable.
+> **Amended by [ADR-0013](ADR-0013-aggressive-geometric-growth-mandate.md) (accepted 2026-07-12) — aggressive geometric-growth mandate.** Decision 2 Kelly fraction becomes a registered swept hyperparameter {0.5, 0.75, 1.0, 1.25} (no a-priori below-1 cap; winner data-selected by geometric growth) and the binding lower-tail-terminal-wealth-quantile clause is demoted to a monitored non-binding guardrail; the pyramiding gate and pre-registration discipline are retained. Decisions are NOT rewritten here; the authoritative amendment record is the ADR-0013 amendment map. Enacted on ADR-0013 acceptance (2026-07-12); overfitting-detection/integrity clauses are retained non-waivable.
 
 ## Context
 

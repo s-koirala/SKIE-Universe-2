@@ -2,7 +2,7 @@
 name: ADR-0012 — Standing incumbent allocator (champion-challenger governance)
 description: A human-legible standing champion allocator configuration is the live default and live-capital anchor; the champion is selected over the joint (allocator-config x Kelly-fraction) space on geometric (compounded, Kelly log-wealth) growth as the primary dethroning statistic; a challenger dethrones it only through the ADR-0007 confirmation ladder by a pre-registered geometric-growth-improvement margin after a minimum incumbency dwell, with every challenge and every Kelly-fraction trial logged in the ADR-0008 trial register
 type: governance
-status: proposed
+status: accepted
 date: 2026-07-12
 supersedes: ""
 superseded_by: ""
@@ -168,12 +168,13 @@ bind *more* tightly here, not less.
   trial increments the ADR-0008 family-wise trial register; challenge and
   fraction multiplicity is corrected in the same family as the expert-level scans.
 - Obligation: the geometric-growth-improvement margin (Decision 3) and the
-  champion-dwell floor (Decision 5) are empirically calibrated before this ADR is
-  enacted, by explicit error-rate-cost analysis (cost of a false dethroning under
-  leverage vs cost of an over-tenured incumbent) analogous to ADR-0002 (c) /
-  ADR-0010 Decision 3; registered as follow-up
-  `P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE`. Until calibrated, no dethroning is
-  certifiable and this ADR remains `proposed`.
+  champion-dwell floor (Decision 5) are empirically calibrated by explicit
+  error-rate-cost analysis (cost of a false dethroning under leverage vs cost of
+  an over-tenured incumbent) analogous to ADR-0002 (c) / ADR-0010 Decision 3;
+  registered as BLOCKING follow-up `P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE`. This
+  ADR is **accepted (2026-07-12)** — the champion-challenger framework is in
+  force — but the dethroning rule is **non-operational until that memo is frozen
+  with its ReproLog emitted**: until calibrated, no dethroning is certifiable.
 - Obligation: no swept Kelly fraction is selected on geometric growth, and no
   dethroning on a >1× fraction is certifiable, before the ADR-0013 BLOCKING
   follow-up `P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE` (interior maximum, grid

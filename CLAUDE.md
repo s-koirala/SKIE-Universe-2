@@ -15,7 +15,7 @@ Romano-Wolf StepM identification + DSR + PBO gate at the allocator
 confirmation tier only.
 
 Capital posture is optimism + exponential (compounded) growth via a high-risk
-methodology (ADR-0013, proposed). The **primary decision/ranking metric is
+methodology (ADR-0013, accepted 2026-07-12). The **primary decision/ranking metric is
 geometric (compounded / Kelly log-wealth) growth** — mean log-wealth growth
 rate — computed on the shadow ledger, replacing the lower-tail terminal-wealth
 quantile as the binding objective. The position-layer **Kelly fraction is a
@@ -40,8 +40,10 @@ register, ReproLog, shadow ledger — is **NON-WAIVABLE and more binding under
 leverage**: an overfit champion at leverage ruins (negative geometric growth on
 a fake edge) rather than merely underperforming, so aggression on sizing and
 discovery is bought with strictly more conservative multiplicity accounting,
-never weaker correction. The whole reframe is STATUS: proposed and enacted only
-on ADR-0013 acceptance.
+never weaker correction. The whole reframe is STATUS: accepted (enacted on
+ADR-0013 acceptance, 2026-07-12); empirical enactment of the loosened discovery
+targets and any swept Kelly-fraction selection on geometric growth remain gated
+on the two BLOCKING Decision-9 calibration memos.
 
 ## Founding governance (binding; read before any research work)
 
@@ -60,8 +62,8 @@ The ten founding ADRs in [docs/decisions/](docs/decisions/) are standing rules:
 | [ADR-0009](docs/decisions/ADR-0009-expert-card-terminal-deliverable.md) | Expert Card (8 sections) is the mandatory terminal deliverable; "fail" is not a disposition |
 | [ADR-0010](docs/decisions/ADR-0010-live-capital-escalation.md) | Live size earned by live-vs-shadow tracking on a pre-declared escalation schedule |
 | [ADR-0011](docs/decisions/ADR-0011-two-level-data-storage-and-provenance-policy.md) | Two-level data storage: machine-level raw store + project-level processed; upstreams registered in [config/data_sources.yaml](config/data_sources.yaml); no cross-repo processed imports |
-| [ADR-0012](docs/decisions/ADR-0012-standing-incumbent-allocator.md) (proposed) | Standing incumbent allocator (champion-challenger): the current best allocator configuration is the live default + live-capital anchor; a challenger dethrones it only via the ADR-0007 ladder by a geometric-growth-improvement margin after a minimum champion dwell (proposed; sits atop ADR-0013) |
-| [ADR-0013](docs/decisions/ADR-0013-aggressive-geometric-growth-mandate.md) (proposed) | Aggressive geometric-growth mandate: geometric (compounded/Kelly log-wealth) growth becomes the primary objective; Kelly fraction a registered swept hyperparameter {0.5,0.75,1.0,1.25} winner data-selected; lower-tail terminal-wealth quantile demoted to a monitored non-binding guardrail; discovery alpha cost-tuned looser; ADR-0002 admission loosened; ADR-0010 ramp steepened; DSR/PBO/rotor/canaries/register/ReproLog/ledger non-waivable and more binding under leverage. Amends ADRs 0002/0004/0005/0007/0010 |
+| [ADR-0012](docs/decisions/ADR-0012-standing-incumbent-allocator.md) (accepted) | Standing incumbent allocator (champion-challenger): the current best allocator configuration is the live default + live-capital anchor; a challenger dethrones it only via the ADR-0007 ladder by a geometric-growth-improvement margin after a minimum champion dwell (accepted 2026-07-12; sits atop ADR-0013; dethroning rule non-operational until `P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE` frozen) |
+| [ADR-0013](docs/decisions/ADR-0013-aggressive-geometric-growth-mandate.md) (accepted) | Aggressive geometric-growth mandate: geometric (compounded/Kelly log-wealth) growth becomes the primary objective; Kelly fraction a registered swept hyperparameter {0.5,0.75,1.0,1.25} winner data-selected; lower-tail terminal-wealth quantile demoted to a monitored non-binding guardrail; discovery alpha cost-tuned looser; ADR-0002 admission loosened; ADR-0010 ramp steepened; DSR/PBO/rotor/canaries/register/ReproLog/ledger non-waivable and more binding under leverage. Amends ADRs 0002/0004/0005/0007/0010 |
 
 Open follow-ups registered at founding: `P1-2.0-RETRO-CARD-1.0-REGISTER`
 (retro-card H050/H052a/H053/H054/H055 from 1.0 KPI reports — first admission
@@ -85,6 +87,11 @@ opening the allocator program. Open follow-ups registered this session
 - `P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE` (BLOCKING per ADR-0013):
   error-rate-cost calibration of the looser discovery alpha (missed
   compounding weighted above false discovery; level is the analysis output).
+- `P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE` (BLOCKING per ADR-0012): error-rate-cost
+  calibration of the geometric-growth dethroning margin (ADR-0012 Decision 3) and
+  the champion-dwell floor (Decision 5). ADR-0012 is accepted, but the dethroning
+  rule is non-operational until this memo is frozen with its ReproLog emitted —
+  until then no champion dethroning is certifiable.
 - `P1-2.0-H900-BOCPD-WHITENED` (investigation COMPLETE, deliverable PARKED):
   whitened/AR-robust BOCPD prewhitening the near-unit-root log-rvol does NOT
   rescue the BOCPD NO-GO — no ROC operating point is both accurate and timely
@@ -144,11 +151,13 @@ Progress (as of 2026-07-12):
   dwell/detection-latency registered as standing ADR-0004 report objects.
   [config/conditioning_covariates.yaml](config/conditioning_covariates.yaml),
   [docs/methodology/allocator_metric_family_report_objects.md](docs/methodology/allocator_metric_family_report_objects.md).
-- **Governance reframe (ADR-0012/0013) — STATUS: proposed.** Geometric-growth
-  mandate + champion-challenger + 18-row amendment map applied to scope /
-  philosophy sections and ADR banners; enacted only on ADR-0013 acceptance.
-  Two BLOCKING Kelly follow-ups gate any growth-based fraction selection (see
-  Open follow-ups above).
+- **Governance reframe (ADR-0012/0013) — STATUS: accepted (enacted 2026-07-12).**
+  Geometric-growth mandate + champion-challenger + 18-row amendment map now
+  in-force; ADR-0012/0013 status `accepted`, the five amended-ADR banners flipped
+  to `accepted`, and the amendment map is the authoritative record (decision
+  bodies not rewritten in place). Two BLOCKING Kelly follow-ups still gate any
+  growth-based fraction selection, and a third (`P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE`)
+  gates champion dethroning (see Open follow-ups above).
 
 ## Directory layout
 

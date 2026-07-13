@@ -25,8 +25,11 @@ families:
             research/01_hypothesis_register/H900/design.md.
         registered_at: "2026-07-10"
   - family_id: allocator-confirmation-kelly-sweep
-    # STATUS: proposed — enacted only on ADR-0013 acceptance (aggressive
-    # geometric-growth mandate). Registers the Kelly-fraction sweep as a
+    # STATUS: accepted — enacted on ADR-0013 acceptance 2026-07-12 (aggressive
+    # geometric-growth mandate). The family registration is in force; the
+    # correction LEVEL/criterion and the grid endpoints remain OUTPUTS of the two
+    # BLOCKING calibrate memos, and no swept trial is appended before both freeze.
+    # Registers the Kelly-fraction sweep as a
     # trial-family EXPANSION per ADR-0013 Decision 4: every
     # (allocator-config x Kelly-fraction) pair over the registered grid
     # {0.5, 0.75, 1.0, 1.25} is a DISTINCT trial carried in this family and covered
@@ -37,7 +40,7 @@ families:
     # multiplicity accounting, never exempted from it (ADR-0013 Decision 4 /
     # Consequences). Per ADR-0013 Consequences this file must carry the
     # (config x Kelly-fraction) family BEFORE the first swept scan.
-    status: proposed
+    status: accepted   # family registration in force (ADR-0013 accepted 2026-07-12); correction level/criterion + grid endpoints remain OUTPUTS of the two BLOCKING calibrate memos; trials appended only after both freeze + ledger backfill
     correction: romano-wolf   # ADR-0007 Decision 3 SPA existence test + StepM identification over the enlarged family; the screening/FWER alpha LEVEL is cost-tuned via follow-up P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE, which may permit benjamini-hochberg for the identification step where the registered error-rate-cost analysis supports it (ADR-0013 Decision 6) and must be frozen before any swept scan
     prds_argument_ref: null   # required iff the calibrate follow-up resolves correction to benjamini-hochberg-prds
     # grid endpoints (0.5 half-Kelly / 1.25 leveraged) and 0.25 spacing are an OUTPUT of calibration follow-ups P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE and P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE, not hand-tuned constants

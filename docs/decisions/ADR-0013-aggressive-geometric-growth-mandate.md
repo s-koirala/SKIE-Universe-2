@@ -2,7 +2,7 @@
 name: ADR-0013 — Aggressive geometric-growth mandate
 description: Reframes SKIE-Universe 2.0 from risk-averse tail protection to optimism + compounded geometric growth; installs Kelly log-wealth as the primary objective, sweeps the Kelly fraction as a registered hyperparameter {0.5, 0.75, 1.0, 1.25}, demotes the lower-tail terminal-wealth quantile to a monitored non-binding guardrail, cost-tunes the discovery alpha looser, loosens ADR-0002 admission, steepens the ADR-0010 ramp — and reaffirms the overfitting/integrity core as non-waivable and more binding under leverage
 type: governance
-status: proposed
+status: accepted
 date: 2026-07-12
 supersedes: ""
 superseded_by: ""
@@ -59,11 +59,14 @@ leverage/compounding an overfit champion does **not** merely underperform — it
 therefore protect the very compounded returns they are being levered into.
 Aggressive on sizing and discovery; ruthless about not deploying fake edges.
 
-This ADR is **status: proposed**. It is a draft for review before enactment; no
-downstream ADR is edited in place until this ADR is accepted. On acceptance, the
-amendments in the map below are applied to the named ADRs (each amendment is
-itself STATUS: proposed until then), and this ADR stands as the governing record
-of the reframe.
+This ADR is **status: accepted** (principal-accepted 2026-07-12). The amendments
+in the map below are now the in-force, authoritative amendment record for the
+named ADRs (ADR-0002/0004/0005/0007/0010); per the not-rewritten-in-place
+convention their numbered decision bodies are not edited line-by-line — the map
+governs. This ADR stands as the governing record of the reframe. Empirical
+enactment of the loosened discovery targets and any swept Kelly-fraction
+selection on geometric growth remain gated on the two BLOCKING Decision-9 memos
+(see Consequences).
 
 ## Decision
 
@@ -238,7 +241,7 @@ of the reframe.
 ## Amendment map
 
 Per-ADR, which numbered decision changes and to what. Every amendment is
-STATUS: proposed and preserves the overfitting-detection/integrity core; only
+now **enacted (accepted 2026-07-12)** and preserves the overfitting-detection/integrity core; only
 risk-appetite and discovery parameters move. Structure (gates, machinery,
 register, ledger) is retained throughout.
 
@@ -305,12 +308,13 @@ register, ledger) is retained throughout.
   (`1 + f·R ≤ 0 → −∞`), the interior maximum and the grid's bracketing of the
   optimum on the shadow-ledger multi-period fat-tailed distribution — **before
   any swept fraction is selected on geometric growth**.
-- **Obligation:** on acceptance, the amendment map is applied to ADRs
-  0002/0004/0005/0007/0010 (each amendment STATUS: proposed until then); the
-  ADR-0008 trial register and `config/multipletest_family.yaml` must be updated
-  to carry the (config × Kelly-fraction) family before the first swept scan.
-- **Obligation:** this ADR is enacted only after review; until accepted it is a
-  proposed draft and no downstream ADR is edited in place.
+- **Obligation (DISCHARGED 2026-07-12):** on acceptance, the amendment map is the
+  applied, in-force amendment record for ADRs 0002/0004/0005/0007/0010 (their
+  banners now read accepted; decision bodies not rewritten in place); the
+  ADR-0008 trial register and `config/multipletest_family.yaml` must still carry
+  the (config × Kelly-fraction) family before the first swept scan.
+- **Obligation (SATISFIED):** this ADR was enacted after review; it is now
+  accepted and the amendment map is authoritative.
 
 ## Alternatives considered
 

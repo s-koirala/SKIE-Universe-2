@@ -15,7 +15,7 @@ founded by a completed gate) versus *pending* (member defined, no producer yet).
 ## Primary metric family (ADR-0004 Decision 4; reframed by ADR-0013)
 
 Member G is the **LEAD** decision/ranking metric under the ADR-0013
-aggressive-geometric-growth mandate (proposed): geometric (compounded) growth
+aggressive-geometric-growth mandate (accepted 2026-07-12): geometric (compounded) growth
 replaces the terminal-wealth lower-tail quantile as the primary metric, and the
 quantile (member 5) is demoted to a monitored, non-binding guardrail. Members
 1–5 retain their definitions and numbers; only primacy changes.
@@ -75,7 +75,7 @@ registered reporting contract:
   detection latency under **both** the supervised and unsupervised estimators,
   and MUST budget switching costs against a realistic (unsupervised) latency,
   not the CUSUM oracle. Under the ADR-0013 aggressive-geometric-growth mandate
-  (proposed) this conservative-switch-cost requirement is **not relaxed — it
+  (accepted 2026-07-12) this conservative-switch-cost requirement is **not relaxed — it
   strengthens at leverage**: budgeting against the optimistic CUSUM-oracle
   latency understates switching cost and thereby **manufactures fake compounded
   edge**, which does not merely underperform but **ruins (drives negative
