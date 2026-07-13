@@ -7,7 +7,48 @@ and this project adheres to [Semantic Versioning 2.0.0](https://semver.org/spec/
 
 ## [Unreleased]
 
-### Changed (aggressive geometric-growth mandate — PROPOSED, pending enactment, 2026-07-12)
+### Changed (aggressive geometric-growth mandate — ENACTED, 2026-07-12)
+- **ADR-0012 / ADR-0013 accepted and enacted.** The principal accepted ADR-0012
+  (standing-incumbent champion-challenger) and ADR-0013 (aggressive
+  geometric-growth mandate). Both flip `status: proposed -> accepted`; the five
+  amended-ADR banners (ADR-0002/0004/0005/0007/0010) and the
+  `allocator-confirmation-kelly-sweep` config family flip to `accepted`; the
+  ADR-0013 amendment map is now the authoritative in-force amendment record
+  (decision bodies not rewritten in place). Registered a third BLOCKING gate,
+  `P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE` (ADR-0012): the champion-challenger
+  framework is in force but the dethroning rule is non-operational until that
+  memo is frozen. Empirical Kelly-fraction selection on geometric growth and
+  enactment of any loosened discovery target remain gated on the two BLOCKING
+  Decision-9 memos below.
+
+### Added (Kelly calibration memos — method-frozen, 2026-07-12)
+- **`P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE` — METHOD FROZEN.** New estimator
+  `src/skie_universe2/inference/kelly_growth.py` (D1 concavity / interior-max on
+  the empirical fat-tailed measure with the finite-log-moment condition per
+  [Algoet & Cover 1988](https://doi.org/10.1214/aop/1176991793); D2
+  estimation-error rolling-origin f\*\*; D3 single-period ruin barrier with the
+  -inf convention; D4 over-betting zero-growth crossing; D5 frozen
+  ruin-consistent estimator = absorbing barrier + P(ruin) +
+  [Busseti-Ryu-Boyd 2016](https://doi.org/10.3905/joi.2016.25.3.118) drawdown
+  bound + stationary-bootstrap CIs), 30 tests, and methodology memo
+  `docs/methodology/kelly_growth_concavity_ruin_2026-07-12.md`. 3-round
+  audit-remediate accept. No Kelly fraction selected; numeric on-ledger
+  instantiation deferred to the step-4 shadow-ledger backfill.
+- **`P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE` — METHOD FROZEN.** New
+  estimator `src/skie_universe2/inference/discovery_alpha.py` (RD1 asymmetric
+  log-wealth loss; RD2 ruin-linkage conditional on Memo 1 + ADR-0010; RD3
+  base-rate via [Storey & Tibshirani 2003](https://doi.org/10.1073/pnas.1530509100)
+  / [Efron 2008](https://doi.org/10.1214/07-STS236); RD4 decision-theoretic
+  threshold via [Müller et al. 2004](https://doi.org/10.1198/016214504000001646)
+  / [Sun & Cai 2007](https://doi.org/10.1198/016214507000000545); RD5 FWER->FDR
+  with the PRDS / [Benjamini-Yekutieli 2001](https://doi.org/10.1214/aos/1013699998)
+  obligation, retain-FWER honestly admissible), 28 tests, and methodology memo
+  `docs/methodology/discovery_alpha_cost_calibration_2026-07-12.md`. 2-round
+  audit-remediate accept. No target enacted; numeric alpha level / criterion
+  deferred to step-4; `config/multipletest_family.yaml` left with OUTPUT
+  placeholders.
+
+### Changed (aggressive geometric-growth mandate — governance detail; superseded by the ENACTED entry above, 2026-07-12)
 - **ADR-0013 — aggressive geometric-growth mandate (keystone, STATUS: proposed).**
   Reframes SKIE-Universe 2.0 from risk-averse tail protection to optimism +
   compounded geometric growth: installs Kelly log-wealth growth rate as the
@@ -29,9 +70,10 @@ and this project adheres to [Semantic Versioning 2.0.0](https://semver.org/spec/
 - 18-row amendment map + `amended_by` banners on ADR-0002/0004/0005/0007/0010;
   reframed methodology doc, README, CLAUDE.md, and config; rationale-only H900
   report reframes. 3-round audit-remediate accept; integrity core preserved
-  every round. **All governance is PROPOSED — no amendment is enacted until the
-  principal moves ADR-0012/0013 proposed → accepted and applies the amendment
-  map in place.**
+  every round. **Now ACCEPTED and enacted (2026-07-12); the amendment map is the
+  authoritative in-force record. Empirical Kelly-fraction selection and
+  loosened-alpha enactment remain gated on the two BLOCKING calibration memos,
+  now method-frozen (numeric instantiation deferred to the step-4 backfill).**
 
 ### Added (H900 sensitivity + conditioning set, 2026-07-11/12)
 - **H900 BOCPD detection-latency sensitivity (Step 2).** New unsupervised

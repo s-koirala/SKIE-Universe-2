@@ -80,13 +80,20 @@ The dwell-time feasibility go/no-go is **CLOSED GO** (H900,
 opening the allocator program. Open follow-ups registered this session
 (2026-07-12):
 
-- `P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE` (BLOCKING per ADR-0013): freeze
-  the interior-maximum / grid-bracketing / ruin-handling memo on the
-  shadow-ledger fat-tailed distribution before any Kelly fraction is selected
-  on geometric growth.
-- `P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE` (BLOCKING per ADR-0013):
-  error-rate-cost calibration of the looser discovery alpha (missed
-  compounding weighted above false discovery; level is the analysis output).
+- `P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE` (BLOCKING per ADR-0013) —
+  **METHOD FROZEN 2026-07-12**: interior-maximum / grid-bracketing / ruin-handling
+  derivation + reference estimator [src/skie_universe2/inference/kelly_growth.py](src/skie_universe2/inference/kelly_growth.py)
+  + 30 tests + memo [docs/methodology/kelly_growth_concavity_ruin_2026-07-12.md](docs/methodology/kelly_growth_concavity_ruin_2026-07-12.md)
+  (3-round audit accept). NUMERIC on-ledger instantiation (f*, grid-bracketing
+  verdict, P(ruin), f_0) DEFERRED to the step-4 backfill; no Kelly fraction is
+  selected until then.
+- `P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE` (BLOCKING per ADR-0013) —
+  **METHOD FROZEN 2026-07-12**: error-rate-cost decision-theoretic derivation +
+  reference estimator [src/skie_universe2/inference/discovery_alpha.py](src/skie_universe2/inference/discovery_alpha.py)
+  + 28 tests + memo [docs/methodology/discovery_alpha_cost_calibration_2026-07-12.md](docs/methodology/discovery_alpha_cost_calibration_2026-07-12.md)
+  (2-round audit accept). NUMERIC alpha level / pi1 / lambda / FWER-vs-FDR criterion
+  DEFERRED to the step-4 backfill; no target enacted and config left with OUTPUT
+  placeholders until then.
 - `P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE` (BLOCKING per ADR-0012): error-rate-cost
   calibration of the geometric-growth dethroning margin (ADR-0012 Decision 3) and
   the champion-dwell floor (Decision 5). ADR-0012 is accepted, but the dethroning
@@ -158,6 +165,17 @@ Progress (as of 2026-07-12):
   bodies not rewritten in place). Two BLOCKING Kelly follow-ups still gate any
   growth-based fraction selection, and a third (`P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE`)
   gates champion dethroning (see Open follow-ups above).
+- **Kelly calibration memos — METHOD FROZEN (2026-07-12).** Both BLOCKING
+  Decision-9 memos are method-frozen: reference estimators
+  [kelly_growth.py](src/skie_universe2/inference/kelly_growth.py) (concavity /
+  interior-max / ruin; 30 tests) and
+  [discovery_alpha.py](src/skie_universe2/inference/discovery_alpha.py)
+  (decision-theoretic loss / threshold / FWER-vs-FDR; 28 tests), each with a
+  methodology memo under [docs/methodology/](docs/methodology/) and audit-remediate
+  accept. The derivations + estimators + tests are pre-registered on representative
+  fat-tailed substrate; the NUMERIC on-ledger operating points (f*, P(ruin), f_0,
+  alpha level, pi1, criterion) are DEFERRED to the step-4 shadow-ledger backfill —
+  no Kelly fraction is selected and no discovery target is enacted until then.
 
 ## Directory layout
 
