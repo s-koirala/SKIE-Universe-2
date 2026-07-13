@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import numpy as np
 import pytest
+from scipy.stats import norm
 
 from skie_universe2.inference import discovery_alpha as da
 
@@ -295,8 +296,6 @@ def test_comparator_loss_ratio_monotone_in_n() -> None:
 @pytest.mark.parametrize("sigma", [1.0, 1.5, 2.0])
 def test_fwer_power_scales_full_shift_by_sigma(sigma: float) -> None:
     """power_fwer == sf((isf(alpha_per) - mu)/sigma) for all sigma (analytic)."""
-    from scipy.stats import norm
-
     lm = _loss_model_for_comparator()
     mu = 3.0
     family_alpha = 0.05  # illustrative fixture
