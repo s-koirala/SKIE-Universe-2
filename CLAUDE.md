@@ -71,6 +71,29 @@ first registered analysis and go/no-go for the allocator program.
 10.21314/JCF.2016.322 → Bailey, Borwein, López de Prado & Zhu, J. Comput.
 Finance 20(4):39-69, during the round-1 audit.)
 
+The `P1-2.0-RETRO-CARD-1.0-REGISTER` register is drafted at
+[docs/research_notes/retro_card_register_2026-07-10.md](docs/research_notes/retro_card_register_2026-07-10.md).
+The dwell-time feasibility go/no-go is **CLOSED GO** (H900,
+[docs/reports/H900/H900_dwell_feasibility_report_2026-07-11.md](docs/reports/H900/H900_dwell_feasibility_report_2026-07-11.md)),
+opening the allocator program. Open follow-ups registered this session
+(2026-07-12):
+
+- `P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE` (BLOCKING per ADR-0013): freeze
+  the interior-maximum / grid-bracketing / ruin-handling memo on the
+  shadow-ledger fat-tailed distribution before any Kelly fraction is selected
+  on geometric growth.
+- `P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE` (BLOCKING per ADR-0013):
+  error-rate-cost calibration of the looser discovery alpha (missed
+  compounding weighted above false discovery; level is the analysis output).
+- `P1-2.0-H900-BOCPD-WHITENED` (investigation COMPLETE, deliverable PARKED):
+  whitened/AR-robust BOCPD prewhitening the near-unit-root log-rvol does NOT
+  rescue the BOCPD NO-GO — no ROC operating point is both accurate and timely
+  — so the H900 supervised-detection-dependence is robust; finalize + audit +
+  commit pending.
+- Carried: `P1-2.0-RETRO-CARD-1.0-REGISTER` (open); `P1-2.0-DATABENTO-DEC-ROLL-REPULL`
+  (operator-only vendor spend); `P1-2.0-ROLL-SYMBOL-EXPAND` and the
+  QUANT-3-2 terminal-window generalization (post shadow-ledger backfill).
+
 ## Reproducibility contract
 
 Every artifact-producing run in this project emits a 13-field ReproLog at
@@ -99,6 +122,33 @@ uv run pytest
 - **Bootstrap date:** 2026-07-10
 - **Python version pin:** `>=3.11,<3.13`
 - **Bootstrap script HEAD:** `fe9bcd1b6fee` (see `manifest.json`)
+
+Progress (as of 2026-07-12):
+
+- **Dwell-time feasibility gate (ADR-0004 Decision 6) — CLOSED GO.** H900
+  established dwell-time separation feasible; first registered analysis, opens
+  the allocator program.
+  [docs/reports/H900/H900_dwell_feasibility_report_2026-07-11.md](docs/reports/H900/H900_dwell_feasibility_report_2026-07-11.md).
+- **H900 BOCPD detection-latency sensitivity — CLOSED.** CUSUM verdict GO
+  reproduced bit-identically via
+  [scripts/audits/check_h900_bocpd_reproduction.py](scripts/audits/check_h900_bocpd_reproduction.py)
+  against the Adams-MacKay 2007 port
+  [src/skie_universe2/inference/bocpd.py](src/skie_universe2/inference/bocpd.py);
+  unsupervised BOCPD is NO-GO both variants (L_detect ≫ dwell), so the H900 GO
+  is **supervised-detection-dependent** (robust to whitening — see
+  `P1-2.0-H900-BOCPD-WHITENED`).
+  [docs/reports/H900/H900_bocpd_sensitivity_2026-07-11.md](docs/reports/H900/H900_bocpd_sensitivity_2026-07-11.md).
+- **Conditioning set registered.** Winning 4-state diagonal-Gaussian HMM (on
+  standardized `ret_5m`, log `rvol_5m_24h`) registered as the ADR-0002
+  candidate conditioning covariate (ADR-0001-D5 covariate-not-gate);
+  dwell/detection-latency registered as standing ADR-0004 report objects.
+  [config/conditioning_covariates.yaml](config/conditioning_covariates.yaml),
+  [docs/methodology/allocator_metric_family_report_objects.md](docs/methodology/allocator_metric_family_report_objects.md).
+- **Governance reframe (ADR-0012/0013) — STATUS: proposed.** Geometric-growth
+  mandate + champion-challenger + 18-row amendment map applied to scope /
+  philosophy sections and ADR banners; enacted only on ADR-0013 acceptance.
+  Two BLOCKING Kelly follow-ups gate any growth-based fraction selection (see
+  Open follow-ups above).
 
 ## Directory layout
 

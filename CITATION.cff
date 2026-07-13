@@ -43,5 +43,54 @@ preferred-citation:
   doi: "<<TODO>>"
 
 # References — auto-populated by /cite-add (R1-C); each entry must conform
-# to CFF v1.2.0 reference schema. Start empty.
-references: []
+# to CFF v1.2.0 reference schema.
+references:
+  - type: article
+    title: "A New Interpretation of Information Rate"
+    authors:
+      - family-names: Kelly
+        given-names: "John L."
+        name-suffix: Jr.
+    journal: "The Bell System Technical Journal"
+    volume: 35
+    issue: 4
+    year: 1956
+    doi: 10.1002/j.1538-7305.1956.tb03809.x
+  - type: book
+    title: "The Kelly Capital Growth Investment Criterion: Theory and Practice"
+    authors:
+      - family-names: MacLean
+        given-names: "Leonard C."
+      - family-names: Thorp
+        given-names: "Edward O."
+      - family-names: Ziemba
+        given-names: "William T."
+    publisher:
+      name: "World Scientific"
+    year: 2011
+    doi: 10.1142/7598
+  - type: article
+    title: "Bayesian Online Changepoint Detection"
+    authors:
+      - family-names: Adams
+        given-names: "Ryan Prescott"
+      - family-names: MacKay
+        given-names: "David J. C."
+    year: 2007
+    url: "https://arxiv.org/abs/0710.3742"
+    identifiers:
+      - type: other
+        value: "arXiv:0710.3742"
+        description: "arXiv preprint identifier"
+  - type: article
+    title: "On-line Inference for Multiple Changepoint Problems"
+    authors:
+      - family-names: Fearnhead
+        given-names: Paul
+      - family-names: Liu
+        given-names: Zhen
+    journal: "Journal of the Royal Statistical Society: Series B (Statistical Methodology)"
+    volume: 69
+    issue: 4
+    year: 2007
+    doi: 10.1111/j.1467-9868.2007.00601.x

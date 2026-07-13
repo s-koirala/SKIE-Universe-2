@@ -40,6 +40,22 @@ level + horizon, TOST α/power calibration, and per-trial register schema must
 be re-audited against the ADR text at first implementation. Five logged
 minors remain open (see trail §Open).
 
+## Project status
+
+As of 2026-07-12 the dwell-time feasibility gate (ADR-0004 Decision 6, the
+program's first registered go/no-go) is **CLOSED GO** (H900), opening the
+allocator program. H900 BOCPD detection-latency sensitivity is closed: the
+CUSUM verdict reproduces bit-identically while unsupervised BOCPD is NO-GO both
+variants, so the H900 GO is **supervised-detection-dependent** (robust to
+whitening). The winning 4-state diagonal-Gaussian HMM is registered as the
+ADR-0002 candidate conditioning covariate, with dwell/detection-latency as
+standing ADR-0004 report objects. The aggressive geometric-growth governance
+reframe (ADR-0012 champion-challenger + ADR-0013 mandate) is **proposed**;
+enactment is gated on ADR-0013 acceptance and the two BLOCKING Kelly follow-ups
+(`P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE`,
+`P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE`). Full session detail and next
+steps: [docs/research_notes/session_handoff_2026-07-12.md](docs/research_notes/session_handoff_2026-07-12.md).
+
 ## Status
 
 | Field | Value |
