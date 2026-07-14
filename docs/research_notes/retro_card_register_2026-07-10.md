@@ -147,3 +147,82 @@ before scanning.
    KPI cards misquote their own frozen design (window, universe, H_1) — retro
    cards must always be checked against the frozen design.md, not only
    against the KPI cards (Round-1 finding QUANT-1-1).
+
+---
+
+## ADR-0013 re-adjudication addendum (2026-07-14)
+
+**Why this addendum exists.** This register was authored 2026-07-10, before the
+aggressive geometric-growth mandate [ADR-0013](../decisions/ADR-0013-aggressive-geometric-growth-mandate.md)
+and the champion-challenger [ADR-0012](../decisions/ADR-0012-standing-incumbent-allocator.md)
+were accepted (2026-07-12). Its metric currency is therefore old-paradigm — every
+disposition, dominance test, and cost-bound above is expressed in **net-Sharpe /
+LW2008 tri-benchmark CIs, terminal-wealth q05 lower-tail quantile, and
+MPPM/Calmar/PF**. ADR-0013 changes the objective, so the register's *admission
+protocol* (not its recorded 1.0 evidence, which is frozen) must be re-expressed.
+This addendum performs the **metric-currency reconciliation** only; the **numeric
+re-adjudication is DEFERRED/BLOCKED** (see "Deferral" below). `P1-2.0-RETRO-CARD-1.0-REGISTER`
+stays **OPEN**.
+
+**Paradigm delta applied to the admission protocol.**
+
+1. **Ranking/dominance metric.** The binding admission and ranking criterion is
+   now **geometric (compounded / Kelly log-wealth) growth** — mean log-wealth
+   growth rate on the ADR-0003 shadow ledger — replacing the net-Sharpe LW2008
+   tri-benchmark dominance the 1.0 frozen designs used. LW2008 studentized
+   bootstrap CIs remain the *pairwise comparison* instrument, but on the
+   log-wealth-growth statistic, not annualized Sharpe.
+2. **Lower-tail quantile demoted.** The terminal-wealth q05 lower-tail quantile
+   (H100/H104 dispositions lean on it) is now a **monitored, non-binding
+   guardrail** (ADR-0013): still computed at the same block-bootstrap length and
+   reported, but it informs rather than vetoes. A card is no longer archived
+   *solely* because q05 < 0; it is judged on mean log-wealth growth, with q05 as
+   context.
+3. **Kelly fraction swept, not fixed.** Every card's position layer is evaluated
+   over the registered Kelly-fraction grid **{0.5, 0.75, 1.0, 1.25}** (ADR-0013
+   Decision 3), the winner data-selected on geometric growth per the frozen
+   [kelly_growth](../methodology/kelly_growth_concavity_ruin_2026-07-12.md)
+   estimator. This **replaces H104's ad-hoc super-Kelly / C3 sizing configs** and
+   H050's "fractional-Kelly-with-tail-binding" default with a registered sweep.
+4. **Non-redundancy re-expressed.** ADR-0002 (d) non-redundancy (RC-XCORR-1)
+   is re-expressed on **marginal log-wealth growth** contribution to the
+   allocator, not net-of-cost Sharpe residual correlation; admission is loosened
+   toward aggressive inclusion (conditional-edge + non-redundancy structure kept).
+5. **Discovery alpha cost-tuned looser.** The Romano-Wolf FWER correction stamped
+   on every RC-* scan is superseded by the cost-tuned discovery target of the
+   frozen [discovery_alpha](../methodology/discovery_alpha_cost_calibration_2026-07-12.md)
+   memo (SPA/StepM FWER, or FDR where the cost analysis supports it); the level
+   is the analysis output, not a constant, and missed compounding is weighted
+   above false discovery.
+6. **Integrity core is MORE binding, never weaker.** DSR, PBO, the
+   matched-turnover random rotor, PIT canaries, the trial register, ReproLog, and
+   the shadow ledger stay **non-waivable and strictly more binding under leverage**
+   (ADR-0013): an overfit champion sized by the Kelly sweep does not merely
+   underperform, it earns **negative geometric growth (ruin)** on a fake edge.
+   The H104/RC-H104-3 integrity closure (leakage canary, ReproLog, walk-forward
+   inner-CV, v1↔v2 reconciliation) is thus **hard-blocking**, and H102's failed
+   DSR ∈ [−3.81, −3.29] / calibration gate is a stronger reject at leverage, not
+   a softer one.
+
+**Per-card re-adjudication direction** (disposition currency updated; numeric
+verdict deferred):
+
+| Card | 1.0 currency (superseded) | Direction under ADR-0013 |
+|---|---|---|
+| H100 ← H050 | net-Sharpe differential CI < 0; −81/−84% terminal wealth | Gated arms are **ruinous negative log-wealth growth** — a *stronger* reject at leverage. `re-specify-cost-bound` stands; RC-H100-1 pre-cost decomposition still required to rank the *unconditional* signal on marginal log-wealth growth. |
+| H101 ← H052a | unconditional NQ ORB +0.855 Sharpe / +10.61% realized | Cleanest **positive geometric-growth** candidate; rank on log-wealth growth over the Kelly sweep. Basis-indeterminate cost (RC-H101-1) still blocks. |
+| H102 ← H053 | cost dominance; CPCV q05<0; DSR∈[−3.81,−3.29] | q05 demoted to guardrail, but the failed DSR/calibration integrity gate is **more binding under leverage**; fragile edge → ruin risk if sized. `re-specify-cost-bound` stands. |
+| H103 ← H054 | HMM-stress ORB point-positive, n_anti=7 ≪ 174 | Strongest ADR-0002-shaped conditional object; admission turns on **powered geometric-growth accumulation** on the shadow ledger over the Kelly sweep. `arsenal-admit-conditional` direction retained. |
+| H104 ← H055 | post-hoc MGC +58…+87% ROI, super-Kelly configs | Largest pre-cost edge **but** unregistered universe extension + integrity-incomplete + super-Kelly C3 decay — the exact overfit-at-leverage → **ruin** case ADR-0013 makes hard-blocking. Kelly sweep replaces super-Kelly configs; RC-H104-3 integrity closure is blocking-before-admission. |
+
+**Deferral (BLOCKING).** No admission and no Kelly-fraction selection on
+geometric growth is certified by this addendum. Numeric re-adjudication is gated
+on **all** of: (a) the ADR-0003 shadow-ledger backfill (step-4) that materializes
+the per-card marginal log-wealth-growth series — no rolling-origin edge series
+exists in 1.0 (gap 3 above); (b) the on-ledger NUMERIC instantiation of both
+BLOCKING Kelly memos (f*, P(ruin), f_0; discovery alpha level, π1, FWER-vs-FDR
+criterion), still deferred per [CLAUDE.md](../../CLAUDE.md); and (c) the
+`P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE` margin/dwell freeze before any of these
+candidates could dethrone a standing champion (ADR-0012). Until then the RC-*
+scan list stands with its **structure** intact and its **metric currency**
+updated to geometric growth per this addendum.

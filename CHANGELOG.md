@@ -7,6 +7,48 @@ and this project adheres to [Semantic Versioning 2.0.0](https://semver.org/spec/
 
 ## [Unreleased]
 
+### Added (H900-BOCPD-WHITENED method-freeze, 2026-07-14)
+- **`P1-2.0-H900-BOCPD-WHITENED` — METHOD FROZEN.** Finalized from PARKED: the
+  AR(1)-prewhitening primitive `src/skie_universe2/inference/whitening.py`
+  (within-run φ estimation that excludes change-crossing pairs; innovation filter
+  `w_t = (z_t − φ z_{t−1})/√(1 − φ²)`; prewhitened/residual control-chart
+  construction per [Alwan & Roberts 1988](https://doi.org/10.1080/07350015.1988.10509640),
+  [Runger & Willemain 1995](https://doi.org/10.1080/00224065.1995.11979608), Box
+  & Jenkins 1976), 13 tests, and methodology memo
+  `docs/methodology/whitening_ar_robust_bocpd_2026-07-13.md`. 2-round
+  audit-remediate accept (24 findings, 0 refuted, all remediated;
+  `docs/audits/audit_trail_2026-07-14_handoff-resolution.md`). Prewhitening the
+  near-unit-root (ρ≈0.997) log-rvol removes the by-construction autocorrelation
+  and keeps real shifts detectable, but does not control false alarms at the
+  Bayes operating point (~0.43); the ROC-wide NO-GO robustness rests on the prior
+  on-ledger ROC probe (net≈26pp @ L_detect≈45; ~4 bars→noise, session_handoff §2),
+  with a reproducible on-ledger prewhitened ROC re-run **DEFERRED** to the
+  shadow-ledger backfill. ReproLog `logs/reproducibility/repro_log_56b6293a…json`.
+
+### Changed (retro-card register — ADR-0013 re-adjudication addendum, 2026-07-14)
+- **`P1-2.0-RETRO-CARD-1.0-REGISTER` metric-currency reconciliation.** Added an
+  ADR-0013 re-adjudication addendum to
+  `docs/research_notes/retro_card_register_2026-07-10.md`: the retro cards'
+  old-paradigm currency (net-Sharpe/LW2008, terminal-wealth q05 lower-tail
+  quantile, MPPM/Calmar/PF) is superseded by geometric (log-wealth) growth as the
+  binding admission/ranking metric; the lower-tail quantile is demoted to a
+  monitored guardrail; the Kelly fraction is swept {0.5,0.75,1.0,1.25}; discovery
+  alpha is cost-tuned; the integrity core is more binding under leverage. Numeric
+  re-adjudication is **DEFERRED** (BLOCKING on the shadow-ledger backfill + the
+  Kelly numeric instantiation + `P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE`); the
+  register stays OPEN.
+
+### Fixed (handoff-review reconciliation + identity hygiene, 2026-07-14)
+- **Handoff-review findings reconciled.** Annotated
+  `docs/research_notes/handoff_review_findings_2026-07-13.md`: Findings 1–3
+  (snapshot staleness) and 5 (hygiene) confirmed and actioned; Findings 4 & 6
+  **REFUTED in the persistent working container** (the whitening source/tests and
+  the untracked run inventory are present here, not lost) — per-finding
+  correction blocks + a top correction banner added.
+- **Identity-hygiene leak fixed.** Stripped the absolute OS-username path from
+  `docs/research_notes/session_handoff_2026-07-12.md` L297 and sanitized the
+  quoted path in the findings report's Finding 5 (per rules/publishing.md).
+
 ### Changed (aggressive geometric-growth mandate — ENACTED, 2026-07-12)
 - **ADR-0012 / ADR-0013 accepted and enacted.** The principal accepted ADR-0012
   (standing-incumbent champion-challenger) and ADR-0013 (aggressive

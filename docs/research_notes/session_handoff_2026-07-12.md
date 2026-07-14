@@ -293,5 +293,4 @@ shadow-ledger record and leakage assurance those derivations depend on.
 Author: SKIE (pseudonym). No real-name identifiers, git author email, or OS
 username in this file. Commit this handoff via `/commit-with-provenance`
 (`--role=prose`) per the ICMJE 2026 AI-assistance disclosure and the project
-ReproLog contract. All paths above are repo-relative to
-`C:/Users/skoir/Documents/SKIE-Universe-2`.
+ReproLog contract. All paths above are repo-relative to the project root.

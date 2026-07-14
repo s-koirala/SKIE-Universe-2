@@ -99,14 +99,27 @@ opening the allocator program. Open follow-ups registered this session
   the champion-dwell floor (Decision 5). ADR-0012 is accepted, but the dethroning
   rule is non-operational until this memo is frozen with its ReproLog emitted —
   until then no champion dethroning is certifiable.
-- `P1-2.0-H900-BOCPD-WHITENED` (investigation COMPLETE, deliverable PARKED):
-  whitened/AR-robust BOCPD prewhitening the near-unit-root log-rvol does NOT
-  rescue the BOCPD NO-GO — no ROC operating point is both accurate and timely
-  — so the H900 supervised-detection-dependence is robust; finalize + audit +
-  commit pending.
-- Carried: `P1-2.0-RETRO-CARD-1.0-REGISTER` (open); `P1-2.0-DATABENTO-DEC-ROLL-REPULL`
-  (operator-only vendor spend); `P1-2.0-ROLL-SYMBOL-EXPAND` and the
-  QUANT-3-2 terminal-window generalization (post shadow-ledger backfill).
+- `P1-2.0-H900-BOCPD-WHITENED` (**METHOD FROZEN 2026-07-14**, finalized from
+  PARKED; 2-round audit-remediate accept): the AR(1)-prewhitening primitive
+  [src/skie_universe2/inference/whitening.py](src/skie_universe2/inference/whitening.py)
+  + 13 tests + memo
+  [docs/methodology/whitening_ar_robust_bocpd_2026-07-13.md](docs/methodology/whitening_ar_robust_bocpd_2026-07-13.md)
+  are frozen. Prewhitening the near-unit-root (ρ≈0.997) log-rvol removes the
+  by-construction autocorrelation and keeps real shifts detectable, but does NOT
+  control false alarms at the Bayes operating point (~0.43). The ROC-wide "no
+  accurate-and-timely operating point" NO-GO rests on the PRIOR on-ledger ROC
+  probe (net≈26pp @ L_detect≈45; ~4 bars→noise, session_handoff §2), which is
+  documented but NOT reproducibly preserved; a reproducible on-ledger prewhitened
+  ROC re-run is DEFERRED to the shadow-ledger backfill. So the H900
+  supervised-detection-dependence is robust on the frozen synthetic +
+  documented-prior evidence, on-ledger confirmation deferred.
+- Carried: `P1-2.0-RETRO-CARD-1.0-REGISTER` (open; **ADR-0013 re-adjudication
+  addendum added 2026-07-14** — metric currency reconciled to geometric growth,
+  lower-tail quantile demoted to guardrail, Kelly sweep + cost-tuned discovery
+  applied; numeric re-adjudication deferred to the shadow-ledger backfill);
+  `P1-2.0-DATABENTO-DEC-ROLL-REPULL` (operator-only vendor spend);
+  `P1-2.0-ROLL-SYMBOL-EXPAND` and the QUANT-3-2 terminal-window generalization
+  (post shadow-ledger backfill).
 
 ## Reproducibility contract
 
@@ -149,8 +162,9 @@ Progress (as of 2026-07-12):
   against the Adams-MacKay 2007 port
   [src/skie_universe2/inference/bocpd.py](src/skie_universe2/inference/bocpd.py);
   unsupervised BOCPD is NO-GO both variants (L_detect ≫ dwell), so the H900 GO
-  is **supervised-detection-dependent** (robust to whitening — see
-  `P1-2.0-H900-BOCPD-WHITENED`).
+  is **supervised-detection-dependent** (robust to AR-whitening on the frozen +
+  documented-prior evidence, reproducible on-ledger re-run deferred — see the
+  `P1-2.0-H900-BOCPD-WHITENED` method-freeze below).
   [docs/reports/H900/H900_bocpd_sensitivity_2026-07-11.md](docs/reports/H900/H900_bocpd_sensitivity_2026-07-11.md).
 - **Conditioning set registered.** Winning 4-state diagonal-Gaussian HMM (on
   standardized `ret_5m`, log `rvol_5m_24h`) registered as the ADR-0002
@@ -176,6 +190,17 @@ Progress (as of 2026-07-12):
   fat-tailed substrate; the NUMERIC on-ledger operating points (f*, P(ruin), f_0,
   alpha level, pi1, criterion) are DEFERRED to the step-4 shadow-ledger backfill —
   no Kelly fraction is selected and no discovery target is enacted until then.
+- **H900 BOCPD whitening — METHOD FROZEN (2026-07-14).** `P1-2.0-H900-BOCPD-WHITENED`
+  finalized from PARKED (2-round audit-remediate accept): AR(1)-prewhitening
+  primitive [whitening.py](src/skie_universe2/inference/whitening.py) + 13 tests +
+  memo [whitening_ar_robust_bocpd_2026-07-13.md](docs/methodology/whitening_ar_robust_bocpd_2026-07-13.md).
+  Whitening removes the by-construction autocorrelation and keeps real shifts
+  detectable but does not control false alarms at the Bayes operating point; the
+  NO-GO robustness rests on the prior on-ledger ROC probe, with a reproducible
+  on-ledger re-run DEFERRED. Same session: the 2026-07-13 handoff-review findings
+  were reconciled (Findings 4 & 6 refuted-in-container, 1–3/5 actioned), an
+  identity-hygiene leak fixed, and the retro-card register given an ADR-0013
+  metric-currency addendum.
 
 ## Directory layout
 
