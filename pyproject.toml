@@ -37,6 +37,13 @@ data = [
     # as a polars-version surface (1.0 utils/hashing.py docstring), so a
     # version skew would confound the numerical cross-validation.
     "polars==1.40.0",
+    # justify: the RC-H101-1 admission scan pre-registers (H101 design §8(a)) the
+    # KPSS level+trend stationarity test (Kwiatkowski, Phillips, Schmidt & Shin 1992,
+    # 10.1016/0304-4076(92)90104-Y) as the a priori stationarity check on the
+    # per-session gross-return series; statsmodels.tsa.stattools.kpss is the reference
+    # implementation. Declared here so the registered test is runnable in the pinned
+    # reproducible env rather than silently falling back to the rolling exhibit.
+    "statsmodels",
 ]
 
 # Justify: the H900 dwell-time study (research/01_hypothesis_register/H900/
