@@ -201,6 +201,26 @@ Progress (as of 2026-07-12):
   were reconciled (Findings 4 & 6 refuted-in-container, 1–3/5 actioned), an
   identity-hygiene leak fixed, and the retro-card register given an ADR-0013
   metric-currency addendum.
+- **H001 — EXECUTED, disposition `archive(null)` (2026-07-16).** First forward
+  core hypothesis: the exploration-tier SMA(3)/StdDev(3) "meta-shift" prototype was
+  reframed from a directional scalping strategy into an ADR-0001-D5 conditioning
+  covariate and tested for ADR-0002(d) non-redundancy vs the H900 HMM covariate +
+  variance-ratio state on forward reversion/continuation. Design frozen (SHA
+  `6c875b789898…`, 3-round audit accept); pure covariate emitter + estimator
+  library ([covariate_information.py](src/skie_universe2/inference/covariate_information.py),
+  [variance_ratio_state.py](src/skie_universe2/features/variance_ratio_state.py),
+  [regime_covariate.py](src/skie_universe2/signals/regime_covariate.py)) + harness
+  ([run_h001_covariate_study.py](scripts/run_h001_covariate_study.py)) 2-round audit
+  accept; primary ES+NQ × 400 arms × 15 windows run (Miller-Madow CMI + nested OOS
+  predictive delta, rolling-origin, horizon-aware purge). **Null:** the small-n
+  vol×trend label carries only a tiny in-sample MM-CMI (~1e-4 nats, a large-N
+  residual) that FAILS the out-of-sample predictive guard — OOS delta negative for
+  82% of arm-horizons and ALL of NQ (0/800 H1); ES H1 283/800 but marginal and not
+  instrument-robust. NOT promoted to the ADR-0002(b) registry. Report:
+  [reports/H001/H001_covariate_information_report_2026-07-16.md](reports/H001/H001_covariate_information_report_2026-07-16.md).
+  The prototype's premise (SMA/StdDev vol×trend adds edge-relevant info) does not
+  survive rigorous OOS multi-instrument testing against the registered regime
+  covariates.
 
 ## Directory layout
 
