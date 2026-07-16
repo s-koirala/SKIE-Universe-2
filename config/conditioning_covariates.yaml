@@ -44,6 +44,15 @@ project_standard:
     kind: exogenous
     cells: percentile bands (registered per expert)
     ledger_column: cov_realized_vol_percentile
+    # Reference-window specification (registered by H103 freeze 2026-07-16,
+    # design.md §3): the per-session INPUT is rvol_5m_24h (a trailing 24-hour =
+    # 288-bar causal window ending at/before session start, <= MAX_FEATURE_LOOKBACK_BARS);
+    # the percentile REFERENCE distribution is the TRAINING-WINDOW empirical CDF of
+    # that input (recomputed per rolling origin), NOT a trailing cross-boundary window,
+    # so eval-session percentiles are PIT-clean by construction.
+    input_feature: rvol_5m_24h
+    input_lookback_bars: 288
+    reference_distribution: training_window_empirical_cdf
   variance_ratio_state:
     description: Variance-ratio trend/range classification (Lo & MacKinlay 1988).
     kind: exogenous

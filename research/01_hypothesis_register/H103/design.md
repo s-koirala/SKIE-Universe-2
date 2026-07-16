@@ -1,27 +1,26 @@
 ---
-name: H103 — Stress-state-only (anti-gate) first-hour opening-range breakout (ES), shadow-ledger admission
-description: DRAFT pre-registration design doc for hypothesis H103 (2.0 re-specification of 1.0 H054); NOT yet audited or frozen
+name: H103 — Stress-state-only (anti-gate) first-hour opening-range breakout (ES+NQ), shadow-ledger admission
+description: Pre-registration design doc for hypothesis H103 (2.0 re-specification of 1.0 H054); FROZEN 2026-07-16 (ES+NQ; 3-round audit-remediate accept)
 type: project
 hypothesis_id: H103
 tier: 5
 status: designed  # designed | running | evaluated | archived(positive|null|negative)
 owner: SKIE
 created: 2026-07-16
-citations: 10.1093/rfs/hhp008, 10.1111/j.1540-6261.2011.01671.x, 10.2307/1912559, 10.1016/j.frl.2012.09.001, 10.1109/ACCESS.2019.2899177, 10.1093/rfs/1.1.41, 10.1111/j.1468-0262.2005.00615.x, 10.1080/01621459.1994.10476870, 10.1016/j.jempfin.2008.03.002, 10.2469/faj.v58.n4.2453, 10.1016/0304-4076(92)90104-Y
+citations: 10.1093/rfs/hhp008, 10.1111/j.1540-6261.2011.01671.x, 10.2307/1912559, 10.1016/j.frl.2012.09.001, 10.1109/ACCESS.2019.2899177, 10.1093/rfs/1.1.41, 10.1111/j.1468-0262.2005.00615.x, 10.1016/j.spl.2016.02.012, 10.1080/01621459.1994.10476870, 10.1016/j.jempfin.2008.03.002, 10.2469/faj.v58.n4.2453, 10.1016/0304-4076(92)90104-Y, 10.1198/000313001300339897, 10.3905/jpm.1989.409211, 10.21314/JCF.2016.322
 external_doi: null
 ---
 
-> **DRAFT — for review; not yet audited or frozen.** This is a candidate
-> pre-registration for operator review. No audit-remediate loop has run, no
-> SHA-256 has been computed, and the design is NOT immutable. Do not treat any
-> number, threshold, or disposition here as pre-registered until it is frozen at
-> `designed` via `/preregister`.
+> **FROZEN 2026-07-16 (`designed`).** This design is pre-registered and immutable:
+> instrument scope ES+NQ (operator decision 2026-07-16), 3-round audit-remediate
+> accept. Any change after this freeze requires a new hypothesis ID. The frozen
+> SHA-256 is recorded in `hypothesis_backlog.md` and the pre-registration ReproLog.
 
-# H103 — Stress-state-only (anti-gate) first-hour opening-range breakout (ES), shadow-ledger admission
+# H103 — Stress-state-only (anti-gate) first-hour opening-range breakout (ES+NQ), shadow-ledger admission
 
-This document is the DRAFT pre-registration record for hypothesis H103 (the 2.0
-re-specification of 1.0 H054). When frozen it will hold at `designed` status; any
-change after that point requires a new hypothesis ID.
+This document is the FROZEN pre-registration record for hypothesis H103 (the 2.0
+re-specification of 1.0 H054), held at `designed` status; any change after this
+freeze requires a new hypothesis ID.
 
 H103 is a forward **arsenal-admission candidate** (ADR-0002) on the 2.0 shadow
 ledger, promoted from the retro Expert Card
@@ -64,8 +63,9 @@ no arm is certified and no fraction is selected until those unblock.
 ## 1. Hypothesis
 
 - **H0:** the first-hour ORB has no positive pre-cost (gross) per-session edge in
-  the pre-declared stress-state cell (§3) on ES, at the ADR-0002(c)
-  multiplicity-corrected level once the deferred screening level is set.
+  the pre-declared stress-state cell (§3) on either instrument (ES, NQ), at the
+  ADR-0002(c) multiplicity-corrected level (joint ES+NQ cell family) once the
+  deferred screening level is set.
   Operationally, the Romano-Wolf-corrected lower bound on the mean gross
   per-session ORB return **inside the stress cell** is ≤ 0.
 - **H1:** the stress-state cell carries a Romano-Wolf-corrected positive gross
@@ -75,17 +75,24 @@ no arm is certified and no fraction is selected until those unblock.
   top realized-vol band (§3); the complement (non-stress) cell is reported as the
   contrast, mirroring the H054 anti-gate-vs-unconditional decomposition.
 - **Mechanism:** opening-range breakouts capture intraday momentum/continuation
-  following first-hour price discovery — documented on index futures by
-  [Holmberg, Lönnbark & Lundström 2013](https://doi.org/10.1016/j.frl.2012.09.001)
-  and [Tsai et al. 2019](https://doi.org/10.1109/ACCESS.2019.2899177) (specific
-  magnitudes not reproduced — full text paywalled; only Crossref-verified
-  title/venue/year asserted). The **conditioning direction** (edge concentrated in
-  stress/high-vol sessions) is motivated by the variance-risk-premium / stress-state
-  return structure of [Bollerslev, Tauchen & Zhou 2009, RFS 22(11):4463–4492](https://doi.org/10.1093/rfs/hhp008)
-  (DOI carried from the retro card §1 mechanism list; Crossref-verify at freeze)
+  following first-hour price discovery — documented on S&P 500 (and crude oil)
+  futures by
+  [Holmberg, Lönnbark & Lundström 2013, Finance Research Letters 10(1):27-33](https://doi.org/10.1016/j.frl.2012.09.001)
+  (ORB gross profitability; S&P 500 futures is the index-futures leg directly
+  relevant here) and [Tsai et al. 2019, IEEE Access 7:32061-32071](https://doi.org/10.1109/ACCESS.2019.2899177)
+  (open-access; specific magnitudes not reproduced here — only Crossref-verified
+  title/venue/year/pages asserted). The **conditioning direction** (edge concentrated
+  in high-vol sessions specifically) is carried from the companion same-author work
+  Lundström, "Day trading returns across volatility states" (Umeå Economic Studies /
+  DiVA diva2:732318), which reports the high-minus-low volatility-state ORB return
+  decomposition; and is motivated by the variance-risk-premium / stress-state return
+  structure of [Bollerslev, Tauchen & Zhou 2009, RFS 22(11):4463–4492](https://doi.org/10.1093/rfs/hhp008)
   and [Cochrane 2011, J. Finance 66(4):1047–1108](https://doi.org/10.1111/j.1540-6261.2011.01671.x):
-  compensation for bearing risk (and thus the return available to a directional
-  continuation rule) is elevated precisely when realized volatility is high.
+  risk compensation (and thus the return available to a directional continuation
+  rule) is elevated in high variance-risk-premium / stress states — NOT the narrower
+  claim that realized returns track realized volatility (BTZ's predictor is the
+  variance risk premium, implied minus expected realized variance, not realized vol
+  itself).
   BTZ 2009 is Phase-0-flagged in the 1.0 source as intraday-silent (it concerns
   the equity variance risk premium at monthly horizon, not the intraday ORB) —
   it motivates the *conditioning direction*, not the *intraday signal*; that
@@ -102,13 +109,22 @@ no arm is certified and no fraction is selected until those unblock.
 
 ## 2. Universe and sample period
 
-- **Instruments:** **ES only** at v1. The 1.0 H054 evidence is ES-only session
-  cadence (retro card frontmatter `instruments: [ES]`, §1), and H103 is held to
-  the identical instrument for comparability. NQ (and the micro contracts
-  MES/MNQ the retro card §3 lists as operator options) are **candidate additions
-  deferred to operator decision** (see Open Questions and §10) — adding NQ would
-  double the RC-H103-1 cell family and must be registered before the scan runs,
-  not after. Substrate: 2.0 roll-adjusted continuous-contract evidence bars,
+- **Instruments:** **ES and NQ** (operator decision 2026-07-16). The 1.0 H054 retro
+  evidence is ES-only (retro card frontmatter `instruments: [ES]`, §1), and ES is
+  therefore the **retro-comparability anchor**; NQ is added as the pre-registered
+  cross-instrument robustness leg, matching the RC-H101-1 admission scan (ES+NQ) that
+  H103 is structurally paired with (same ORB rule, complementary session subset) and
+  the H001 covariate study (ES+NQ). Adding NQ doubles the RC-H103-1 cell family (both
+  instruments × the §3 cells); this is registered **before** the scan runs. The
+  multiplicity accounting (§5(B)) runs Romano-Wolf per-instrument (within-instrument
+  FWER over the §3 cells) and controls the cross-instrument (2-family) multiplicity by
+  a conservative Šidák union bound at the deferred screening level — jointly covering
+  the whole ES+NQ family, not a single per-instrument look.
+  The stress-cell cutoff (§3, the H900 HMM stress-occupancy anchor) is calibrated
+  **per instrument** on each instrument's own training-window HMM occupancy — NQ's
+  cutoff is NOT borrowed from ES. The micro contracts (MES/MNQ, retro card §3) remain
+  candidate additions deferred to a later operator decision. Substrate: 2.0
+  roll-adjusted continuous-contract evidence bars,
   `data/processed/vendor_legacy_1min_roll_adjusted/` (ADR-0011), identical to
   H101/H900 to keep the ledger on one substrate.
 - **Frequency:** 5-minute bars aggregated from the 1-minute substrate (H900 §3
@@ -158,11 +174,39 @@ arbitrary cutoff).
   ([config/conditioning_covariates.yaml](../../../config/conditioning_covariates.yaml)),
   computed causally (trailing window ending at/before session start, PIT-clean).
 
-  **Threshold — data-driven, not arbitrary.** The top-band cutoff is set to the
-  **stationary (unconditional) occupancy probability of the H900 HMM's stress
-  state**, i.e. the fraction of sessions the registered `regime_hmm_h900`
-  4-state Gaussian HMM (highest log-`rvol_5m_24h` emission mean state) spends in
-  its stress regime, estimated on the training window only. # justify: this ties
+  **Reference-window registration (PIT / purge, binding).** The
+  `realized_vol_percentile` covariate is defined by two windows, both registered
+  here so the §6 purge covers them: (i) the per-session realized-vol INPUT is the
+  registered `rvol_5m_24h` (a trailing 24-hour = 288-bar causal window ending at/
+  before session start — the H900 emission feature, ≤ `MAX_FEATURE_LOOKBACK_BARS`=288,
+  so the 288-bar purge covers it exactly); (ii) the percentile REFERENCE distribution
+  is the **training-window empirical CDF** of that input (recomputed per rolling
+  origin, §6), NOT a trailing cross-boundary window — so the eval-session percentile
+  is scored against a frozen train-window CDF and is PIT-clean by construction, with
+  no train/eval strength-borrowing. The registry entry
+  [config/conditioning_covariates.yaml](../../../config/conditioning_covariates.yaml)
+  `realized_vol_percentile` is updated at freeze to record this
+  input-window/reference-CDF specification.
+
+  **ADR-0001 D5 compliance (the anti-gate is a RULE-BASED conditional expert).**
+  D5 prohibits only a LATENT-generative regime model acting as a binary position
+  gate. H103's per-session stress membership (§4) is set by the **rule-based**
+  realized-vol percentile cell, not by any latent state; the H900 HMM enters ONLY
+  to set the scalar train-window occupancy CUTOFF (an ADR-0002/registry-authorized
+  scan-cell definition), never the per-session membership. So the §4 position
+  restriction is an ADR-0002 conditional-only expert (admissible), not a D5-barred
+  latent gate. This distinction is what keeps the HMM from being smuggled back in
+  as a gate via its occupancy cutoff.
+
+  **Threshold — data-driven, not arbitrary.** Let p̂ be the **stationary
+  (unconditional) occupancy probability of the H900 HMM's stress state** — the
+  fraction of sessions the registered `regime_hmm_h900` 4-state Gaussian HMM
+  (highest log-`rvol_5m_24h` emission mean state) spends in its stress regime,
+  estimated on the training window only. **The stress cell is the set of sessions
+  whose train-window realized-vol percentile is ≥ (1 − p̂)** — i.e. the top-p̂
+  fraction of sessions by realized-vol percentile (equivalently, rank ≥ the
+  (1−p̂)-quantile of the train-window rvol distribution). This reproduces the HMM
+  stress state's own mass p̂ as a rule-based top-band cell. # justify: this ties
   the percentile cutoff to the regime model that *defined* "stress" in 1.0
   H054 — the vol-percentile cell is calibrated to reproduce the HMM stress state's
   own mass, so it is a rule-based re-expression of the same event rather than a
@@ -232,7 +276,11 @@ session is the shared ORB position **multiplied by the session's stress-cell
 indicator** — i.e. flat on every non-stress session, identical to the shared ORB
 on stress sessions. Because the stress indicator is a session-level PIT-clean
 covariate known at/before session start (§3), this restriction introduces no
-look-ahead and is a pure conditioning of the shared ledger, not a new signal.
+look-ahead and is a pure conditioning of the shared ledger, not a new signal. The
+multiplicative stress indicator is a **rule-based** (realized-vol percentile) cell,
+NOT a latent-state gate (ADR-0001 D5 compliance argued in §3): it is an ADR-0002
+conditional-only expert, admissible, with the HMM entering only via the scalar
+train-window cutoff, never the per-session membership.
 
 **PIT property:** OR_high/OR_low use only RTH bars ≤ t within the session; the
 breakout test uses close(t) vs the OR established up to t−1; the stress indicator
@@ -242,25 +290,57 @@ prefix-invariance canary.
 ## 5. Estimator — shared-ledger backfill + RC-H103-1 stress-cell admission scan
 
 - **(A) Shadow-ledger backfill (ADR-0003, Tier 0) — SHARED with H101.** The
-  H101 ORB expert × {ES} × the four Kelly fractions {0.5, 0.75, 1.0, 1.25} (each
-  a distinct `expert_id`, ADR-0013 D3) is backfilled once by
+  H101 ORB expert × **{ES, NQ}** × the four Kelly fractions {0.5, 0.75, 1.0, 1.25}
+  (each a distinct `expert_id`, ADR-0013 D3) is backfilled once by
   `scripts/run_shadow_ledger_backfill.py`: signal → position policy (Layer 2) →
   Tier-0 bar-close execution + `futures_rt_v1` cost (Layer 3, `tier0_barclose.py`,
   exact levered log return with ruin representable) → append-only
-  `ShadowLedgerWriter`. **H103 adds NO new backfill** — it reads the same ES ledger
-  rows. If H101's ES backfill is already materialized at H103 run time, H103
-  consumes it directly; the design pre-registers that no duplicate ledger is
-  written for the shared ORB signal.
-- **(B) RC-H103-1 admission scan (ADR-0002(c)).** On the backfilled ES ledger,
-  restrict to the **stress cell** (§3 primary) and its complement, aggregate the
-  pre-cost per-session ORB return, and scan conditional gross edge over the §3
-  cells. **Correction:** Romano-Wolf stepwise
-  ([Romano & Wolf 2005](https://doi.org/10.1111/j.1468-0262.2005.00615.x)) with a
+  `ShadowLedgerWriter`. **H103 adds NO new backfill** — it reads the shared H101
+  {ES, NQ} ledger rows (the RC-H101-1 canonical backfill, `expert_id=orb_first_hour_k*@1.0.0`,
+  `asset ∈ {ES, NQ}`, already materialized 2026-07-16). The design pre-registers that
+  no duplicate ledger is written for the shared ORB signal; H103 is a *conditioning*
+  of that ledger, not a second expert.
+- **(B) RC-H103-1 admission scan (ADR-0002(c)).** On the backfilled **{ES, NQ}**
+  ledger, restrict to each instrument's **stress cell** (§3 primary, per-instrument
+  cutoff §3) and its complement, aggregate the pre-cost per-session ORB return, and
+  scan conditional gross edge over the §3 cells. **Correction:** Romano-Wolf stepwise
+  ([Romano & Wolf 2005](https://doi.org/10.1111/j.1468-0262.2005.00615.x);
+  per-hypothesis adjusted p via the efficient step-down of
+  [Romano & Wolf 2016](https://doi.org/10.1016/j.spl.2016.02.012)) with a
   serial-dependence-preserving stationary block bootstrap
   ([Politis & Romano 1994](https://doi.org/10.1080/01621459.1994.10476870)) over
-  the chronological per-session sequence (ADR-0002(c) default), registered as a
-  new family `RC-H103-1` in `config/multipletest_family.yaml`. Increments the
-  trial register (ADR-0008).
+  the chronological per-session sequence (ADR-0002(c) default). **Multiplicity —
+  per-instrument RW with a cross-instrument union bound (buildable, conservative).**
+  The Romano-Wolf step-down runs PER INSTRUMENT on that instrument's single
+  calendar-ordered per-session `gross` vector (the validated RC-H101-1 estimator
+  `romano_wolf_stepm`, one series per symbol — NOT an unbuilt joint-panel resampler),
+  controlling the within-instrument FWER over the §3 cells. The CROSS-instrument
+  multiplicity (the two instruments are two families for the §10 "positive on either
+  instrument" decision) is controlled by a **Šidák union bound** across the two
+  per-instrument families: an instrument's cell is a screening rejection only if its
+  RW-adjusted p ≤ 1 − (1 − α_screen)^(1/2), where α_screen is the DEFERRED project
+  `screening_error_rate_target`. This over-controls the joint FWER (independent
+  per-instrument resampling treats the two families as independent, which — given the
+  strong positive ES–NQ dependence — inflates the effective test count and is therefore
+  CONSERVATIVE, the correct direction under the ADR-0013 "more binding multiplicity
+  under leverage" mandate). Validity does NOT hinge on a positive-orthant-dependence
+  condition: the assumption-free Bonferroni union — reject-if-either at α_screen/2 per
+  family, joint FWER ≤ 2·(α_screen/2) = α_screen for any dependence — is the fallback
+  bound, and the Šidák level 1−(1−α_screen)^(1/2) ≈ α_screen/2 differs from it only
+  negligibly, so the scheme controls the joint FWER regardless of the exact ES–NQ
+  dependence class. A future exact joint calendar-aligned (ES,NQ)-panel RW
+  (common block index preserving contemporaneous cross-instrument dependence) is a
+  registered efficiency extension, not required for this admission gate. Registered as
+  the family `RC-H103-1` in `config/multipletest_family.yaml` (both per-instrument
+  sub-families + the Šidák union rule).
+  **Prior correlated trial (ADR-0008 trial register, binding):** the RC-H101-1
+  `high_vol` cell (top realized-vol TERCILE) was already scanned null on this exact
+  shared ledger (ES mean −7.1e-5, worst of the vol cells; NQ RW-adj p 0.597, rotor
+  p 0.288). H103's primary stress cell (the top realized-vol BAND at the §3
+  HMM-occupancy cutoff) is a correlated re-test of the same vol-conditioning on the
+  same ledger, NOT an independent first look; it is registered as a prior correlated
+  trial in the trial register and folded into the §8 DSR N_trials deflation (§8). The
+  scan increments the trial register (ADR-0008).
 - **(C) Non-redundancy vs H101 (ADR-0002(d)) — MANDATORY RC-XCORR-1.** Because
   H103's traded sessions are a strict subset of H101's (§4), the pair is NOT
   admitted until the **RC-XCORR-1 cross-correlation check** measures the residual
@@ -276,7 +356,10 @@ prefix-invariance canary.
 ## 6. Splitter
 
 - **Rolling-origin (ADR-0004):** 24-month training, 6-month step, first origin
-  2017-01-01 (H900 §2 by reference), 15 windows × 1 instrument (ES). The ORB rule
+  2017-01-01 (the 24-month training, 6-month step, and 2017-01-01 first origin are
+  all carried VERBATIM from the H900 §2 / ADR-0004 rolling-origin convention — a
+  structural walk-forward constant, NOT H103-tuned), 15 windows × 2 instruments
+  (ES, NQ) = 30 folds. The ORB rule
   is stateless, so it produces its signal causally over the whole span; the
   rolling-origin structure defines the walk-forward folds for the admission scan's
   edge series, and the conditioning covariates that carry training-window moments
@@ -307,9 +390,11 @@ prefix-invariance canary.
   The 1.0 H054 cost share is basis-indeterminate on the source record (≈2%
   notional basis to ≈37% account-dollar basis on the 7-trade anti arm); the
   admission scan reports pre-cost edge (ADR-0002) and the formula-consistent
-  notional-basis drag (ES ≈1.21e-4 per active session per the retro card §2
-  derivation) alongside the account-dollar basis, basis-labeled — resolving the
-  1.0 indeterminacy. Sparse-fire experts at retail account scale can carry a
+  notional-basis drag (ES ≈1.21e-4, NQ ≈4.15e-5 per active session — H101 §7 basis,
+  from the retro card §2 derivation) alongside the account-dollar basis,
+  basis-labeled — resolving the 1.0 indeterminacy. The NQ account-dollar basis has
+  no 1.0 anti-arm anchor (the retro card is ES-only), so NQ's basis is resolved by
+  the scan itself rather than reconciled to a 1.0 record. Sparse-fire experts at retail account scale can carry a
   materially higher account-dollar cost share (retro card §8 priors #5); the
   scan reports both so the position-layer (ADR-0005), not the signal, is the
   cost lever.
@@ -348,17 +433,44 @@ prefix-invariance canary.
   trades for 80% power — a structural `power-margin-low`. RC-H103-1 therefore
   **accumulates the stress-cell trade count over the full 2015–2025 backfill** and
   is **not certifiable until the stress-cell active-trade count reaches the
-  design-derived n ≥ 174** (or the re-derived power-analysis floor at freeze; the
-  n ≥ 174 figure is carried from the 1.0 design §9.2 and re-verified by the
-  `power-analysis` skill at the registered effect/alpha/power before running —
-  retrospective power is forbidden, Hoenig & Heisey 2001). If the full-span
+  design-derived floor** (the re-derived power-analysis floor at freeze; the
+  n ≥ 174 figure is the **ES anchor only**, carried from the 1.0 design §9.2 which
+  is ES-only, and re-verified by the `power-analysis` skill at the registered
+  effect/alpha/power before running — retrospective power is forbidden,
+  [Hoenig & Heisey 2001](https://doi.org/10.1198/000313001300339897)). **The floor
+  is per-instrument-derived:** freeze-time power analysis yields (n_ES, n_NQ) from
+  EACH instrument's own effect-size/variance estimate; the ES effect size is NOT
+  transported to NQ (NQ has no 1.0 stress-arm evidence), so n_NQ is derived from NQ's
+  own training-window stress-cell moments. If the full-span
   accumulation still falls short of the floor, the disposition is
   `conditional-only / power-margin-low` (not archive), continuing accumulation on
   the shadow ledger (retro card §8 priors #4: the ledger is the only affordable
-  accumulation path).
-- **DSR / PBO (ADR-0008, non-waivable):** the scan reports the Deflated Sharpe
-  Ratio and the Probability of Backtest Overfitting over the conditioning-cell
-  selection surface; both are more binding under the ADR-0013 leverage mandate.
+  accumulation path). **Per instrument (ES+NQ):** the n ≥ 174 floor is applied to
+  **each instrument's own stress-cell trade count** — an instrument is certifiable
+  only when ITS stress cell clears the floor; ES and NQ may reach it at different
+  times (NQ's stress-occupancy and fire rate are calibrated on NQ's own training
+  window, §3), and the disposition is reported per instrument.
+- **DSR (ADR-0008, non-waivable):** the scan reports the Deflated Sharpe Ratio over
+  the conditioning-cell selection surface, more binding under the ADR-0013 leverage
+  mandate. **N_trials** counts the full RC-H103-1 selection surface (both instruments
+  × §3 cells) PLUS the **entire RC-H101-1 same-ledger surface** already scanned on
+  this exact shared ledger (RC-H101-1 self-declared N_trials=10, itself "a lower
+  bound … the H052a retro lineage adds more"). The whole RC-H101-1 surface — not only
+  its directly-correlated `high_vol` cell — is folded in, because every RC-H101-1 cell
+  is a prior look at the same ledger; this is the conservative choice (over-counting
+  the shared-ledger lineage can only raise the deflation benchmark). The sr_std
+  cross-trial dispersion is estimated over the non-nested conditioning cells (RC-H101-1
+  §3.3 convention). The vol-conditioning re-test is thus never deflated as an
+  independent first look.
+- **PBO — DEFERRED, not waived (ADR-0008):** the sibling RC-H101-1 (§3.5) established
+  that CSCV/PBO ([Bailey, Borwein, López de Prado & Zhu 2017](https://doi.org/10.21314/JCF.2016.322))
+  is structurally inapplicable on this exact surface — the conditioning cells are
+  session subsets on different memberships (no common T for the CSCV matrix), and the
+  configuration axis CSCV would run over is the Kelly-fraction grid, which is BLOCKED
+  on the two Decision-9 memos. H103 inherits the identical obstruction: PBO is deferred
+  with the same rigor as the screening-level deferral — **no admission is certified
+  while it is outstanding** — and is materialized at the shadow-ledger backfill once the
+  common-T Kelly×cell matrix exists.
 - **Non-redundancy gate vs H101 (ADR-0002(d); binding, see §10):** the RC-XCORR-1
   residual-correlation / marginal-IR bound must be cleared before the H101+H103
   pair is admitted — a mandatory gate, not a report object, given the algebraic
@@ -372,11 +484,11 @@ prefix-invariance canary.
 
 ## 9. Stopping rule
 
-- **Fixed design:** consume the shared H101 ES backfill × 4 Kelly fractions over
-  the full 2015–2025 span; run RC-H103-1 once over the frozen §3 cell set with the
+- **Fixed design:** consume the shared H101 {ES, NQ} backfill × 4 Kelly fractions
+  over the full 2015–2025 span; run RC-H103-1 once over the frozen §3 cell set with the
   stress cell as primary. No cell added, no window added, no re-run with different
   ORB parameters or a different stress cutoff post-freeze.
-- **Max folds:** 15 rolling windows (§6 arithmetic) × 1 instrument (ES).
+- **Max folds:** 15 rolling windows (§6 arithmetic) × 2 instruments (ES, NQ) = 30.
 - **Accumulation exception (pre-registered):** if the stress-cell trade count is
   below the §8 power floor at first run, the scan continues to accumulate on the
   shadow ledger (retro card §8 priors #4) and re-reports descriptively; this is
@@ -395,14 +507,20 @@ prefix-invariance canary.
 - **MANDATORY H101-dependence correlation gate (RC-XCORR-1 — operationalized).**
   Because H103 is algebraically dependent on H101 (strict session subset, §4), the
   pair is admitted only if H103's net-of-cost per-session return series clears the
-  ADR-0002(d) non-redundancy bound against the H101 series. **Operationalization:**
-  (i) compute the H103-vs-H101 per-session return correlation on the aligned
-  shadow ledger and its stationary-block-bootstrap CI; (ii) compute H103's
+  ADR-0002(d) non-redundancy bound against the H101 series. **Operationalization —
+  PER INSTRUMENT (ES, NQ).** Because H103's traded sessions are a strict subset of
+  H101's *within* each instrument, RC-XCORR-1 is computed per instrument and the pair
+  is admitted per instrument (consistent with the §8 per-instrument power floor and
+  the §10 "positive on either instrument" decision): for each of ES and NQ,
+  (i) compute the H103-vs-H101 per-session return correlation on that instrument's
+  aligned shadow ledger and its stationary-block-bootstrap CI; (ii) compute H103's
   estimated **marginal contribution to ensemble IR** given H101 already in the
-  arsenal (Grinold 1989 framework, per ADR-0002(d)); (iii) admit the pair only if
-  the marginal IR contribution is positive OR the residual correlation is below the
-  ensemble-variance-budget bound derived from the (H101, H103) covariance estimate
-  — the bound is derived and documented per admission, never a fixed constant. If
+  arsenal ([Grinold 1989, J. Portfolio Management 15(3):30-37](https://doi.org/10.3905/jpm.1989.409211)
+  framework, per ADR-0002(d)); (iii) admit the pair on that instrument only if the
+  marginal IR contribution is positive OR the residual correlation is below the
+  ensemble-variance-budget bound derived from that instrument's (H101, H103)
+  covariance estimate — the bound is derived and documented per admission per
+  instrument, never a fixed constant. If
   H103 fails the bound (its stress-cell edge is spanned by H101), the disposition
   is **redundant-with-H101** — H103 is NOT separately admitted; the stress
   conditioning is instead recorded as a property of the already-admitted H101
@@ -413,8 +531,9 @@ prefix-invariance canary.
   the accumulated trade count is below the §8 power floor — continue shadow
   accumulation (the 1.0 H054 state; retro card §6), provisional disposition, not
   archive.
-- **archive(null):** no corrected-significant positive gross stress cell on ES
-  (falls back to `archive-no-gross-edge`, ADR-0002(e)) — only at adequate power.
+- **archive(null):** no corrected-significant positive gross stress cell on either
+  instrument (ES, NQ) (falls back to `archive-no-gross-edge`, ADR-0002(e)) — only at
+  adequate power.
 - The **binding certification** awaits the deferred screening level and the §8
   power floor; until then the scan is descriptive and the disposition provisional.
   Null results stay in the register; "fail" is not a disposition (ADR-0009).
@@ -428,7 +547,8 @@ prefix-invariance canary.
   as seed + replicate_index; do not modify post-hoc
 - **Dataset checksums (frozen at pre-reg from `data/_manifest.json`):** the
   `data/processed/vendor_legacy_1min_roll_adjusted/` per-file SHA-256 entries as of
-  the freeze commit; identical substrate to H900/H101 (ES).
+  the freeze commit; identical substrate to H900/H101 (ES and NQ) — the frozen
+  per-file SHA-256 set covers both instruments' processed files.
 - **PIT canaries (ADR-0008 D1):** (a) the feature-pipeline `pit_canary_future_mutation`
   (including the stress-cell indicator, which must be pre-session-computable);
   (b) the signal-layer `assert_prefix_invariant` cut-sweep on the shared ORB
@@ -439,8 +559,12 @@ prefix-invariance canary.
 - **Burned-data ledger (ADR-0008 D5):** RC-H103-1 consumes the OOS windows it
   scans and records them in `config/burned_data_ledger.yaml` per ADR-0004 window
   (the retro card §7 already recorded the 1.0 ES 2025-01-01 → 2025-12-03 span
-  under `hid: H103, instrument: ES`).
-- **Design.md SHA at freeze:** auto-populated by /preregister (R3-2a) — NOT yet
-  computed (this is a DRAFT).
+  under `hid: H103, instrument: ES`; the NQ span is burned by this scan and recorded
+  under `hid: H103, instrument: NQ`).
+- **Design.md SHA at freeze:** the SHA-256 over this file's frozen content is
+  recorded in `hypothesis_backlog.md` (H103 row, `frozen_sha256=`) and in the
+  pre-registration ReproLog `config_resolved_sha256` — not embedded here (that would
+  be self-referential). To verify the freeze, recompute this file's SHA-256 and
+  compare to the backlog/ReproLog value.
 </content>
 </invoke>
