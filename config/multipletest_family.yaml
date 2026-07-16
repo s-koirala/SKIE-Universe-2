@@ -63,7 +63,23 @@ families:
     # /preregister freeze ReproLog).
     correction: romano-wolf   # ADR-0002(c) default, block bootstrap over the pooled bar-level contribution series (design §8); the screening/FWER LEVEL is the project-wide screening_error_rate_target OUTPUT (P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE), null until frozen -> scan run + reported descriptively, no arm certified as a discovery until then
     prds_argument_ref: null
-    trials: []   # one per-trial record per (trend_family x vol_family x n_t x n_v x horizon) arm appended at scan time (ADR-0008 Decision 6)
+    # Scan EXECUTED 2026-07-16 (primary variant, ES+NQ). Because the screening/FWER
+    # level is the DEFERRED project-wide screening_error_rate_target (null), the scan
+    # is reported DESCRIPTIVELY and NO arm is certified as a discovery. Disposition
+    # archive(null): the covariate-information statistic (MM-CMI) is a tiny large-N
+    # residual (~1e-4 nats) that fails the out-of-sample predictive guard, so no
+    # discovery is claimed regardless of the deferred level. Full per-arm records
+    # (1600 arm-horizons) are the scan tables reports/H001/h001_scan_primary.*; a
+    # per-trial expansion is not appended here because no arm is certified.
+    trials: []   # descriptive scan; no certified discovery -> no per-trial certification record (see note)
+    scan_executed:
+      - variant: primary
+        instruments: [ES, NQ]
+        n_arm_horizons: 1600
+        disposition: "archive(null) — fails OOS predictive guard; not certified (screening level deferred)"
+        return_series_ref: reports/H001/h001_scan_primary.parquet
+        repro_log_run: e97678dfddf64306876ad5a34efb2956
+        executed_at: "2026-07-16"
     registered_at: "2026-07-16"
 # families:
 #   - family_id: <slug>

@@ -138,7 +138,7 @@ Dataset provenance: `data/_manifest.json` (managed by
 ## Quickstart
 
 ```bash
-uv venv && uv sync
+uv venv && uv sync --all-extras   # --all-extras: runtime libs live under the data/models extras (REPRODUCIBILITY-1-1)
 uv run pre-commit install
 uv run pytest
 ```

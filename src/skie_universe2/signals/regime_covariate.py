@@ -174,6 +174,34 @@ def _states_from_scalars(
     return out
 
 
+def trend_scalar(bars: OHLCArrays, family: str, n: int) -> NDArray[np.float64]:
+    """Public: per-bar trend scalar for a family/window (sign → up/down, §5).
+
+    Exposed so batch callers can precompute the scalar once per (family, n)
+    instead of recomputing it inside every emitter — the scalar depends only on
+    (family, n), not on the paired volatility arm.
+    """
+    return _trend_scalar(bars, family, n)
+
+
+def vol_scalar(bars: OHLCArrays, family: str, n: int) -> NDArray[np.float64]:
+    """Public: per-bar volatility scalar for a family/window (median split, §5)."""
+    return _vol_scalar(bars, family, n)
+
+
+def states_from_scalars(
+    trend: NDArray[np.float64],
+    vol: NDArray[np.float64],
+    vol_median: float,
+) -> NDArray[np.int8]:
+    """Public: build the per-bar state index from precomputed scalars + median (§5).
+
+    Identical to what :meth:`RegimeCovariateEmitter.transform` computes; use with
+    a training-window ``vol_median`` (fit on the train slice) for leakage safety.
+    """
+    return _states_from_scalars(trend, vol, vol_median)
+
+
 @dataclass
 class RegimeCovariateEmitter:
     """Leakage-safe fit/transform emitter for the H001 vol×trend state.

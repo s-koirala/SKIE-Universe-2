@@ -19,6 +19,7 @@ Usage (via .pre-commit-config.yaml) — Windows-safe invocation (F-2-9):
       files: \\.(py|ipynb)$
       pass_filenames: true
 """
+
 from __future__ import annotations
 
 import ast
@@ -49,9 +50,26 @@ JUSTIFY_LOOKBACK_LINES = 3
 MAX_REPORTED_ISSUES = 3
 MAX_SNIPPET_CHARS = 80
 
-_NP_UNSAFE = {"rand", "randn", "randint", "random", "ranf", "sample", "choice",
-              "normal", "uniform", "poisson", "binomial", "exponential",
-              "beta", "gamma", "chisquare", "bytes", "permutation", "shuffle"}
+_NP_UNSAFE = {
+    "rand",
+    "randn",
+    "randint",
+    "random",
+    "ranf",
+    "sample",
+    "choice",
+    "normal",
+    "uniform",
+    "poisson",
+    "binomial",
+    "exponential",
+    "beta",
+    "gamma",
+    "chisquare",
+    "bytes",
+    "permutation",
+    "shuffle",
+}
 _TORCH_UNSAFE = {"rand", "randn", "randint", "randperm", "bernoulli", "multinomial"}
 _RANDOM_SAFE = {"seed", "Random", "SystemRandom"}
 _SKLEARN_PREFIX = "sklearn"
@@ -146,7 +164,11 @@ def _unsafe_rng_calls(tree: ast.AST) -> list[tuple[int, str]]:
 def _sklearn_aliases(tree: ast.AST) -> set[str]:
     aliases: set[str] = set()
     for node in ast.walk(tree):
-        if isinstance(node, ast.ImportFrom) and node.module and node.module.startswith(_SKLEARN_PREFIX):
+        if (
+            isinstance(node, ast.ImportFrom)
+            and node.module
+            and node.module.startswith(_SKLEARN_PREFIX)
+        ):
             for n in node.names:
                 aliases.add(n.asname or n.name)
         elif isinstance(node, ast.Import):
@@ -154,6 +176,22 @@ def _sklearn_aliases(tree: ast.AST) -> set[str]:
                 if n.name.startswith(_SKLEARN_PREFIX):
                     aliases.add(n.asname or n.name.split(".")[0])
     return aliases
+
+
+# sklearn functions that are genuinely DETERMINISTIC (no random_state parameter):
+# flagging them would force an invalid kwarg. Backport candidate to dotfiles.
+_SKLEARN_DETERMINISTIC = frozenset(
+    {
+        "adjusted_rand_score",
+        "adjusted_mutual_info_score",
+        "mutual_info_score",
+        "normalized_mutual_info_score",
+        "rand_score",
+        "log_loss",
+        "confusion_matrix",
+        "accuracy_score",
+    }
+)
 
 
 def _sklearn_unset_random_state(tree: ast.AST, aliases: set[str]) -> list[tuple[int, str]]:
@@ -167,19 +205,26 @@ def _sklearn_unset_random_state(tree: ast.AST, aliases: set[str]) -> list[tuple[
         top = chain.split(".", 1)[0] if chain else ""
         if top not in aliases:
             continue
+        if chain.split(".")[-1] in _SKLEARN_DETERMINISTIC:
+            continue  # deterministic; no random_state parameter exists
         kws = {kw.arg for kw in node.keywords if kw.arg}
         if "random_state" not in kws:
             out.append((node.lineno, f"{chain}(<no random_state>)"))
             continue
         for kw in node.keywords:
-            if kw.arg == "random_state" and isinstance(kw.value, ast.Constant) and kw.value.value is None:
+            if (
+                kw.arg == "random_state"
+                and isinstance(kw.value, ast.Constant)
+                and kw.value.value is None
+            ):
                 out.append((node.lineno, f"{chain}(random_state=None)"))
     return out
 
 
 def _seed_linenos(tree: ast.AST) -> list[int]:
-    return sorted({node.lineno for node in ast.walk(tree)
-                   if _is_seed_call(node) or _is_seed_kwarg(node)})
+    return sorted(
+        {node.lineno for node in ast.walk(tree) if _is_seed_call(node) or _is_seed_kwarg(node)}
+    )
 
 
 class _Scopes:
@@ -264,7 +309,9 @@ def scan(path: Path) -> list[str]:
         for m in MAGIC_KEYS.finditer(line):
             ctx = lines[max(0, i - JUSTIFY_LOOKBACK_LINES) : i + 1]
             if not any(JUSTIFY.search(cl) for cl in ctx):
-                issues.append(f"L{i + 1}: magic `{_truncate(m.group(0))}` (add # justify: / # cv: / # ref:)")
+                issues.append(
+                    f"L{i + 1}: magic `{_truncate(m.group(0))}` (add # justify: / # cv: / # ref:)"
+                )
                 magic_count += 1
                 if magic_count >= MAX_REPORTED_ISSUES:
                     return issues

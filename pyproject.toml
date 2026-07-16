@@ -75,6 +75,11 @@ viz = [
 # or install the project itself (an empty [build-system] table is
 # schema-invalid and breaks `uv sync` on a fresh clone).
 package = false
+# NOTE (REPRODUCIBILITY-1-1): the runtime libraries live under the `data`/`models`
+# optional-dependency EXTRAS; uv has no "default-extras" config key, so a bare
+# `uv sync` installs none of them and entrypoints/tests fail on import. The
+# reproduce path is therefore `uv sync --all-extras` (CLAUDE.md Quickstart),
+# which installs data + models + dev + viz against the pinned uv.lock.
 
 [tool.ruff]
 line-length = 100  # justify: user's CLAUDE.md tooling defaults; matches SKIE-Universe
@@ -112,6 +117,8 @@ ignore = ["PLR0913"]
 # discretizer) live data-derived in the frozen design, not as literals here.
 "src/skie_universe2/signals/indicators.py" = ["PLR2004"]
 "src/skie_universe2/signals/regime_covariate.py" = ["PLR2004"]
+"src/skie_universe2/inference/covariate_information.py" = ["PLR2004"]
+"src/skie_universe2/features/variance_ratio_state.py" = ["PLR2004"]
 # Justify: numerical-fidelity ports of SKIE-Universe@ce018515 (H900
 # design.md §5 mandates porting the 1.0 HMM toolkit + bootstrap with
 # their unit tests; ADR-0008 audit-and-lift). The 1.0 source predates
