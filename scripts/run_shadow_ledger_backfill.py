@@ -38,6 +38,7 @@ sys.path.insert(0, str(_ROOT / "src"))
 from skie_universe2.costs.futures_rt_v1 import FuturesRtV1CostModel  # noqa: E402
 from skie_universe2.execution.tier0_barclose import tier0_counterfactual  # noqa: E402
 from skie_universe2.experts.base import BarWindow, Expert, assert_prefix_invariant  # noqa: E402
+from skie_universe2.experts.orb_first_hour import OrbFirstHourExpert  # noqa: E402
 from skie_universe2.experts.reference import CausalMomentumExpert  # noqa: E402
 from skie_universe2.features.regime_emissions import (  # noqa: E402
     apply_registered_exclusions,
@@ -52,6 +53,9 @@ SEED = 20260716  # justify: registered project seed (H900/H001 lineage)
 COST_MODEL_ID = "futures_rt_v1"
 DATASET = "vendor_legacy_1min_roll_adjusted"
 PROVENANCE_FILE = "vendor_legacy_1min_roll_adjusted_20260711.json"
+# Bounded canary sample: enough bars to span several RTH sessions (the causality
+# unit), not the full series (the cut-sweep would re-signal it ~16x).
+_CANARY_SAMPLE_BARS = 5000  # justify: multi-session causality sample, not an analysis parameter
 
 
 def _load_valid_bars(paths: ProjectPaths, symbol: str, max_bars: int | None) -> pl.DataFrame:
@@ -155,72 +159,109 @@ def _rows_for_expert_kelly(
     )
 
 
-def run_smoke(
-    paths: ProjectPaths, *, instruments: tuple[str, ...], max_bars: int, out: Path
-) -> int:
-    """End-to-end pipeline validation to an ISOLATED scratch ledger (no evidence)."""
-    scratch = ProjectPaths(root=out)
-    (out / "config").mkdir(parents=True, exist_ok=True)
-    # Point covariate validation at the real config (no cov_ columns here anyway).
-    writer = ShadowLedgerWriter(
-        paths=scratch,
-        update_manifest=False,
-        covariates_config_path=paths.config / "covariates.yaml",
-    )
-    cost_model = FuturesRtV1CostModel.from_config(paths.config / "instruments.yaml")
-    expert = CausalMomentumExpert()
+def _make_expert(name: str) -> Expert:
+    if name == "reference":
+        return CausalMomentumExpert()
+    if name == "h101":
+        return OrbFirstHourExpert()
+    raise ValueError(f"unknown expert {name!r}; choose reference|h101")
 
+
+def run_backfill(
+    paths: ProjectPaths,
+    *,
+    expert: Expert,
+    hypothesis_id: str,
+    instruments: tuple[str, ...],
+    max_bars: int | None,
+    writer: ShadowLedgerWriter,
+    label: str,
+) -> int:
+    """Population run: expert × {instruments} × 4 Kelly fractions → ledger partitions."""
+    cost_model = FuturesRtV1CostModel.from_config(paths.config / "instruments.yaml")
     total_rows = 0
     for symbol in instruments:
         valid = _load_valid_bars(paths, symbol, max_bars)
-        print(f"[smoke/{symbol}] {valid.height} valid 5-min bars", flush=True)
-        # Signal-layer PIT canary (ADR-0008 D1): sweep cuts on this window.
-        assert_prefix_invariant(expert, _bar_window(valid))
-        frames = [
-            _rows_for_expert_kelly(
-                expert=expert, kelly=k, symbol=symbol, valid=valid, cost_model=cost_model
-            )
-            for k in KELLY_FRACTION_GRID
-        ]
-        df = pl.concat(frames)
-        results = writer.write_partitions(df, rng_seed=SEED, hypothesis_id="n/a-smoke")
+        print(f"[{label}/{symbol}] {valid.height} valid 5-min bars", flush=True)
+        # Signal-layer PIT canary (ADR-0008 D1): cut-sweep before any write. Causality
+        # is a property of the rule, so a bounded multi-session sample suffices (the
+        # full-span cut-sweep would re-signal the whole series ~16x).
+        canary_bars = _bar_window(valid.head(_CANARY_SAMPLE_BARS))
+        assert_prefix_invariant(expert, canary_bars)
+        df = pl.concat(
+            [
+                _rows_for_expert_kelly(
+                    expert=expert, kelly=k, symbol=symbol, valid=valid, cost_model=cost_model
+                )
+                for k in KELLY_FRACTION_GRID
+            ]
+        )
+        results = writer.write_partitions(df, rng_seed=SEED, hypothesis_id=hypothesis_id)
         total_rows += int(df.height)
-        # Read-back validation: re-read one partition and check row count.
-        n_written = sum(rr.n_rows for rr in results)
         print(
-            f"[smoke/{symbol}] wrote {len(results)} partitions, {n_written} rows "
+            f"[{label}/{symbol}] wrote {len(results)} partitions, "
+            f"{sum(rr.n_rows for rr in results)} rows "
             f"({len(KELLY_FRACTION_GRID)} Kelly fractions); canary PASS",
             flush=True,
         )
-    print(
-        f"[smoke] TOTAL {total_rows} rows across {len(instruments)} instruments -> {out}",
-        flush=True,
-    )
+    print(f"[{label}] TOTAL {total_rows} rows across {len(instruments)} instruments", flush=True)
     return 0
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--smoke", action="store_true", help="pipeline validation to scratch ledger"
+        "--smoke", action="store_true", help="validate to a scratch ledger (no evidence)"
     )
+    parser.add_argument("--expert", default="h101", choices=["reference", "h101"])
+    parser.add_argument("--hypothesis-id", default=None, help="ledger hypothesis_id")
     parser.add_argument("--instruments", default="ES,NQ")
-    parser.add_argument("--max-bars", type=int, default=2000, help="smoke bar cap per instrument")
+    parser.add_argument("--max-bars", type=int, default=None, help="bar cap (dev/smoke)")
     parser.add_argument("--out", default=None, help="scratch ledger root (smoke)")
     args = parser.parse_args()
 
     paths = ProjectPaths.discover()
-    if not args.smoke:
-        raise SystemExit(
-            "Only --smoke is implemented. A real evidence backfill requires a "
-            "frozen-design expert (e.g. H101); see the M3 milestone in "
-            "docs/research_notes/shadow_ledger_backfill_plan_2026-07-16.md."
-        )
-    out = Path(args.out) if args.out else (paths.data / "interim" / "shadow_ledger_smoke")
-    if out.exists():
-        shutil.rmtree(out)  # smoke scratch is disposable (NOT the canonical ledger)
+    expert = _make_expert(args.expert)
     instruments = tuple(s.strip() for s in args.instruments.split(","))
-    return run_smoke(paths, instruments=instruments, max_bars=args.max_bars, out=out)
+
+    if args.smoke:
+        out = Path(args.out) if args.out else (paths.data / "interim" / "shadow_ledger_smoke")
+        if out.exists():
+            shutil.rmtree(out)  # scratch is disposable (NOT the canonical ledger)
+        (out / "config").mkdir(parents=True, exist_ok=True)
+        writer = ShadowLedgerWriter(
+            paths=ProjectPaths(root=out),
+            update_manifest=False,
+            covariates_config_path=paths.config / "covariates.yaml",
+        )
+        return run_backfill(
+            paths,
+            expert=expert,
+            hypothesis_id="n/a-smoke",
+            instruments=instruments,
+            max_bars=args.max_bars if args.max_bars is not None else 2000,
+            writer=writer,
+            label="smoke",
+        )
+
+    # Production: write to the CANONICAL append-only ledger — requires a
+    # frozen-design (evidence-eligible) expert; the reference expert is smoke-only.
+    if args.expert == "reference":
+        raise SystemExit(
+            "The reference expert produces no evidence; use --smoke, or --expert h101 "
+            "for a canonical evidence backfill (frozen design H101)."
+        )
+    hyp = args.hypothesis_id or args.expert.upper()
+    writer = ShadowLedgerWriter(paths=paths)  # canonical data/processed/shadow_ledger/
+    return run_backfill(
+        paths,
+        expert=expert,
+        hypothesis_id=hyp,
+        instruments=instruments,
+        max_bars=args.max_bars,
+        writer=writer,
+        label=hyp,
+    )
 
 
 if __name__ == "__main__":
