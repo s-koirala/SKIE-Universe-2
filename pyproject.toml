@@ -118,6 +118,19 @@ ignore = ["PLR0913"]
 "src/skie_universe2/signals/indicators.py" = ["PLR2004"]
 "src/skie_universe2/signals/regime_covariate.py" = ["PLR2004"]
 "src/skie_universe2/inference/covariate_information.py" = ["PLR2004"]
+# Justify: PLR2004 hits here are STRUCTURAL benchmark literals — the fair-coin
+# radix (2 in `2*U-1` and `rng.integers(0, 2)`) and the mid-rank half-weight
+# (0.5) — not tunable analysis parameters. The one reporting choice (the
+# rotor-mean summary quantile levels) is a named module constant with rationale.
+"src/skie_universe2/inference/matched_turnover_rotor.py" = ["PLR2004"]
+"src/skie_universe2/inference/romano_wolf.py" = ["PLR2004"]
+# Justify: PLR2004 hits here are STRUCTURAL CSCV-definition constants (S even →
+# `% 2`; S >= 2; N >= 2 to rank; block_len >= 2 for ddof=1 Sharpe; the (eq+1)/2
+# tie-corrected average rank), not tunable analysis thresholds. The magic-number
+# policy (CLAUDE.md) targets analysis parameters; the only operational guard
+# (max_combinations) is a named module constant, not a bare literal.
+"src/skie_universe2/inference/pbo.py" = ["PLR2004"]
+"src/skie_universe2/inference/deflated_sharpe.py" = ["PLR2004"]
 "src/skie_universe2/features/variance_ratio_state.py" = ["PLR2004"]
 "src/skie_universe2/experts/base.py" = ["PLR2004"]
 "src/skie_universe2/execution/tier0_barclose.py" = ["PLR2004"]
