@@ -47,6 +47,24 @@ families:
     kelly_fraction_grid: [0.5, 0.75, 1.0, 1.25]  # registered swept hyperparameter (ADR-0013 Decision 3); pre-registered sweep values, not hand-tuned constants; brackets the estimation-error-adjusted geometric-growth optimum from half-Kelly (~0.5) through leveraged (1.25) so the data-selected winner is not structurally floored above the growth optimum; winning fraction data-selected by best geometric growth over the joint (config x fraction) space
     trials: []   # no swept confirmation scan has run; one per-trial record per (config x Kelly-fraction) pair is appended here before the first swept scan (ADR-0013 Consequences)
     registered_at: "2026-07-12"
+  - family_id: h001-volxtrend-covariate
+    # H001 conditioning-covariate NON-REDUNDANCY scan (ADR-0002(d)): does the
+    # small-n vol x trend 4-state label add information about forward
+    # reversion/continuation (a self-normalizing within-window forward
+    # variance-ratio proxy) BEYOND the registered H900 HMM covariate
+    # (regime_hmm_h900) and the project-standard variance_ratio_state? Pre-registered
+    # scan surface = trend_family(4) x vol_family(4) x n_t(5) x n_v(5) = 400 arms x
+    # 2 horizons {6,12}. This is a COVARIATE-INFORMATION family (conditional mutual
+    # information + nested OOS predictive-information delta), NOT a Sharpe-selection
+    # surface, so sharpe_estimate/return_series_ref are null for its trials; DSR/PBO
+    # do not bind the primary (they bind the DEFERRED ADR-0002(c)
+    # conditional-gross-edge scan on the shadow ledger). Design frozen at
+    # research/01_hypothesis_register/H001/design.md (design.md SHA carried by the
+    # /preregister freeze ReproLog).
+    correction: romano-wolf   # ADR-0002(c) default, block bootstrap over the pooled bar-level contribution series (design §8); the screening/FWER LEVEL is the project-wide screening_error_rate_target OUTPUT (P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE), null until frozen -> scan run + reported descriptively, no arm certified as a discovery until then
+    prds_argument_ref: null
+    trials: []   # one per-trial record per (trend_family x vol_family x n_t x n_v x horizon) arm appended at scan time (ADR-0008 Decision 6)
+    registered_at: "2026-07-16"
 # families:
 #   - family_id: <slug>
 #     correction: romano-wolf | benjamini-hochberg-prds | benjamini-yekutieli
