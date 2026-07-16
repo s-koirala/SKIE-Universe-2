@@ -119,6 +119,8 @@ ignore = ["PLR0913"]
 "src/skie_universe2/signals/regime_covariate.py" = ["PLR2004"]
 "src/skie_universe2/inference/covariate_information.py" = ["PLR2004"]
 "src/skie_universe2/features/variance_ratio_state.py" = ["PLR2004"]
+"src/skie_universe2/experts/base.py" = ["PLR2004"]
+"src/skie_universe2/execution/tier0_barclose.py" = ["PLR2004"]
 # Justify: numerical-fidelity ports of SKIE-Universe@ce018515 (H900
 # design.md §5 mandates porting the 1.0 HMM toolkit + bootstrap with
 # their unit tests; ADR-0008 audit-and-lift). The 1.0 source predates
