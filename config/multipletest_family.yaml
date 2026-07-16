@@ -81,6 +81,19 @@ families:
         repro_log_run: e97678dfddf64306876ad5a34efb2956
         executed_at: "2026-07-16"
     registered_at: "2026-07-16"
+  - family_id: rc-h101-1
+    # H101 admission scan (ADR-0002(c)): conditional GROSS (pre-cost) per-session
+    # first-hour-ORB edge over the project-standard conditioning set (realized-vol
+    # percentile, variance_ratio_state, macro-calendar proximity, spread/liquidity
+    # regime) + regime_hmm_h900 + first-hour-sign, on the H101 shadow-ledger
+    # partitions. Primary pre-registered cell family = high-realized-vol sessions
+    # (Lundstrom prior; retro card §3). Design frozen at
+    # research/01_hypothesis_register/H101/design.md (SHA a7c5c9178f66...). Every
+    # admission scan (admit or reject) increments this family / the trial register.
+    correction: romano-wolf   # ADR-0002(c) default; stationary block bootstrap (Politis-Romano 1994) over the chronological per-session sequence, with the registered KPSS + rolling-dispersion stationarity diagnostic (design §8); the screening/FWER LEVEL is the DEFERRED project-wide screening_error_rate_target (null) -> scan run + reported descriptively, no cell certified until frozen
+    prds_argument_ref: null
+    trials: []   # one per-trial record per (conditioning cell x instrument) appended at scan time (ADR-0008 D6); scan RC-H101-1 not yet run (awaits H101 ledger backfill)
+    registered_at: "2026-07-16"
 # families:
 #   - family_id: <slug>
 #     correction: romano-wolf | benjamini-hochberg-prds | benjamini-yekutieli
