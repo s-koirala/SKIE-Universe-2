@@ -46,7 +46,7 @@ from skie_universe2.features.regime_emissions import (  # noqa: E402
     exclusion_windows_from_provenance,
 )
 from skie_universe2.ledger.shadow_ledger import ShadowLedgerWriter  # noqa: E402
-from skie_universe2.policy.meta_shift_policy import KELLY_FRACTION_GRID  # noqa: E402
+from skie_universe2.policy.kelly_sweep import KELLY_FRACTION_GRID  # noqa: E402
 from skie_universe2.utils.paths import ProjectPaths  # noqa: E402
 
 SEED = 20260716  # justify: registered project seed (H900/H001 lineage)
