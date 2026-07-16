@@ -103,6 +103,15 @@ ignore = ["PLR0913"]
 # document. The magic-number policy (CLAUDE.md) targets tunable
 # analysis parameters, which tests do not introduce.
 "tests/*" = ["PLR2004"]
+# Justify: PLR2004 hits in these pure-indicator / covariate-emitter modules are
+# STRUCTURAL API-contract minimums (ddof=1 sample std needs >= 2 points; a
+# rolling slope / window needs >= 2 bars; an EMA span >= 1), not tunable
+# analysis parameters. The magic-number policy (CLAUDE.md) targets tunable
+# analysis values, which these guards are not — consistent with the numerical
+# per-file ignores below. All ANALYSIS parameters (H001 window grid, horizons,
+# discretizer) live data-derived in the frozen design, not as literals here.
+"src/skie_universe2/signals/indicators.py" = ["PLR2004"]
+"src/skie_universe2/signals/regime_covariate.py" = ["PLR2004"]
 # Justify: numerical-fidelity ports of SKIE-Universe@ce018515 (H900
 # design.md §5 mandates porting the 1.0 HMM toolkit + bootstrap with
 # their unit tests; ADR-0008 audit-and-lift). The 1.0 source predates
