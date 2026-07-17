@@ -131,6 +131,13 @@ ignore = ["PLR0913"]
 # rotor-mean summary quantile levels) is a named module constant with rationale.
 "src/skie_universe2/inference/matched_turnover_rotor.py" = ["PLR2004"]
 "src/skie_universe2/inference/romano_wolf.py" = ["PLR2004"]
+# Justify: PLR2004 hits here are STRUCTURAL delta-method / kernel constants — the
+# Newey-West 1994 automatic-bandwidth pilot form (the `2` in the 2*gamma_j HAC
+# symmetrization, the d.o.f. divisor guard) and the LW08 4-vector gradient
+# arithmetic (the `2` in the gamma-partials); the citeable NW94 / Andrews-1991
+# numeric constants are named module-level constants with source pins, not bare
+# literals. No tunable analysis parameter is introduced.
+"src/skie_universe2/inference/ledoit_wolf_sharpe.py" = ["PLR2004"]
 # Justify: PLR2004 hits here are STRUCTURAL CSCV-definition constants (S even →
 # `% 2`; S >= 2; N >= 2 to rank; block_len >= 2 for ddof=1 Sharpe; the (eq+1)/2
 # tie-corrected average rank), not tunable analysis thresholds. The magic-number
