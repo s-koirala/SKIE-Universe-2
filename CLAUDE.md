@@ -150,7 +150,7 @@ uv run pytest
 - **Python version pin:** `>=3.11,<3.13`
 - **Bootstrap script HEAD:** `fe9bcd1b6fee` (see `manifest.json`)
 
-Progress (as of 2026-07-12):
+Progress (as of 2026-07-16):
 
 - **Dwell-time feasibility gate (ADR-0004 Decision 6) — CLOSED GO.** H900
   established dwell-time separation feasible; first registered analysis, opens
@@ -221,6 +221,56 @@ Progress (as of 2026-07-12):
   The prototype's premise (SMA/StdDev vol×trend adds edge-relevant info) does not
   survive rigorous OOS multi-instrument testing against the registered regime
   covariates.
+- **Shadow ledger populated + first arsenal-admission machinery (2026-07-16).** The
+  canonical append-only shadow ledger (ADR-0003) is populated with the first
+  forward expert: `OrbFirstHourExpert` (first-hour opening-range breakout,
+  [orb_first_hour.py](src/skie_universe2/experts/orb_first_hour.py)) backfilled over
+  ES+NQ × 4 Kelly fractions (5.2M rows) via
+  [run_shadow_ledger_backfill.py](scripts/run_shadow_ledger_backfill.py) through the
+  Expert-contract / Tier-0 exact-levered-return execution stack
+  ([tier0_barclose.py](src/skie_universe2/execution/tier0_barclose.py), ruin
+  representable). The confirmation-ladder estimators are built and tested:
+  Romano-Wolf StepM ([romano_wolf.py](src/skie_universe2/inference/romano_wolf.py)),
+  Deflated Sharpe ([deflated_sharpe.py](src/skie_universe2/inference/deflated_sharpe.py)),
+  PBO/CSCV ([pbo.py](src/skie_universe2/inference/pbo.py)), matched-turnover rotor
+  ([matched_turnover_rotor.py](src/skie_universe2/inference/matched_turnover_rotor.py)),
+  and Ledoit-Wolf 2008 studentized-bootstrap Sharpe-difference
+  ([ledoit_wolf_sharpe.py](src/skie_universe2/inference/ledoit_wolf_sharpe.py)). The
+  registered Kelly grid was extracted to
+  [policy/kelly_sweep.py](src/skie_universe2/policy/kelly_sweep.py) (governance
+  constant, decoupled from the demoted meta_shift prototype; closes a HEAD-unbuildable
+  repro gap). `statsmodels` declared for the KPSS §8(a) test.
+- **H101 (unconditional first-hour ORB) — FROZEN + EXECUTED, `provisional-archive-null`
+  (2026-07-16).** 2.0 re-spec of 1.0 H052a; design frozen (SHA `a7c5c9178f66`, 2-round
+  audit). Admission scan RC-H101-1 (ADR-0002(c), primary cell = high-realized-vol,
+  Lundström prior) on the backfilled ledger: **no admission-grade conditional gross
+  edge** — every Romano-Wolf-adjusted p ≥ 0.17, the primary cell does not beat its
+  matched-turnover rotor, DSR < 0.5 both instruments, KPSS confirms stationarity; PBO
+  and the screening level DEFERRED (nothing certified). 2-round audit accept (caught a
+  Romano-Wolf step-down placeholder-p bug, a rotor/cell misalignment, a skipped KPSS,
+  IID-vs-HAC Sharpe SE, and a wrong DSR trial count — all fixed).
+  [RC-H101-1 disposition](docs/reports/H101/RC-H101-1_admission_disposition_2026-07-16.md).
+- **H103 (stress-state anti-gate ORB, ES+NQ) — FROZEN + EXECUTED,
+  `provisional-archive-null` (2026-07-16).** 2.0 anti-gate re-spec of 1.0 H054;
+  instrument scope ES+NQ (operator decision); design frozen (SHA `84d01a6b4ad0`,
+  3-round audit — resolved a critical ES→ES+NQ estimator gap, a forking-paths
+  multiplicity issue vs RC-H101-1, and an unbuilt joint-panel-FWER claim re-specified to
+  per-instrument Romano-Wolf + a Šidák cross-instrument union). Admission scan RC-H103-1
+  on the SHARED H101 ledger: stress cell = top-p̂ realized-vol band (p̂ = H900 HMM
+  stationary stress occupancy, ES 0.190 / NQ 0.214). **No admission-grade stress edge**
+  (ES Sharpe −0.040, NQ +0.029, every RW-adj p ≥ 0.42); BOTH cells FAIL the §8 25%
+  precision gate (means indistinguishable from zero); the Ledoit-Wolf anti-gate
+  differential (stress vs calm) is non-significant. RC-XCORR-1 (net-of-cost, Grinold
+  residual IR): redundancy **instrument-specific** — ES redundant (residual IR −0.018;
+  ES ORB net-negative after costs), NQ zero-marginal (residual IR ≈0). The **Lundström
+  high-vol-concentration prior is CONTRADICTED** (ES ORB edge is in CALM sessions).
+  2-round audit accept. [RC-H103-1 disposition](docs/reports/H103/RC-H103-1_admission_disposition_2026-07-16.md).
+- **Arsenal status: EMPTY.** Both forward admission candidates (H101 unconditional ORB,
+  H103 stress-state ORB) returned nulls on the shadow ledger; no ADR-0002(b) member
+  admitted, no ADR-0002(d) covariance anchor authored. The first-hour ORB rule does not
+  carry admission-grade conditional gross edge on ES/NQ in either form. Governance held:
+  Kelly-fraction selection + screening/FWER level BLOCKED/DEFERRED, PBO DEFERRED,
+  nothing certified.
 
 ## Directory layout
 
