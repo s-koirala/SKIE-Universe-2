@@ -6,9 +6,12 @@ status: accepted
 date: 2026-07-10
 supersedes: "SKIE-Universe 1.0 pass/fail KPI disposition convention (sibling repo; not amended in place)"
 superseded_by: ""
+amended_by: "ADR-0014 (accepted 2026-07-17)"
 ---
 
 # ADR-0009 — Expert Card as the mandatory terminal deliverable
+
+> **Amended by [ADR-0014](ADR-0014-provisional-candidate-pool-screen-verdict.md) (accepted 2026-07-17) — provisional candidate pool (screen/verdict split).** The Decision 6 disposition enum gains `pool-hold-reconsider` (screen-pass / verdict-non-select; reconsideration-eligible, re-adjudicated on incumbent-set change) and refines `archive-no-gross-edge` → `archive-no-persistent-window` (old value retained as a sub-reason). A `pool-hold` card is append-only re-versioned on each set-relative re-adjudication. Decisions are NOT rewritten here; the authoritative record is the ADR-0014 amendment map.
 
 ## Context
 

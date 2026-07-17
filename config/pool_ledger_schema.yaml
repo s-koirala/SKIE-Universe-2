@@ -1,0 +1,322 @@
+# Provisional candidate-pool ledger — schema (ADR-0014).
+#
+# ADR-0014 splits ADR-0002 arsenal admission into a cheap singleton SCREEN
+# (persistent, ex-ante-selectable competence window -> this pool) and an
+# expensive set-level VERDICT (marginal geometric-growth contribution to the
+# incumbent allocator, adjudicated on the ADR-0007 confirmation ladder). This
+# file is the machine-readable schema for the pool ledger: the append-only
+# (ADR-0008) object that holds every screen-passing expert until the set-level
+# verdict selects or holds it.
+#
+# One RECORD per (expert x Kelly-fraction x ledger-slice), sourced from the
+# shadow ledger (ADR-0003) and GENERATED from Expert Card sections 3-5
+# (ADR-0009: conditional-edge panel / ensemble block / stability profile) --
+# never hand-copied (ADR-0009 Decision 3; numeric agreement checked every audit
+# round, ADR-0009 Decision 6).
+#
+# PIT / anti-look-ahead: every recorded quantity is computable from data
+# available at the record's as-of bar; model-derived inputs use the causal
+# forward filter (ADR-0002(b), conditioning_covariates.yaml). Persistence and
+# selectability statistics are rolling-origin, purge+embargo at every boundary
+# (ADR-0004, ADR-0008).
+#
+# Field-spec convention: each field is a block mapping with `dtype`, `role`, and
+# (optionally) `desc` / `status`. Block style is deliberate — the prose in `desc`
+# contains commas and brackets that are illegal in YAML flow ({...}) context.
+#
+# CRITICAL DISCIPLINE (ADR-0014 Decision 5-6):
+#   - role: rank         -> may enter the pool-priority ranking functional.
+#   - role: gate         -> a SCREEN pass/fail condition (S-c..S-e); binary.
+#   - role: verdict-gate -> a VERDICT-level exclusion (not part of the screen
+#                           conjunction); e.g. a positive-ruin arm cannot be
+#                           verdict-selected. May be float-valued.
+#   - role: descriptive  -> RECORDED for diagnosis, BARRED from the ranking key.
+#     Path-maximum statistics (max run-up, longest win/loss run, streak counts)
+#     are descriptive by mandate: they are sample-extreme functionals with fat
+#     right tails under the null (a random arm maximizes them), and ranking on
+#     them re-inflates exactly what DSR/PBO deflate.
+#   The ranking WEIGHTS are NOT set in this file. They are the OUTPUT of the
+#   standing, monitored calibration P1-2.0-POOL-PRIORITY-CALIBRATE (see
+#   `ranking:` below); every weight is a placeholder pending that calibration.
+
+schema_version: 1
+adr: ADR-0014
+status: accepted  # ADR-0014 accepted 2026-07-17
+
+# ---------------------------------------------------------------------------
+# Record key + provenance (ADR-0008 integrity; ADR-0003 shadow-ledger source).
+# ---------------------------------------------------------------------------
+record_key:
+  - hid                      # hypothesis id of the screened expert
+  - expert_version           # expert card version v{N} (ADR-0009 append-only)
+  - kelly_fraction           # {0.5, 0.75, 1.0, 1.25} registered sweep (ADR-0013)
+  - ledger_slice             # instrument x rolling-origin window id (ADR-0004)
+
+provenance:
+  hid:               {dtype: str, role: key}
+  expert_hash:       {dtype: str, role: provenance, desc: content hash of the expert impl}
+  design_md_sha256:  {dtype: str, role: provenance, desc: frozen design.md SHA (pre-registration)}
+  expert_card_path:  {dtype: str, role: provenance, desc: source Expert Card (sections 3-5 generate this record)}
+  cost_model_id:     {dtype: str, role: provenance, desc: ADR-0008 bar-level cost model id}
+  execution_tier:    {dtype: int, role: provenance, desc: ADR-0006 fidelity tier (0/1/2)}
+  repro_log_path:    {dtype: str, role: provenance, desc: 13-field ReproLog (CLAUDE.md contract)}
+  trial_register_id: {dtype: str, role: provenance, desc: ADR-0008 family-wise register increment for this screen}
+  screened_at:       {dtype: str, role: provenance, desc: ISO date of screen evaluation}
+
+# ---------------------------------------------------------------------------
+# SCREEN gates (ADR-0014 Decision 1). Binary pass/fail; a record exists in the
+# pool iff screen_pass is true.
+# ---------------------------------------------------------------------------
+screen:
+  screen_pass:
+    dtype: bool
+    role: gate
+    desc: (S-a)&(S-b)&(S-c)&(S-d)&(S-e) all hold
+
+  # (S-c) conditional gross edge, multiplicity-corrected WITHIN the scan
+  conditional_edge_cell:
+    dtype: str
+    role: gate
+    desc: declared cell(s) with positive pre-cost edge (ADR-0002(c))
+  rw_adj_p:
+    dtype: float
+    role: gate
+    desc: Romano-Wolf StepM adjusted p in the winning cell (ADR-0004 bootstrap)
+  screen_alpha_ref:
+    dtype: str
+    role: gate
+    desc: pointer to the registered screening error-rate target (config/multipletest_family.yaml); OUTPUT of the discovery-alpha calibration; not a constant
+
+  # (S-d) window persistence -- the load-bearing separation of window from luck
+  dsr:
+    dtype: float
+    role: gate
+    desc: Deflated Sharpe (a probability in 0..1) on the cell return series (Bailey & López de Prado 2014); pool trials enter the effective-trials estimator (correlation-adjusted; never a raw count)
+  dsr_bound_ref:
+    dtype: str
+    role: gate
+    desc: pointer to the DSR decision boundary; tied to the registered screening error-rate target (DSR >= 1 - screen_alpha); OUTPUT of the discovery-alpha calibration; never a fixed 0.5/0.95 constant (a bare positive-DSR test is vacuous for a 0..1 probability)
+  pbo:
+    dtype: float
+    role: gate
+    desc: PBO/CSCV probability of backtest overfitting (Bailey et al. 2017)
+  pbo_bound_ref:
+    dtype: str
+    role: gate
+    desc: pointer to the PBO decision boundary; tied to the registered screening error-rate target (PBO <= screen_alpha = screening_error_rate_target in config/multipletest_family.yaml); OUTPUT of the discovery-alpha calibration; never a fixed constant (esp. not the 0.5 CSCV median pivot)
+
+  # (S-e) ex-ante selectability -- realistic (unsupervised) latency, never CUSUM oracle
+  cell_dwell_bars:
+    dtype: float
+    role: gate
+    desc: estimated regime dwell in the cell (bars)
+  detection_latency_bars:
+    dtype: float
+    role: gate
+    status: BLOCKED_PENDING_P1-2.0-H900-BOCPD-WHITENED
+    desc: realistic UNSUPERVISED detection latency (ADR-0004 D6; H900 detection_cost_caveat). BLOCKED/DEFERRED -- currently unquantified; the on-ledger prewhitened ROC re-run is deferred; the only quantified value (supervised-CUSUM 2-3 bars) is FORBIDDEN as the input. No screen pass is certifiable; and the H101/H103 re-runs cannot run S-e; until a reproducible on-ledger unsupervised latency is emitted
+  selectable:
+    dtype: bool
+    role: gate
+    desc: cell_dwell_bars >= detection_latency_bars
+
+# ---------------------------------------------------------------------------
+# Competence structure -- the discretized edge process e_i(t) (ADR-0009 s5).
+# The primary object the pool exists to hold. rolling-origin, per regime cell.
+# ---------------------------------------------------------------------------
+competence_structure:
+  per_cell_oos_growth:
+    dtype: array<float>
+    role: rank
+    desc: rolling-origin OOS geometric growth per declared regime cell (ADR-0013 currency)
+  competence_window_cells:
+    dtype: array<str>
+    role: rank
+    desc: regime cells in which OOS growth is positive and persistent
+  window_dwell_dist:
+    dtype: array<float>
+    role: descriptive
+    desc: dwell-length distribution of the competence windows (H900 linkage)
+  edge_halflife_bars:
+    dtype: float
+    role: descriptive
+    desc: estimated edge half-life where decay detected (ADR-0009 s5); null if no decay
+  changepoint_dates:
+    dtype: array<str>
+    role: descriptive
+    desc: CUSUM/BOCPD change-point dates (ADR-0004 first-class objects)
+
+# ---------------------------------------------------------------------------
+# Realizability -- can a CAUSAL allocator select the window ex ante (ADR-0014 S-e).
+# ---------------------------------------------------------------------------
+realizability:
+  window_predictive_info:
+    dtype: float
+    role: rank
+    desc: conditional mutual information / AUC of registered covariates -> competence window (predictability of the window ex ante)
+  dwell_latency_margin:
+    dtype: float
+    role: rank
+    desc: cell_dwell_bars - detection_latency_bars (selectability slack; >0 required by S-e)
+
+# ---------------------------------------------------------------------------
+# Complementarity -- between-arm; the dominant priority driver once |arsenal|>=1.
+# Computed vs each CURRENT incumbent and vs each pool peer. Set-relative:
+# recomputed on every incumbent-set change (ADR-0014 Decision 3 reconsideration).
+# ---------------------------------------------------------------------------
+complementarity:
+  edge_corr_vs_incumbents:
+    dtype: map<str,float>
+    role: rank
+    desc: correlation of edge process vs each arsenal member (low/negative = complementary)
+  window_overlap_jaccard:
+    dtype: map<str,float>
+    role: rank
+    desc: Jaccard overlap of competence-window cells vs each member (low = disjoint = valuable)
+  regime_coverage_vector:
+    dtype: array<bool>
+    role: rank
+    desc: which partition cells this expert covers
+  covers_uncovered_cell:
+    dtype: bool
+    role: rank
+    desc: TRUE if it uniquely covers a cell the current arsenal leaves uncovered (cold-start primary; structural, not tuned)
+  marginal_growth_delta:
+    dtype: float
+    role: rank
+    desc: estimated marginal geometric-growth contribution to the realizable incumbent allocator; null while |arsenal|=0 (undefined -- the empty-arsenal case ADR-0014 addresses)
+  marginal_ir_guardrail:
+    dtype: float
+    role: descriptive
+    desc: Grinold marginal-IR contribution -- the ADR-0013 DEMOTED monitored guardrail; reported not ranked
+
+# ---------------------------------------------------------------------------
+# Ruin / leverage -- first-class under ADR-0013 (a fake-edge arm RUINS at leverage).
+# ---------------------------------------------------------------------------
+ruin_leverage:
+  in_window_max_drawdown:
+    dtype: float
+    role: descriptive
+    desc: max drawdown WITHIN active competence windows
+  in_window_left_tail:
+    dtype: float
+    role: descriptive
+    desc: lower-tail quantile within active windows (ADR-0013 demoted guardrail)
+  geom_growth_at_fraction:
+    dtype: float
+    role: rank
+    desc: geometric growth at this record's kelly_fraction (ADR-0013)
+  ruin_prob_contribution:
+    dtype: float
+    role: verdict-gate
+    desc: P(1 + f*R <= 0) contribution at this fraction; a positive-ruin arm cannot be verdict-selected (kelly_growth.py; -inf handling). VERDICT-level exclusion, NOT a screen S-gate
+
+# ---------------------------------------------------------------------------
+# Descriptive diagnostics -- RECORDED, explicitly NON-SELECTIVE (ADR-0014 D5).
+# Barred from the ranking key. Present for human diagnosis only.
+# ---------------------------------------------------------------------------
+descriptive:
+  sharpe:          {dtype: float, role: descriptive}
+  sortino:         {dtype: float, role: descriptive}
+  turnover:        {dtype: float, role: descriptive}
+  hit_rate:        {dtype: float, role: descriptive}
+  max_runup:
+    dtype: float
+    role: descriptive
+    desc: BARRED from ranking -- sample-extreme, fat right tail under the null
+  longest_win_run:
+    dtype: int
+    role: descriptive
+    desc: BARRED from ranking -- sign-autocorrelation, turnover-driven
+  longest_loss_run:
+    dtype: int
+    role: descriptive
+    desc: BARRED from ranking
+  max_drawdown:    {dtype: float, role: descriptive}
+
+# ---------------------------------------------------------------------------
+# Disposition (ADR-0014 Decision 3; extends ADR-0009 taxonomy).
+# ---------------------------------------------------------------------------
+disposition:
+  # This enum is the intentional POOL-RELEVANT SUBSET of the ADR-0009 card
+  # taxonomy. deploy-candidate / re-specify-cost-bound / re-specify-execution-bound
+  # are ADR-0009 card dispositions that are NOT pool states: the screen does not
+  # test net cost or execution fidelity, so a cost- or execution-bound expert that
+  # passes the screen manifests at the VERDICT as non-positive marginal_growth_delta
+  # -> pool-hold-reconsider (held; the re-specify-* reason is tracked on its Expert
+  # Card, not here). deploy-candidate is an allocator-level outcome, never a pool row.
+  value:
+    dtype: enum
+    role: verdict
+    levels:
+      - pool-hold-reconsider         # screen pass, verdict non-selection; NOT archived; re-adjudicated on incumbent-set change
+      - arsenal-admit-conditional    # verdict selection (ADR-0009)
+      - arsenal-admit-diversifier    # verdict selection as complementarity arm (ADR-0009)
+      - archive-no-persistent-window # screen failure (superset of archive-no-gross-edge)
+      - archive-no-gross-edge        # screen failure sub-reason: no gross edge in any cell
+  reconsider_on_set_change:
+    dtype: bool
+    role: verdict
+    desc: TRUE for pool-hold-reconsider; triggers set-relative re-adjudication (fresh trial-register increment + appended card)
+  last_adjudicated_against:
+    dtype: str
+    role: verdict
+    desc: incumbent-set hash the current disposition was rendered against
+
+# ---------------------------------------------------------------------------
+# Pool-priority ranking specification (ADR-0014 Decision 6).
+# The ranking orders the queue for the expensive set-level VERDICT; it CERTIFIES
+# NOTHING (mis-ranking costs compute, not correctness). The functional form and
+# all weights are the OUTPUT of the standing, monitored calibration below --
+# never hand-set, never literature-imported (user global zero-magic-number rule;
+# the construction is novel and its answer does not reside in the literature).
+# ---------------------------------------------------------------------------
+ranking:
+  currency: marginal_geometric_growth_contribution_to_incumbent_set  # ADR-0013
+
+  # Structure is fixed by ADR-0014 D6; the WEIGHTS are calibration outputs.
+  structure: persistence_gated__realizability_gated__complementarity_weighted
+  gates: [screen.dsr, screen.pbo, screen.selectable]  # a member ranks only if it passed these
+  rank_inputs:                                        # role: rank fields eligible for the functional
+    - complementarity.marginal_growth_delta
+    - complementarity.covers_uncovered_cell
+    - complementarity.window_overlap_jaccard
+    - complementarity.edge_corr_vs_incumbents
+    - realizability.window_predictive_info
+    - realizability.dwell_latency_margin
+    - ruin_leverage.geom_growth_at_fraction
+
+  weights:
+    # OUTPUT placeholders -- populated ONLY by P1-2.0-POOL-PRIORITY-CALIBRATE.
+    # Each is a tracked quantity with a confidence interval, revisited on the
+    # registered monitoring cadence as verdict outcomes accrue. NOT constants.
+    status: OUTPUT_PENDING_CALIBRATION
+    values: null
+
+  cold_start:
+    # Calibration-free ordering used until the monitored calibration has data.
+    # Structural (not tuned): switching-oracle regret is dominated by the
+    # worst-covered regime, so covering an empty cell is where marginal
+    # regret-reduction is largest by construction.
+    # At |arsenal|=0 the coverage-novelty primary is INERT (all cells uncovered
+    # -> predicate uniformly true, non-discriminating); ordering falls entirely
+    # to the persistence-margin tie-breaker. Acceptable: ranking sets only the
+    # verdict queue and certifies nothing. The primary bites once >=1 incumbent exists.
+    primary: complementarity.covers_uncovered_cell   # coverage-novelty first
+    tie_breaker: screen persistence margin (dsr, 1 - pbo)
+    provisional: true   # superseded by `weights` once calibrated
+
+  calibration_followup:
+    id: P1-2.0-POOL-PRIORITY-CALIBRATE
+    kind: standing_monitored   # NOT a one-shot frozen memo; revisited on cadence
+    blocking: false            # pool ordering is a queue, not a certification gate
+    output: [ranking.weights, ranking.structure_refinement]
+    method: >-
+      Supervised calibration on the project's own accruing verdict history:
+      regress realized set-level marginal geometric-growth contribution (the
+      verdict outcome) on the screen-time role:rank features, to learn which
+      screen-time signals actually predicted set-level value. Weights are the
+      fitted, CI-bearing coefficients; revisited each monitoring checkpoint.
+      No published constant is imported (the construction is against-the-grain
+      per principal direction). Each checkpoint emits a ReproLog.
+    cadence_ref: set on ADR-0014 acceptance (Enactment clause)

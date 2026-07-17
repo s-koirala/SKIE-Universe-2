@@ -6,12 +6,14 @@ status: accepted
 date: 2026-07-10
 supersedes: ""
 superseded_by: ""
-amended_by: "ADR-0013 (accepted 2026-07-12)"
+amended_by: "ADR-0013 (accepted 2026-07-12); ADR-0014 (accepted 2026-07-17)"
 ---
 
 # ADR-0007 — Two-tier discovery pipeline
 
 > **Amended by [ADR-0013](ADR-0013-aggressive-geometric-growth-mandate.md) (accepted 2026-07-12) — aggressive geometric-growth mandate.** Decisions 1/3 discovery alpha cost-tuned looser (FDR permitted for identification where justified) and the SPA/StepM family expanded by the Kelly-fraction dimension, and Decision 2 ladder adjudication re-anchored to geometric growth; SPA/StepM/DSR/PBO and the matched-turnover random rotor are retained non-waivable. Decisions are NOT rewritten here; the authoritative amendment record is the ADR-0013 amendment map. Enacted on ADR-0013 acceptance (2026-07-12); overfitting-detection/integrity clauses are retained non-waivable.
+
+> **Also amended by [ADR-0014](ADR-0014-provisional-candidate-pool-screen-verdict.md) (accepted 2026-07-17) — provisional candidate pool.** The promotion path (Decision 5) gains an explicit pool stage: exploration → **SCREEN → provisional pool** → set-level **VERDICT** (confirmation ladder) → capital; no stage skipped. The SPA/StepM + DSR family (Decision 3) additionally carries the **pool-selection dimension** (top-k ranking is a comparison; pool trials enter the effective-trials estimator, correlation-adjusted). Benchmark-5 matched-turnover rotor + DSR/PBO stay non-waivable at the verdict. See the ADR-0014 amendment map.
 
 ## Context
 

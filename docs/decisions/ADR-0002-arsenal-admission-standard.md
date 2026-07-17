@@ -6,12 +6,14 @@ status: accepted
 date: 2026-07-10
 supersedes: ""
 superseded_by: ""
-amended_by: "ADR-0013 (accepted 2026-07-12)"
+amended_by: "ADR-0013 (accepted 2026-07-12); ADR-0014 (accepted 2026-07-17)"
 ---
 
 # ADR-0002 — Arsenal admission standard
 
 > **Amended by [ADR-0013](ADR-0013-aggressive-geometric-growth-mandate.md) (accepted 2026-07-12) — aggressive geometric-growth mandate.** (c) discovery-error target cost-tuned looser and (d) non-redundancy re-expressed on marginal log-wealth-growth contribution; admission bar made deliberately more permissive; (a) leakage-canary and (b) frozen-conditioning-set gates and the per-scan trial-register multiplicity retained. Decisions are NOT rewritten here; the authoritative amendment record is the ADR-0013 amendment map. Enacted on ADR-0013 acceptance (2026-07-12); overfitting-detection/integrity clauses are retained non-waivable.
+
+> **Also amended by [ADR-0014](ADR-0014-provisional-candidate-pool-screen-verdict.md) (accepted 2026-07-17) — provisional candidate pool (screen/verdict split).** Admission is split into a singleton **SCREEN** — (a)∧(b)∧(c) plus window persistence (S-d) and ex-ante selectability (S-e) → a provisional candidate pool — and a set-level **VERDICT** (marginal geometric-growth contribution on the ADR-0007 ladder) where **(d) non-redundancy is evaluated against the actual incumbent set** (well-defined there, vacuous at |arsenal|<2). (e) archive dispositions gain `pool-hold-reconsider` (screen-pass / verdict-non-select; reconsideration-eligible, re-adjudicated on incumbent-set change) and `archive-no-persistent-window` (superset of `archive-no-gross-edge`). (a) leakage-canary and (b) frozen-conditioning-set gates stay binding. Decisions are NOT rewritten here; the authoritative record is the ADR-0014 amendment map.
 
 ## Context
 
