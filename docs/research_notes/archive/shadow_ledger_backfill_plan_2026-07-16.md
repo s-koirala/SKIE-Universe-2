@@ -1,5 +1,12 @@
 # Shadow-ledger backfill — implementation plan
 
+> **⚠ SUPERSEDED / ARCHIVED (2026-07-17).** Consolidated into
+> [../backfill_admission_plan_2026-07-17.md](../backfill_admission_plan_2026-07-17.md)
+> and the program roadmap [../program_roadmap_2026-07-17.md](../program_roadmap_2026-07-17.md).
+> Milestones M0–M4 here are **executed** (ledger populated: `OrbFirstHourExpert`
+> × ES+NQ × 4 Kelly fractions, 2026-07-16). Retained for history only; do not
+> plan from this file.
+
 **DRAFT — for review.** This is a design note for operator review, not a
 frozen method. No hypothesis design.md is frozen and no ledger partition is
 written on the strength of this document. It plans the ADR-0003 shadow-ledger

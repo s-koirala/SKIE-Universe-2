@@ -1,5 +1,14 @@
 # Arsenal-admission roadmap — retro-card candidates H100–H104
 
+> **⚠ SUPERSEDED / ARCHIVED (2026-07-17).** Consolidated into
+> [../backfill_admission_plan_2026-07-17.md](../backfill_admission_plan_2026-07-17.md)
+> (per-candidate scan designs) and [../program_roadmap_2026-07-17.md](../program_roadmap_2026-07-17.md)
+> (phasing). Ranks 1–2 (H101, H103) are **executed** → both
+> `provisional-archive-null` (2026-07-16); under the now-accepted
+> [ADR-0014](../../decisions/ADR-0014-provisional-candidate-pool-screen-verdict.md)
+> they are reconsideration-eligible pending a screen re-run. Retained for history
+> only; do not plan from this file.
+
 **DRAFT — for review.** Design note, not a frozen design.md. Sequences the five
 retro Expert-Card candidates (H100–H104, retro of 1.0 H050/H052a/H053/H054/H055)
 through the [ADR-0002](../decisions/ADR-0002-arsenal-admission-standard.md)

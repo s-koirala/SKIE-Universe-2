@@ -33,7 +33,11 @@ error-rate-cost follow-up `P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE`
 (missed compounding weighted above false discovery; the level is the analysis
 output, not a constant). ADR-0002 admission is loosened toward aggressive
 inclusion (conditional-edge + non-redundancy structure kept; non-redundancy
-re-expressed on marginal log-wealth growth); the ADR-0010 live-capital ramp is
+re-expressed on marginal log-wealth growth); **ADR-0014 (accepted 2026-07-17)
+further re-composes admission into a singleton SCREEN → provisional pool + a
+set-level VERDICT (marginal-geometric-growth on the ADR-0007 ladder), with
+`pool-hold-reconsider` making screen-passing-but-unselected experts
+reconsideration-eligible**; the ADR-0010 live-capital ramp is
 steepened for a proven champion. The overfitting/integrity core —
 Deflated-Sharpe, PBO, matched-turnover random rotor, PIT canaries, trial
 register, ReproLog, shadow ledger — is **NON-WAIVABLE and more binding under
@@ -47,12 +51,12 @@ on the two BLOCKING Decision-9 calibration memos.
 
 ## Founding governance (binding; read before any research work)
 
-The ten founding ADRs in [docs/decisions/](docs/decisions/) are standing rules:
+The founding ADRs in [docs/decisions/](docs/decisions/) are standing rules:
 
 | ADR | Mandate |
 |---|---|
 | [ADR-0001](docs/decisions/ADR-0001-allocator-unit-of-inference.md) | Allocator is the unit of inference; strategy-level deployment gates abolished |
-| [ADR-0002](docs/decisions/ADR-0002-arsenal-admission-standard.md) | Arsenal admission: conditional gross edge + non-redundancy; no standalone burden |
+| [ADR-0002](docs/decisions/ADR-0002-arsenal-admission-standard.md) | Arsenal admission: conditional gross edge + non-redundancy; no standalone burden (amended by ADR-0014 → split into a singleton SCREEN → provisional pool + a set-level VERDICT; screen-pass/verdict-non-select = `pool-hold-reconsider`) |
 | [ADR-0003](docs/decisions/ADR-0003-shadow-ledger-canonical-object.md) | Shadow ledger (every expert × asset × bar, counterfactual, append-only) is the sole evidence source |
 | [ADR-0004](docs/decisions/ADR-0004-rolling-evaluation-regime.md) | Rolling-origin evaluation only; metric family incl. regret vs switching oracle; dwell-time feasibility gate first |
 | [ADR-0005](docs/decisions/ADR-0005-three-layer-separation.md) | Signal / position-policy / execution layer separation; fractional Kelly with registered lower-tail-quantile binding (amended by ADR-0013 to the swept-fraction {0.5,0.75,1.0,1.25} / geometric-growth form; quantile demoted to guardrail); no cross-layer tuning |
@@ -64,6 +68,7 @@ The ten founding ADRs in [docs/decisions/](docs/decisions/) are standing rules:
 | [ADR-0011](docs/decisions/ADR-0011-two-level-data-storage-and-provenance-policy.md) | Two-level data storage: machine-level raw store + project-level processed; upstreams registered in [config/data_sources.yaml](config/data_sources.yaml); no cross-repo processed imports |
 | [ADR-0012](docs/decisions/ADR-0012-standing-incumbent-allocator.md) (accepted) | Standing incumbent allocator (champion-challenger): the current best allocator configuration is the live default + live-capital anchor; a challenger dethrones it only via the ADR-0007 ladder by a geometric-growth-improvement margin after a minimum champion dwell (accepted 2026-07-12; sits atop ADR-0013; dethroning rule non-operational until `P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE` frozen) |
 | [ADR-0013](docs/decisions/ADR-0013-aggressive-geometric-growth-mandate.md) (accepted) | Aggressive geometric-growth mandate: geometric (compounded/Kelly log-wealth) growth becomes the primary objective; Kelly fraction a registered swept hyperparameter {0.5,0.75,1.0,1.25} winner data-selected; lower-tail terminal-wealth quantile demoted to a monitored non-binding guardrail; discovery alpha cost-tuned looser; ADR-0002 admission loosened; ADR-0010 ramp steepened; DSR/PBO/rotor/canaries/register/ReproLog/ledger non-waivable and more binding under leverage. Amends ADRs 0002/0004/0005/0007/0010 |
+| [ADR-0014](docs/decisions/ADR-0014-provisional-candidate-pool-screen-verdict.md) (accepted) | Provisional candidate pool (screen/verdict split): ADR-0002 admission split into a singleton SCREEN (persistent, ex-ante-selectable competence window → provisional pool) + a set-level VERDICT (marginal geometric-growth on the ADR-0007 ladder); screen-pass/verdict-non-select = `pool-hold-reconsider` (reconsideration-eligible, re-adjudicated on incumbent-set change); pool-priority ranking a standing-monitored OUTPUT (`P1-2.0-POOL-PRIORITY-CALIBRATE`), path-maxima barred; resolves the empty-arsenal cold-start. Amends ADRs 0002/0004/0007/0009 (accepted 2026-07-17) |
 
 Open follow-ups registered at founding: `P1-2.0-RETRO-CARD-1.0-REGISTER`
 (retro-card H050/H052a/H053/H054/H055 from 1.0 KPI reports — first admission
@@ -121,6 +126,15 @@ opening the allocator program. Open follow-ups registered this session
   `P1-2.0-ROLL-SYMBOL-EXPAND` and the QUANT-3-2 terminal-window generalization
   (post shadow-ledger backfill).
 
+Open follow-up registered 2026-07-17 (on ADR-0014 acceptance):
+
+- `P1-2.0-POOL-PRIORITY-CALIBRATE` (**standing, monitored; non-blocking** — pool
+  ordering is a queue, not a certification gate): the pool-priority ranking
+  weights (ADR-0014 Decision 6) are the OUTPUT of a supervised calibration on the
+  project's own accruing verdict history, revisited each monitoring checkpoint
+  with CIs — never a literature constant. A structural coverage-novelty-first
+  cold-start rule governs until it has verdict outcomes.
+
 ## Reproducibility contract
 
 Every artifact-producing run in this project emits a 13-field ReproLog at
@@ -150,7 +164,7 @@ uv run pytest
 - **Python version pin:** `>=3.11,<3.13`
 - **Bootstrap script HEAD:** `fe9bcd1b6fee` (see `manifest.json`)
 
-Progress (as of 2026-07-16):
+Progress (as of 2026-07-17):
 
 - **Dwell-time feasibility gate (ADR-0004 Decision 6) — CLOSED GO.** H900
   established dwell-time separation feasible; first registered analysis, opens
@@ -270,7 +284,28 @@ Progress (as of 2026-07-16):
   admitted, no ADR-0002(d) covariance anchor authored. The first-hour ORB rule does not
   carry admission-grade conditional gross edge on ES/NQ in either form. Governance held:
   Kelly-fraction selection + screening/FWER level BLOCKED/DEFERRED, PBO DEFERRED,
-  nothing certified.
+  nothing certified. Under ADR-0014 (accepted 2026-07-17) H101/H103 are
+  **reconsideration-eligible** pending a screen re-run (the persistence +
+  ex-ante-selectability tests they never ran), not terminal archives.
+- **Admission re-composed — ADR-0014 provisional candidate pool (accepted +
+  enacted 2026-07-17).** [ADR-0014](docs/decisions/ADR-0014-provisional-candidate-pool-screen-verdict.md)
+  splits ADR-0002 admission into a singleton SCREEN (persistent,
+  ex-ante-selectable competence window → provisional pool) and a set-level VERDICT
+  (marginal geometric-growth on the ADR-0007 ladder); screen-pass/verdict-non-select
+  experts are `pool-hold-reconsider` (reconsideration-eligible, re-adjudicated on
+  incumbent-set change), resolving the empty-arsenal cold-start and making the
+  H101/H103 nulls held, not terminal. Pool-ledger schema
+  [config/pool_ledger_schema.yaml](config/pool_ledger_schema.yaml) — ranking
+  weights an OUTPUT of the standing-monitored `P1-2.0-POOL-PRIORITY-CALIBRATE`,
+  path-maxima barred from ranking, S-e latency BLOCKED on `P1-2.0-H900-BOCPD-WHITENED`.
+  Amendment map enacted (banners + `amended_by` on ADR-0002/0004/0007/0009;
+  decision bodies not rewritten in place). 2-round audit-remediate accept
+  ([audit trail](docs/audits/audit_trail_2026-07-17_adr0014-pool-ledger.md), incl. a
+  self-caught YAML parse fix). Forward planning consolidated into
+  [program_roadmap_2026-07-17.md](docs/research_notes/program_roadmap_2026-07-17.md)
+  (Phase 0–5) + [backfill_admission_plan_2026-07-17.md](docs/research_notes/backfill_admission_plan_2026-07-17.md);
+  the two superseded 2026-07-16 scoped notes archived under
+  `docs/research_notes/archive/`.
 
 ## Directory layout
 

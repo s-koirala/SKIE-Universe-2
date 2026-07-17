@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning 2.0.0](https://semver.org/spec/
 
 ## [Unreleased]
 
+### Added (ADR-0014 provisional candidate pool — accepted + enacted 2026-07-17)
+- **ADR-0014 — Provisional candidate pool (screen/verdict split), ACCEPTED.**
+  Splits ADR-0002 admission into a singleton SCREEN (persistent, ex-ante-selectable
+  competence window → provisional pool) and a set-level VERDICT (marginal
+  geometric-growth on the ADR-0007 ladder); adds `pool-hold-reconsider` and
+  `archive-no-persistent-window` dispositions (ADR-0009); re-classes H101/H103 as
+  reconsideration-eligible pending a screen re-run. Pool-ledger schema
+  `config/pool_ledger_schema.yaml` (ranking weights an OUTPUT of the
+  standing-monitored `P1-2.0-POOL-PRIORITY-CALIBRATE`; path-maxima barred from
+  ranking; S-e latency BLOCKED on `P1-2.0-H900-BOCPD-WHITENED`). Amendment-map
+  banners + `amended_by` added to ADR-0002/0004/0007/0009 (decision bodies not
+  rewritten in place). 2-round audit-remediate accept
+  (`docs/audits/audit_trail_2026-07-17_adr0014-pool-ledger.md`, incl. a self-caught
+  YAML parse fix). Governance-only: no Kelly fraction selected, no discovery level
+  set, no admission certified.
+- **`P1-2.0-POOL-PRIORITY-CALIBRATE` registered** (standing, monitored, non-blocking).
+
+### Changed (forward planning consolidated, 2026-07-17)
+- Consolidated the two 2026-07-16 scoped notes into
+  `docs/research_notes/backfill_admission_plan_2026-07-17.md` (tactical) and the new
+  `docs/research_notes/program_roadmap_2026-07-17.md` (Phase 0–5 strategic);
+  archived `shadow_ledger_backfill_plan_2026-07-16.md` and
+  `retro_card_admission_roadmap_2026-07-16.md` under `docs/research_notes/archive/`
+  with SUPERSEDED banners. CLAUDE.md updated (ADR-0014 row, ADR-0002 amendment note,
+  `P1-2.0-POOL-PRIORITY-CALIBRATE` registration, Progress).
+
 ### Added (H900-BOCPD-WHITENED method-freeze, 2026-07-14)
 - **`P1-2.0-H900-BOCPD-WHITENED` — METHOD FROZEN.** Finalized from PARKED: the
   AR(1)-prewhitening primitive `src/skie_universe2/inference/whitening.py`
