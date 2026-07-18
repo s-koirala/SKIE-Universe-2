@@ -567,3 +567,52 @@ exists).
    scan (the N > 20 rows here are conditional extrapolations).
 4. The A.6.2 scale transfer is re-derived on a non-degenerate lfdr estimator
    when the trial population supports one.
+
+### A.9 Reproduction closure (2026-07-18)
+
+The enacted artifact is now under an executable reproduction gate, closing
+the step-2 reproduction gap of the 2026-07-18 execution brief.
+
+- **Generator identified.** The artifact
+  `reports/discovery_alpha_calibration/discovery_alpha_calibration.json` was
+  produced by `scripts/run_discovery_alpha_calibration.py` (landed in commit
+  `65e1dc8`), ReproLog `repro_log_ba92c200ec074f6e961d2a6632bb45ff.json`:
+  recorded git HEAD `6e915058` (the pre-commit dirty-tree run state), seed
+  20260717, dataset checksums for the two RC-1 scan JSONs plus the
+  shadow-ledger roll-up (4811 partitions). Provenance nuance, recorded here:
+  the ReproLog's `config_resolved_sha256` (`c7788707…`) snapshots THIS memo
+  as of run time; the committed memo differs (`b7edc598…`) because the §A
+  addendum was audit-remediated between the run and commit `65e1dc8`. The
+  generator's numerics do not read the memo; the snapshot is informational.
+- **Reproduction check.**
+  `scripts/audits/check_discovery_alpha_reproduction.py` re-runs the full
+  calibration into a scratch path and compares FIELD-BY-FIELD against the
+  enacted artifact, with a hard exact-float-equality gate (`==`, never
+  isclose) on `enactment.screening_error_rate_target`. Pre-flight: recorded
+  dataset checksums are recomputed (substrate-drift abort); the check emits
+  its own ReproLog BEFORE the re-run. **Result 2026-07-18: REPRODUCED** —
+  frozen 0.7400550140326007 == fresh 0.7400550140326007 (exact float
+  equality True), 0 field mismatches over the entire artifact, exit code 0
+  (check ReproLog `repro_log_de9a810dbeeb4664b9c405e1f6d798cf.json`; diff
+  record `runs/discovery_alpha_repro_check/reproduction_diff.json` — that
+  scratch path always holds the LATEST run's record and embeds its
+  `check_run_id`).
+- **Unit tests** (`tests/test_discovery_alpha_enactment.py`, 14 tests):
+  (i) MPRR cutoff t* = λ/(1+λ) exact over a λ grid, strictly monotone,
+  boundary behaviour (0, +inf, negative, nan) and the odds identity on every
+  enactment-band point; (ii) enactment-band median computed over the 24
+  enactment members ONLY (including the sensitivity points would change the
+  median — witnessed), band extrema; (iii) bootstrap-primitive seed
+  reproducibility, CI brackets the enacted level, nan replicates dropped not
+  zero-filled (source-level pin — the semantics live inline in the frozen
+  generator, whose numerics are not modified); (iv) config coupling — the
+  YAML `screening_error_rate_target` equals the artifact's `t_star_enacted`
+  at FULL float precision (`==` on the parsed floats), and both screen
+  artifacts' S-d bounds equal the COMPUTED (1 − level, level) exactly.
+- Nothing in this addendum changes any enacted value; the reproduction gate
+  reports, it never re-derives.
+- Audit round 1 (2026-07-18) remediated the checker's exit-code contract
+  (a crash now maps to exit 2 ERROR, never to the exit-1 FINDING code;
+  crash-mapping unit test added) and the check was RE-EXECUTED post-
+  remediation: REPRODUCED again, exit 0, 0 field mismatches (ReproLog
+  `repro_log_53c25c7a11594dcc920d7d65f9b89de4.json`).
