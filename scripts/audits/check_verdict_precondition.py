@@ -2,7 +2,7 @@
 
 Evaluates the operator-directed, provisional verdict precondition recorded in
 ``config/pool_ledger_schema.yaml`` (``verdict_precondition`` block, ADR-0015
-status: proposed) against the live pool ledger
+accepted 2026-07-18) against the live pool ledger
 (``data/processed/pool_ledger/pool_ledger.jsonl``): the set-level VERDICT
 (ADR-0014 Decision 2) is not scheduled until the pool holds at least
 ``min_distinct_disjoint_coverage`` distinct ``expert_hash`` values whose

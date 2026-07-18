@@ -1,7 +1,16 @@
 # Audit trail — Step 1: ADR-0015 pool-HOLD ratification (2026-07-18)
 
+> **Post-audit update (2026-07-18):** ADR-0015 was **accepted by principal
+> direction** after this audit closed; its status flipped `proposed` → `accepted`
+> and the call-sites (CLAUDE.md, pool-ledger schema, roadmap, backfill plan,
+> checker docstring) were updated. Acceptance changes no disposition, increments
+> no register, and certifies nothing — the HOLD it records is now in force and the
+> lift action remains an explicit operator authorization. At audit time (below)
+> the ADR was `status: proposed`.
+
 **Deliverable:** [ADR-0015](../decisions/ADR-0015-ratified-pool-hold-verdict-precondition.md)
-(status: proposed), `verdict_precondition` block in
+(status: proposed at audit time; accepted 2026-07-18 — see the update above),
+`verdict_precondition` block in
 [config/pool_ledger_schema.yaml](../../config/pool_ledger_schema.yaml),
 [scripts/audits/check_verdict_precondition.py](../../scripts/audits/check_verdict_precondition.py)
 (reporting check), [tests/test_check_verdict_precondition.py](../../tests/test_check_verdict_precondition.py).

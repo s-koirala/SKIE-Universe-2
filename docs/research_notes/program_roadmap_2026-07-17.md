@@ -45,7 +45,7 @@ selected; latent-state latency UNATTAINABLE); the RC-H101-2/RC-H103-2 screens
 **executed** → provisional pool populated (8 records, 2 HIDs, **one** distinct
 `expert_hash`); **arsenal EMPTY**; the set-level VERDICT is under a
 **ratified operator HOLD** ([ADR-0015](../decisions/ADR-0015-ratified-pool-hold-verdict-precondition.md),
-proposed — verdict precondition BLOCKED at `distinct_expert_hash_count = 1`);
+accepted 2026-07-18 — verdict precondition BLOCKED at `distinct_expert_hash_count = 1`);
 the enacted discovery-alpha level is under an executable reproduction gate
 (REPRODUCED exactly, 2026-07-18); the H103 ES stress record's standing status
 is UNRESOLVED (construction-dependent; card v3). The gating item is now

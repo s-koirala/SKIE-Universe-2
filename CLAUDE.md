@@ -372,7 +372,8 @@ Progress (as of 2026-07-18):
   roadmap re-ordered to forward sourcing (2026-07-18).** Four-part
   consolidation session (each deliverable audit-remediate accepted):
   (1) [ADR-0015](docs/decisions/ADR-0015-ratified-pool-hold-verdict-precondition.md)
-  drafted **status: proposed** (awaits operator acceptance), recording the
+  **accepted 2026-07-18** (drafted `proposed`, accepted by principal direction
+  the same day; not self-accepted), recording the
   operator-ratified HOLD of the set-level VERDICT — grounds: effective pool
   set size ~1 (all 8 records share one `expert_hash`), multiplicity/burned-data
   cost for zero information, and the sole rotor comparison on record already

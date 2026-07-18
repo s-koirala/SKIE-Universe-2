@@ -90,7 +90,7 @@ State as of **2026-07-18** (supplements the above):
   enacted level; nothing is certified.
 - The set-level **VERDICT is under a ratified operator HOLD**
   ([ADR-0015](../decisions/ADR-0015-ratified-pool-hold-verdict-precondition.md),
-  proposed): precondition = ≥ 2 distinct expert hashes with non-overlapping
+  accepted 2026-07-18): precondition = ≥ 2 distinct expert hashes with non-overlapping
   coverage vectors (operator-directed, provisional; reporting checker BLOCKED
   at `distinct_expert_hash_count = 1`) plus explicit operator authorization.
 - The enacted discovery-alpha level is under an **executable reproduction

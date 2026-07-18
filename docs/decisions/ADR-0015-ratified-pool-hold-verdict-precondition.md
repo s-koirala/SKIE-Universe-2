@@ -2,7 +2,7 @@
 name: ADR-0015 — Ratified pool hold (verdict precondition at empty arsenal)
 description: Records the operator-ratified HOLD of the ADR-0014 set-level VERDICT while the provisional pool has effective set size ~1 (one distinct expert_hash), and registers an operator-directed, provisional, reporting-only verdict precondition (>= 2 distinct expert hashes with non-overlapping coverage vectors) in the pool-ledger schema; changes no disposition, increments no register, certifies nothing
 type: governance
-status: proposed
+status: accepted
 date: 2026-07-18
 supersedes: ""
 superseded_by: ""
@@ -10,13 +10,15 @@ superseded_by: ""
 
 # ADR-0015 — Ratified pool hold (verdict precondition at empty arsenal)
 
-> **STATUS: proposed.** This ADR records a HOLD the operator ratified on
-> 2026-07-18 as a binding session decision; the ADR itself awaits operator
-> acceptance and is NOT self-accepted. It amends no ADR decision body, changes
-> no pool disposition, increments no trial register (no scan runs), and
-> certifies nothing. The verdict precondition it registers is explicitly
-> **operator-directed and provisional** — an operator instruction, not a
-> derived threshold — with enforcement limited to a reporting check.
+> **STATUS: accepted (2026-07-18, principal direction).** This ADR records a
+> HOLD the operator ratified on 2026-07-18 and was accepted by the operator the
+> same day; it was drafted `proposed` and was NOT self-accepted. It amends no ADR
+> decision body, changes no pool disposition, increments no trial register (no
+> scan runs), and certifies nothing. The verdict precondition it registers is
+> explicitly **operator-directed and provisional** — an operator instruction, not
+> a derived threshold — with enforcement limited to a reporting check. The lift
+> action remains a named, explicit operator authorization; a MET precondition is
+> reported, never acted on autonomously.
 
 ## Context
 

@@ -338,7 +338,7 @@ ranking:
     cadence_ref: set on ADR-0014 acceptance (Enactment clause)
 
 # ---------------------------------------------------------------------------
-# VERDICT precondition (ADR-0015, status: proposed; records the
+# VERDICT precondition (ADR-0015, accepted 2026-07-18; records the
 # operator-ratified 2026-07-18 HOLD). OPERATOR-DIRECTED AND PROVISIONAL:
 # the rule below is an operator instruction, NOT a derived threshold — no
 # data-derived justification is claimed for it, and it must not be cited as
@@ -348,7 +348,7 @@ ranking:
 verdict_precondition:
   provisional: true
   derivation: operator-directed, NOT calibrated
-  adr: ADR-0015 (proposed; operator HOLD ratified 2026-07-18)
+  adr: ADR-0015 (accepted 2026-07-18; operator HOLD ratified 2026-07-18)
   rule: >-
     The set-level VERDICT (ADR-0014 Decision 2) is not scheduled until the
     pool holds at least min_distinct_disjoint_coverage distinct expert_hash
