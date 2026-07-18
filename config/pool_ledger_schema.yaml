@@ -336,3 +336,38 @@ ranking:
       No published constant is imported (the construction is against-the-grain
       per principal direction). Each checkpoint emits a ReproLog.
     cadence_ref: set on ADR-0014 acceptance (Enactment clause)
+
+# ---------------------------------------------------------------------------
+# VERDICT precondition (ADR-0015, status: proposed; records the
+# operator-ratified 2026-07-18 HOLD). OPERATOR-DIRECTED AND PROVISIONAL:
+# the rule below is an operator instruction, NOT a derived threshold — no
+# data-derived justification is claimed for it, and it must not be cited as
+# a calibrated bound. Enforcement is a reporting check only; nothing in the
+# commit path consumes this block.
+# ---------------------------------------------------------------------------
+verdict_precondition:
+  provisional: true
+  derivation: operator-directed, NOT calibrated
+  adr: ADR-0015 (proposed; operator HOLD ratified 2026-07-18)
+  rule: >-
+    The set-level VERDICT (ADR-0014 Decision 2) is not scheduled until the
+    pool holds at least min_distinct_disjoint_coverage distinct expert_hash
+    values whose coverage vectors (the union of competence_window_cells per
+    distinct expert_hash) are non-overlapping. The ">= 2 non-overlapping
+    coverage vectors" form of this rule is an operator instruction recorded
+    verbatim, not a derived threshold.
+  min_distinct_disjoint_coverage: 2  # operator instruction (ADR-0015); NOT a calibrated or literature value
+  lift_action: >-
+    Explicit, dated operator authorization of the first-admission VERDICT
+    protocol. Meeting the rule does NOT auto-trigger a verdict: the checker
+    reports MET and stops; the verdict remains operator-gated in both
+    directions.
+  enforcement: reporting-check-only  # NOT wired into pre-commit, CI, or any commit-blocking path
+  checker: scripts/audits/check_verdict_precondition.py
+  consequence: >-
+    At |arsenal| = 0 this defers the first admission, and the first admission
+    is what authors the arsenal-covariance / residual-correlation anchor
+    (program roadmap Phase 2; backfill_admission_plan section 4.4) — the
+    anchor is deferred with it. Accepted deliberately: an anchor authored
+    from a single-implementation pool would encode one expert's covariance
+    with itself.
