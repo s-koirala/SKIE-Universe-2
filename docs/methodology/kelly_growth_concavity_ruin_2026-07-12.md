@@ -20,6 +20,14 @@ deferred to the post-step-4 backfill. Every number in this memo is
 **illustrative-on-representative-substrate** (an ES 1-min slice or a synthetic
 benchmark used by the unit tests), never a ledger operating point.
 
+
+> **NUMERIC INSTANTIATED 2026-07-17** — the deferred on-ledger outputs
+> (b*, grid growth curve, f_max, f_0, f**, P(ruin)) are emitted by the
+> addendum at the end of this memo; the frozen method body is unchanged.
+> RECORD ONLY: no Kelly fraction is selected; the grid-bracketing verdict
+> is INCONCLUSIVE-ON-NULL-LEDGER (see § B.3) and re-instantiation at the
+> first arsenal admission is a registered standing condition.
+
 The methodology contract is: the estimator's mathematical properties are
 demonstrated by the frozen unit tests rather than by ad-hoc numbers embedded
 here. Each derivation section names the test that reproduces it.
@@ -307,3 +315,82 @@ operating values with the backfill.
 Supporting (estimator provenance, not a primary-derivation source): López de
 Prado, M. 2018. *Advances in Financial Machine Learning*, ch. 7 (purged /
 embargoed cross-validation). Wiley.
+
+
+## Numeric instantiation addendum (2026-07-17) — on-ledger outputs
+
+**Status:** NUMERIC INSTANTIATED, RECORD ONLY. Harness
+[scripts/run_kelly_growth_calibration.py](../../scripts/run_kelly_growth_calibration.py)
+(seed 20260717, N_bootstrap 2000), ReproLog
+`repro_log_d371b253d6be47e596ea0aa99182801e.json` (round-1-remediated rerun; numerically identical to the initial run e246363134df410c8e25ddfaf9145e17 — the pipeline is deterministic at the registered seed), machine artifact
+[reports/kelly_growth_calibration/kelly_growth_calibration.json](../../reports/kelly_growth_calibration/kelly_growth_calibration.json).
+Substrate: per-SESSION return streams of `orb_first_hour_k1.0@1.0.0` (ES+NQ;
+sessions are the expert's compounding atoms — one round-trip per session,
+flat overnight), NET primary / GROSS sensitivity.
+
+### B.1 D1-D5 outputs per stream
+
+| Stream | b* | f_max | f_0 | f**_oos | g(f) x1e5 at {0.5,0.75,1.0,1.25} | P(ruin) [CI] all f |
+|---|---:|---:|---:|---:|---|---|
+| ES/net | **0 (degenerate)** | - | - | - | - (no favourable bet; mean -1.14e-4/session) | - |
+| ES/gross | 1.337 | 7.56 | 1.982 | 0.5 | 3.33, 4.17, 4.45, 4.16 | 0 [0, 0] |
+| NQ/net | 1.696 | 8.16 | 1.990 | 1.25 | 7.72, 9.65, 10.3, 9.65 | 0 [0, 0] |
+| NQ/gross | 2.684 | 5.16 | 1.978 | 1.25 | 19.5, 24.4, 26.1, 24.4 | 0 [0, 0] |
+
+- **Concavity/interior-max (D1) EXHIBITED on-ledger:** every non-degenerate
+  in-sample curve peaks exactly at f = 1.0 with `g''(f) < 0` at all four grid
+  points (analytic second derivative -8.8e-5 .. -5.4e-4).
+- **Ruin handling (D3/D5) EXHIBITED:** the absorbing-barrier estimator ran
+  with zero single-bar ruin mass at every grid point (stationary-bootstrap
+  95% CIs [0, 0]; distance-to-barrier >= 3.9 fractions everywhere); the
+  Busseti-Ryu-Boyd bound at f = 1.0 returns exponent 1 exactly (prob_bound
+  0.050 at the 0.05 drawdown level — the Kelly self-financing property), and
+  the leveraged point (1.25) carries bound ~0.167.
+- **Over-betting crossing (D4):** f_0 = 1.978-1.990 vs the thin-tailed
+  benchmark 2.0 — the session-level substrate is only mildly fat-tailed at
+  these leverages, and the grid top 1.25 < f_0 on every non-degenerate stream
+  (the 1.25 point sits inside the positive-growth region **in sample**).
+- **ES/net is DEGENERATE:** the realizable (post-cost) ES stream has no
+  favourable bet (E[R] < 0) — `full_kelly_leverage` = 0 and the D1-D5 report
+  is undefined. This is the honest on-ledger answer for a null expert.
+
+### B.2 D2 estimation-adjusted OOS optimum
+
+Frozen purged/embargoed expanding walk-forward (5 folds, 1% embargo, purge 0,
+50% warm-up): the OOS argmax lands at the grid **floor** on ES/gross (0.5;
+OOS growth negative beyond it — the Chopra-Ziemba shrinkage manifest) and at
+the grid **top** on NQ/net and NQ/gross (1.25). The stationary-bootstrap 95%
+CIs on g(f) **include zero at every fraction on every stream** (no-favourable-
+bet resamples: 666/2000 ES-gross, 528 NQ-net, 316 NQ-gross) — no fraction's
+growth is distinguishable from nothing on this substrate. Note (audit
+QUANT-1-8): the CI's zero lower bound is partly MECHANICAL — the registered
+policy assigns g = 0 to a no-favourable-bet resample, so whenever the no-bet
+mass exceeds alpha/2 (it does on every stream) the lower bound is pinned at 0
+by the imputation and cannot exhibit negative mass; the policy is recorded in
+the artifact and the across-fold OOS curves (which DO go negative on
+ES/gross) carry the sign information.
+
+### B.2b Artifact provenance note
+
+The frozen estimator stamps each per-stream report with its default
+"deferred to the step-4 backfill" note; the artifact retains that string
+under `notes_frozen_estimator_default` for traceability and carries the
+superseding note ("this artifact IS the deferred on-ledger instantiation")
+in `notes` (audit QUANT-1-7/REPRODUCIBILITY-1-2; the frozen module is
+untouched).
+
+### B.3 Grid-bracketing verdict — INCONCLUSIVE-ON-NULL-LEDGER
+
+The registered question ("does {0.5, 0.75, 1.0, 1.25} bracket the
+estimation-adjusted optimum?") receives: **in-sample, trivially yes** (the
+interior max sits at f = 1.0 by construction and the curve is concave); **out
+of sample, not resolvable** — the OOS argmax pins to opposite grid edges on
+different streams and every growth CI includes zero, because the only ledger
+expert is a null (RC-H101-1/RC-H103-1). A bracketing verdict on a no-edge
+stream carries no information about the bracketing behaviour on a real edge.
+The verdict is recorded as **inconclusive-on-null-ledger**, and
+**re-instantiation on the first admitted (true-edge) expert stream is a
+registered standing condition** of this addendum — the same condition as the
+discovery-alpha addendum §A.8. No grid adjustment is made (none is supported
+by evidence), and NO Kelly fraction is selected (Phase-4 champion action;
+additionally blocked on arsenal >= 1).

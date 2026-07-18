@@ -1,0 +1,463 @@
+{
+  "calibration": "P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE",
+  "instruments": [
+    {
+      "gross": {
+        "currency": "gross",
+        "g2_at_grid": {
+          "0.5": -8.825051501643365e-05,
+          "0.75": -8.928369513803096e-05,
+          "1.0": -9.043282778608229e-05,
+          "1.25": -9.171240018178672e-05
+        },
+        "growth_curve_ci": {
+          "ci_high": [
+            0.0009794740970949405,
+            0.0012542086588452656,
+            0.0013566453948716769,
+            0.0012238575374937735
+          ],
+          "ci_low": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "fractions": [
+            0.5,
+            0.75,
+            1.0,
+            1.25
+          ],
+          "n_no_favourable_bet_resamples": 666
+        },
+        "n_sessions": 2276,
+        "report": {
+          "b_star": 1.3369010389250122,
+          "block_length": {
+            "M": 2,
+            "block_length": 2.273852138061118,
+            "bootstrap_type": "stationary",
+            "m_hat": 0,
+            "method": "politis_white_2004",
+            "notes": "K_N=5; threshold=0.07681; g_hat(0)=4.514e-05; G_hat=-3.244e-06; D=4.075e-09."
+          },
+          "f_max": 7.561807213709812,
+          "f_zero": 1.9823301206904322,
+          "grid": [
+            {
+              "distance_to_barrier": 7.061807213709812,
+              "drawdown_bound": {
+                "drawdown_level": 0.05,
+                "exponent": 3.0162698229435305,
+                "prob_bound": 0.00011905358711298128,
+                "valid": true
+              },
+              "fraction": 0.5,
+              "growth_absorbing": 3.327958908446819e-05,
+              "growth_cap_sensitivity": 3.327958908446819e-05,
+              "leverage": 0.6684505194625061,
+              "ruin_ci_high": 0.0,
+              "ruin_ci_low": 0.0,
+              "single_bar_ruin_prob": 0.0
+            },
+            {
+              "distance_to_barrier": 6.811807213709812,
+              "drawdown_bound": {
+                "drawdown_level": 0.05,
+                "exponent": 1.6721786408347439,
+                "prob_bound": 0.0066749102432103625,
+                "valid": true
+              },
+              "fraction": 0.75,
+              "growth_absorbing": 4.167415823586332e-05,
+              "growth_cap_sensitivity": 4.167415823586332e-05,
+              "leverage": 1.0026757791937593,
+              "ruin_ci_high": 0.0,
+              "ruin_ci_low": 0.0,
+              "single_bar_ruin_prob": 0.0
+            },
+            {
+              "distance_to_barrier": 6.561807213709812,
+              "drawdown_bound": {
+                "drawdown_level": 0.05,
+                "exponent": 1.000000000000801,
+                "prob_bound": 0.049999999999880036,
+                "valid": true
+              },
+              "fraction": 1.0,
+              "growth_absorbing": 4.4487893120969185e-05,
+              "growth_cap_sensitivity": 4.4487893120969185e-05,
+              "leverage": 1.3369010389250122,
+              "ruin_ci_high": 0.0,
+              "ruin_ci_low": 0.0,
+              "single_bar_ruin_prob": 0.0
+            },
+            {
+              "distance_to_barrier": 6.311807213709812,
+              "drawdown_bound": {
+                "drawdown_level": 0.05,
+                "exponent": 0.596581047628311,
+                "prob_bound": 0.16742879908632918,
+                "valid": true
+              },
+              "fraction": 1.25,
+              "growth_absorbing": 4.16488976382324e-05,
+              "growth_cap_sensitivity": 4.16488976382324e-05,
+              "leverage": 1.6711262986562652,
+              "ruin_ci_high": 0.0,
+              "ruin_ci_low": 0.0,
+              "single_bar_ruin_prob": 0.0
+            }
+          ],
+          "notes": "ON-LEDGER NUMERIC INSTANTIATION 2026-07-17 (this artifact IS the deferred step-4 instantiation; the frozen estimator's default deferred note above is superseded \u2014 see top-level status)",
+          "notes_frozen_estimator_default": "ILLUSTRATIVE on the supplied substrate; on-ledger numeric instantiation deferred to the step-4 shadow-ledger backfill (P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE)."
+        },
+        "rolling_origin": {
+          "b_star_folds": [
+            0.0,
+            0.0,
+            0.1379986798279087,
+            1.6930925755725503,
+            1.687550256321566
+          ],
+          "f_star_oos": 0.5,
+          "fractions": [
+            0.5,
+            0.75,
+            1.0,
+            1.25
+          ],
+          "n_folds": 5,
+          "notes": "expanding walk-forward; n=2276, min_train=1138, test_size=227, purge=0, embargo=22, folds_used=5/5.",
+          "oos_growth": [
+            2.9920983404409866e-06,
+            -1.298941028652934e-06,
+            -9.661880413291404e-06,
+            -2.2290952715554002e-05
+          ]
+        },
+        "verdicts": {
+          "any_grid_point_ruinous": false,
+          "f_star_oos_at_grid_edge": "floor",
+          "f_star_oos_interior": false,
+          "grid_top_inside_positive_growth": true,
+          "grid_top_verdict_branch": "finite-crossing",
+          "oos_curve_finite": true
+        }
+      },
+      "instrument": "ES",
+      "net": {
+        "b_star": 0.0,
+        "currency": "net",
+        "degenerate": "no favourable bet (E[R] <= 0 or no interior optimum): b* = 0.0; the D1-D5 report is undefined on this stream \u2014 the on-ledger answer while the expert stream carries no positive edge (RC-H101-1/RC-H103-1 nulls)",
+        "mean_per_session": -0.00011397609391294636,
+        "n_sessions": 2276
+      }
+    },
+    {
+      "gross": {
+        "currency": "gross",
+        "g2_at_grid": {
+          "0.5": -0.0005170571355554231,
+          "0.75": -0.0005231645502304439,
+          "1.0": -0.0005310868895785532,
+          "1.25": -0.0005410263232907575
+        },
+        "growth_curve_ci": {
+          "ci_high": [
+            0.001702895868876234,
+            0.0021421325895569776,
+            0.002291296233651083,
+            0.002133467484573963
+          ],
+          "ci_low": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "fractions": [
+            0.5,
+            0.75,
+            1.0,
+            1.25
+          ],
+          "n_no_favourable_bet_resamples": 316
+        },
+        "n_sessions": 2202,
+        "report": {
+          "b_star": 2.683761399459067,
+          "block_length": {
+            "M": 2,
+            "block_length": 2.945365186652755,
+            "bootstrap_type": "stationary",
+            "m_hat": 0,
+            "method": "politis_white_2004",
+            "notes": "K_N=5; threshold=0.07793; g_hat(0)=7.929e-05; G_hat=8.541e-06; D=1.257e-08."
+          },
+          "f_max": 5.16243213548854,
+          "f_zero": 1.9779092934131464,
+          "grid": [
+            {
+              "distance_to_barrier": 4.66243213548854,
+              "drawdown_bound": {
+                "drawdown_level": 0.05,
+                "exponent": 3.017835201286905,
+                "prob_bound": 0.00011849659775109417,
+                "valid": true
+              },
+              "fraction": 0.5,
+              "growth_absorbing": 0.00019512984098786203,
+              "growth_cap_sensitivity": 0.00019512984098786203,
+              "leverage": 1.3418806997295336,
+              "ruin_ci_high": 0.0,
+              "ruin_ci_low": 0.0,
+              "single_bar_ruin_prob": 0.0
+            },
+            {
+              "distance_to_barrier": 4.41243213548854,
+              "drawdown_bound": {
+                "drawdown_level": 0.05,
+                "exponent": 1.6728595412553529,
+                "prob_bound": 0.006661308669163766,
+                "valid": true
+              },
+              "fraction": 0.75,
+              "growth_absorbing": 0.0002443460305686596,
+              "growth_cap_sensitivity": 0.0002443460305686596,
+              "leverage": 2.0128210495943004,
+              "ruin_ci_high": 0.0,
+              "ruin_ci_low": 0.0,
+              "single_bar_ruin_prob": 0.0
+            },
+            {
+              "distance_to_barrier": 4.16243213548854,
+              "drawdown_bound": {
+                "drawdown_level": 0.05,
+                "exponent": 1.00000000000016,
+                "prob_bound": 0.04999999999997602,
+                "valid": true
+              },
+              "fraction": 1.0,
+              "growth_absorbing": 0.0002608550007720643,
+              "growth_cap_sensitivity": 0.0002608550007720643,
+              "leverage": 2.683761399459067,
+              "ruin_ci_high": 0.0,
+              "ruin_ci_low": 0.0,
+              "single_bar_ruin_prob": 0.0
+            },
+            {
+              "distance_to_barrier": 3.9124321354885403,
+              "drawdown_bound": {
+                "drawdown_level": 0.05,
+                "exponent": 0.5959742885897363,
+                "prob_bound": 0.16773340910308676,
+                "valid": true
+              },
+              "fraction": 1.25,
+              "growth_absorbing": 0.0002441605568814511,
+              "growth_cap_sensitivity": 0.0002441605568814511,
+              "leverage": 3.354701749323834,
+              "ruin_ci_high": 0.0,
+              "ruin_ci_low": 0.0,
+              "single_bar_ruin_prob": 0.0
+            }
+          ],
+          "notes": "ON-LEDGER NUMERIC INSTANTIATION 2026-07-17 (this artifact IS the deferred step-4 instantiation; the frozen estimator's default deferred note above is superseded \u2014 see top-level status)",
+          "notes_frozen_estimator_default": "ILLUSTRATIVE on the supplied substrate; on-ledger numeric instantiation deferred to the step-4 shadow-ledger backfill (P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE)."
+        },
+        "rolling_origin": {
+          "b_star_folds": [
+            0.0,
+            0.0,
+            0.36471521989745936,
+            1.3739137283770106,
+            2.166664635802818
+          ],
+          "f_star_oos": 1.25,
+          "fractions": [
+            0.5,
+            0.75,
+            1.0,
+            1.25
+          ],
+          "n_folds": 5,
+          "notes": "expanding walk-forward; n=2202, min_train=1101, test_size=220, purge=0, embargo=22, folds_used=5/5.",
+          "oos_growth": [
+            0.0001968437685804143,
+            0.0002867073860510742,
+            0.0003710946687239889,
+            0.0004501539317375819
+          ]
+        },
+        "verdicts": {
+          "any_grid_point_ruinous": false,
+          "f_star_oos_at_grid_edge": "top",
+          "f_star_oos_interior": false,
+          "grid_top_inside_positive_growth": true,
+          "grid_top_verdict_branch": "finite-crossing",
+          "oos_curve_finite": true
+        }
+      },
+      "instrument": "NQ",
+      "net": {
+        "currency": "net",
+        "g2_at_grid": {
+          "0.5": -0.00020512754748959429,
+          "0.75": -0.00020631532316438197,
+          "1.0": -0.0002077698420731671,
+          "1.25": -0.00020950284539541884
+        },
+        "growth_curve_ci": {
+          "ci_high": [
+            0.0013229359603326844,
+            0.0016493094299833797,
+            0.0017643060100978394,
+            0.001648464832685673
+          ],
+          "ci_low": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "fractions": [
+            0.5,
+            0.75,
+            1.0,
+            1.25
+          ],
+          "n_no_favourable_bet_resamples": 528
+        },
+        "n_sessions": 2202,
+        "report": {
+          "b_star": 1.6959201517804376,
+          "block_length": {
+            "M": 2,
+            "block_length": 2.944901861486115,
+            "bootstrap_type": "stationary",
+            "m_hat": 0,
+            "method": "politis_white_2004",
+            "notes": "K_N=5; threshold=0.07793; g_hat(0)=7.929e-05; G_hat=8.539e-06; D=1.257e-08."
+          },
+          "f_max": 8.161280650693099,
+          "f_zero": 1.9898562326787927,
+          "grid": [
+            {
+              "distance_to_barrier": 7.661280650693099,
+              "drawdown_bound": {
+                "drawdown_level": 0.05,
+                "exponent": 3.0085322995176145,
+                "prob_bound": 0.0001218454273231938,
+                "valid": true
+              },
+              "fraction": 0.5,
+              "growth_absorbing": 7.7153451226607e-05,
+              "growth_cap_sensitivity": 7.7153451226607e-05,
+              "leverage": 0.8479600758902188,
+              "ruin_ci_high": 0.0,
+              "ruin_ci_low": 0.0,
+              "single_bar_ruin_prob": 0.0
+            },
+            {
+              "distance_to_barrier": 7.411280650693099,
+              "drawdown_bound": {
+                "drawdown_level": 0.05,
+                "exponent": 1.6696039286240736,
+                "prob_bound": 0.006726593882462779,
+                "valid": true
+              },
+              "fraction": 0.75,
+              "growth_absorbing": 9.652649446010406e-05,
+              "growth_cap_sensitivity": 9.652649446010406e-05,
+              "leverage": 1.2719401138353281,
+              "ruin_ci_high": 0.0,
+              "ruin_ci_low": 0.0,
+              "single_bar_ruin_prob": 0.0
+            },
+            {
+              "distance_to_barrier": 7.161280650693099,
+              "drawdown_bound": {
+                "drawdown_level": 0.05,
+                "exponent": 1.0000000000006313,
+                "prob_bound": 0.049999999999905446,
+                "valid": true
+              },
+              "fraction": 1.0,
+              "growth_absorbing": 0.00010300344166906677,
+              "growth_cap_sensitivity": 0.00010300344166906677,
+              "leverage": 1.6959201517804376,
+              "ruin_ci_high": 0.0,
+              "ruin_ci_low": 0.0,
+              "single_bar_ruin_prob": 0.0
+            },
+            {
+              "distance_to_barrier": 6.911280650693099,
+              "drawdown_bound": {
+                "drawdown_level": 0.05,
+                "exponent": 0.5981240866972092,
+                "prob_bound": 0.16665664015480827,
+                "valid": true
+              },
+              "fraction": 1.25,
+              "growth_absorbing": 9.649332435201607e-05,
+              "growth_cap_sensitivity": 9.649332435201607e-05,
+              "leverage": 2.119900189725547,
+              "ruin_ci_high": 0.0,
+              "ruin_ci_low": 0.0,
+              "single_bar_ruin_prob": 0.0
+            }
+          ],
+          "notes": "ON-LEDGER NUMERIC INSTANTIATION 2026-07-17 (this artifact IS the deferred step-4 instantiation; the frozen estimator's default deferred note above is superseded \u2014 see top-level status)",
+          "notes_frozen_estimator_default": "ILLUSTRATIVE on the supplied substrate; on-ledger numeric instantiation deferred to the step-4 shadow-ledger backfill (P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE)."
+        },
+        "rolling_origin": {
+          "b_star_folds": [
+            0.0,
+            0.0,
+            0.0,
+            0.4104273641200496,
+            1.1736622143350606
+          ],
+          "f_star_oos": 1.25,
+          "fractions": [
+            0.5,
+            0.75,
+            1.0,
+            1.25
+          ],
+          "n_folds": 5,
+          "notes": "expanding walk-forward; n=2202, min_train=1101, test_size=220, purge=0, embargo=22, folds_used=5/5.",
+          "oos_growth": [
+            6.95807606549168e-05,
+            0.00010214645056636992,
+            0.00013326987600445036,
+            0.00016297926517305167
+          ]
+        },
+        "verdicts": {
+          "any_grid_point_ruinous": false,
+          "f_star_oos_at_grid_edge": "top",
+          "f_star_oos_interior": false,
+          "grid_top_inside_positive_growth": true,
+          "grid_top_verdict_branch": "finite-crossing",
+          "oos_curve_finite": true
+        }
+      }
+    }
+  ],
+  "n_bootstrap": 2000,
+  "repro_log": "repro_log_d371b253d6be47e596ea0aa99182801e.json",
+  "seed": 20260717,
+  "status": "NUMERIC-INSTANTIATED (method frozen 2026-07-12; this run supplies the deferred on-ledger numbers); RECORD ONLY \u2014 no Kelly fraction is selected (Phase-4 champion action)",
+  "substrate": {
+    "instruments": [
+      "ES",
+      "NQ"
+    ],
+    "ledger_expert": "orb_first_hour_k1.0@1.0.0",
+    "primary_currency": "net (Tier-0 cost drag applied)",
+    "unit": "per-session (expert compounding atom; flat overnight)"
+  }
+}
