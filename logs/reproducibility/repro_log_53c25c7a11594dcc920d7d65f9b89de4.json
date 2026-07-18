@@ -1,0 +1,25 @@
+{
+  "config_resolved_sha256": "afed77821b346e2eb0989193ff7eb8c1372e4c609dc2fb9a04b8bbbeda6166b3",
+  "dataset_checksums": {
+    "reports/H101/rc_h101_1_scan.json": "f0b9583273c1628a9f1dee81cba1bd824974795fc76bd58f2e8329eb813564e7",
+    "reports/H103/rc_h103_1_scan.json": "be7f4bd907d1fd4e3557590e2045ea15fccd29be9c9a427adfa5342f72afffb7",
+    "shadow_ledger[orb_first_hour_k1.0@1.0.0](4811 partitions)": "19259b51c5128867d6ea6f0673e2fe645261ad84aa1d0ffe062d37ef1a855486"
+  },
+  "env_id": "f7beca402321e9eb9a711aafca3bf6714a315037ada20c11018b3d9949cee783",
+  "git_dirty": true,
+  "git_head": "ac8b5705527178cf8b4211920902ea5ed91bd32b",
+  "host": {
+    "cpu": "AMD64",
+    "os": "Windows 10",
+    "python": "3.11.15"
+  },
+  "hypothesis_id": "P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE",
+  "model_hash": null,
+  "phase": "discovery-alpha-reproduction-check",
+  "pip_freeze_path": "logs/reproducibility/env/5d702427f4b4705475b8bcaf93635e8810581c15a9dfa87f17fac118daffd5e8.txt",
+  "pip_freeze_sha256": "5d702427f4b4705475b8bcaf93635e8810581c15a9dfa87f17fac118daffd5e8",
+  "rng_seed": 20260717,
+  "run_id": "53c25c7a11594dcc920d7d65f9b89de4",
+  "timestamp_utc": "2026-07-18T14:54:34.952737+00:00",
+  "working_tree_hash": "63dc10a9186059205313ff71603b3950013d0c91dc6976ad6644cfa6d108d4a5"
+}

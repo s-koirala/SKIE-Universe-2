@@ -1,0 +1,26 @@
+{
+  "config_resolved_sha256": "1ce8d825fc32b1b1d39f4ea7ddcaab76774a4059940ec2aaf6e511e4a6c45149",
+  "dataset_checksums": {
+    "data/interim/h900_filtered_sequences/inclusive.parquet": "a1f3c860e04638eee395d42a8237ee880e5fe8a9377381431fbfa803fb71a452",
+    "data/interim/h900_filtered_sequences/primary.parquet": "3bed089f32444784f7532f94ce6010d95473449e5c99a0c5fc5ee99229e0da62",
+    "reports/H900/h900_fit_params_inclusive.json": "a179b7f28a219178dfc276b2ab7cb2588bc74a1fd6c4b09d00550a5086c4cad4",
+    "reports/H900/h900_fit_params_primary.json": "cabfdf95c13ffbc5ffbfa72c82676aff916839af1030df4b28c252ee9b5ad271"
+  },
+  "env_id": "f7beca402321e9eb9a711aafca3bf6714a315037ada20c11018b3d9949cee783",
+  "git_dirty": true,
+  "git_head": "6e915058822ae48e0b4de4743b9aab5bcf0bd9ba",
+  "host": {
+    "cpu": "AMD64",
+    "os": "Windows 10",
+    "python": "3.11.15"
+  },
+  "hypothesis_id": "P1-2.0-H900-BOCPD-WHITENED",
+  "model_hash": null,
+  "phase": "h900-whitened-onledger-roc",
+  "pip_freeze_path": "logs/reproducibility/env/5d702427f4b4705475b8bcaf93635e8810581c15a9dfa87f17fac118daffd5e8.txt",
+  "pip_freeze_sha256": "5d702427f4b4705475b8bcaf93635e8810581c15a9dfa87f17fac118daffd5e8",
+  "rng_seed": 20260717,
+  "run_id": "80d89d060cd34a17884ce088f243eb67",
+  "timestamp_utc": "2026-07-18T01:41:24.157435+00:00",
+  "working_tree_hash": "f5798dd586aab0e6b85fb06ba3617289f9ff7bb4d9dd9a7d75cf6c8baec0336d"
+}
