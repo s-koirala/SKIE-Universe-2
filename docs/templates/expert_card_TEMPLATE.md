@@ -9,7 +9,7 @@ data_span: { start: <<YYYY-MM-DD>>, end: <<YYYY-MM-DD>> }
 instruments: [<<SYM_1>>, <<SYM_2>>]
 execution_tier: <<0|1|2>>            # per ADR-0006
 trial_register_increment: <<INT>>     # scans added to config/multipletest_family.yaml
-disposition: <<deploy-candidate|arsenal-admit-conditional|arsenal-admit-diversifier|re-specify-cost-bound|re-specify-execution-bound|archive-no-gross-edge>>
+disposition: <<deploy-candidate|arsenal-admit-conditional|arsenal-admit-diversifier|re-specify-cost-bound|re-specify-execution-bound|pool-hold-reconsider|archive-no-persistent-window|archive-no-gross-edge>>  # enum as amended by ADR-0014 (accepted 2026-07-17): + pool-hold-reconsider; archive-no-gross-edge retained as a sub-reason of archive-no-persistent-window
 ---
 
 # Expert Card — <<HID>> v<<N>>: <<SHORT_TITLE>>

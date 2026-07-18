@@ -83,6 +83,40 @@ burned_spans:
     purpose: admission-scan
     recorded_at: "2026-07-10"
     expert_card_ref: docs/reports/expert_card_H055_retro_2026-07-10.md
+  # RC-H101-1 / RC-H103-1 admission scans (2026-07-16) on the backfilled k1.0
+  # shadow ledger — LEDGER REPAIR 2026-07-17: these spans were consumed by the
+  # two scans but never mirrored here (ADR-0008 Decision 5); recorded
+  # retroactively. The RC-H101-2 / RC-H103-2 ADR-0014 screen re-runs
+  # (2026-07-17) re-adjudicate the SAME spans for the same HIDs (fresh
+  # trial-register increments rc-h101-2 / rc-h103-2); no new span is consumed.
+  - hid: H101
+    instrument: ES
+    start: 2015-01-05
+    end: 2025-12-05
+    purpose: admission-scan  # RC-H101-1 (2026-07-16) + RC-H101-2 screen re-run (2026-07-17)
+    recorded_at: "2026-07-17"
+    expert_card_ref: docs/reports/H101/RC-H101-1_admission_disposition_2026-07-16.md
+  - hid: H101
+    instrument: NQ
+    start: 2015-01-05
+    end: 2025-12-06
+    purpose: admission-scan  # RC-H101-1 (2026-07-16) + RC-H101-2 screen re-run (2026-07-17)
+    recorded_at: "2026-07-17"
+    expert_card_ref: docs/reports/H101/RC-H101-1_admission_disposition_2026-07-16.md
+  - hid: H103
+    instrument: ES
+    start: 2015-01-05
+    end: 2025-12-05
+    purpose: admission-scan  # RC-H103-1 (2026-07-16) + RC-H103-2 screen re-run (2026-07-17)
+    recorded_at: "2026-07-17"
+    expert_card_ref: docs/reports/H103/RC-H103-1_admission_disposition_2026-07-16.md
+  - hid: H103
+    instrument: NQ
+    start: 2015-01-05
+    end: 2025-12-06
+    purpose: admission-scan  # RC-H103-1 (2026-07-16) + RC-H103-2 screen re-run (2026-07-17)
+    recorded_at: "2026-07-17"
+    expert_card_ref: docs/reports/H103/RC-H103-1_admission_disposition_2026-07-16.md
   # H900 dwell-time feasibility gate (2026-07-10): the 15 rolling-origin
   # evaluation windows per instrument consumed by the design.md §2 protocol
   # (per-evaluation-window recording per ADR-0008 Decision 5). Spans are
