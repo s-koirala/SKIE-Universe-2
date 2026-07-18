@@ -189,7 +189,7 @@ uv run pytest
 - **Python version pin:** `>=3.11,<3.13`
 - **Bootstrap script HEAD:** `fe9bcd1b6fee` (see `manifest.json`)
 
-Progress (as of 2026-07-17):
+Progress (as of 2026-07-18):
 
 - **Dwell-time feasibility gate (ADR-0004 Decision 6) — CLOSED GO.** H900
   established dwell-time separation feasible; first registered analysis, opens
@@ -302,7 +302,11 @@ Progress (as of 2026-07-17):
   differential (stress vs calm) is non-significant. RC-XCORR-1 (net-of-cost, Grinold
   residual IR): redundancy **instrument-specific** — ES redundant (residual IR −0.018;
   ES ORB net-negative after costs), NQ zero-marginal (residual IR ≈0). The **Lundström
-  high-vol-concentration prior is CONTRADICTED** (ES ORB edge is in CALM sessions).
+  high-vol-concentration prior is CONTRADICTED** (ES ORB edge is in CALM sessions)
+  *(superseded 2026-07-18: that reading was rendered on the RC-1 LEAKED full-sample
+  stress construction; the certified leakage-clean RC-2 re-measurement flips the ES
+  stress mean positive on 28% less data — standing status **UNRESOLVED**, correction
+  of record [expert_card_v3](research/01_hypothesis_register/H103/expert_card_v3.md))*.
   2-round audit accept. [RC-H103-1 disposition](docs/reports/H103/RC-H103-1_admission_disposition_2026-07-16.md).
 - **Arsenal status: EMPTY; provisional POOL populated (2026-07-17).** The RC-1
   singleton scans returned nulls under the then-null screening level; under the
@@ -361,8 +365,40 @@ Progress (as of 2026-07-17):
   pool ledger materialized ([pool_ledger.jsonl](data/processed/pool_ledger/pool_ledger.jsonl),
   8 records = 2 HIDs × 4 fractions), and per-cell trial records appended to
   the `rc-*-2` register families. **STOPPED before any set-level VERDICT**
-  (|arsenal| = 0; first-admission protocol is the next, operator-gated step).
+  (|arsenal| = 0; the verdict is now under the ratified operator HOLD — see the
+  2026-07-18 bullet below).
   2-round audit-remediate accept (trail: [audit_trail_2026-07-17_phase1-numeric-calibrations.md](docs/audits/audit_trail_2026-07-17_phase1-numeric-calibrations.md)).
+- **Pool HOLD ratified; reproduction gate closed; H103 stress record corrected;
+  roadmap re-ordered to forward sourcing (2026-07-18).** Four-part
+  consolidation session (each deliverable audit-remediate accepted):
+  (1) [ADR-0015](docs/decisions/ADR-0015-ratified-pool-hold-verdict-precondition.md)
+  drafted **status: proposed** (awaits operator acceptance), recording the
+  operator-ratified HOLD of the set-level VERDICT — grounds: effective pool
+  set size ~1 (all 8 records share one `expert_hash`), multiplicity/burned-data
+  cost for zero information, and the sole rotor comparison on record already
+  failed; an operator-directed, provisional `verdict_precondition` (≥ 2
+  distinct expert hashes with non-overlapping coverage vectors;
+  reporting-check-only) added to the pool-ledger schema with checker
+  [check_verdict_precondition.py](scripts/audits/check_verdict_precondition.py)
+  — **BLOCKED: `distinct_expert_hash_count = 1`** (10 tests).
+  (2) The enacted discovery-alpha level is under an executable reproduction
+  gate: [check_discovery_alpha_reproduction.py](scripts/audits/check_discovery_alpha_reproduction.py)
+  re-ran the frozen generator — **REPRODUCED exactly** (frozen == fresh ==
+  0.7400550140326007, 0 field mismatches over the whole artifact, exit 0) —
+  plus 14 enactment-coupling tests (MPRR identity, members-only band median,
+  seed-reproducible bootstrap, full-precision config coupling, computed S-d
+  bounds) and 2 checker exit-code-contract tests; memo §A.9. (3) H103 ES stress standing statement corrected to
+  **UNRESOLVED** (construction-dependent sign flip: leaked −5.09e-04/n=437 vs
+  leakage-clean +1.03e-04/n=313, neither distinguishable from zero) via
+  append-only [expert_card_v3](research/01_hypothesis_register/H103/expert_card_v3.md);
+  Lundström prior UNRESOLVED in the retro register; covariate
+  `construction_dependence_note` registered. (4) Roadmap/plan re-ordered:
+  Phases 1–2 COMPLETE (verdict = ratified HOLD), **Phase-3 disjoint-window
+  forward sourcing is THE GATING item** (retro queue demoted — ORB-adjacent,
+  cannot supply a non-overlapping coverage vector); OD-A resolved (first
+  admission target = fresh forward expert), OD-G opened (spread/liquidity
+  ADR-0006 tier reportability). Arsenal EMPTY; nothing certified; no Kelly
+  fraction selected; STOPPED before Step-5 mechanism work for operator review.
 
 ## Directory layout
 

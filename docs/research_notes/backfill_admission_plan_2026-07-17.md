@@ -1,5 +1,7 @@
 # Consolidated shadow-ledger backfill + arsenal-admission plan
 
+*Last updated: 2026-07-18.*
+
 **Living planning note (of record; not a frozen design.md).** No hypothesis
 design.md is frozen and no ledger partition is written on the strength of this
 document. This is the **single tactical plan** for populating the shadow ledger
@@ -65,11 +67,37 @@ shadow ledger is **populated with the first forward expert**:
     p ≥ 0.42); both cells fail the §8 25% precision gate; the Lundström
     high-vol-concentration prior (Holmberg, Lönnbark & Lundström 2013,
     [FRL 10(1):27-33](https://doi.org/10.1016/j.frl.2012.09.001)) is
-    **contradicted** (ES ORB edge is in CALM sessions); RC-XCORR-1 redundancy is
-    instrument-specific.
+    **contradicted** (ES ORB edge is in CALM sessions) *(superseded 2026-07-18:
+    leaked-construction-dependent reading; the certified leakage-clean RC-2
+    re-measurement flips the ES stress mean positive — standing status
+    **UNRESOLVED**, [expert_card_v3](../../research/01_hypothesis_register/H103/expert_card_v3.md);
+    prior-form provenance per card §8 — the 2013 FRL paper establishes
+    large-move-day concentration, the ex-ante volatility-state form derives
+    from Lundström's working paper)*;
+    RC-XCORR-1 redundancy is instrument-specific.
     [RC-H103-1 disposition](../reports/H103/RC-H103-1_admission_disposition_2026-07-16.md).
 - **Arsenal: EMPTY.** No ADR-0002(b) member admitted; no ADR-0002(d) covariance
   anchor authored.
+
+State as of **2026-07-18** (supplements the above):
+
+- The ADR-0014 **screen re-runs EXECUTED** at the enacted level (RC-H101-2 /
+  RC-H103-2, 2026-07-17): both SCREEN PASS → the provisional pool holds 8
+  records across 2 HIDs — and **one distinct expert implementation** (the
+  pool ledger's recorded `expert_hash` value is `orb_first_hour_k1.0@1.0.0`
+  for all 8 records; both HIDs partition the same ledger stream).
+  A screen pass is an unadjudicated queue entry at the deliberately loose
+  enacted level; nothing is certified.
+- The set-level **VERDICT is under a ratified operator HOLD**
+  ([ADR-0015](../decisions/ADR-0015-ratified-pool-hold-verdict-precondition.md),
+  proposed): precondition = ≥ 2 distinct expert hashes with non-overlapping
+  coverage vectors (operator-directed, provisional; reporting checker BLOCKED
+  at `distinct_expert_hash_count = 1`) plus explicit operator authorization.
+- The enacted discovery-alpha level is under an **executable reproduction
+  gate** (REPRODUCED exactly 2026-07-18; memo §A.9).
+- The H103 ES stress record's standing status is **UNRESOLVED**
+  (construction-dependent sign flip; correction of record
+  [expert_card_v3](../../research/01_hypothesis_register/H103/expert_card_v3.md)).
 
 The reusable machinery (ledger writer, feature pipeline, Tier-0 helper,
 rolling-origin windows, cost model, PIT canaries, ReproLog) is documented in the
@@ -110,23 +138,31 @@ accounting, never weaker correction.
 ## 3. Remaining backfill scope
 
 **First-pass substrate** stays ES + NQ 5-min roll-adjusted, 2015–2025 (the only
-in-project substrate). Additions:
+in-project substrate). Additions, in priority order (forward experts FIRST —
+re-ordered 2026-07-18):
 
-- **Retro candidates not yet scanned:** H102 (← H053), H100 (← H050), H104
-  (← H055). Each needs its design.md frozen (`/preregister`), its `cov_*` set
-  registered in [config/covariates.yaml](../../config/covariates.yaml), and a
-  full ES/NQ × 4-fraction backfill of its expert form before its scan.
-- **Reconsideration-eligible (ADR-0014, in force):** H101, H103 already
-  backfilled + scanned → null under the pre-amendment singleton standard. Under
-  the accepted ADR-0014 they are **re-classed** from `provisional-archive-null` to
-  reconsideration-eligible pending a **screen re-run** (the persistence +
-  ex-ante-selectability tests they never ran). The re-run is queued, blocked on
-  the §2 numeric calibrations.
-- **Forward experts (coverage gap).** The retro cards are all ORB-adjacent /
-  equity-index. The arsenal's thesis — disjoint-window complementarity — needs
-  experts whose competence windows are *disjoint* from ORB. New forward
-  hypotheses are required beyond the retro queue; they enter the same backfill →
-  scan path.
+- **Forward experts (THE GATING item; coverage gap).** The retro cards are all
+  ORB-adjacent / equity-index and cannot supply a non-overlapping coverage
+  vector, so only forward hypotheses whose competence windows are *disjoint*
+  from ORB can lift the ADR-0015 verdict precondition. Operator-approved
+  mechanism directions (2026-07-18): overnight/Globex, mean-reversion,
+  macro-calendar-conditioned, spread/liquidity-regime — each subject to its
+  pre-registration feasibility/cost gate (coverage-gap computation, substrate
+  coverage check, PIT-calendar availability, OD-G tier reportability,
+  burned-span operator approval). They enter the same design-freeze →
+  backfill → screen path.
+- **Reconsideration-eligible (screens EXECUTED 2026-07-17):** H101, H103 —
+  RC-H101-2 / RC-H103-2 SCREEN PASS at the enacted level →
+  `pool-hold-reconsider` in the provisional pool; **held under the ADR-0015
+  ratified HOLD** (one distinct expert hash; verdict deferred). No re-run is
+  queued; re-adjudication triggers on incumbent-set change (ADR-0014 D3).
+- **Retro candidates not yet scanned (DEMOTED behind forward sourcing):**
+  H102 (← H053), H100 (← H050), H104 (← H055). Each needs its design.md frozen
+  (`/preregister`), its `cov_*` set registered in
+  [config/covariates.yaml](../../config/covariates.yaml), and a full ES/NQ ×
+  4-fraction backfill of its expert form before its scan. Reason for demotion:
+  ORB-adjacent — they add pool breadth but cannot unblock the verdict
+  precondition.
 
 **Kelly-fraction materialization (carried OD-6):** every fraction is a distinct
 `expert_id` suffix (`..._k0.5@v`), all four materialized, none selected (gated on
@@ -211,9 +247,12 @@ note: RC-H101-1/RC-H103-1 predate the split and ran as ADR-0002 singleton scans.
 
 Carried from the two archived notes; still open.
 
-- **OD-A (first admission sequencing).** All candidates gate on the numeric
-  preconditions (§2). Confirm the first admission target (H101 re-run under the
-  screen vs a fresh forward expert) — it defines the arsenal-covariance memo.
+- **OD-A (first admission sequencing) — RESOLVED 2026-07-18.** The first
+  admission target is a **fresh disjoint-window forward expert**, not an
+  H101/H103 re-run: the H101/H103 screens already executed (pool-hold under
+  ADR-0015), and no ORB-adjacent candidate can satisfy the verdict
+  precondition's non-overlapping-coverage requirement. The arsenal-covariance
+  memo is authored at that first forward admission.
 - **OD-B (H103 pooling universe).** RC-H103-1 proposed ES+NQ+MES+MNQ pooling to
   reach n ≥ 174 stress-cell trades; confirm the micro siblings are in the
   intended universe (RC-H103-1 ran ES+NQ only).
@@ -231,3 +270,14 @@ Carried from the two archived notes; still open.
 - **OD-F (correction cadence).** Append-only ledger: a code change to an expert =
   version bump = full re-backfill into new partitions, old ones deprecated
   (ADR-0003 D3). Confirm single full run vs incremental per-window appends.
+- **OD-G (spread/liquidity mechanism — ADR-0006 tier reportability; NEW
+  2026-07-18).** No Tier-2 substrate exists, so a mechanism whose edge derives
+  from spread capture, queue position, or liquidity provision CANNOT be
+  screened (limit-order/queue claims are unreportable below Tier 2, ADR-0006
+  D2). The mechanism is admissible ONLY as a Tier-0 directional expert that
+  CONDITIONS on the registered spread/liquidity covariate while taking
+  liquidity at bar close (recorded in the design's execution-layer section,
+  ADR-0005). If the mechanism's premise requires a fill assumption, the
+  ADR-0006 block is reported to the operator rather than running a downgraded
+  version. Operator decision: accept the Tier-0 conditioning form, or drop
+  the mechanism until a Tier-2 substrate exists.

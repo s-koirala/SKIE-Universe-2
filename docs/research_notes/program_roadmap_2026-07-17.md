@@ -1,5 +1,7 @@
 # SKIE-Universe 2.0 — program-level phased roadmap
 
+*Last updated: 2026-07-18.*
+
 **Living planning note (of record; not a frozen design.md).** The single
 strategic roadmap for the universe. It is
 dependency-ordered, not calendar-dated: phases are gated by binding governance
@@ -34,23 +36,30 @@ ledger, through the non-waivable ADR-0007 confirmation ladder.
   sets no discovery level, and certifies no admission — the three BLOCKING numeric
   calibrations (Phase 1) still gate all of that.
 
-## Current frontier (2026-07-16)
+## Current frontier (2026-07-18)
 
 Shadow ledger **populated** (`OrbFirstHourExpert` × ES+NQ × 4 Kelly fractions);
-confirmation-ladder estimators built + tested; two admission scans run
-(RC-H101-1, RC-H103-1) → both `provisional-archive-null`; **arsenal EMPTY**;
-three numeric calibrations still deferred. This session added ADR-0014 (accepted
-2026-07-17) + the pool-ledger schema (audited) and enacted the screen/verdict
-amendment map.
+the three Phase-1 numeric calibrations **instantiated** (level enacted 0.7401
+retain-fwer; Kelly bracketing inconclusive-on-null-ledger, no fraction
+selected; latent-state latency UNATTAINABLE); the RC-H101-2/RC-H103-2 screens
+**executed** → provisional pool populated (8 records, 2 HIDs, **one** distinct
+`expert_hash`); **arsenal EMPTY**; the set-level VERDICT is under a
+**ratified operator HOLD** ([ADR-0015](../decisions/ADR-0015-ratified-pool-hold-verdict-precondition.md),
+proposed — verdict precondition BLOCKED at `distinct_expert_hash_count = 1`);
+the enacted discovery-alpha level is under an executable reproduction gate
+(REPRODUCED exactly, 2026-07-18); the H103 ES stress record's standing status
+is UNRESOLVED (construction-dependent; card v3). The gating item is now
+**Phase 3 forward sourcing of disjoint-window mechanisms**.
 
 ## The critical path in one line
 
-The bottleneck is **Phase 1** — three numeric calibrations the program has
-deferred across 2026-07-12 (the two Kelly memos) and 2026-07-14 (H900 whitened),
-now *executable because the ledger exists*. Every
-downstream capability (certification, Kelly-fraction selection, the ADR-0014
-screen, a champion) is gated on them. Phases 0–2 are the near-term unlock; the
-empty arsenal is a Phase-2 event, not a standing state.
+The bottleneck is **Phase 3 forward sourcing**: the pool holds one expert
+implementation, and no ORB-adjacent retro card can supply a second
+non-overlapping coverage vector — so new disjoint-window forward hypotheses
+(overnight/Globex, mean-reversion, macro-calendar-conditioned,
+spread/liquidity-regime, subject to their feasibility gates) are the only
+path to a verdict-eligible pool, the first admission, and every downstream
+capability (covariance anchor, Kelly-fraction selection, a champion).
 
 ---
 
@@ -65,7 +74,7 @@ empty arsenal is a Phase-2 event, not a standing state.
 - **Gate out:** the admission pipeline's shape is fixed — **screen → pool →
   verdict** (ADR-0014) governs Phase 2+.
 
-## Phase 1 — Instantiate the three BLOCKING numeric calibrations *(DONE 2026-07-17)*
+## Phase 1 — Instantiate the three BLOCKING numeric calibrations *(COMPLETE 2026-07-17)*
 
 Executed on the populated ledger (audit-remediate round 1 applied; values in
 CLAUDE.md and the memo addenda).
@@ -89,7 +98,7 @@ CLAUDE.md and the memo addenda).
   the residual risk recorded in
   [the ADR-0014 audit trail](../audits/audit_trail_2026-07-17_adr0014-pool-ledger.md).
 
-## Phase 2 — First admission *(SCREENS DONE 2026-07-17; verdict pending)*
+## Phase 2 — First admission *(SCREENS COMPLETE 2026-07-17; VERDICT under ratified operator HOLD, ADR-0015)*
 
 - Run the admission pass on the populated ledger via the ADR-0014 **screen → pool
   → set-level verdict** pipeline. Candidates: the re-framed H101/H103 (now
@@ -105,25 +114,39 @@ CLAUDE.md and the memo addenda).
   → `pool-hold-reconsider` (held, not discarded) → pivot to sourcing new candidates.
 - **Gate out:** the empty-arsenal state is resolved as an explicit event; the
   covariance anchor exists.
-- **Status 2026-07-17:** RC-H101-2 and RC-H103-2 both SCREEN PASS at the
-  enacted level → the pool holds two `pool-hold-reconsider` candidates (7
-  passing cells total; H103 under the certified leakage-clean stress
-  construction). The VERDICT (first admission; authors the covariance anchor)
-  is deliberately NOT run (|arsenal| = 0 stop per the execution brief) — it is
-  the next operator-gated action, together with sourcing disjoint-window
-  forward experts (Phase 3).
+- **Status 2026-07-18:** RC-H101-2 and RC-H103-2 both SCREEN PASS at the
+  enacted level → the pool holds two `pool-hold-reconsider` HIDs (7 passing
+  cells total; H103 under the certified leakage-clean stress construction) —
+  but only **one distinct expert implementation** (`expert_hash`), so the
+  effective set size is ~1. The VERDICT (first admission; authors the
+  covariance anchor) is under a **ratified operator HOLD**
+  ([ADR-0015](../decisions/ADR-0015-ratified-pool-hold-verdict-precondition.md),
+  proposed): it does not run until the pool holds ≥ 2 distinct expert hashes
+  with non-overlapping coverage vectors (operator-directed, provisional
+  precondition; reporting checker BLOCKED at `distinct_expert_hash_count = 1`)
+  **and** the operator explicitly authorizes the first-admission protocol.
+  Phase 2's remaining work is therefore **fed by Phase 3**: the phase
+  completes (first admission + covariance anchor) only after forward sourcing
+  supplies a disjoint-window candidate. A screen pass remains an unadjudicated
+  queue entry at the deliberately loose enacted level; nothing is certified.
 
-## Phase 3 — Arsenal breadth *(retro queue re-framed + forward experts)*
+## Phase 3 — Arsenal breadth *(disjoint-window FORWARD sourcing is THE GATING item)*
 
-- Route the remaining retro cards (H100/H104, subject to their integrity/cost
-  debt; H102 continues here only if Phase 2 left it `pool-hold-reconsider`)
-  through the admission pipeline; re-run any
-  `pool-hold-reconsider` members against each changed incumbent set (ADR-0014
-  Decision 3).
-- **Coverage gap named:** the retro cards are all ORB-adjacent / equity-index.
-  Genuine disjoint-window complementarity — the program's thesis — needs
-  **forward hypotheses** whose competence windows are disjoint from ORB. These
-  enter the same backfill → scan path and are the real source of arsenal value.
+- **First bullet, gating:** source, pre-register, backfill, and screen **new
+  forward hypotheses whose competence windows are disjoint from ORB** — the
+  operator-approved mechanism directions are overnight/Globex, mean-reversion,
+  macro-calendar-conditioned, and spread/liquidity-regime, each subject to its
+  feasibility/cost gate (coverage-gap computation, substrate checks, PIT
+  calendar availability, ADR-0006 tier reportability, burned-span operator
+  approval) before any pre-registration. Only a disjoint-window forward expert
+  can lift the ADR-0015 verdict precondition (≥ 2 distinct expert hashes with
+  non-overlapping coverage vectors) and make the pool verdict-eligible.
+- **Retro queue DEMOTED behind forward sourcing** (H102/H100/H104, subject to
+  their integrity/cost debt): every retro card is ORB-adjacent / equity-index
+  and **cannot supply a non-overlapping coverage vector**, so no retro re-run
+  can unblock the verdict precondition. They remain in the queue for pool
+  breadth after the first disjoint-window admission; `pool-hold-reconsider`
+  members re-adjudicate on each incumbent-set change (ADR-0014 Decision 3).
 - `P1-2.0-POOL-PRIORITY-CALIBRATE` begins accruing verdict outcomes → the
   standing-monitored ranking weights mature from the structural cold-start rule
   into data-fitted (CI-bearing) coefficients.
@@ -161,6 +184,7 @@ CLAUDE.md and the memo addenda).
 | Gate (follow-up) | Status | Unlocks |
 |---|---|---|
 | ADR-0014 acceptance | **accepted 2026-07-17** | Phase 0 (done) → screen/verdict shape for Phase 2+ |
+| ADR-0015 verdict precondition (operator-directed, provisional) | **BLOCKED** (checker: `distinct_expert_hash_count = 1`; ADR proposed, HOLD ratified 2026-07-18) | first-admission VERDICT (completes Phase 2; with Phase 4's entry condition arsenal ≥ 2 downstream); lift = ≥ 2 distinct expert hashes with non-overlapping coverage vectors **+ explicit operator authorization** |
 | `P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE` | **numeric instantiated 2026-07-17** (level 0.7401, retain-fwer) | certification level + screen (S-c)/(S-d) bounds SET |
 | `P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE` | **numeric instantiated 2026-07-17** (record only; bracketing inconclusive-on-null-ledger) | fraction selection still a Phase-4 champion action (arsenal ≥ 1) |
 | `P1-2.0-H900-BOCPD-WHITENED` (on-ledger numeric) | **executed 2026-07-17** (latent-state latency UNATTAINABLE; amended S-e rule) | ADR-0014 (S-e) selectability input QUANTIFIED |
