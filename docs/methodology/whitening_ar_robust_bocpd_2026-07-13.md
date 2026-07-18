@@ -9,6 +9,18 @@ sensitivity
 ([reports/H900/H900_bocpd_sensitivity_2026-07-11.md](../../reports/H900/H900_bocpd_sensitivity_2026-07-11.md)
 §4, §6 deviation 1, §9).
 
+
+> **ON-LEDGER NUMERIC 2026-07-17** (round-2 audit-remediated) — the deferred
+> reproducible on-ledger prewhitened ROC re-run (§5) is EXECUTED end-to-end
+> over the declared hazard range; see the addendum §C. Verdict: NO accurate,
+> non-degenerate operating point exists — net detection is negative at every
+> non-degenerate point, and the only calibrated-positive point (NQ at the
+> hazard noise shoulder, net +2.1 pp) is the always-alarm corner (FP 0.86),
+> excluded by the registered majority-coherence floor. The latent-state
+> unsupervised detection latency is UNATTAINABLE; the documented prior probe
+> (§4: net ~ 26 pp @ L ~ 45) is NOT reproduced and is SUPERSEDED by the
+> reproducible record; the qualitative NO-GO holds in its strongest form.
+
 This memo freezes the prewhitening primitive
 ([src/skie_universe2/inference/whitening.py](../../src/skie_universe2/inference/whitening.py))
 and its unit tests
@@ -236,3 +248,102 @@ on-ledger number.
   Inference." *J. Am. Stat. Assoc.* 22(158):209–212.
   https://doi.org/10.1080/01621459.1927.10502953 (score-interval for the
   false-alarm rate.)
+
+
+## C. On-ledger numeric addendum (2026-07-17) — the reproducible prewhitened ROC
+
+**Status:** EXECUTED (closes the §5 deferred confirmation; round-2
+audit-remediated — the grid-coverage and interval-calibration findings
+QUANT-2-1/QUANT-2-2 are incorporated). Harness
+[scripts/run_h900_whitened_roc.py](../../scripts/run_h900_whitened_roc.py)
+(deterministic — no RNG; the registered seed is recorded per the ReproLog
+contract), ReproLog `repro_log_80d89d060cd34a17884ce088f243eb67.json`,
+machine artifact
+[reports/H900_whitened_roc/h900_whitened_roc.json](../../reports/H900_whitened_roc/h900_whitened_roc.json).
+Substrate: the archived H900 filtered sequences
+(`data/interim/h900_filtered_sequences/{primary,inclusive}.parquet`) + the
+committed per-window transition matrices — both SHA-256-bound in the run
+ReproLog, repairing the §5 provenance gap. Provenance note: the run executed
+on a dirty working tree (the harness itself lands in the same session's
+provenance commit; the ReproLog's `working_tree_hash` binds the exact
+content).
+
+### C.1 Protocol (pre-registered in the harness docstring)
+
+Per segment: `phi = ar1_within_run(z, states)` -> `w = whiten_ar1(z, phi)`
+(frozen primitive, no refit; the log-rvol dimension reproduces the structural
+phi ~ 0.998 on-ledger). TRUE axis: `bocpd_detection_delays` per segment
+(alarm_prob 0.5, max_run_length 200 — the step-2 registered parameters),
+pooled per instrument; TP rate with Wilson 95% intervals; KM median delay
+with the Brookmeyer-Crowley/Greenwood CI. FALSE axis: label-flip
+pseudo-transitions at the midpoints of stable same-state runs >= 2x the
+median filtered dwell (the frozen synthetic FP construction applied
+on-ledger; geometry-matched to real transitions). Net = TP - FP per hazard
+over the quarter-decade ladder 1e-4..10^-0.5 PLUS the midpoint 10^-0.375 and
+the declared ceiling 0.5 itself (17 grid points — the stated range is
+evaluated end-to-end) plus the two data anchors (median per-window
+`anchored_hazard`, 1/median dwell). The net CI is the calibrated Newcombe
+(1998) hybrid-score difference interval (Stat Med 17:873-890,
+doi:10.1002/(SICI)1097-0258(19980430)17:8<873::AID-SIM779>3.0.CO;2-I; the
+construction later generalized as "MOVER" by Zou & Donner 2008, Stat Med
+27:1693-1702 — the artifact field name `net_mover95` uses that later label),
+replacing the round-1 Bonferroni box whose over-conservatism was
+verdict-determining (audit QUANT-2-2). Artifact-key note: the per-instrument
+list `hazards_with_net_ci_including_zero` records the hazards whose
+calibrated net CI does NOT exclude 0 from above (predicate: lower bound
+<= 0), i.e. the no-significant-positive-discrimination set.
+
+### C.2 Result — no accurate, non-degenerate operating point
+
+Primary variant (binding): **ES net is negative at every operating point
+below the always-alarm limit** (range -0.154 to -0.010 across hz 1e-4 ..
+0.4217; at the hz = 0.5 ceiling TP = FP = 1.000 exactly and net = 0 — the
+pure always-alarm corner). **NQ net is negative at every point except the
+noise shoulder**: at hz ~ 0.316, net = +0.0214 with calibrated MOVER 95% CI
+[+0.0037, +0.0401] — a formally positive difference carried by a detector
+whose false-alarm rate is 0.857 (six false alarms for every seven stable
+windows), which FAILS the majority-coherence floor (fp < the registered
+0-1-loss alarm standard 0.5) and is excluded as the degenerate always-alarm
+corner; by hz = 0.4217 the net is back to ~0 (TP ~ FP ~ 0.98) and at 0.5 it
+is exactly 0. At the latency the documented prior probe quoted (L ~ 45
+bars, hz ~ 0.01) the measured net is ~ **-13 pp (ES)** / **-7 pp (NQ)**.
+The inclusive variant reproduces the same shape (ES negative everywhere
+below the corner — its shoulder point is negative outright; NQ shoulder
++0.0213 [+0.0051, +0.0382] with FP 0.862, floored identically).
+
+### C.3 Verdicts
+
+1. **Reproduction:** the documented prior probe (net ~ +26 pp @ L ~ 45;
+   session_handoff_2026-07-12 §2) is **NOT reproduced quantitatively** — no
+   operating point with simultaneously positive and floor-compliant
+   discrimination exists anywhere on the end-to-end sweep. The **qualitative
+   NO-GO ("no accurate-and-timely operating point") is reproduced in its
+   strongest form**: there is no accurate, non-degenerate operating point at
+   ANY latency. This reproducible run **supersedes** the documented prior
+   probe as the P1-2.0-H900-BOCPD-WHITENED on-ledger record; §4's reliance
+   on the documented-but-unpreserved probe is closed.
+2. **The (S-e) emission (ADR-0014), rule v2.** The originally registered
+   emission rule ("KM latency at the best-net point") presumed a
+   positive-net peak; on the measured sweep it degenerates to the noise
+   shoulder (L = 1 bar) — a DOCUMENTED DEVIATION, replaced before any screen
+   consumption. Rule v2 (audit QUANT-2-2): an operating point qualifies only
+   if (i) its calibrated Newcombe 95% CI on net excludes 0 from above AND
+   (ii) its false-alarm rate is below the registered Bayes 0-1-loss majority
+   standard (fp < alarm_prob = 0.5) — the same decision threshold the alarm
+   rule itself uses, applied to specificity, which excludes the always-alarm
+   corner on principle rather than on interval conservatism. NO point
+   qualifies on either instrument (the NQ shoulder passes (i) and fails (ii)
+   at fp = 0.857): the **latent-state unsupervised detection latency is
+   UNATTAINABLE** (`latent_state_latency_attainable: false`, per-instrument
+   values null). Consumers: a cell whose membership tracks a LATENT state
+   fails S-e outright; a RULE-BASED causal covariate cell carries its
+   structural observation lag (screen addenda, amended at freeze). The
+   supervised-CUSUM oracle latency (2-3 bars) remains FORBIDDEN as the
+   input.
+3. **H900 consequence:** the dwell-feasibility GO remains
+   supervised-detection-dependent — now on reproducible on-ledger evidence
+   rather than the frozen-synthetic + documented-prior pair (§5). The
+   allocator program proceeds on the registered supervised regime family
+   with the standing detection-latency charge, and latent-state conditioning
+   cannot pass the ADR-0014 screen until a working unsupervised detector
+   exists.

@@ -110,10 +110,18 @@ extensions:
       use a realistic (unsupervised) detection latency, not the supervised
       CUSUM oracle. H900 CUSUM L_detect = 2-3 bars (report §3.2); the BOCPD
       sensitivity (P1-2.0-H900-BOCPD-SENSITIVITY) shows a live detector
-      corroborates only ~46-48% of filtered transitions, and the true
-      live-unsupervised latency is unquantified pending
-      P1-2.0-H900-BOCPD-WHITENED. Budget switch costs accordingly — and, under
-      the ADR-0013 aggressive geometric-growth mandate (STATUS: proposed), this
+      corroborates only ~46-48% of filtered transitions. QUANTIFIED
+      2026-07-17 (P1-2.0-H900-BOCPD-WHITENED reproducible on-ledger ROC,
+      reports/H900_whitened_roc/): the whitened unsupervised latency is
+      UNATTAINABLE — no accurate, non-degenerate operating point exists (net
+      negative everywhere below the always-alarm corner; the sole
+      calibrated-positive point fails the registered majority-coherence
+      floor at FP 0.86) — so a live latent-state detector cannot enter this
+      covariate's regimes accurately at ANY latency; selection on this
+      covariate as a LATENT state fails ADR-0014 S-e outright, and only
+      rule-based causal derivatives (e.g. the H103 realized-vol percentile
+      rule) are ex-ante selectable. Budget switch costs accordingly — and, under
+      the ADR-0013 aggressive geometric-growth mandate (accepted 2026-07-12), this
       is MORE binding, not less: at leverage/compounding an oracle
       (supervised-CUSUM) switch-cost assumption manufactures fake compounded
       edge, which the geometric-growth objective realizes as negative log-wealth

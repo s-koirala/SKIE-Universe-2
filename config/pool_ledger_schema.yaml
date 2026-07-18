@@ -113,12 +113,28 @@ screen:
   detection_latency_bars:
     dtype: float
     role: gate
-    status: BLOCKED_PENDING_P1-2.0-H900-BOCPD-WHITENED
-    desc: realistic UNSUPERVISED detection latency (ADR-0004 D6; H900 detection_cost_caveat). BLOCKED/DEFERRED -- currently unquantified; the on-ledger prewhitened ROC re-run is deferred; the only quantified value (supervised-CUSUM 2-3 bars) is FORBIDDEN as the input. No screen pass is certifiable; and the H101/H103 re-runs cannot run S-e; until a reproducible on-ledger unsupervised latency is emitted
+    status: QUANTIFIED_2026-07-17_P1-2.0-H900-BOCPD-WHITENED
+    desc: >-
+      realistic UNSUPERVISED detection latency (ADR-0004 D6; H900
+      detection_cost_caveat). QUANTIFIED 2026-07-17 by the reproducible
+      on-ledger prewhitened ROC (reports/H900_whitened_roc/
+      h900_whitened_roc.json): for LATENT-STATE mechanisms the latency is
+      UNATTAINABLE (no accurate, non-degenerate operating point: net negative
+      everywhere below the always-alarm corner, the sole calibrated-positive
+      point floored at FP 0.86; latent_state_latency_attainable = false) -- a
+      latent-state cell FAILS S-e outright and this field records null for
+      it. For RULE-BASED CAUSAL covariate cells (membership computable from
+      realized data at decision time) the field records the cell's
+      STRUCTURAL OBSERVATION LAG in bars (screen-addendum amended S-e rule).
+      The supervised-CUSUM oracle value (2-3 bars) remains FORBIDDEN as the
+      input.
   selectable:
     dtype: bool
     role: gate
-    desc: cell_dwell_bars >= detection_latency_bars
+    desc: >-
+      cell_dwell_bars >= the cell's latency input under the amended S-e rule
+      (rule-based causal cells: structural observation lag; latent-state
+      cells: unattainable -> false)
 
 # ---------------------------------------------------------------------------
 # Competence structure -- the discretized edge process e_i(t) (ADR-0009 s5).
