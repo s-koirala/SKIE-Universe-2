@@ -1,0 +1,1212 @@
+{
+  "calibration": "P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE",
+  "certifies": "nothing (no admission certified, no Kelly fraction selected)",
+  "controls_off_exhibit": [
+    {
+      "instrument": "ES",
+      "lambda": 4.515557176311299,
+      "t_star": 0.8186946544050185
+    },
+    {
+      "instrument": "NQ",
+      "lambda": 4.156486266827317,
+      "t_star": 0.806069492236759
+    }
+  ],
+  "enactment": {
+    "bootstrap_ci95": [
+      0.4239148702269028,
+      0.9999999999999998
+    ],
+    "closed_form_benchmark": {
+      "formula": "lambda ~ (H_dwell/H_dem) x 4/(1 - r); SR^2/2 over SR^2/8; quoted at H_dwell = H_dem, r = jeffreys endpoint",
+      "lambda": 5.998604535018371,
+      "t_star": 0.8571143725872239
+    },
+    "enactment_subset_band": [
+      0.5095927499727273,
+      0.8867438637824312
+    ],
+    "full_band_max_with_dwell_sensitivity": 0.9690576584046474,
+    "n_bootstrap_effective": 1000,
+    "n_dropped_evaluations": 0,
+    "n_partial_replicates": 0,
+    "rule": "screening_error_rate_target = the RD4 Bayes posterior-null cutoff t* (pi1-free), median over the 1-window dwell-floor enactment subset (instrument x same-instrument mu-anchor); 2x/4x dwell multiples sensitivity only; the memo's implied-FDR translation is degenerate on the all-null ledger and is reported as a bridge, not enacted (see memo addendum)",
+    "screening_error_rate_target": 0.7400550140326007
+  },
+  "lambda_by_operating_fraction": {
+    "ES": {
+      "0.5": 4.99571154215283,
+      "0.75": 6.313818731258448,
+      "1.0": 6.771760438988927,
+      "1.25": 6.272948597738394
+    },
+    "NQ": {
+      "0.5": 4.6497700908406365,
+      "0.75": 5.833384407806275,
+      "1.0": 6.233279342482982,
+      "1.25": 5.823214481818837
+    }
+  },
+  "n_bootstrap": 1000,
+  "raw_stream_sensitivity": {
+    "ES": {
+      "lambda": 2.2656623933188307,
+      "raw_mean_per_session": -0.00011397609391294636,
+      "t_star": 0.6937834106655101
+    },
+    "NQ": {
+      "lambda": "inf",
+      "raw_mean_per_session": 0.00012105540212473657,
+      "t_star": 0.9999999999999998
+    }
+  },
+  "rd1_rd2_rd4_band": [
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 104.0,
+      "instrument": "ES",
+      "l_fd": 0.013770346262616934,
+      "l_fd_unbounded": 0.013770346262616934,
+      "l_md": 0.06218078588645137,
+      "lambda": 4.515557176311299,
+      "loss_diag": {
+        "b_star_true": 4.619120029733943,
+        "g_bench_per_session": 0.0004410812891949853,
+        "h_dem_sessions": 104.0,
+        "r_backstop": 0.0,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.8186946544050185
+      },
+      "mu": 0.9482661199375332,
+      "mu_anchor": "RC-H101-1:ES",
+      "r_backstop": 0.0,
+      "r_variant": "r0-no-information",
+      "t_star": 0.8186946544050185
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 104.0,
+      "instrument": "ES",
+      "l_fd": 0.009182366453550358,
+      "l_fd_unbounded": 0.013770346262616934,
+      "l_md": 0.06218078588645137,
+      "lambda": 6.771760438988927,
+      "loss_diag": {
+        "b_star_true": 4.619120029733943,
+        "g_bench_per_session": 0.0004410812891949853,
+        "h_dem_sessions": 104.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.8713290241187497
+      },
+      "mu": 0.9482661199375332,
+      "mu_anchor": "RC-H101-1:ES",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.8713290241187497
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 2,
+      "h_dwell_sessions": 104.0,
+      "instrument": "ES",
+      "l_fd": 0.02754069252523387,
+      "l_fd_unbounded": 0.02754069252523387,
+      "l_md": 0.06218078588645137,
+      "lambda": 2.2577785881556496,
+      "loss_diag": {
+        "b_star_true": 4.619120029733943,
+        "g_bench_per_session": 0.0004410812891949853,
+        "h_dem_sessions": 208.0,
+        "r_backstop": 0.0,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.69304236830713
+      },
+      "mu": 0.9482661199375332,
+      "mu_anchor": "RC-H101-1:ES",
+      "r_backstop": 0.0,
+      "r_variant": "r0-no-information",
+      "t_star": 0.69304236830713
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 2,
+      "h_dwell_sessions": 104.0,
+      "instrument": "ES",
+      "l_fd": 0.018364732907100716,
+      "l_fd_unbounded": 0.02754069252523387,
+      "l_md": 0.06218078588645137,
+      "lambda": 3.3858802194944637,
+      "loss_diag": {
+        "b_star_true": 4.619120029733943,
+        "g_bench_per_session": 0.0004410812891949853,
+        "h_dem_sessions": 208.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.7719955972451832
+      },
+      "mu": 0.9482661199375332,
+      "mu_anchor": "RC-H101-1:ES",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.7719955972451832
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 4,
+      "h_dwell_sessions": 104.0,
+      "instrument": "ES",
+      "l_fd": 0.05508138505046774,
+      "l_fd_unbounded": 0.05508138505046774,
+      "l_md": 0.06218078588645137,
+      "lambda": 1.1288892940778248,
+      "loss_diag": {
+        "b_star_true": 4.619120029733943,
+        "g_bench_per_session": 0.0004410812891949853,
+        "h_dem_sessions": 416.0,
+        "r_backstop": 0.0,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.5302714881502695
+      },
+      "mu": 0.9482661199375332,
+      "mu_anchor": "RC-H101-1:ES",
+      "r_backstop": 0.0,
+      "r_variant": "r0-no-information",
+      "t_star": 0.5302714881502695
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 4,
+      "h_dwell_sessions": 104.0,
+      "instrument": "ES",
+      "l_fd": 0.03672946581420143,
+      "l_fd_unbounded": 0.05508138505046774,
+      "l_md": 0.06218078588645137,
+      "lambda": 1.6929401097472319,
+      "loss_diag": {
+        "b_star_true": 4.619120029733943,
+        "g_bench_per_session": 0.0004410812891949853,
+        "h_dem_sessions": 416.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.6286586558756172
+      },
+      "mu": 0.9482661199375332,
+      "mu_anchor": "RC-H101-1:ES",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.6286586558756172
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 104.0,
+      "instrument": "ES",
+      "l_fd": 0.02967715430330549,
+      "l_fd_unbounded": 0.02967715430330549,
+      "l_md": 0.15494175293464976,
+      "lambda": 5.220910042489892,
+      "loss_diag": {
+        "b_star_true": 6.729752330874986,
+        "g_bench_per_session": 0.0010731919782672105,
+        "h_dem_sessions": 104.0,
+        "r_backstop": 0.0,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.8392518147393505
+      },
+      "mu": 1.147519791676657,
+      "mu_anchor": "RC-H103-1:ES",
+      "r_backstop": 0.0,
+      "r_variant": "r0-no-information",
+      "t_star": 0.8392518147393505
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 104.0,
+      "instrument": "ES",
+      "l_fd": 0.019789372098165562,
+      "l_fd_unbounded": 0.02967715430330549,
+      "l_md": 0.15494175293464976,
+      "lambda": 7.829543664450706,
+      "loss_diag": {
+        "b_star_true": 6.729752330874986,
+        "g_bench_per_session": 0.0010731919782672105,
+        "h_dem_sessions": 104.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.8867438637824312
+      },
+      "mu": 1.147519791676657,
+      "mu_anchor": "RC-H103-1:ES",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.8867438637824312
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 2,
+      "h_dwell_sessions": 104.0,
+      "instrument": "ES",
+      "l_fd": 0.05935430860661098,
+      "l_fd_unbounded": 0.05935430860661098,
+      "l_md": 0.15494175293464976,
+      "lambda": 2.610455021244946,
+      "loss_diag": {
+        "b_star_true": 6.729752330874986,
+        "g_bench_per_session": 0.0010731919782672105,
+        "h_dem_sessions": 208.0,
+        "r_backstop": 0.0,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.723026600770342
+      },
+      "mu": 1.147519791676657,
+      "mu_anchor": "RC-H103-1:ES",
+      "r_backstop": 0.0,
+      "r_variant": "r0-no-information",
+      "t_star": 0.723026600770342
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 2,
+      "h_dwell_sessions": 104.0,
+      "instrument": "ES",
+      "l_fd": 0.039578744196331124,
+      "l_fd_unbounded": 0.05935430860661098,
+      "l_md": 0.15494175293464976,
+      "lambda": 3.914771832225353,
+      "loss_diag": {
+        "b_star_true": 6.729752330874986,
+        "g_bench_per_session": 0.0010731919782672105,
+        "h_dem_sessions": 208.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.7965317548531624
+      },
+      "mu": 1.147519791676657,
+      "mu_anchor": "RC-H103-1:ES",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.7965317548531624
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 4,
+      "h_dwell_sessions": 104.0,
+      "instrument": "ES",
+      "l_fd": 0.11870861721322196,
+      "l_fd_unbounded": 0.11870861721322196,
+      "l_md": 0.15494175293464976,
+      "lambda": 1.305227510622473,
+      "loss_diag": {
+        "b_star_true": 6.729752330874986,
+        "g_bench_per_session": 0.0010731919782672105,
+        "h_dem_sessions": 416.0,
+        "r_backstop": 0.0,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.5662033376783825
+      },
+      "mu": 1.147519791676657,
+      "mu_anchor": "RC-H103-1:ES",
+      "r_backstop": 0.0,
+      "r_variant": "r0-no-information",
+      "t_star": 0.5662033376783825
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 4,
+      "h_dwell_sessions": 104.0,
+      "instrument": "ES",
+      "l_fd": 0.07915748839266225,
+      "l_fd_unbounded": 0.11870861721322196,
+      "l_md": 0.15494175293464976,
+      "lambda": 1.9573859161126765,
+      "loss_diag": {
+        "b_star_true": 6.729752330874986,
+        "g_bench_per_session": 0.0010731919782672105,
+        "h_dem_sessions": 416.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.6618635415311486
+      },
+      "mu": 1.147519791676657,
+      "mu_anchor": "RC-H103-1:ES",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.6618635415311486
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 100.0,
+      "instrument": "NQ",
+      "l_fd": 0.015046190037997084,
+      "l_fd_unbounded": 0.015046190037997084,
+      "l_md": 0.06253928226100887,
+      "lambda": 4.156486266827317,
+      "loss_diag": {
+        "b_star_true": 4.109790552789517,
+        "g_bench_per_session": 0.00046651733089831976,
+        "h_dem_sessions": 100.0,
+        "r_backstop": 0.0,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.806069492236759
+      },
+      "mu": 0.8316255016806696,
+      "mu_anchor": "RC-H101-1:NQ",
+      "r_backstop": 0.0,
+      "r_variant": "r0-no-information",
+      "t_star": 0.806069492236759
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 100.0,
+      "instrument": "NQ",
+      "l_fd": 0.01003312683819121,
+      "l_fd_unbounded": 0.015046190037997084,
+      "l_md": 0.06253928226100887,
+      "lambda": 6.233279342482982,
+      "loss_diag": {
+        "b_star_true": 4.109790552789517,
+        "g_bench_per_session": 0.00046651733089831976,
+        "h_dem_sessions": 100.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.8617501201527317
+      },
+      "mu": 0.8316255016806696,
+      "mu_anchor": "RC-H101-1:NQ",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.8617501201527317
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 2,
+      "h_dwell_sessions": 100.0,
+      "instrument": "NQ",
+      "l_fd": 0.030092380075994168,
+      "l_fd_unbounded": 0.030092380075994168,
+      "l_md": 0.06253928226100887,
+      "lambda": 2.0782431334136584,
+      "loss_diag": {
+        "b_star_true": 4.109790552789517,
+        "g_bench_per_session": 0.00046651733089831976,
+        "h_dem_sessions": 200.0,
+        "r_backstop": 0.0,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.6751393711740252
+      },
+      "mu": 0.8316255016806696,
+      "mu_anchor": "RC-H101-1:NQ",
+      "r_backstop": 0.0,
+      "r_variant": "r0-no-information",
+      "t_star": 0.6751393711740252
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 2,
+      "h_dwell_sessions": 100.0,
+      "instrument": "NQ",
+      "l_fd": 0.02006625367638242,
+      "l_fd_unbounded": 0.030092380075994168,
+      "l_md": 0.06253928226100887,
+      "lambda": 3.116639671241491,
+      "loss_diag": {
+        "b_star_true": 4.109790552789517,
+        "g_bench_per_session": 0.00046651733089831976,
+        "h_dem_sessions": 200.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.7570834272948593
+      },
+      "mu": 0.8316255016806696,
+      "mu_anchor": "RC-H101-1:NQ",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.7570834272948593
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 4,
+      "h_dwell_sessions": 100.0,
+      "instrument": "NQ",
+      "l_fd": 0.060184760151988335,
+      "l_fd_unbounded": 0.060184760151988335,
+      "l_md": 0.06253928226100887,
+      "lambda": 1.0391215667068292,
+      "loss_diag": {
+        "b_star_true": 4.109790552789517,
+        "g_bench_per_session": 0.00046651733089831976,
+        "h_dem_sessions": 400.0,
+        "r_backstop": 0.0,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.5095927499727273
+      },
+      "mu": 0.8316255016806696,
+      "mu_anchor": "RC-H101-1:NQ",
+      "r_backstop": 0.0,
+      "r_variant": "r0-no-information",
+      "t_star": 0.5095927499727273
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 4,
+      "h_dwell_sessions": 100.0,
+      "instrument": "NQ",
+      "l_fd": 0.04013250735276484,
+      "l_fd_unbounded": 0.060184760151988335,
+      "l_md": 0.06253928226100887,
+      "lambda": 1.5583198356207455,
+      "loss_diag": {
+        "b_star_true": 4.109790552789517,
+        "g_bench_per_session": 0.00046651733089831976,
+        "h_dem_sessions": 400.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.6091184588898901
+      },
+      "mu": 0.8316255016806696,
+      "mu_anchor": "RC-H101-1:NQ",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.6091184588898901
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 100.0,
+      "instrument": "NQ",
+      "l_fd": 0.03716913587836468,
+      "l_fd_unbounded": 0.03716913587836468,
+      "l_md": 0.1620825681471585,
+      "lambda": 4.360676252403897,
+      "loss_diag": {
+        "b_star_true": 6.439010852907398,
+        "g_bench_per_session": 0.0012001219511297277,
+        "h_dem_sessions": 100.0,
+        "r_backstop": 0.0,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.8134563713763597
+      },
+      "mu": 1.057403753881003,
+      "mu_anchor": "RC-H103-1:NQ",
+      "r_backstop": 0.0,
+      "r_variant": "r0-no-information",
+      "t_star": 0.8134563713763597
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 100.0,
+      "instrument": "NQ",
+      "l_fd": 0.024785188395988065,
+      "l_fd_unbounded": 0.03716913587836468,
+      "l_md": 0.1620825681471585,
+      "lambda": 6.5394930858542315,
+      "loss_diag": {
+        "b_star_true": 6.439010852907398,
+        "g_bench_per_session": 0.0012001219511297277,
+        "h_dem_sessions": 100.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.8673650882608775
+      },
+      "mu": 1.057403753881003,
+      "mu_anchor": "RC-H103-1:NQ",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.8673650882608775
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 2,
+      "h_dwell_sessions": 100.0,
+      "instrument": "NQ",
+      "l_fd": 0.07433827175672936,
+      "l_fd_unbounded": 0.07433827175672936,
+      "l_md": 0.1620825681471585,
+      "lambda": 2.1803381262019483,
+      "loss_diag": {
+        "b_star_true": 6.439010852907398,
+        "g_bench_per_session": 0.0012001219511297277,
+        "h_dem_sessions": 200.0,
+        "r_backstop": 0.0,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.685568024430714
+      },
+      "mu": 1.057403753881003,
+      "mu_anchor": "RC-H103-1:NQ",
+      "r_backstop": 0.0,
+      "r_variant": "r0-no-information",
+      "t_star": 0.685568024430714
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 2,
+      "h_dwell_sessions": 100.0,
+      "instrument": "NQ",
+      "l_fd": 0.04957037679197613,
+      "l_fd_unbounded": 0.07433827175672936,
+      "l_md": 0.1620825681471585,
+      "lambda": 3.2697465429271158,
+      "loss_diag": {
+        "b_star_true": 6.439010852907398,
+        "g_bench_per_session": 0.0012001219511297277,
+        "h_dem_sessions": 200.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.7657940606201762
+      },
+      "mu": 1.057403753881003,
+      "mu_anchor": "RC-H103-1:NQ",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.7657940606201762
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 4,
+      "h_dwell_sessions": 100.0,
+      "instrument": "NQ",
+      "l_fd": 0.14867654351345871,
+      "l_fd_unbounded": 0.14867654351345871,
+      "l_md": 0.1620825681471585,
+      "lambda": 1.0901690631009742,
+      "loss_diag": {
+        "b_star_true": 6.439010852907398,
+        "g_bench_per_session": 0.0012001219511297277,
+        "h_dem_sessions": 400.0,
+        "r_backstop": 0.0,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.5215698013841998
+      },
+      "mu": 1.057403753881003,
+      "mu_anchor": "RC-H103-1:NQ",
+      "r_backstop": 0.0,
+      "r_variant": "r0-no-information",
+      "t_star": 0.5215698013841998
+    },
+    {
+      "dwell_multiple": 1,
+      "enactment_member": true,
+      "h_dem_multiple": 4,
+      "h_dwell_sessions": 100.0,
+      "instrument": "NQ",
+      "l_fd": 0.09914075358395226,
+      "l_fd_unbounded": 0.14867654351345871,
+      "l_md": 0.1620825681471585,
+      "lambda": 1.6348732714635579,
+      "loss_diag": {
+        "b_star_true": 6.439010852907398,
+        "g_bench_per_session": 0.0012001219511297277,
+        "h_dem_sessions": 400.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.6204751056415918
+      },
+      "mu": 1.057403753881003,
+      "mu_anchor": "RC-H103-1:NQ",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.6204751056415918
+    },
+    {
+      "dwell_multiple": 2,
+      "enactment_member": false,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 208.0,
+      "instrument": "ES",
+      "l_fd": 0.009182366453550358,
+      "l_fd_unbounded": 0.013770346262616934,
+      "l_md": 0.12436157177290275,
+      "lambda": 13.543520877977855,
+      "loss_diag": {
+        "b_star_true": 4.619120029733943,
+        "g_bench_per_session": 0.0004410812891949853,
+        "h_dem_sessions": 104.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.9312408591846405
+      },
+      "mu": 0.9482661199375332,
+      "mu_anchor": "RC-H101-1:ES",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.9312408591846405
+    },
+    {
+      "dwell_multiple": 2,
+      "enactment_member": false,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 208.0,
+      "instrument": "ES",
+      "l_fd": 0.019789372098165562,
+      "l_fd_unbounded": 0.02967715430330549,
+      "l_md": 0.3098835058692995,
+      "lambda": 15.659087328901412,
+      "loss_diag": {
+        "b_star_true": 6.729752330874986,
+        "g_bench_per_session": 0.0010731919782672105,
+        "h_dem_sessions": 104.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.9399727019699856
+      },
+      "mu": 1.147519791676657,
+      "mu_anchor": "RC-H103-1:ES",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.9399727019699856
+    },
+    {
+      "dwell_multiple": 4,
+      "enactment_member": false,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 416.0,
+      "instrument": "ES",
+      "l_fd": 0.009182366453550358,
+      "l_fd_unbounded": 0.013770346262616934,
+      "l_md": 0.2487231435458055,
+      "lambda": 27.08704175595571,
+      "loss_diag": {
+        "b_star_true": 4.619120029733943,
+        "g_bench_per_session": 0.0004410812891949853,
+        "h_dem_sessions": 104.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.9643963928743775
+      },
+      "mu": 0.9482661199375332,
+      "mu_anchor": "RC-H101-1:ES",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.9643963928743775
+    },
+    {
+      "dwell_multiple": 4,
+      "enactment_member": false,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 416.0,
+      "instrument": "ES",
+      "l_fd": 0.019789372098165562,
+      "l_fd_unbounded": 0.02967715430330549,
+      "l_md": 0.619767011738599,
+      "lambda": 31.318174657802825,
+      "loss_diag": {
+        "b_star_true": 6.729752330874986,
+        "g_bench_per_session": 0.0010731919782672105,
+        "h_dem_sessions": 104.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.006957855109018457,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": -5.258039626187188e-18,
+        "t_star": 0.9690576584046474
+      },
+      "mu": 1.147519791676657,
+      "mu_anchor": "RC-H103-1:ES",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.9690576584046474
+    },
+    {
+      "dwell_multiple": 2,
+      "enactment_member": false,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 200.0,
+      "instrument": "NQ",
+      "l_fd": 0.01003312683819121,
+      "l_fd_unbounded": 0.015046190037997084,
+      "l_md": 0.12507856452201774,
+      "lambda": 12.466558684965964,
+      "loss_diag": {
+        "b_star_true": 4.109790552789517,
+        "g_bench_per_session": 0.00046651733089831976,
+        "h_dem_sessions": 100.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.9257419788237067
+      },
+      "mu": 0.8316255016806696,
+      "mu_anchor": "RC-H101-1:NQ",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.9257419788237067
+    },
+    {
+      "dwell_multiple": 2,
+      "enactment_member": false,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 200.0,
+      "instrument": "NQ",
+      "l_fd": 0.024785188395988065,
+      "l_fd_unbounded": 0.03716913587836468,
+      "l_md": 0.324165136294317,
+      "lambda": 13.078986171708463,
+      "loss_diag": {
+        "b_star_true": 6.439010852907398,
+        "g_bench_per_session": 0.0012001219511297277,
+        "h_dem_sessions": 100.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.928972158378173
+      },
+      "mu": 1.057403753881003,
+      "mu_anchor": "RC-H103-1:NQ",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.928972158378173
+    },
+    {
+      "dwell_multiple": 4,
+      "enactment_member": false,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 400.0,
+      "instrument": "NQ",
+      "l_fd": 0.01003312683819121,
+      "l_fd_unbounded": 0.015046190037997084,
+      "l_md": 0.2501571290440355,
+      "lambda": 24.933117369931928,
+      "loss_diag": {
+        "b_star_true": 4.109790552789517,
+        "g_bench_per_session": 0.00046651733089831976,
+        "h_dem_sessions": 100.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.03568846621403301,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.9614392675691412
+      },
+      "mu": 0.8316255016806696,
+      "mu_anchor": "RC-H101-1:NQ",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.9614392675691412
+    },
+    {
+      "dwell_multiple": 4,
+      "enactment_member": false,
+      "h_dem_multiple": 1,
+      "h_dwell_sessions": 400.0,
+      "instrument": "NQ",
+      "l_fd": 0.024785188395988065,
+      "l_fd_unbounded": 0.03716913587836468,
+      "l_md": 0.648330272588634,
+      "lambda": 26.157972343416926,
+      "loss_diag": {
+        "b_star_true": 6.439010852907398,
+        "g_bench_per_session": 0.0012001219511297277,
+        "h_dem_sessions": 100.0,
+        "r_backstop": 0.3331782455987909,
+        "sigma_te": 0.008413092898476355,
+        "sr_bench_anchor": 0.05803257027753448,
+        "sr_false": 8.989354134664073e-18,
+        "t_star": 0.9631783997952852
+      },
+      "mu": 1.057403753881003,
+      "mu_anchor": "RC-H103-1:NQ",
+      "r_backstop": 0.3331782455987909,
+      "r_variant": "r-jeffreys-censored-record",
+      "t_star": 0.9631783997952852
+    }
+  ],
+  "rd2_backstop": {
+    "jeffreys_lower_95": 0.3331782455987909,
+    "record": {
+      "n_null_candidates": 2,
+      "n_rejected_by_gates": 2
+    }
+  },
+  "rd3_pi1": {
+    "empirical_lfdr": [
+      0.10765325328947262,
+      0.06451657316993194,
+      0.04602181524863627,
+      0.08353679815928092,
+      0.10067437261558054,
+      0.07134945497221341,
+      0.0634387389309556,
+      0.07038408386572803,
+      0.09955529749041508,
+      0.04926581225337524,
+      0.19382896475320774,
+      0.19648567350040816,
+      0.07664149842813706,
+      0.01603126157857218
+    ],
+    "estimators": [
+      {
+        "enactment_band_member": true,
+        "estimator": "exploration-hit-rate",
+        "jeffreys_95ci": [
+          0.00015063602543656846,
+          0.5355832430429502
+        ],
+        "jeffreys_median": 0.06737827302740962,
+        "n_admitted": 0,
+        "n_scans": 3,
+        "pi1": 0.0
+      },
+      {
+        "caveat": "n=14 correlated p-values; the spline pi0 clamps at 1/m -> pi1 ~ 0.93, far above the factor-zoo prior \u2014 the memo's RD3 mis-specified-null red flag; EXCLUDED from decision use",
+        "enactment_band_member": false,
+        "estimator": "storey-tibshirani-spline",
+        "pi0": 0.07142857142857142,
+        "pi1": 0.9285714285714286
+      },
+      {
+        "caveat": "n=14 correlated z-values; the Lindsey density is degenerate at this N and pi1 ~ 0.91 fails the factor-zoo cross-check (RD3 red flag); EXCLUDED from decision use",
+        "enactment_band_member": false,
+        "estimator": "efron-lindsey-lfdr-mean",
+        "pi0": 0.08852739987542249,
+        "pi1": 0.9114726001245775
+      }
+    ],
+    "factor_zoo_crosscheck": "Harvey-Liu-Zhu 2016 (doi:10.1093/rfs/hhv059) and Harvey-Liu 2020 (doi:10.1111/jofi.12951) document a large null proportion among published factors; the hit-rate band (pi1 ~ 0 with a wide small-N upper bound) is CONSISTENT with that prior; Storey/Efron are not."
+  },
+  "rd5_criterion": {
+    "dependence": {
+      "note": "exact RC-H101-1 cell masks (harness _session_covariates/_cells reused by module import); masked contribution-series correlations",
+      "prds_defensible": true,
+      "prds_tolerance": -0.05,
+      "rho_bar": 0.4168381947317109,
+      "rho_min": 1.825975388552321e-05
+    },
+    "dependence_per_instrument": {
+      "ES": {
+        "cells": [
+          "unconditional",
+          "high_vol",
+          "low_vol",
+          "first_hour_up",
+          "first_hour_down"
+        ],
+        "n_sessions": 2276,
+        "rho_offdiag": [
+          0.8858420708234205,
+          0.2491408251522924,
+          0.6878234405391607,
+          0.7254514525020789,
+          1.825975388552321e-05,
+          0.6278155663613142,
+          0.6258358830957557,
+          0.17847280948478417,
+          0.17259503473350052,
+          0.00015927855135860138
+        ]
+      },
+      "NQ": {
+        "cells": [
+          "unconditional",
+          "high_vol",
+          "low_vol",
+          "first_hour_up",
+          "first_hour_down"
+        ],
+        "n_sessions": 2202,
+        "rho_offdiag": [
+          0.8726806485289597,
+          0.2764725704722987,
+          0.7156921083076238,
+          0.6977016799346157,
+          9.226950798429327e-05,
+          0.6164423769437198,
+          0.6184406321399926,
+          0.20530013059110166,
+          0.18070196265237434,
+          8.489455799662193e-05
+        ]
+      }
+    },
+    "note": "rows with family_size > 20 extrapolate the NESTED-cell equicorrelation (rho_bar = measured on the RC-H101-1 mask structure) to future (config x Kelly-fraction) families whose dependence does not exist yet (QUANT-1-5); the criterion for the confirmation family is RE-DECIDED on that family's own measured dependence at its first swept scan (\u00a7A.8 standing condition).",
+    "screen_family_decision": {
+      "conditional_on_dependence_transfer": false,
+      "criterion": "retain-fwer",
+      "dependence_inflation": 2.6673527789268436,
+      "family_size": 5,
+      "loss_fdr": 0.036288727582967036,
+      "loss_fwer": 0.0358019932695348,
+      "power_fdr": 0.2887219118484212,
+      "power_fwer": 0.7691342029072217,
+      "prds_obligation": false
+    },
+    "sweep": [
+      {
+        "conditional_on_dependence_transfer": false,
+        "criterion": "retain-fwer",
+        "dependence_inflation": 2.6673527789268436,
+        "family_size": 5,
+        "loss_fdr": 0.036288727582967036,
+        "loss_fwer": 0.0358019932695348,
+        "power_fdr": 0.2887219118484212,
+        "power_fwer": 0.7691342029072217,
+        "prds_obligation": false
+      },
+      {
+        "conditional_on_dependence_transfer": false,
+        "criterion": "retain-fwer",
+        "dependence_inflation": 4.751543752585398,
+        "family_size": 10,
+        "loss_fdr": 0.07257745516593407,
+        "loss_fwer": 0.04690626375575313,
+        "power_fdr": 0.2887219118484212,
+        "power_fwer": 0.733009138002111,
+        "prds_obligation": false
+      },
+      {
+        "conditional_on_dependence_transfer": false,
+        "criterion": "retain-fwer",
+        "dependence_inflation": 8.919925699902507,
+        "family_size": 20,
+        "loss_fdr": 0.14515491033186814,
+        "loss_fwer": 0.06935403721504542,
+        "power_fdr": 0.2887219118484212,
+        "power_fwer": 0.7133140089488029,
+        "prds_obligation": false
+      },
+      {
+        "conditional_on_dependence_transfer": true,
+        "criterion": "retain-fwer",
+        "dependence_inflation": 17.256689594536727,
+        "family_size": 40,
+        "loss_fdr": 0.2903098206637363,
+        "loss_fwer": 0.11438098011524486,
+        "power_fdr": 0.2887219118484212,
+        "power_fwer": 0.703018100980678,
+        "prds_obligation": false
+      },
+      {
+        "conditional_on_dependence_transfer": true,
+        "criterion": "retain-fwer",
+        "dependence_inflation": 42.26698127843938,
+        "family_size": 100,
+        "loss_fdr": 0.7257745516593408,
+        "loss_fwer": 0.24957249307311496,
+        "power_fdr": 0.2887219118484212,
+        "power_fwer": 0.6966894874678312,
+        "prds_obligation": false
+      },
+      {
+        "conditional_on_dependence_transfer": true,
+        "criterion": "retain-fwer",
+        "dependence_inflation": 167.31843969795264,
+        "family_size": 400,
+        "loss_fdr": 2.903098206637363,
+        "loss_fwer": 0.9256581416515541,
+        "power_fdr": 0.2887219118484212,
+        "power_fwer": 0.6934814765386539,
+        "prds_obligation": false
+      },
+      {
+        "conditional_on_dependence_transfer": true,
+        "criterion": "retain-fwer",
+        "dependence_inflation": 834.2595512686901,
+        "family_size": 2000,
+        "loss_fdr": 14.515491033186812,
+        "loss_fwer": 4.531521450225602,
+        "power_fdr": 0.2887219118484212,
+        "power_fwer": 0.6926210127350324,
+        "prds_obligation": false
+      }
+    ]
+  },
+  "rd6_tost": {
+    "ES": {
+      "alpha_tost": 0.7400550140326007,
+      "beta_tost": 0.7400550140326007,
+      "delta_per_session": 0.0004410812891949853,
+      "note": "symmetric (alpha=beta) DIAGNOSTIC at the enacted level (nan when the level >= 0.5: the TOST z-quantiles vanish); the loss model's H_dem is the structural one-evaluation-window bound; the lambda-weighted asymmetric re-split is an ADR-0010 Phase-5 action, deferred until a champion exists",
+      "powered_window_sessions": "nan",
+      "sigma_te": 0.006957855109018457,
+      "structural_h_dem_sessions": 104.0
+    },
+    "NQ": {
+      "alpha_tost": 0.7400550140326007,
+      "beta_tost": 0.7400550140326007,
+      "delta_per_session": 0.00046651733089831976,
+      "note": "symmetric (alpha=beta) DIAGNOSTIC at the enacted level (nan when the level >= 0.5: the TOST z-quantiles vanish); the loss model's H_dem is the structural one-evaluation-window bound; the lambda-weighted asymmetric re-split is an ADR-0010 Phase-5 action, deferred until a champion exists",
+      "powered_window_sessions": "nan",
+      "sigma_te": 0.008413092898476355,
+      "structural_h_dem_sessions": 100.0
+    }
+  },
+  "reporting_bridges": {
+    "empirical_implied_fdr_at_enacted": 0.08852739987542249,
+    "model_implied_fdr_at_enacted": {
+      "jeffreys-hi": 0.4063227664128057,
+      "jeffreys-lo": 0.0,
+      "jeffreys-median": 0.6488945326298657
+    },
+    "note": "on this run the empirical bridge admits ALL 14 trials (every Efron lfdr from the degenerate n=14 Lindsey fit is below the cutoff), so it returns their mean = the Efron pi0 \u2014 untrustworthy because the same fit implies pi1 ~ 0.91 against the RD3 red flag; the model bridge is separately discontinuous at pi1 -> 0. Bridges are REPORTED operating points, not the enacted level."
+  },
+  "repro_log": "repro_log_ba92c200ec074f6e961d2a6632bb45ff.json",
+  "seed": 20260717,
+  "status": "NUMERIC-INSTANTIATED (method frozen 2026-07-12; this run supplies the deferred on-ledger numbers)",
+  "substrate": {
+    "instruments": [
+      "ES",
+      "NQ"
+    ],
+    "ledger_expert": "orb_first_hour_k1.0@1.0.0",
+    "n_entered_sessions": {
+      "ES": 2276,
+      "NQ": 2202
+    },
+    "per_session_currency": "net, demeaned (zero-edge primary; raw as sensitivity)",
+    "sessions_per_eval_window_median": {
+      "ES": 104.0,
+      "NQ": 100.0
+    }
+  },
+  "trial_population": {
+    "benchmark_anchors": [
+      {
+        "instrument": "ES",
+        "mu": 0.9482661199375332,
+        "n_eff": 706,
+        "scan": "RC-H101-1",
+        "sr_benchmark": 0.03568846621403301
+      },
+      {
+        "instrument": "NQ",
+        "mu": 0.8316255016806696,
+        "n_eff": 543,
+        "scan": "RC-H101-1",
+        "sr_benchmark": 0.03568846621403301
+      },
+      {
+        "instrument": "ES",
+        "mu": 1.147519791676657,
+        "n_eff": 391,
+        "scan": "RC-H103-1",
+        "sr_benchmark": 0.05803257027753448
+      },
+      {
+        "instrument": "NQ",
+        "mu": 1.057403753881003,
+        "n_eff": 332,
+        "scan": "RC-H103-1",
+        "sr_benchmark": 0.05803257027753448
+      }
+    ],
+    "keys": [
+      "ES:first_hour_down",
+      "ES:first_hour_up",
+      "ES:high_vol",
+      "ES:low_vol",
+      "ES:non_stress",
+      "ES:stress",
+      "ES:unconditional",
+      "NQ:first_hour_down",
+      "NQ:first_hour_up",
+      "NQ:high_vol",
+      "NQ:low_vol",
+      "NQ:non_stress",
+      "NQ:stress",
+      "NQ:unconditional"
+    ],
+    "n_distinct": 14,
+    "n_raw": 20,
+    "z": [
+      -0.8404277792603854,
+      -0.4474764812894759,
+      -0.35147178531926565,
+      -0.1831841519931498,
+      -0.12043970081894753,
+      0.23693345284480571,
+      0.4529994507624016,
+      0.48936398300042955,
+      0.6420990232669485,
+      0.9240360645677488,
+      1.0769652601292818,
+      1.0778880877629757,
+      1.6742357678781494,
+      1.8640923093777175
+    ]
+  }
+}

@@ -7,6 +7,14 @@ enacted here** · **BLOCKING** per
 [ADR-0013](../decisions/ADR-0013-aggressive-geometric-growth-mandate.md)
 Decision 9 · follow-up `P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE`.
 
+
+> **NUMERIC INSTANTIATED 2026-07-17** (round-1 audit remediated) — the
+> deferred on-ledger outputs are emitted by the addendum at the end of this
+> memo (§ Numeric instantiation addendum); the frozen method body above is
+> unchanged. Enacted: `screening_error_rate_target = 0.7401` (median of the
+> 24-point enactment band; full precision in the config); criterion
+> `retain-fwer` (Romano-Wolf retained); `prds_argument_ref` stays null.
+
 This memo freezes the decision-theoretic derivation, the reference estimator
 ([src/skie_universe2/inference/discovery_alpha.py](../../src/skie_universe2/inference/discovery_alpha.py)),
 and its unit tests
@@ -397,3 +405,165 @@ staged-`.py` seed/magic-number pre-commit guard enforces this).
     and the Power Approach for Assessing the Equivalence of Average
     Bioavailability." *J. Pharmacokinet. Biopharm.* 15(6): 657-680.
     https://doi.org/10.1007/BF01068419
+
+
+## Numeric instantiation addendum (2026-07-17) — on-ledger outputs
+
+**Status:** NUMERIC INSTANTIATED (round-1 audit-remediated). Harness
+[scripts/run_discovery_alpha_calibration.py](../../scripts/run_discovery_alpha_calibration.py)
+(seed 20260717), ReproLog `repro_log_ba92c200ec074f6e961d2a6632bb45ff.json`,
+machine artifact
+[reports/discovery_alpha_calibration/discovery_alpha_calibration.json](../../reports/discovery_alpha_calibration/discovery_alpha_calibration.json).
+The frozen method body above is unchanged; this addendum records the deferred
+RD6-table OUTPUTs computed on the populated ADR-0003 ledger
+(`orb_first_hour_k1.0@1.0.0`, ES+NQ, per-session NET currency; entered
+sessions ES 2276 / NQ 2202; ADR-0004 6-month evaluation windows of 104 (ES) /
+100 (NQ) median entered sessions).
+
+### A.1 Inputs (all data-derived or explicitly banded; none hand-set)
+
+| Input | Value | Source rule |
+|---|---|---|
+| false-edge substrate | demeaned realized per-session net stream, per instrument | the memo's zero-edge canonical case; raw streams as sensitivity |
+| true-edge substrate | same stream mean-shifted to the DSR benchmark Sharpe (RC-H101-1: 0.0357; RC-H103-1: 0.0580) | minimum selection-distinguishable edge from the register's own DSR blocks |
+| `mu` anchors | ES 0.948/1.148, NQ 0.832/1.057 | `sr_benchmark * sqrt(n_eff_hac)` per scan x instrument |
+| `H_dwell` | 104 (ES) / 100 (NQ) sessions (1-window floor); x{2,4} reported sensitivity | ADR-0004 window; the floor is the only structurally guaranteed dwell (ADR-0012 dwell memo unfrozen); larger dwell only loosens the level |
+| `H_dem` | **banded {1, 2, 4} evaluation windows** (enactment axis) | demotion at the next cycle is NOT certain (ADR-0012 dethroning non-operational; audit QUANT-1-3) — the exposure horizon is priced into the band, not fixed at its floor |
+| `r_backstop` | **banded {0, 0.3332}** (enactment axis) | the realized 2/2 gate record is structurally CENSORED (a slipped null surfaces as an admission, not a miss; audit QUANT-1-4): r = 0 is the no-information anchor, 0.3332 the lower endpoint of the Jeffreys central 95% interval (Beta(2.5, 0.5) 2.5th pct) on the censored record, treated as a PRIOR |
+| `rho_bar` / `rho_min` | 0.4168 / 0.0000 | exact RC-H101-1 cell-mask contribution-series correlations |
+
+### A.2 RD1/RD2 loss ratio and RD4 cutoff — the 24-point enactment band
+
+Band = instrument x same-instrument mu-anchor x H_dem {1,2,4} x r {0, 0.3332},
+at the 1-window dwell floor. Per-cell t* (4 points each = 2 instruments x 2
+anchors):
+
+| H_dem \ r | r = 0 (no-information) | r = 0.3332 (Jeffreys endpoint) |
+|---|---|---|
+| 1 window | 0.8061 - 0.8393 | 0.8618 - 0.8867 |
+| 2 windows | 0.6751 - 0.7230 | 0.7571 - 0.7965 |
+| 4 windows | 0.5096 - 0.5662 | 0.6091 - 0.6619 |
+
+**ENACTED: `screening_error_rate_target` = 0.7401** (median of the 24-point
+band; exact value 0.7400550140326007 carried in the config — the YAML value
+governs all gate comparisons), band [0.5096, 0.8867], stationary-bootstrap 95%
+CI [0.4239, 1.0000] (N=1000, PW block lengths; 0 dropped evaluations, 0
+partial replicates). Lambda spans 1.04-7.83 across the band. **Closed-form
+validation:** `lambda ~ (H_dwell/H_dem) x 4/(1 - r)` (operating-Kelly growth
+SR^2/2 over half-Kelly variance drag SR^2/8); at H_dwell = H_dem, r = 0.3332
+this gives lambda ~ 6.00 -> t* ~ 0.857, matching the (1-window, Jeffreys)
+cells (0.862-0.887, higher-moment deviations only) — the estimator is
+consistent with the analytic anchor. Sensitivities: H_dwell x2/x4 (at 1-window
+H_dem, Jeffreys r) -> t* 0.926-0.969 (looser; reported only); controls-OFF
+(RD2 conditional) -> t* 0.806-0.819 ES/NQ (the mandated fallback direction);
+raw un-demeaned streams -> ES t* 0.694 (negative-mean stream), NQ t* -> 1
+(weakly positive mean; the costless-false-discovery limit).
+
+### A.3 RD3 base rate
+
+Exploration hit rate (H001, H101, H103 -> 0/3 admitted): pi1 = 0, Jeffreys 95%
+[0.00015, 0.5356], median 0.0674 — PRIMARY (consistent with the factor-zoo
+prior). Storey spline pi1 = 0.9286 and Efron-Lindsey pi1 = 0.9115 on the n=14
+correlated trial population **trip this memo's own RD3 red flag** (far above
+the factor-zoo prior => mis-specified null at tiny dependent N) and are
+reported-but-excluded from decision use. The enacted t* is pi1-free (RD4).
+
+### A.4 RD5 criterion — retain-fwer at every registered family size
+
+At the enacted level with the measured dependence (`dependence_inflation =
+1 + (N-1) x 0.4168`), the growth-loss comparison favours FWER at every N in
+{5, 10, 20, 40, 100, 400, 2000} (N=5: loss_fwer 0.036 <= loss_fdr 0.036;
+N=2000: 4.53 < 14.5). **Criterion: `retain-fwer`** — Romano-Wolf StepM stays
+for the screen families AND the confirmation identification step;
+`prds_argument_ref` stays null (no BH enacted). CAVEAT (audit QUANT-1-5): the
+rows with N > 20 extrapolate the NESTED-cell equicorrelation to future
+(config x Kelly-fraction) families whose dependence does not exist yet; they
+are flagged `conditional_on_dependence_transfer` in the artifact, and the RD5
+criterion for the confirmation family is **re-decided on that family's own
+measured dependence at its first swept scan** (folded into §A.8). The PRDS
+empirical check (rho_min = 0.0000, non-negative correlations being a
+SUFFICIENT condition for PRDS of one-sided tests on a multivariate normal —
+Benjamini-Yekutieli 2001 §3.1 multivariate-normal example) would have
+permitted BH-PRDS had FDR won; recorded for completeness.
+
+### A.5 Reporting bridges and RD6 TOST diagnostic
+
+The memo's RD6 arrow (`optimal_threshold -> implied_screening_fdr` on the
+ledger lfdr population) is reported as a bridge, not enacted (documented
+deviation; A.6): the empirical bridge at the enacted cutoff admits **ALL 14
+trials** (every Efron lfdr from the degenerate n=14 Lindsey fit lies in
+[0.016, 0.196], below any candidate cutoff) and returns their mean = the
+Efron pi0 = **0.0885** — an untrustworthy number because the same fit implies
+pi1 ~ 0.91 against the RD3 red flag (the bridge is uninformative in the
+admit-everything direction, not the admit-nothing direction). The model
+bridge across the Jeffreys pi1 band at the enacted t* = {lo: 0.0,
+median: 0.649, hi: 0.406} — non-monotone because the admitted set flips
+discontinuously at pi1 -> 0. TOST diagnostic at the enacted level: the
+powered window is undefined (`nan`, serialized as a string sentinel) because
+the level >= 0.5 makes the one-sided z-quantiles vanish — recorded; the loss
+model's H_dem is the banded assumption axis (A.1), and the lambda-weighted
+asymmetric TOST re-split remains an ADR-0010 Phase-5 action (no champion
+exists).
+
+### A.6 Documented deviations from the frozen memo (audit trail)
+
+1. **Enacted level = t\*, not the implied-FDR translation.** The RD6 arrow's
+   translation is degenerate on this ledger, in the ADMIT-EVERYTHING
+   direction (corrected per audit QUANT-1-2/REPRODUCIBILITY-1-1): the
+   empirical lfdr population from the n=14 correlated Lindsey fit is
+   uniformly tiny, so the bridge admits all trials and returns the Efron pi0
+   (0.0885) — a number the RD3 red flag marks untrustworthy; the model bridge
+   is separately discontinuous at pi1 -> 0 (an earlier fixed-point
+   construction oscillated without a fixed point and was removed). t* is the
+   memo's primary RD4 decision object and pi1-free; it is enacted directly,
+   with both translations reported.
+2. **Scale transfer is a governance choice, not a statistical identity**
+   (audit QUANT-1-1/LITERATURE-1-1). t* lives on the posterior-null /
+   local-fdr scale (MPRR). Its application as the Romano-Wolf adjusted-p
+   threshold (S-c) and as the DSR/PBO bounds (S-d) transfers the number
+   across inferential scales with different operating characteristics; no
+   bridge between the scales is claimed. The transfer is enacted as an
+   OPERATIONAL PROXY under the ADR-0013 cost-tuned-looser mandate (the
+   cost-derived error budget applied to the gates the program actually
+   operates), is flagged provisional in A.7, and is re-derived on a
+   non-degenerate lfdr estimator at the §A.8 re-instantiation.
+3. **The H_dem and r_backstop point assumptions are replaced by band axes**
+   (audit QUANT-1-3/QUANT-1-4): certain-demotion-in-one-window and the
+   censored 2/2 record are not defensible point inputs; both are priced into
+   the enactment band (A.1/A.2) and the median is enacted.
+
+### A.7 Enactment semantics (what 0.7401 governs; provisional operational proxies)
+
+- `config/multipletest_family.yaml screening_error_rate_target` =
+  0.7400550140326007 — the project-wide screening error budget (ADR-0002(c)
+  as amended); the YAML value governs all gate comparisons.
+- ADR-0014 (S-c): a cell passes iff mean gross > 0 AND Romano-Wolf-adjusted
+  p < the level (weak-FWER at the enacted budget; the positive-mean conjunct
+  excludes the negative-effect pathology of one-sided levels above 1/2).
+- ADR-0014 (S-d): DSR >= 1 - level = **0.2599**; PBO <= **0.7401**
+  (`dsr_bound_ref` / `pbo_bound_ref` in the pool-ledger schema resolve here).
+- These p/DSR/PBO applications are PROVISIONAL OPERATIONAL PROXIES of the
+  posterior-null budget (deviation A.6.2) — revisited, with the level itself,
+  at the §A.8 re-instantiation.
+- The looseness is licensed ONLY by the RD2 controls being in force (Memo-1
+  ruin sizing + ADR-0010 minimum-size ramp + the non-waivable verdict ladder:
+  rotor + DSR/PBO at the set-level VERDICT). Under controls-off the level
+  reverts toward 0.81 (A.2) and the enactment must be revisited.
+- Nothing is certified by this addendum; no Kelly fraction is selected; the
+  screen admits into the ADR-0014 provisional POOL only.
+
+### A.8 Standing re-instantiation conditions
+
+1. On the first arsenal admission (a realized true-edge stream), the loss
+   model's true-edge substrate stops being an anchor-shifted synthetic and
+   this calibration is **re-instantiated on the realized stream** (fresh
+   ReproLog, same frozen method; the enacted level re-derived, not carried
+   forward).
+2. Once an admitted expert accrues live-vs-shadow outcomes, the censored
+   `r_backstop` prior is replaced with that outcome record (the only design
+   able to observe a gate miss).
+3. The RD5 criterion for the confirmation (config x Kelly-fraction) family is
+   re-decided on that family's own measured dependence at its first swept
+   scan (the N > 20 rows here are conditional extrapolations).
+4. The A.6.2 scale transfer is re-derived on a non-degenerate lfdr estimator
+   when the trial population supports one.

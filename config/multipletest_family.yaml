@@ -5,7 +5,26 @@
 # return_series_ref pointers. A raw count is NOT a sufficient input
 # (ADR-0007 Decision 3).
 schema_version: 1
-screening_error_rate_target: null   # registered once, project-wide, per ADR-0002 (c) methodology memo; null until registered
+# ENACTED 2026-07-17 by the P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE numeric
+# instantiation, round-1 audit-remediated (methodology memo addendum §A; ReproLog
+# repro_log_ba92c200ec074f6e961d2a6632bb45ff.json; artifact
+# reports/discovery_alpha_calibration/discovery_alpha_calibration.json).
+# Value = the RD4 MPRR posterior-null cutoff t*, median of the 24-point
+# enactment band (instrument x mu-anchor x H_dem {1,2,4} windows x r_backstop
+# {0, 0.3332}); band [0.5096, 0.8867]; bootstrap 95% CI [0.4239, 1.0000];
+# closed-form benchmark (H_dwell/H_dem) x 4/(1-r). FULL-PRECISION value below
+# governs every gate comparison (rounding-free; audit REPRODUCIBILITY-1-3).
+# Semantics: the project-wide screening error BUDGET — ADR-0014 (S-c) passes
+# iff mean gross > 0 AND RW-adjusted p < level; (S-d) DSR >= 1 - level =
+# 0.2599, PBO <= level. The p/DSR/PBO applications are PROVISIONAL OPERATIONAL
+# PROXIES of the posterior-null budget (scale-transfer deviation, memo §A.6.2).
+# RD5 criterion at this level: retain-fwer at every registered family size
+# (Romano-Wolf stays; no BH enacted; prds_argument_ref stays null; N > 20 rows
+# conditional on dependence transfer, re-decided at the first swept scan).
+# Licensed ONLY while the RD2 controls hold (Memo-1 ruin sizing + ADR-0010
+# minimum-size ramp + non-waivable verdict ladder); re-instantiated on the
+# first arsenal admission (addendum §A.8 standing conditions).
+screening_error_rate_target: 0.7400550140326007
 families:
   - family_id: h900-dwell-time-feasibility
     # Singleton methodology-gate family: one pre-registered analysis with no
@@ -27,8 +46,9 @@ families:
   - family_id: allocator-confirmation-kelly-sweep
     # STATUS: accepted — enacted on ADR-0013 acceptance 2026-07-12 (aggressive
     # geometric-growth mandate). The family registration is in force; the
-    # correction LEVEL/criterion and the grid endpoints remain OUTPUTS of the two
-    # BLOCKING calibrate memos, and no swept trial is appended before both freeze.
+    # correction LEVEL/criterion and the kelly outputs were NUMERIC-INSTANTIATED
+    # 2026-07-17 (registered blocks below); no swept trial is appended before
+    # the first swept scan.
     # Registers the Kelly-fraction sweep as a
     # trial-family EXPANSION per ADR-0013 Decision 4: every
     # (allocator-config x Kelly-fraction) pair over the registered grid
@@ -40,12 +60,31 @@ families:
     # multiplicity accounting, never exempted from it (ADR-0013 Decision 4 /
     # Consequences). Per ADR-0013 Consequences this file must carry the
     # (config x Kelly-fraction) family BEFORE the first swept scan.
-    status: accepted   # family registration in force (ADR-0013 accepted 2026-07-12); correction level/criterion + grid endpoints remain OUTPUTS of the two BLOCKING calibrate memos; trials appended only after both freeze + ledger backfill
-    correction: romano-wolf   # ADR-0007 Decision 3 SPA existence test + StepM identification over the enlarged family; the screening/FWER alpha LEVEL is cost-tuned via follow-up P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE, which may permit benjamini-hochberg for the identification step where the registered error-rate-cost analysis supports it (ADR-0013 Decision 6) and must be frozen before any swept scan
+    status: accepted   # family registration in force (ADR-0013 accepted 2026-07-12); the two Decision-9 memos are NUMERIC-INSTANTIATED 2026-07-17 (level enacted above; kelly outputs recorded below) — trials appended at the first swept scan
+    correction: romano-wolf   # ADR-0007 Decision 3 SPA existence + StepM identification; the 2026-07-17 numeric instantiation resolved the criterion to retain-fwer at every family size (RD5), so Romano-Wolf stays; BH was NOT enacted (rows N > 20 conditional on dependence transfer; re-decided on this family's own dependence at its first swept scan)
     prds_argument_ref: null   # required iff the calibrate follow-up resolves correction to benjamini-hochberg-prds
     # grid endpoints (0.5 half-Kelly / 1.25 leveraged) and 0.25 spacing are an OUTPUT of calibration follow-ups P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE and P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE, not hand-tuned constants
     kelly_fraction_grid: [0.5, 0.75, 1.0, 1.25]  # registered swept hyperparameter (ADR-0013 Decision 3); pre-registered sweep values, not hand-tuned constants; brackets the estimation-error-adjusted geometric-growth optimum from half-Kelly (~0.5) through leveraged (1.25) so the data-selected winner is not structurally floored above the growth optimum; winning fraction data-selected by best geometric growth over the joint (config x fraction) space
     trials: []   # no swept confirmation scan has run; one per-trial record per (config x Kelly-fraction) pair is appended here before the first swept scan (ADR-0013 Consequences)
+    # Registered outputs of the two Decision-9 numeric instantiations
+    # (2026-07-17; RD6 "register with the family" obligation):
+    discovery_alpha_calibration:
+      repro_log_run: ba92c200ec074f6e961d2a6632bb45ff
+      artifact: reports/discovery_alpha_calibration/discovery_alpha_calibration.json
+      lambda_band_enactment: [1.04, 7.83]       # RD1/RD2 loss ratio over the 24-point band
+      t_star_enacted: 0.7400550140326007        # RD4 MPRR cutoff (= screening_error_rate_target; median of the band)
+      enactment_band: [0.5096, 0.8867]          # instrument x anchor x H_dem {1,2,4} x r {0, 0.3332}
+      r_backstop_axis: [0.0, 0.3332]            # censored-record prior band (audit QUANT-1-4)
+      h_dem_axis_windows: [1, 2, 4]             # demotion-latency assumption band (audit QUANT-1-3)
+      pi1_band_hit_rate_jeffreys95: [0.00015, 0.5356]  # RD3 primary (0/3 admitted)
+      criterion_decision: retain-fwer           # RD5 at every registered family size (N > 20 conditional)
+    kelly_growth_calibration:
+      repro_log_run: d371b253d6be47e596ea0aa99182801e
+      artifact: reports/kelly_growth_calibration/kelly_growth_calibration.json
+      grid_bracketing_verdict: inconclusive-on-null-ledger  # memo addendum §B.3; re-instantiate at first admission
+      f_zero_range: [1.978, 1.990]              # D4 over-betting crossing (thin-tail benchmark 2.0)
+      single_bar_ruin_all_grid_points: 0.0      # D3/D5; CIs [0, 0]
+      es_net_degenerate: true                   # no favourable bet on the realizable ES stream
     registered_at: "2026-07-12"
   - family_id: h001-volxtrend-covariate
     # H001 conditioning-covariate NON-REDUNDANCY scan (ADR-0002(d)): does the
@@ -61,7 +100,7 @@ families:
     # conditional-gross-edge scan on the shadow ledger). Design frozen at
     # research/01_hypothesis_register/H001/design.md (design.md SHA carried by the
     # /preregister freeze ReproLog).
-    correction: romano-wolf   # ADR-0002(c) default, block bootstrap over the pooled bar-level contribution series (design §8); the screening/FWER LEVEL is the project-wide screening_error_rate_target OUTPUT (P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE), null until frozen -> scan run + reported descriptively, no arm certified as a discovery until then
+    correction: romano-wolf   # ADR-0002(c) default, block bootstrap over the pooled bar-level contribution series (design §8); the project-wide screening_error_rate_target was ENACTED 2026-07-17 (see top of file) — this scan ran 2026-07-16 under the then-null level and stays descriptively reported; no arm certified
     prds_argument_ref: null
     # Scan EXECUTED 2026-07-16 (primary variant, ES+NQ). Because the screening/FWER
     # level is the DEFERRED project-wide screening_error_rate_target (null), the scan
@@ -90,10 +129,60 @@ families:
     # (Lundstrom prior; retro card §3). Design frozen at
     # research/01_hypothesis_register/H101/design.md (SHA a7c5c9178f66...). Every
     # admission scan (admit or reject) increments this family / the trial register.
-    correction: romano-wolf   # ADR-0002(c) default; stationary block bootstrap (Politis-Romano 1994) over the chronological per-session sequence, with the registered KPSS + rolling-dispersion stationarity diagnostic (design §8); the screening/FWER LEVEL is the DEFERRED project-wide screening_error_rate_target (null) -> scan run + reported descriptively, no cell certified until frozen
+    correction: romano-wolf   # ADR-0002(c) default; stationary block bootstrap (Politis-Romano 1994) over the chronological per-session sequence, with the registered KPSS + rolling-dispersion stationarity diagnostic (design §8); ran 2026-07-16 under the then-null screening level (enacted 2026-07-17, top of file) -> descriptively reported, no cell certified
     prds_argument_ref: null
-    trials: []   # one per-trial record per (conditioning cell x instrument) appended at scan time (ADR-0008 D6); scan RC-H101-1 not yet run (awaits H101 ledger backfill)
+    trials: []   # descriptive scan under the then-null screening level; no cell certified -> no per-trial certification record (RC-H101-1 §4; the 10 cell-level stats are the scan artifact's cells tables). REGISTER REPAIR 2026-07-17: the prior "scan not yet run" comment was stale — the scan EXECUTED 2026-07-16 (ADR-0008 D6 record below).
+    scan_executed:
+      - scan_id: RC-H101-1
+        instruments: [ES, NQ]
+        n_cells: 10   # 5-cell family x 2 instruments (within-scan RW per instrument)
+        disposition: "provisional-archive-null (descriptive; screening level then deferred); re-classed reconsideration-eligible pending screen re-run under ADR-0014"
+        artifact: reports/H101/rc_h101_1_scan.json
+        repro_log_run: 565bb0c7e80d463f93c6b124cc8c36a8
+        executed_at: "2026-07-16"
     registered_at: "2026-07-16"
+  - family_id: rc-h103-1
+    # H103 admission scan (ADR-0002(c)): conditional GROSS per-session first-hour-ORB
+    # edge in the pre-registered STRESS cell (top-p-hat realized-vol band, p-hat =
+    # H900 HMM stationary stress occupancy) on the SHARED H101 k1.0 ledger; 5-cell
+    # family per instrument (uncond/stress/non_stress/fh_up/fh_down); per-instrument
+    # Romano-Wolf + Sidak cross-instrument union (design SHA 84d01a6b4ad0...).
+    # REGISTER REPAIR 2026-07-17: this family entry was MISSING from the register
+    # although the scan executed 2026-07-16 (ADR-0008 D6 requires every scan to
+    # append a record); repaired retroactively with the executed-scan record.
+    correction: romano-wolf
+    prds_argument_ref: null
+    trials: []   # descriptive scan under the then-null screening level; no cell certified
+    scan_executed:
+      - scan_id: RC-H103-1
+        instruments: [ES, NQ]
+        n_cells: 10
+        disposition: "provisional-archive-null (no stress-cell edge; Lundstrom prior contradicted; RC-XCORR-1 redundancy instrument-specific); re-classed reconsideration-eligible pending screen re-run under ADR-0014"
+        artifact: reports/H103/rc_h103_1_scan.json
+        repro_log_run: b89ede26e1564a38a0df9da0d8b55a78
+        executed_at: "2026-07-16"
+    registered_at: "2026-07-17"
+  - family_id: rc-h101-2
+    # ADR-0014 SCREEN re-run of H101 (screen addendum FROZEN 2026-07-17,
+    # research/01_hypothesis_register/H101/screen_addendum_2026-07-17.md; the
+    # estimand and cells are the frozen 2026-07-16 design's; the screen adds
+    # S-a/S-d/S-e). Level = the enacted screening_error_rate_target (0.7401 at
+    # registration; the full-precision value at the top of this file governs);
+    # correction = romano-wolf per the RD5 retain-fwer decision. Registered
+    # BEFORE the screen run per ADR-0008 D6 / the addendum's commitments.
+    correction: romano-wolf
+    prds_argument_ref: null
+    trials: []   # per-cell records appended at screen time (pass or fail)
+    registered_at: "2026-07-17"
+  - family_id: rc-h103-2
+    # ADR-0014 SCREEN re-run of H103 with the CERTIFIED leakage-clean
+    # per-rolling-origin stress construction (screen addendum FROZEN 2026-07-17,
+    # research/01_hypothesis_register/H103/screen_addendum_2026-07-17.md).
+    # Level/correction as rc-h101-2. Registered BEFORE the screen run.
+    correction: romano-wolf
+    prds_argument_ref: null
+    trials: []   # per-cell records appended at screen time (pass or fail)
+    registered_at: "2026-07-17"
 # families:
 #   - family_id: <slug>
 #     correction: romano-wolf | benjamini-hochberg-prds | benjamini-yekutieli
