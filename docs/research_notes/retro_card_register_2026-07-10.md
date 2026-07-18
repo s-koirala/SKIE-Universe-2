@@ -226,3 +226,35 @@ criterion), still deferred per [CLAUDE.md](../../CLAUDE.md); and (c) the
 candidates could dethrone a standing champion (ADR-0012). Until then the RC-*
 scan list stands with its **structure** intact and its **metric currency**
 updated to geometric growth per this addendum.
+
+---
+
+## H103 stress-record correction addendum (2026-07-18)
+
+**Lundström high-vol-concentration prior
+([Holmberg, Lönnbark & Lundström 2013, FRL 10(1):27-33](https://doi.org/10.1016/j.frl.2012.09.001)):
+UNRESOLVED as of 2026-07-18.** The RC-H103-1 "contradicted" reading
+(2026-07-16) was rendered on a **leaked** stress-cell construction
+(full-sample realized-vol percentile cutoff): ES stress mean gross
+−5.0922e-04/session, n = 437 sessions, bootstrap stat −0.8404. The certified
+**leakage-clean per-origin** construction (RC-H103-2, frozen 2026-07-17)
+re-measures the same cell at +1.0295e-04/session, n = 313 sessions, stat
++0.1544. Neither statistic is distinguishable from zero. A sign flip under a
+leakage repair, on 28% less data, is **not corroboration and not powered to
+resolve the prior** (powered null at the design-registered n ≥ 174 floor;
+unpowered for the far smaller observed effect) — it is a
+construction-dependence exhibit (the two records differ in both boundary
+estimation and classified session coverage; the flip is not attributable to
+leakage alone), and the prior is neither contradicted nor supported by the
+records on file. Correction of record:
+[expert_card_v3.md](../../research/01_hypothesis_register/H103/expert_card_v3.md).
+
+**WITHDRAWN:** the H103 per-card digest's two-window stress-subset consistency
+argument (verbatim from the digest above: "Two-window consistency with the
+H052a stress-subset reading weakly favors "works, underpowered"" — the quoted
+verb is the 1.0-era claim being withdrawn, reproduced here only for exact
+identification) is withdrawn as support for the prior — its 2.0-side
+leg descends from the leaked construction lineage. The 1.0 evidence itself
+stays frozen exactly as recorded above; only the consistency *argument* is
+withdrawn. The H052a retro card's Lundström-direction prediction reading
+(card §§ cited above) inherits the same UNRESOLVED status.

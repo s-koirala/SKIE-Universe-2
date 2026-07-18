@@ -153,6 +153,13 @@ families:
     correction: romano-wolf
     prds_argument_ref: null
     trials: []   # descriptive scan under the then-null screening level; no cell certified
+    # 2026-07-18 annotation (record below UNCHANGED, append-only): the
+    # "Lundstrom prior contradicted" clause in the disposition string is
+    # CONSTRUCTION-DEPENDENT — rendered on the leaked full-sample stress
+    # cutoff (stat -0.8404, n=437); the certified leakage-clean per-origin
+    # re-measurement (rc-h103-2) flips the ES stress mean positive (stat
+    # +0.1544, n=313). Standing status UNRESOLVED; successor record
+    # research/01_hypothesis_register/H103/expert_card_v3.md.
     scan_executed:
       - scan_id: RC-H103-1
         instruments: [ES, NQ]

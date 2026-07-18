@@ -53,6 +53,16 @@ project_standard:
     input_feature: rvol_5m_24h
     input_lookback_bars: 288
     reference_distribution: training_window_empirical_cdf
+    construction_dependence_note: >-
+      2026-07-18 (H103 exhibit): the ES stress-cell mean gross FLIPS SIGN with
+      the percentile-boundary construction — leaked full-sample cutoff
+      (RC-H103-1: -5.0922e-04/session, n=437, stat -0.8404) vs the certified
+      per-origin training-window CDF above (RC-H103-2: +1.0295e-04/session,
+      n=313, stat +0.1544); neither statistic distinguishable from zero. Any
+      statement conditioned on this covariate must NAME its construction; the
+      certified spec is the reference_distribution above (UNCHANGED by this
+      note). Standing status of the Lundström high-vol prior: UNRESOLVED
+      (research/01_hypothesis_register/H103/expert_card_v3.md).
   variance_ratio_state:
     description: Variance-ratio trend/range classification (Lo & MacKinlay 1988).
     kind: exogenous
