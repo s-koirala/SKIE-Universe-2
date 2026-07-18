@@ -75,29 +75,32 @@ The reusable machinery (ledger writer, feature pipeline, Tier-0 helper,
 rolling-origin windows, cost model, PIT canaries, ReproLog) is documented in the
 archived backfill note §0–§4 and is **unchanged**; it is not re-specified here.
 
-## 2. Blocking preconditions (bind every remaining admission)
+## 2. Blocking preconditions — ALL THREE INSTANTIATED 2026-07-17 (Phase 1 done)
 
-No candidate is **certified** until these lift. All three are now *executable*
-because the ledger exists — that is the Phase-1 unlock in the roadmap.
+The three numeric calibrations are now on-ledger numbers (audit-remediated;
+values in CLAUDE.md and the memo addenda). Certification machinery is
+EXECUTABLE; nothing is certified yet.
 
-1. **Discovery-alpha numeric — `P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE`
-   (BLOCKING, method-frozen 2026-07-12, numeric deferred).** Sets the screening
-   error-rate target (`screening_error_rate_target: null` today in
-   [config/multipletest_family.yaml](../../config/multipletest_family.yaml)) and
-   the FWER-vs-FDR criterion. Until set, every Romano-Wolf scan runs and reports
-   **descriptively**; nothing is certified. This is the regime RC-H101-1 /
-   RC-H103-1 ran under.
-2. **Kelly concavity/ruin numeric — `P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE`
-   (BLOCKING).** f*, grid-bracketing verdict, P(ruin), f_0. Until instantiated on
-   the ledger, geometric-growth Kelly-fraction selection over {0.5, 0.75, 1.0,
-   1.25} is BLOCKED and the ADR-0002(d) marginal-log-wealth test has no currency.
-   The backfill **materializes all four fractions and selects none.**
-3. **Unsupervised detection latency — `P1-2.0-H900-BOCPD-WHITENED` (method-frozen
-   2026-07-14, on-ledger numeric deferred).** Binds the ADR-0014 (S-e)
-   ex-ante-selectability threshold (ADR-0014 in force). The only quantified
-   latency (supervised-CUSUM 2–3 bars) is forbidden as the input; the realistic
-   unsupervised value is unquantified pending the on-ledger prewhitened ROC
-   re-run.
+1. **Discovery-alpha numeric — INSTANTIATED.** `screening_error_rate_target`
+   = 0.7401 (RD4 posterior-null cutoff, median of the 24-point enactment band;
+   full precision in [config/multipletest_family.yaml](../../config/multipletest_family.yaml),
+   which governs); criterion retain-fwer; ADR-0014 (S-d) bounds DSR ≥ 0.2599 /
+   PBO ≤ 0.7401 as provisional operational proxies. RC-H101-1 / RC-H103-1 ran
+   under the earlier null-level descriptive regime; the RC-*-2 screens run
+   under the enacted level.
+2. **Kelly concavity/ruin numeric — INSTANTIATED, RECORD ONLY.** Concavity
+   exhibited on-ledger (in-sample peak at f = 1.0), P(ruin) = 0 at every grid
+   point, f_0 = 1.978–1.990, ES/net degenerate (no favourable bet), OOS f**
+   edge-pinned with CIs including zero → grid-bracketing verdict
+   **inconclusive-on-null-ledger**; re-instantiation at the first admission is
+   a registered standing condition. No fraction selected (Phase-4 champion
+   action; blocked on arsenal ≥ 1).
+3. **Unsupervised detection latency — EXECUTED (reproducible on-ledger ROC).**
+   The latent-state unsupervised latency is **UNATTAINABLE** (no accurate,
+   non-degenerate operating point on either instrument); latent-state cells
+   fail ADR-0014 (S-e) outright and rule-based causal covariate cells carry
+   their structural observation lag (amended screen rule, frozen in the
+   RC-*-2 addenda). The supervised-CUSUM value stays forbidden.
 
 Standing invariant (ADR-0013 Decision 8): the loosened discovery posture is
 licensed **only** by the non-waivable DSR/PBO + matched-turnover rotor at the

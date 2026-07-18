@@ -21,17 +21,20 @@ rate — computed on the shadow ledger, replacing the lower-tail terminal-wealth
 quantile as the binding objective. The position-layer **Kelly fraction is a
 registered swept hyperparameter over {0.5, 0.75, 1.0, 1.25}**, reported for all
 points; the winner is data-selected by best geometric growth over the joint
-(allocator-config × Kelly-fraction) space, never hand-tuned — but no fraction is
-selected on geometric growth until the BLOCKING `P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE`
-memo is frozen (interior maximum / grid bracketing / ruin handling on the
-shadow-ledger fat-tailed distribution). The lower-tail
+(allocator-config × Kelly-fraction) space, never hand-tuned. The BLOCKING
+`P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE` memo is frozen AND numerically
+instantiated on-ledger (2026-07-17; grid-bracketing verdict
+inconclusive-on-null-ledger, re-instantiated at first admission) — fraction
+SELECTION remains a Phase-4 champion action and is additionally blocked on
+arsenal ≥ 1. The lower-tail
 terminal-wealth quantile is **demoted to a monitored, non-binding guardrail**
 (still computed at the same bootstrap/block length and reported, but it informs
 rather than vetoes). Discovery alpha (SPA / StepM FWER, or FDR where the cost
 analysis supports it) is **cost-tuned looser** via the registered
 error-rate-cost follow-up `P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE`
 (missed compounding weighted above false discovery; the level is the analysis
-output, not a constant). ADR-0002 admission is loosened toward aggressive
+output, not a constant — ENACTED 2026-07-17: `screening_error_rate_target`
+= 0.7401, criterion retain-fwer). ADR-0002 admission is loosened toward aggressive
 inclusion (conditional-edge + non-redundancy structure kept; non-redundancy
 re-expressed on marginal log-wealth growth); **ADR-0014 (accepted 2026-07-17)
 further re-composes admission into a singleton SCREEN → provisional pool + a
@@ -86,38 +89,60 @@ opening the allocator program. Open follow-ups registered this session
 (2026-07-12):
 
 - `P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE` (BLOCKING per ADR-0013) —
-  **METHOD FROZEN 2026-07-12**: interior-maximum / grid-bracketing / ruin-handling
-  derivation + reference estimator [src/skie_universe2/inference/kelly_growth.py](src/skie_universe2/inference/kelly_growth.py)
+  **METHOD FROZEN 2026-07-12; NUMERIC INSTANTIATED 2026-07-17** (on-ledger,
+  RECORD only): interior-maximum / grid-bracketing / ruin-handling derivation +
+  reference estimator [src/skie_universe2/inference/kelly_growth.py](src/skie_universe2/inference/kelly_growth.py)
   + 30 tests + memo [docs/methodology/kelly_growth_concavity_ruin_2026-07-12.md](docs/methodology/kelly_growth_concavity_ruin_2026-07-12.md)
-  (3-round audit accept). NUMERIC on-ledger instantiation (f*, grid-bracketing
-  verdict, P(ruin), f_0) DEFERRED to the step-4 backfill; no Kelly fraction is
-  selected until then.
+  (3-round audit accept; numeric addendum §B). On-ledger numbers (per-session
+  `orb_first_hour_k1.0` streams): concavity exhibited (in-sample peak exactly
+  f=1.0, g''<0 all grid points), P(ruin)=0 at every grid point (CIs [0,0]),
+  f_0 = 1.978–1.990 (thin-tail benchmark 2.0; grid top 1.25 inside the
+  positive-growth region in sample), ES/net DEGENERATE (no favourable bet),
+  OOS f** edge-pinned with growth CIs including zero everywhere →
+  **grid-bracketing verdict: inconclusive-on-null-ledger**, re-instantiation at
+  the first admission a registered standing condition. NO Kelly fraction
+  selected (Phase-4 champion action; additionally blocked on arsenal ≥ 1).
 - `P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE` (BLOCKING per ADR-0013) —
-  **METHOD FROZEN 2026-07-12**: error-rate-cost decision-theoretic derivation +
-  reference estimator [src/skie_universe2/inference/discovery_alpha.py](src/skie_universe2/inference/discovery_alpha.py)
+  **METHOD FROZEN 2026-07-12; NUMERIC INSTANTIATED 2026-07-17** (round-1
+  audit-remediated): error-rate-cost decision-theoretic derivation + reference
+  estimator [src/skie_universe2/inference/discovery_alpha.py](src/skie_universe2/inference/discovery_alpha.py)
   + 28 tests + memo [docs/methodology/discovery_alpha_cost_calibration_2026-07-12.md](docs/methodology/discovery_alpha_cost_calibration_2026-07-12.md)
-  (2-round audit accept). NUMERIC alpha level / pi1 / lambda / FWER-vs-FDR criterion
-  DEFERRED to the step-4 backfill; no target enacted and config left with OUTPUT
-  placeholders until then.
+  (2-round audit accept; numeric addendum §A). ENACTED:
+  `screening_error_rate_target` = 0.7401 (RD4 MPRR posterior-null cutoff t*,
+  median of the 24-point enactment band over instrument × mu-anchor × H_dem
+  {1,2,4} windows × r_backstop {0, 0.3332}; band [0.5096, 0.8867]; bootstrap
+  95% CI [0.4239, 1.0000]; full precision in
+  [config/multipletest_family.yaml](config/multipletest_family.yaml), which
+  governs); criterion **retain-fwer** at every registered family size
+  (Romano-Wolf stays; no BH; `prds_argument_ref` null). ADR-0014 (S-d) bounds
+  resolve: DSR ≥ 0.2599, PBO ≤ 0.7401 — enacted as PROVISIONAL OPERATIONAL
+  PROXIES of the posterior-null budget (documented scale-transfer deviation,
+  addendum §A.6.2), with §A.8 standing re-instantiation conditions (first
+  admission; live-outcome r_backstop; per-family RD5 re-decision).
 - `P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE` (BLOCKING per ADR-0012): error-rate-cost
   calibration of the geometric-growth dethroning margin (ADR-0012 Decision 3) and
   the champion-dwell floor (Decision 5). ADR-0012 is accepted, but the dethroning
   rule is non-operational until this memo is frozen with its ReproLog emitted —
   until then no champion dethroning is certifiable.
-- `P1-2.0-H900-BOCPD-WHITENED` (**METHOD FROZEN 2026-07-14**, finalized from
-  PARKED; 2-round audit-remediate accept): the AR(1)-prewhitening primitive
+- `P1-2.0-H900-BOCPD-WHITENED` (**METHOD FROZEN 2026-07-14; ON-LEDGER NUMERIC
+  2026-07-17**): the AR(1)-prewhitening primitive
   [src/skie_universe2/inference/whitening.py](src/skie_universe2/inference/whitening.py)
   + 13 tests + memo
   [docs/methodology/whitening_ar_robust_bocpd_2026-07-13.md](docs/methodology/whitening_ar_robust_bocpd_2026-07-13.md)
-  are frozen. Prewhitening the near-unit-root (ρ≈0.997) log-rvol removes the
-  by-construction autocorrelation and keeps real shifts detectable, but does NOT
-  control false alarms at the Bayes operating point (~0.43). The ROC-wide "no
-  accurate-and-timely operating point" NO-GO rests on the PRIOR on-ledger ROC
-  probe (net≈26pp @ L_detect≈45; ~4 bars→noise, session_handoff §2), which is
-  documented but NOT reproducibly preserved; a reproducible on-ledger prewhitened
-  ROC re-run is DEFERRED to the shadow-ledger backfill. So the H900
-  supervised-detection-dependence is robust on the frozen synthetic +
-  documented-prior evidence, on-ledger confirmation deferred.
+  are frozen; the DEFERRED reproducible on-ledger prewhitened ROC re-run is now
+  EXECUTED ([scripts/run_h900_whitened_roc.py](scripts/run_h900_whitened_roc.py),
+  hazard sweep on the archived filtered sequences, per-transition TP vs
+  stable-run label-flip FP, KM latency). Verdict: **net detection ≤ 0 at every
+  operating point on both instruments** — the latent-state unsupervised
+  detection latency is **UNATTAINABLE** (no accurate operating point at any
+  latency), the strongest form of the H900 supervised-detection dependence.
+  The documented prior probe's net≈26pp @ L≈45 is NOT reproduced (at L≈45 the
+  measured net is ≈ −13pp ES / −7pp NQ) and is SUPERSEDED by this reproducible
+  record; the qualitative NO-GO is reproduced and strengthened. ADR-0014 (S-e)
+  consumes the verdict per the amended screen rule: latent-state cells fail
+  S-e outright; rule-based causal covariate cells carry their structural
+  observation lag. The interim filtered-sequence substrate is now SHA-256-bound
+  in the run ReproLog (provenance repair).
 - Carried: `P1-2.0-RETRO-CARD-1.0-REGISTER` (open; **ADR-0013 re-adjudication
   addendum added 2026-07-14** — metric currency reconciled to geometric growth,
   lower-tail quantile demoted to guardrail, Kelly sweep + cost-tuned discovery
@@ -297,7 +322,10 @@ Progress (as of 2026-07-17):
   H101/H103 nulls held, not terminal. Pool-ledger schema
   [config/pool_ledger_schema.yaml](config/pool_ledger_schema.yaml) — ranking
   weights an OUTPUT of the standing-monitored `P1-2.0-POOL-PRIORITY-CALIBRATE`,
-  path-maxima barred from ranking, S-e latency BLOCKED on `P1-2.0-H900-BOCPD-WHITENED`.
+  path-maxima barred from ranking; the S-e latency input, BLOCKED at acceptance,
+  was QUANTIFIED 2026-07-17 by the `P1-2.0-H900-BOCPD-WHITENED` on-ledger run
+  (latent-state latency UNATTAINABLE; rule-based causal cells carry their
+  structural observation lag — amended screen rule).
   Amendment map enacted (banners + `amended_by` on ADR-0002/0004/0007/0009;
   decision bodies not rewritten in place). 2-round audit-remediate accept
   ([audit trail](docs/audits/audit_trail_2026-07-17_adr0014-pool-ledger.md), incl. a
@@ -306,6 +334,19 @@ Progress (as of 2026-07-17):
   (Phase 0–5) + [backfill_admission_plan_2026-07-17.md](docs/research_notes/backfill_admission_plan_2026-07-17.md);
   the two superseded 2026-07-16 scoped notes archived under
   `docs/research_notes/archive/`.
+- **Phase 1 — the three BLOCKING numeric calibrations INSTANTIATED (2026-07-17).**
+  All three Decision-9/S-e gates moved from numeric-deferred to on-ledger
+  numbers (audit-remediate round 1 applied; see the follow-up bullets above for
+  the values): discovery-alpha level ENACTED (`screening_error_rate_target` =
+  0.7401, retain-fwer, S-d bounds DSR ≥ 0.2599 / PBO ≤ 0.7401 as provisional
+  operational proxies), Kelly concavity/ruin RECORDED
+  (inconclusive-on-null-ledger bracketing verdict; ES/net degenerate; no
+  fraction selected), and the H900 whitened on-ledger ROC EXECUTED
+  reproducibly (latent-state unsupervised latency UNATTAINABLE; prior probe
+  superseded; S-e amended rule enacted in the screen addenda). Standing
+  re-instantiation conditions registered (first admission; live-outcome
+  backstop; per-family RD5 re-decision). Certification machinery is now
+  EXECUTABLE; nothing is certified.
 
 ## Directory layout
 

@@ -65,9 +65,10 @@ empty arsenal is a Phase-2 event, not a standing state.
 - **Gate out:** the admission pipeline's shape is fixed — **screen → pool →
   verdict** (ADR-0014) governs Phase 2+.
 
-## Phase 1 — Instantiate the three BLOCKING numeric calibrations *(the un-defer)*
+## Phase 1 — Instantiate the three BLOCKING numeric calibrations *(DONE 2026-07-17)*
 
-Now executable on the populated ledger; largely independent → parallelizable.
+Executed on the populated ledger (audit-remediate round 1 applied; values in
+CLAUDE.md and the memo addenda).
 
 1. **`P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE`** → screening α level +
    FWER-vs-FDR criterion (+ PRDS/BY justification if BH). **Nothing is certified
@@ -153,9 +154,9 @@ Now executable on the populated ledger; largely independent → parallelizable.
 | Gate (follow-up) | Status | Unlocks |
 |---|---|---|
 | ADR-0014 acceptance | **accepted 2026-07-17** | Phase 0 (done) → screen/verdict shape for Phase 2+ |
-| `P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE` | method-frozen, numeric deferred | Phase 1 → certification level; screen (S-c)/(S-d) bounds |
-| `P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE` | method-frozen, numeric deferred | Phase 1 → Kelly-fraction selection; marginal-log-wealth currency |
-| `P1-2.0-H900-BOCPD-WHITENED` (on-ledger numeric) | method-frozen, numeric deferred | Phase 1 → ADR-0014 (S-e) selectability latency |
+| `P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE` | **numeric instantiated 2026-07-17** (level 0.7401, retain-fwer) | certification level + screen (S-c)/(S-d) bounds SET |
+| `P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE` | **numeric instantiated 2026-07-17** (record only; bracketing inconclusive-on-null-ledger) | fraction selection still a Phase-4 champion action (arsenal ≥ 1) |
+| `P1-2.0-H900-BOCPD-WHITENED` (on-ledger numeric) | **executed 2026-07-17** (latent-state latency UNATTAINABLE; amended S-e rule) | ADR-0014 (S-e) selectability input QUANTIFIED |
 | `P1-2.0-POOL-PRIORITY-CALIBRATE` | opened 2026-07-17 (standing/monitored) | Phase 3 → data-fitted pool ranking |
 | `P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE` | registered, non-operational | Phase 5 → champion dethroning |
 | `P1-2.0-DATABENTO-DEC-ROLL-REPULL` | operator-only vendor spend | breadth (Dec-roll substrate repair) |
