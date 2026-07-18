@@ -172,7 +172,107 @@ families:
     # BEFORE the screen run per ADR-0008 D6 / the addendum's commitments.
     correction: romano-wolf
     prds_argument_ref: null
-    trials: []   # per-cell records appended at screen time (pass or fail)
+    trials:   # per-cell records, RC-H101-2 screen (ADR-0008 D6)
+      - hid: H101:ES:unconditional
+        sharpe_estimate: 0.009495
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H101/rc_h101_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-es-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H101:ES:high_vol
+        sharpe_estimate: -0.006632
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H101/rc_h101_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-es-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H101:ES:low_vol
+        sharpe_estimate: 0.008663
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H101/rc_h101_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-es-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H101:ES:first_hour_up
+        sharpe_estimate: 0.031077
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H101/rc_h101_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-es-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H101:ES:first_hour_down
+        sharpe_estimate: -0.010867
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H101/rc_h101_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-es-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H101:NQ:unconditional
+        sharpe_estimate: 0.022951
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H101/rc_h101_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-nq-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H101:NQ:high_vol
+        sharpe_estimate: 0.017905
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H101/rc_h101_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-nq-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H101:NQ:low_vol
+        sharpe_estimate: -0.016665
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H101/rc_h101_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-nq-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H101:NQ:first_hour_up
+        sharpe_estimate: 0.048615
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H101/rc_h101_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-nq-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H101:NQ:first_hour_down
+        sharpe_estimate: -0.003795
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H101/rc_h101_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-nq-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
     registered_at: "2026-07-17"
   - family_id: rc-h103-2
     # ADR-0014 SCREEN re-run of H103 with the CERTIFIED leakage-clean
@@ -181,7 +281,107 @@ families:
     # Level/correction as rc-h101-2. Registered BEFORE the screen run.
     correction: romano-wolf
     prds_argument_ref: null
-    trials: []   # per-cell records appended at screen time (pass or fail)
+    trials:   # per-cell records, RC-H103-2 screen (ADR-0008 D6)
+      - hid: H103:ES:unconditional
+        sharpe_estimate: 0.009495
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H103/rc_h103_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-es-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H103:ES:stress
+        sharpe_estimate: 0.008727
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H103/rc_h103_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-es-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H103:ES:non_stress
+        sharpe_estimate: 0.012622
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H103/rc_h103_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-es-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H103:ES:first_hour_up
+        sharpe_estimate: 0.031077
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H103/rc_h103_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-es-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H103:ES:first_hour_down
+        sharpe_estimate: -0.010867
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H103/rc_h103_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-es-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H103:NQ:unconditional
+        sharpe_estimate: 0.022951
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H103/rc_h103_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-nq-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H103:NQ:stress
+        sharpe_estimate: 0.000967
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H103/rc_h103_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-nq-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H103:NQ:non_stress
+        sharpe_estimate: 0.049709
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H103/rc_h103_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-nq-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H103:NQ:first_hour_up
+        sharpe_estimate: 0.048615
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H103/rc_h103_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-nq-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
+      - hid: H103:NQ:first_hour_down
+        sharpe_estimate: -0.003795
+        return_series_ref: data/processed/shadow_ledger/expert_id=orb_first_hour_k1.0@1.0.0 (cell mask per reports/H103/rc_h103_2_screen.json)
+        clustering:
+          cluster_key: orb-first-hour-ledger-nq-cell-overlap
+          notes: >-
+            nested/overlapping conditioning cells of one ledger stream;
+            N_eff via the pairwise-complete cell correlations recorded
+            in the screen artifact (cell_dependence)
+        registered_at: "2026-07-18"
     registered_at: "2026-07-17"
 # families:
 #   - family_id: <slug>

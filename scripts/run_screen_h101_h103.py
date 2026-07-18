@@ -668,14 +668,21 @@ def run_screen(paths: ProjectPaths, hid: str) -> dict:  # noqa: PLR0912, PLR0915
 
 
 def _json_sanitize(obj):
-    """RFC 8259-safe serialization: non-finite floats -> string sentinels."""
+    """RFC 8259-safe serialization: NaN -> null, +/-inf -> string sentinels.
+
+    NaN maps to JSON null (the canonical missing-value encoding — typed
+    consumers of numeric arrays, e.g. the pool-ledger growth vectors, read
+    null natively; Phase-2 audit CODE-1-2/REPRODUCIBILITY-1-2). Signed
+    infinities keep string sentinels (they are verdict-bearing values, not
+    missing data).
+    """
     if isinstance(obj, dict):
         return {k: _json_sanitize(v) for k, v in obj.items()}
     if isinstance(obj, list | tuple):
         return [_json_sanitize(v) for v in obj]
     if isinstance(obj, float) and not np.isfinite(obj):
-        # covers +inf, -inf, and nan (nan compares False on both > and <)
-        return "inf" if obj > 0 else ("-inf" if obj < 0 else "nan")
+        # nan compares False on both > and < -> falls through to None (null)
+        return "inf" if obj > 0 else ("-inf" if obj < 0 else None)
     return obj
 
 
