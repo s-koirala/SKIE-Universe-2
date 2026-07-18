@@ -304,14 +304,13 @@ Progress (as of 2026-07-17):
   ES ORB net-negative after costs), NQ zero-marginal (residual IR ≈0). The **Lundström
   high-vol-concentration prior is CONTRADICTED** (ES ORB edge is in CALM sessions).
   2-round audit accept. [RC-H103-1 disposition](docs/reports/H103/RC-H103-1_admission_disposition_2026-07-16.md).
-- **Arsenal status: EMPTY.** Both forward admission candidates (H101 unconditional ORB,
-  H103 stress-state ORB) returned nulls on the shadow ledger; no ADR-0002(b) member
-  admitted, no ADR-0002(d) covariance anchor authored. The first-hour ORB rule does not
-  carry admission-grade conditional gross edge on ES/NQ in either form. Governance held:
-  Kelly-fraction selection + screening/FWER level BLOCKED/DEFERRED, PBO DEFERRED,
-  nothing certified. Under ADR-0014 (accepted 2026-07-17) H101/H103 are
-  **reconsideration-eligible** pending a screen re-run (the persistence +
-  ex-ante-selectability tests they never ran), not terminal archives.
+- **Arsenal status: EMPTY; provisional POOL populated (2026-07-17).** The RC-1
+  singleton scans returned nulls under the then-null screening level; under the
+  ADR-0014 screen re-runs at the ENACTED level (RC-H101-2 / RC-H103-2, below)
+  BOTH candidates carry persistent, ex-ante-selectable windows and sit in the
+  provisional candidate pool as `pool-hold-reconsider` (VERDICT deferred at
+  |arsenal| = 0). No ADR-0002(b) member is admitted, no covariance anchor is
+  authored, nothing is certified; Kelly-fraction selection remains blocked.
 - **Admission re-composed — ADR-0014 provisional candidate pool (accepted +
   enacted 2026-07-17).** [ADR-0014](docs/decisions/ADR-0014-provisional-candidate-pool-screen-verdict.md)
   splits ADR-0002 admission into a singleton SCREEN (persistent,
@@ -347,6 +346,23 @@ Progress (as of 2026-07-17):
   re-instantiation conditions registered (first admission; live-outcome
   backstop; per-family RD5 re-decision). Certification machinery is now
   EXECUTABLE; nothing is certified.
+- **Phase 2 — first SCREEN pass executed; empty-arsenal cold-start resolved as
+  POOL entries (2026-07-17).** The frozen RC-H101-2 / RC-H103-2 protocols ran
+  on the canonical k1.0 ledger at the enacted level ([harness](scripts/run_screen_h101_h103.py);
+  S-c reproduces the RC-1 statistics bit-identically at seed 20260716):
+  **both SCREEN PASS.** H101: 3 passing cells (ES/first_hour_up DSR 0.346;
+  NQ/high_vol 0.280; NQ/first_hour_up 0.573; PBO 0.216–0.493). H103 (with the
+  CERTIFIED leakage-clean per-origin stress construction, p̂ ≈ 0.18, 15
+  windows/instrument): 4 passing cells (ES/stress 0.304 — the clean ES stress
+  mean flips POSITIVE vs the RC-1 leaked cell, a recorded
+  construction-dependence exhibit; ES/first_hour_up 0.330; NQ/non_stress
+  0.571; NQ/first_hour_up 0.555; NQ/stress misses S-d by 0.004). Both dispose
+  `pool-hold-reconsider`; Expert Cards v2 emitted (script-generated), the
+  pool ledger materialized ([pool_ledger.jsonl](data/processed/pool_ledger/pool_ledger.jsonl),
+  8 records = 2 HIDs × 4 fractions), and per-cell trial records appended to
+  the `rc-*-2` register families. **STOPPED before any set-level VERDICT**
+  (|arsenal| = 0; first-admission protocol is the next, operator-gated step).
+  2-round audit-remediate accept (trail: [audit_trail_2026-07-17_phase1-numeric-calibrations.md](docs/audits/audit_trail_2026-07-17_phase1-numeric-calibrations.md)).
 
 ## Directory layout
 

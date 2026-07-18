@@ -89,7 +89,7 @@ CLAUDE.md and the memo addenda).
   the residual risk recorded in
   [the ADR-0014 audit trail](../audits/audit_trail_2026-07-17_adr0014-pool-ledger.md).
 
-## Phase 2 — First admission *(break the empty-arsenal cold-start)*
+## Phase 2 — First admission *(SCREENS DONE 2026-07-17; verdict pending)*
 
 - Run the admission pass on the populated ledger via the ADR-0014 **screen → pool
   → set-level verdict** pipeline. Candidates: the re-framed H101/H103 (now
@@ -105,6 +105,13 @@ CLAUDE.md and the memo addenda).
   → `pool-hold-reconsider` (held, not discarded) → pivot to sourcing new candidates.
 - **Gate out:** the empty-arsenal state is resolved as an explicit event; the
   covariance anchor exists.
+- **Status 2026-07-17:** RC-H101-2 and RC-H103-2 both SCREEN PASS at the
+  enacted level → the pool holds two `pool-hold-reconsider` candidates (7
+  passing cells total; H103 under the certified leakage-clean stress
+  construction). The VERDICT (first admission; authors the covariance anchor)
+  is deliberately NOT run (|arsenal| = 0 stop per the execution brief) — it is
+  the next operator-gated action, together with sourcing disjoint-window
+  forward experts (Phase 3).
 
 ## Phase 3 — Arsenal breadth *(retro queue re-framed + forward experts)*
 

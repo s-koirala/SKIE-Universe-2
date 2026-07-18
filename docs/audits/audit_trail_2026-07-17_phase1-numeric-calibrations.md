@@ -113,3 +113,93 @@ surfaced to the operator rather than iterated further.**
    calibrations re-instantiate at the first admission.
 5. CODE-1-1 / CODE-2-5 helper-duplication and private-API coupling residues
    (deferred refactors, recorded).
+
+
+---
+
+# Phase-2b/2c screen-results loop (separate deliverable; fresh audit budget)
+
+Deliverables: RC-H101-2 / RC-H103-2 screen artifacts (both SCREEN PASS →
+provisional pool, verdict deferred), Expert Cards v2 (script-generated), the
+first pool-ledger materialization (8 records), per-cell register trials.
+Workflow runs: round 1 `wf_551bba80-688`, round 2 `wf_b1be4d18-07d`.
+
+## Round 1
+
+Refute gate: 15 findings across branches — 6 distinct majors — all survived
+refutation (none refuted). All REMEDIATED:
+
+| Distinct defect | Disposition |
+|---|---|
+| Hardcoded §8.2 pass-prose contradicted the H103 passing set (calm cell described as high-vol) | prose now COMPOSED from the artifact's passing set via a declared cell→mechanism map |
+| Missing growth windows encoded as the JSON string "nan" inside numeric arrays (screen artifacts + pool records) | sanitizer nan→null; both screens deterministically re-run (identical passing sets; new ReproLogs 7804ac45… / b257f65c…); pool records re-emitted with nulls |
+| Pool append not idempotent (re-runs would duplicate the append-only ledger) | key-based duplicate guard + skip notices (verified by a live re-run: 0 appended) |
+| Cards claimed +10 register records while rc-*-2 `trials` were empty (ADR-0008 D6 gap) | 10 per-cell trial records appended per family (sharpe, artifact ref, clustering metadata) |
+| Pool records drifted from the pool_ledger_schema field names/roles | schema names emitted (screen_alpha_ref/dsr_bound_ref/pbo_bound_ref pointers, detection_latency_bars with structural-lag semantics, selectable; VERDICT-tier blocks null-marked) |
+| H103 card silent on the leakage-clean construction REVERSING RC-1's ES-stress headline | Construction-dependence exhibit injected from both artifacts into §2 |
+
+Minors fixed: estimable/total window coverage, significance/direction split
+from the S-c conjunction, full freeze-verified design SHA-256 in frontmatter,
+ReproLog-sourced screened_at (2026-07-18 UTC — the runs crossed UTC
+midnight), RC-1 net notes injected from the rc_xcorr1 artifact block, derived
+counts, and/or idiom removed, burned-data reference by recorded_at.
+Accepted-not-fixed (recorded): the generator carries no unit tests
+(CODE-1-10); the DSR gate binds at raw N = 20 with the correlation-adjusted
+N_eff reported (the addendum-registered gate choice; QUANT-1-4); positional
+instrument indexing (CODE-1-4).
+
+## Round 2 (`wf_b1be4d18-07d`)
+
+Verification of the round-1 remediation. 2 distinct majors found IN the
+round-1 remediation itself; both survived the refute gate (none refuted) and
+were REMEDIATED post-round:
+
+| Distinct defect | Disposition |
+|---|---|
+| CODE-2-1/QUANT-2-2: `_net_note` read guessed rc_xcorr1 keys (`net_sr_h101`/`residual_ir`) absent from the RC-1 artifact (actual: `sharpe_h101`/`sharpe_h103`/`residual_information_ratio`), silently rendering "n/a" while the card claimed artifact-derived net values | fail-closed rewrite on the ACTUAL artifact keys (missing key → raise); H103 §2 now renders ES −0.0164/−0.0238/IR −0.0179, NQ 0.0144/0.0113/IR 0.0000 |
+| QUANT-2-1: both cards hardcoded "reproduces RC-1 bit-identically" — FALSE for H103, where the certified leakage-clean per-origin construction changes 4/10 cells (ES:stress mean flips sign) | `_reproduction_claim()` DERIVES the claim per card by comparing (stat, n) tuples across RC-1/RC-2 artifacts at `_STAT_IDENTITY_TOL = 1e-9`; H101 renders 10/10 bit-identical, H103 renders 6/10 + the named 4-cell diff set attributed to the construction |
+
+Minors fixed: n_gate fail-closed guard, `_fmt` bool exclusion, register
+trials' `return_series_ref` dual-ref (ledger partition family + screen
+artifact as cell-mask reference; the 20 appended records text-patched to
+match), three-state register-family-missing error handling.
+Accepted-not-fixed (recorded): hardcoded DATA_SPAN/ledger-slice constants as
+registered record-shape choices (CODE-2-5); pool idempotency key without an
+adjudication-event id — first-adjudication-only ledger by design;
+re-adjudication events append with a changed `last_adjudicated_against`
+(QUANT-2-3); dirty-tree screen runs with `working_tree_hash` recorded — the
+provenance commit lands this session (REPRODUCIBILITY-2-2); card `screened_at`
+2026-07-18 = ReproLog UTC date (runs crossed UTC midnight), derived-by-design.
+
+## Round 3 (`wf_ab38cd03-84f`) — ACCEPT
+
+Narrow verification of the round-2 remediation; all four routed branches
+(code-reviewer, quant-auditor, reproducibility-verifier, literature-check)
+returned ACCEPT with zero critical/major findings. Both round-2 majors were
+verified against the primary artifacts by independent recomputation (not
+prose): H101 10/10 (stat, n) tuples identical between RC-1/RC-2; H103 6/10
+with diff set exactly {ES:stress, ES:non_stress, NQ:stress, NQ:non_stress}
+(e.g. ES:stress n 437→313, stat −0.8404→+0.1544); H103 §2 net values
+reconciled to `rc_h103_1_scan.json` `rc_xcorr1` at 4-dp (NQ residual IR
+0.0000 = faithful rounding of +1.879e-05). Register dual-ref YAML validated;
+all round-2 minors confirmed in place; no regression in round-1 properties
+(idempotency, schema names, null growth encoding, composed §8.2, exhibit).
+
+2 new minors logged, NOT remediated (dormant; unreachable on current
+artifacts; post-accept churn declined): CODE-3-1 — `_reproduction_claim`
+fail-open on zero RC-1/RC-2 key overlap (renders "0/0 cells" instead of
+raising); QUANT-3-1 — the non-identical branch hardcodes the leakage-clean
+construction attribution for ALL diff cells rather than restricting to a
+declared construction-changed set. Both spun off to a follow-up task.
+
+## Final disposition — Phase-2b/2c loop
+
+Exit at round 3 on unanimous ACCEPT (0 critical/major; cap reached).
+Cumulative: 8 distinct majors over rounds 1–2, all remediated and re-verified;
+0 findings refuted at the gate in any round. Residual risks: the screen
+passes are POOL entries only — verdict-tier objects (net/cost non-redundancy,
+marginal geometric growth, Kelly-fraction selection) remain unadjudicated;
+the enacted screening level's looseness is licensed by the non-waivable
+verdict ladder that has not yet run; generator carries no unit tests; the
+S-c "bit-identical" wording rests on the 1e-9 tolerance (for H101 the JSON
+representations are in fact string-identical).
