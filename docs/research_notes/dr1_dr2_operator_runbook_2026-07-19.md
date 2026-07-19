@@ -14,8 +14,13 @@ registration precedes ingest; already committed).*
 
 `DEC_ROLL_LATE_COMMIT` (critical): per-year raw sharding hid the next
 year's H contract, so every ES/NQ Z→H roll 2016–2025 committed ~3 weeks
-late; the mitigation is EXCLUSION (91 ES / 101 NQ sessions, the same
-mid-December band yearly; ~68–69% of excluded bars are overnight-ETH).
+late; the mitigation is EXCLUSION (91 ES / 101 NQ **sessions** with any
+excluded overnight bar, the same mid-December band yearly; ~68–69% of
+excluded bars are overnight-ETH — the P3-A overnight-feasibility count).
+This is a DIFFERENT denominator from cost-sheet §2.1.4's 110 ES / 110 NQ
+roll-window **bar-dates** (+ 115/126 terminal-window bar-dates): sessions
+touched by the blind spot vs the calendar bar-dates the pull spans; the two
+are reported for their respective purposes and are not in conflict.
 Post-repair, the registered **confirmation-grade H105 re-adjudication**
 becomes runnable (§5). Official roll convention (pinned):
 CME equity roll date = the **Monday prior to the third Friday** of the
@@ -87,12 +92,31 @@ indicates a symbology mistake (e.g. accidental full-span request).
 
 ## 5. Post-pull pipeline (operator reports "pull complete" → agent-run)
 
-Executed only AFTER the operator confirms §4, in order:
+**5.0 — BUILD PREREQUISITE, NOT YET BUILT (audit QUANT-1-1 /
+REPRODUCIBILITY-1-1).** §5.1 is NOT runnable as written today. The
+`vendor_legacy_1min` ingest job is hard-wired to a single registry key
+(`_SOURCE_REGISTRY_KEY = "vendor_skie_ninja_legacy_raw_1min"`, one
+`resolve_ingest_source` call) and the legacy `{SYMBOL}_{YEAR}_1min` CSV
+file pattern; NOTHING in `src/` consumes
+`vendor_databento_dec_roll_repair_1min` (different machine root, different
+`{REQUEST_ID}_{SYMBOL_SET}` pattern, `dbn.zst` preferred). Running §5.1
+verbatim after the pull would re-ingest ONLY the defective legacy store and
+regenerate UNCHANGED `coverage_gaps` — the repair would silently no-op.
+Before §5.1 runs, a merge stage must be BUILT (its own commit, tests, and
+audit-remediate accept): extend the ingest job (or add a pre-ingest merge)
+to resolve BOTH registry keys, parse the repair `{REQUEST_ID}_{SYMBOL_SET}`
+files (CSV and `dbn.zst`), and give the repair source PRECEDENCE over the
+legacy source inside the 11 registered windows. This build is a
+FUTURE-SESSION deliverable gated on the operator's pull; it is NOT
+authorized or scoped here, and §5.1–§5.4 below describe the intended
+pipeline SHAPE once that stage exists, not a currently-executable command.
+
+**5.1–5.4 (intended pipeline once §5.0 is built):**
 
 1. **Ingest:** `uv run python scripts/ingest.py --dataset vendor_legacy_1min --start 2015-01-01 --end 2026-01-16 --symbols ES NQ`
-   with the repair source merged per the ingest module's registry rules
-   (the ingest refuses unregistered sources; the repair entry is already
-   registered). Then the roll-adjusted re-materialization:
+   through the §5.0 merge stage (which resolves BOTH the legacy and the
+   repair registry keys and applies repair precedence in the 11 windows).
+   Then the roll-adjusted re-materialization:
    `uv run python scripts/ingest.py --dataset vendor_legacy_1min_roll_adjusted --start 2015-01-01 --end 2026-01-16 --symbols ES NQ`.
    **OD-F append-only:** new partitions; old ones deprecated, never
    edited. The re-ingest EMITS a NEW dated provenance JSON

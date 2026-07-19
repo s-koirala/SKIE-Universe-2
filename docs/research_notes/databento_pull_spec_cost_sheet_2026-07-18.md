@@ -258,10 +258,16 @@ confirmed 2026-07-10 (round-1 audit QUANT-1-1): the per-year ES/NQ raw files
 contain **only same-year-expiry contracts**, so the December volume crossover
 into the next year's H (March) contract is invisible until the next year's file
 begins. Every Z→H roll 2016–2025 therefore commits at the **first January
-session**, ~3 weeks after the true mid-December crossover (equity-index roll convention — volume
-migrates ~8 calendar days before last trade; the registry's "CME guidance"
-attribution is unpinned, an official CME source is to be recorded at repair
-registration — audit finding LITERATURE-1-4). The registry is explicit that the
+session**, ~3 weeks after the true mid-December crossover. LITERATURE-1-4
+status (reconciled 2026-07-19 with the registry's additive
+`roll_convention_citation`, audit LITERATURE-2-1): the roll-DATE convention is
+now pinned to a primary CME source (roll = the Monday prior to the third
+Friday of the expiry month; December roll Monday Dec 11–17), but the
+description's "~8 calendar days before last trade" **early**-migration figure
+remains an **internal empirical estimate** — the CME source fixes the roll
+date, not an ~8-day early volume/OI migration. LITERATURE-1-4 is therefore
+**partially closed**; a primary OI-migration source is to be recorded at
+repair registration. The registry is explicit that the
 1.0 bit-exact benchmark match therefore demonstrates **port fidelity, not
 substrate correctness**, and that the defect must **not** be patched in code.
 

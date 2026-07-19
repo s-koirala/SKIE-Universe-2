@@ -42,11 +42,8 @@ sources:
           so the December volume-crossover into the next year's H (March)
           contract is invisible until the next year's file begins. Every
           Z->H roll 2016-2025 therefore commits at the FIRST JANUARY
-          session, ~3 weeks after the true mid-December crossover
-          (equity-index roll convention: volume migrates ~8 calendar days
-          before last-trade; attribution note 2026-07-19 — no official CME
-          citation is on file, pin one at repair registration; audit
-          finding LITERATURE-1-4).
+          session, ~3 weeks after the true mid-December crossover (CME
+          guidance: volume migrates ~8 calendar days before last-trade).
           Bars in each late window (~Dec 08 .. first January session, per
           year) carry a misattributed front-month in every derivative built
           from this store, including the registered 1.0 reference output —
@@ -67,16 +64,36 @@ sources:
           becomes authoritative for the affected windows once its
           retrieval-time checksums exist.
         roll_convention_citation: >-
-          CME Group official convention (pinned 2026-07-19, closing the
-          audit LITERATURE-1-4 attribution gap): the equity roll date is
-          the MONDAY PRIOR TO THE THIRD FRIDAY of the expiration month,
-          after which the second-nearest expiry is the "lead month" —
+          ADDITIVE ATTRIBUTION FIELD (2026-07-19; the append-only `description`
+          above is retained verbatim from 2026-07-10 and is NOT edited — all
+          corrections live here per ADR-0011 D4, audit QUANT-2-1). The
+          ROLL-DATE convention IS now pinned to a primary source (audit
+          LITERATURE-1-4, partially closed — see the caveat below): CME Group
+          states the equity roll date is the MONDAY PRIOR TO THE THIRD FRIDAY
+          of the expiration month, after which the second-nearest expiry is
+          the "lead month" —
           https://www.cmegroup.com/trading/equity-index/rolldates.html and
           https://www.cmegroup.com/education/courses/introduction-to-futures/
           understanding-futures-expiration-contract-roll (both cmegroup.com,
-          fetched 2026-07-19). For December expiries the roll Monday falls
-          ~Dec 08-14, consistent with the registered
-          expected_crossover_window starts (~Dec 08).
+          fetched 2026-07-19).
+          ROLL-MONDAY CORRECTION (audit LITERATURE-1-1): the third Friday of
+          December falls Dec 15-21, so the roll MONDAY falls Dec 11-17
+          (recomputing 2015-2025 gives roll Mondays Dec
+          {14,12,11,17,16,14,13,12,11,16,15}); an earlier additive note said
+          "~Dec 08-14", a misderivation now retracted.
+          UNPINNED-FIGURE CAVEAT (audit LITERATURE-2-1): the description's
+          "~8 calendar days before last-trade" EARLY-migration figure (and
+          the ~Dec 08 expected_crossover_window starts derived from it) is an
+          INTERNAL EMPIRICAL ESTIMATE, NOT established by the pinned CME
+          source — which fixes the roll DATE but not an ~8-day early
+          volume/OI migration. A primary OI-migration source is to be
+          recorded at repair registration; until then LITERATURE-1-4 is
+          PARTIALLY closed (roll-date convention pinned; early-migration
+          magnitude an internal estimate). The ~Dec 08 window starts
+          conservatively PRE-DATE the convention-implied roll Monday
+          (Dec 11-17), and the Dec 01 pull-window starts cover both with
+          margin — no pull-window change required regardless of the
+          early-migration figure's eventual pinned value.
 
   vendor_databento_dec_roll_repair_1min:
     kind: vendor_raw
