@@ -1,5 +1,17 @@
 # Session Handoff — 2026-07-12
 
+> **HISTORICAL SNAPSHOT (banner added 2026-07-19; do not plan from this
+> file).** Statuses below are as-of 2026-07-12 and are superseded — ADR-0012
+> and ADR-0013 are long **accepted** (2026-07-12), the whitening follow-up is
+> method-frozen AND executed on-ledger (2026-07-17), and governance now runs
+> through ADR-0014/0015/0016. Current state lives in
+> [CLAUDE.md](../../CLAUDE.md) and
+> [program_roadmap_2026-07-17.md](program_roadmap_2026-07-17.md). This file is
+> retained **in place** because committed artifacts cite it by path
+> ([scripts/run_h900_whitened_roc.py](../../scripts/run_h900_whitened_roc.py),
+> `reports/H900_whitened_roc/h900_whitened_roc.json`, the whitening memo);
+> do not move it.
+
 Program: SKIE-Universe 2.0 meta-strategy allocation research.
 Prepared for: a fresh session continuing this work-stream.
 Framing: this session installed the **aggressive geometric-growth mandate**

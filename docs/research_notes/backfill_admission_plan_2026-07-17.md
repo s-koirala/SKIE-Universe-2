@@ -145,12 +145,17 @@ re-ordered 2026-07-18):
   ORB-adjacent / equity-index and cannot supply a non-overlapping coverage
   vector, so only forward hypotheses whose competence windows are *disjoint*
   from ORB can lift the ADR-0015 verdict precondition. Operator-approved
-  mechanism directions (2026-07-18): overnight/Globex, mean-reversion,
-  macro-calendar-conditioned, spread/liquidity-regime — each subject to its
-  pre-registration feasibility/cost gate (coverage-gap computation, substrate
-  coverage check, PIT-calendar availability, OD-G tier reportability,
-  burned-span operator approval). They enter the same design-freeze →
-  backfill → screen path.
+  mechanism directions, **in priority order (2026-07-19 principal direction)**:
+  (1) overnight/Globex, (2) mean-reversion, (3) macro-calendar-conditioned,
+  (4) spread/liquidity-regime — **OD-G Form A DEFERRED out of the Step-5
+  batch** per the ratified
+  [setup plan](od_g_spread_liquidity_setup_plan_2026-07-18.md) §§3–4 — each
+  subject to its pre-registration feasibility/cost gate (coverage-gap
+  computation; substrate coverage check — overnight/Globex carries the
+  declared December/Globex blind spot pending DR-1/DR-2
+  ([cost sheet](databento_pull_spec_cost_sheet_2026-07-18.md) §2.1.4);
+  PIT-calendar availability; OD-G tier reportability; burned-span operator
+  approval). They enter the same design-freeze → backfill → screen path.
 - **Reconsideration-eligible (screens EXECUTED 2026-07-17):** H101, H103 —
   RC-H101-2 / RC-H103-2 SCREEN PASS at the enacted level →
   `pool-hold-reconsider` in the provisional pool; **held under the ADR-0015
@@ -255,23 +260,33 @@ Carried from the two archived notes; still open.
   memo is authored at that first forward admission.
 - **OD-B (H103 pooling universe).** RC-H103-1 proposed ES+NQ+MES+MNQ pooling to
   reach n ≥ 174 stress-cell trades; confirm the micro siblings are in the
-  intended universe (RC-H103-1 ran ES+NQ only).
+  intended universe (RC-H103-1 ran ES+NQ only). *(2026-07-19: the pooling
+  rationale is OBSOLETE — the as-executed RC-H103-1 met the n ≥ 174 floor on
+  ES+NQ alone (disposition §3.8: ES 437, NQ 481); the defensible MES/MNQ
+  rationale is instrument breadth, and micros cannot satisfy the ADR-0015
+  coverage precondition —
+  [cost sheet](databento_pull_spec_cost_sheet_2026-07-18.md) §2.3.)*
 - **OD-C (H104 fresh-cycle scope).** Confirm MGC/SIL enter as a new admission
   cycle with their own trial-register entry and that RC-H104-3 is a hard
   pre-admission gate.
-- **OD-D (Databento December-roll repull).** `P1-2.0-DATABENTO-DEC-ROLL-REPULL`
-  (operator-only vendor spend): the December-roll windows are currently
-  *excluded*, not *corrected*
-  ([config/data_sources.yaml](../../config/data_sources.yaml)). Decide whether to
-  repull before broadening scope.
+- **OD-D (Databento December-roll repull) — RESOLVED 2026-07-19 (ELEVATED).**
+  `P1-2.0-DATABENTO-DEC-ROLL-REPULL` is the **top purchase priority**:
+  quote-ready DR-1/DR-2 spec in the
+  [cost sheet](databento_pull_spec_cost_sheet_2026-07-18.md) §2.1/§4
+  (operator-only spend, **not yet authorized**). The December-roll windows
+  are currently *excluded*, not *corrected*
+  ([config/data_sources.yaml](../../config/data_sources.yaml)); the repair is
+  prerequisite for December-inclusive / confirmation-grade overnight-Globex
+  evidence (a conditional-grade overnight screen can run before it with the
+  blind spot declared).
 - **OD-E (signal/target persistence).** Keep signal_strength / target_position as
   a gitignored `data/interim/` attribution sidecar, not `cov_` columns (reserved
   for ADR-0002(b) conditioning covariates). Recommended; confirm.
 - **OD-F (correction cadence).** Append-only ledger: a code change to an expert =
   version bump = full re-backfill into new partitions, old ones deprecated
   (ADR-0003 D3). Confirm single full run vs incremental per-window appends.
-- **OD-G (spread/liquidity mechanism — ADR-0006 tier reportability; NEW
-  2026-07-18).** No Tier-2 substrate exists, so a mechanism whose edge derives
+- **OD-G (spread/liquidity mechanism — ADR-0006 tier reportability; RESOLVED
+  2026-07-18/19).** No Tier-2 substrate exists, so a mechanism whose edge derives
   from spread capture, queue position, or liquidity provision CANNOT be
   screened (limit-order/queue claims are unreportable below Tier 2, ADR-0006
   D2). The mechanism is admissible ONLY as a Tier-0 directional expert that
@@ -279,5 +294,12 @@ Carried from the two archived notes; still open.
   liquidity at bar close (recorded in the design's execution-layer section,
   ADR-0005). If the mechanism's premise requires a fill assumption, the
   ADR-0006 block is reported to the operator rather than running a downgraded
-  version. Operator decision: accept the Tier-0 conditioning form, or drop
-  the mechanism until a Tier-2 substrate exists.
+  version. **Resolution:** the Tier-0 conditioning form (Form A) is the admissible form
+  (2026-07-18), and Form A is **DEFERRED** out of the Step-5 batch (2026-07-19
+  principal direction, ratifying the
+  [setup plan](od_g_spread_liquidity_setup_plan_2026-07-18.md) §§3–4 defer);
+  the native mechanism (Form B) is scoped by
+  [ADR-0016](../decisions/ADR-0016-tier2-execution-fidelity-scoping.md)
+  (accepted 2026-07-19, stage A only — no spend authorized) as a **successor
+  HID** (Decision 10(b)). OD-G re-enters on ADR-0013 currency
+  (`marginal_growth_delta`) once a second disjoint-coverage expert exists.

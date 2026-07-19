@@ -72,6 +72,8 @@ The founding ADRs in [docs/decisions/](docs/decisions/) are standing rules:
 | [ADR-0012](docs/decisions/ADR-0012-standing-incumbent-allocator.md) (accepted) | Standing incumbent allocator (champion-challenger): the current best allocator configuration is the live default + live-capital anchor; a challenger dethrones it only via the ADR-0007 ladder by a geometric-growth-improvement margin after a minimum champion dwell (accepted 2026-07-12; sits atop ADR-0013; dethroning rule non-operational until `P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE` frozen) |
 | [ADR-0013](docs/decisions/ADR-0013-aggressive-geometric-growth-mandate.md) (accepted) | Aggressive geometric-growth mandate: geometric (compounded/Kelly log-wealth) growth becomes the primary objective; Kelly fraction a registered swept hyperparameter {0.5,0.75,1.0,1.25} winner data-selected; lower-tail terminal-wealth quantile demoted to a monitored non-binding guardrail; discovery alpha cost-tuned looser; ADR-0002 admission loosened; ADR-0010 ramp steepened; DSR/PBO/rotor/canaries/register/ReproLog/ledger non-waivable and more binding under leverage. Amends ADRs 0002/0004/0005/0007/0010 |
 | [ADR-0014](docs/decisions/ADR-0014-provisional-candidate-pool-screen-verdict.md) (accepted) | Provisional candidate pool (screen/verdict split): ADR-0002 admission split into a singleton SCREEN (persistent, ex-ante-selectable competence window → provisional pool) + a set-level VERDICT (marginal geometric-growth on the ADR-0007 ladder); screen-pass/verdict-non-select = `pool-hold-reconsider` (reconsideration-eligible, re-adjudicated on incumbent-set change); pool-priority ranking a standing-monitored OUTPUT (`P1-2.0-POOL-PRIORITY-CALIBRATE`), path-maxima barred; resolves the empty-arsenal cold-start. Amends ADRs 0002/0004/0007/0009 (accepted 2026-07-17) |
+| [ADR-0015](docs/decisions/ADR-0015-ratified-pool-hold-verdict-precondition.md) (accepted) | Ratified pool HOLD + verdict precondition: the set-level VERDICT is held until ≥ 2 distinct `expert_hash` values with non-overlapping coverage vectors exist (operator-directed, provisional; reporting-check-only checker [check_verdict_precondition.py](scripts/audits/check_verdict_precondition.py)); the lift is a named, dated operator authorization (accepted 2026-07-18) |
+| [ADR-0016](docs/decisions/ADR-0016-tier2-execution-fidelity-scoping.md) (accepted) | Tier-2 execution-fidelity scoping: queue-position + fill-probability model class (not book replay); bounded MBO sample validates an MBP-10-derived model applied at scale; fill assumption SWEPT (pessimistic/central/optimistic; every (config × fill-assumption) pair a registered trial; claims must survive the whole range incl. the pessimistic endpoint); staged A→D gates, first spend at stage B (named operator authorization; three recordable states authorized/declined/undecided); Decision 10 promotion-vs-successor rule (unchanged estimand = same-HID promotion via append-only execution-tier addendum; changed estimand = successor HID under ADR-0008 D5 — OD-G Form B is the successor-HID case). Accepted 2026-07-19 by principal direction, stage A only — authorizes no spend, builds nothing |
 
 Open follow-ups registered at founding: `P1-2.0-RETRO-CARD-1.0-REGISTER`
 (retro-card H050/H052a/H053/H054/H055 from 1.0 KPI reports — first admission
@@ -147,7 +149,9 @@ opening the allocator program. Open follow-ups registered this session
   addendum added 2026-07-14** — metric currency reconciled to geometric growth,
   lower-tail quantile demoted to guardrail, Kelly sweep + cost-tuned discovery
   applied; numeric re-adjudication deferred to the shadow-ledger backfill);
-  `P1-2.0-DATABENTO-DEC-ROLL-REPULL` (operator-only vendor spend);
+  `P1-2.0-DATABENTO-DEC-ROLL-REPULL` (operator-only vendor spend; **elevated
+  2026-07-19** to quote-ready top purchase priority — DR-1/DR-2 spec in
+  [databento_pull_spec_cost_sheet_2026-07-18.md](docs/research_notes/databento_pull_spec_cost_sheet_2026-07-18.md));
   `P1-2.0-ROLL-SYMBOL-EXPAND` and the QUANT-3-2 terminal-window generalization
   (post shadow-ledger backfill).
 
@@ -189,7 +193,7 @@ uv run pytest
 - **Python version pin:** `>=3.11,<3.13`
 - **Bootstrap script HEAD:** `fe9bcd1b6fee` (see `manifest.json`)
 
-Progress (as of 2026-07-18):
+Progress (as of 2026-07-19):
 
 - **Dwell-time feasibility gate (ADR-0004 Decision 6) — CLOSED GO.** H900
   established dwell-time separation feasible; first registered analysis, opens
@@ -400,6 +404,28 @@ Progress (as of 2026-07-18):
   admission target = fresh forward expert), OD-G opened (spread/liquidity
   ADR-0006 tier reportability). Arsenal EMPTY; nothing certified; no Kelly
   fraction selected; STOPPED before Step-5 mechanism work for operator review.
+- **OD-G adjudicated; ADR-0016 ACCEPTED (stage A); forward-sourcing priority
+  fixed; DEC-roll repair elevated (2026-07-19).** The three OD-G deliverables
+  (proposed ADR-0016, OD-G setup plan, Databento pull-spec/cost sheet) passed
+  a 15-agent argument-validity audit — 12 majors confirmed and remediated in
+  place, 1 critical REFUTED at the adversarial gate (the alleged ADR-0006
+  live-fill contradiction dissolves as a build-gate vs confirmation-grade
+  distinction), 7 minors logged/fixed
+  ([audit trail](docs/audits/audit_trail_2026-07-19_odg-deliverables-argument-audit.md)).
+  By principal direction 2026-07-19:
+  **[ADR-0016](docs/decisions/ADR-0016-tier2-execution-fidelity-scoping.md)
+  accepted** (stage A only — NO spend authorized; new Decision 10 resolves
+  promotion-vs-successor: OD-G Form B = successor HID); **OD-G Form A
+  DEFERRED** out of Step-5 (weakest disjointness, proxy fork, its spans are
+  Form B's); **forward-sourcing priority: (1) overnight/Globex,
+  (2) mean-reversion**, macro third, OD-G last; **DR-1/DR-2 December-roll
+  repair elevated to quote-ready top purchase priority** (operator-only
+  spend, not yet authorized; prerequisite for December-inclusive /
+  confirmation-grade overnight evidence — a conditional-grade overnight
+  screen can run now on the exclusion-filtered substrate with the blind spot
+  declared). ADR-0015 HOLD unchanged; arsenal EMPTY; nothing certified; no
+  Kelly fraction selected. Next: overnight/Globex ETH-substrate check →
+  `/hypothesis-new` → `/preregister` → backfill → screen.
 
 ## Directory layout
 

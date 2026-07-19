@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning 2.0.0](https://semver.org/spec/
 
 ## [Unreleased]
 
+### Added (OD-G adjudication + ADR-0016 Tier-2 scoping — accepted 2026-07-19)
+- **ADR-0016 — Tier-2 execution-fidelity scoping, ACCEPTED (stage A only; by
+  principal direction 2026-07-19; no spend authorized).** Queue-position +
+  fill-probability model class (not book replay); bounded-MBO-validates-MBP-10
+  data strategy; load-bearing execution-model overfitting guard (fill
+  assumption SWEPT pessimistic/central/optimistic; every pair a registered
+  trial; claims must survive the whole range); staged A→D gates with three
+  recordable states (authorized/declined/undecided) and the first spend at
+  stage B; **Decision 10** promotion-vs-successor rule (unchanged estimand =
+  same-HID promotion via append-only execution-tier addendum; changed
+  estimand = successor HID under ADR-0008 D5 — OD-G Form B is the
+  successor-HID case). Accepted after round-1 remediation of the 15-agent
+  argument-validity audit (12 majors fixed; 1 critical refuted at the gate;
+  `docs/audits/audit_trail_2026-07-19_odg-deliverables-argument-audit.md`).
+- **OD-G resolved and deferred.** Form A (Tier-0 conditioning) is the
+  admissible form but is DEFERRED out of the Step-5 batch; forward-sourcing
+  priority fixed: (1) overnight/Globex, (2) mean-reversion, (3) macro-calendar,
+  (4) spread/liquidity. `docs/research_notes/od_g_spread_liquidity_setup_plan_2026-07-18.md`
+  and `docs/research_notes/databento_pull_spec_cost_sheet_2026-07-18.md`
+  remediated per the audit and first-committed.
+- **DEC-roll repair elevated.** `P1-2.0-DATABENTO-DEC-ROLL-REPULL` elevated to
+  quote-ready top purchase priority (DR-1/DR-2 spec in the cost sheet;
+  operator-only spend, not yet authorized).
+
+### Added (ADR-0015 ratified pool HOLD — accepted 2026-07-18; logged retroactively 2026-07-19)
+- **ADR-0015 — Ratified pool HOLD + verdict precondition, ACCEPTED 2026-07-18**
+  (omitted from this changelog at the time): set-level VERDICT held until
+  ≥ 2 distinct `expert_hash` values with non-overlapping coverage vectors;
+  reporting-check-only checker `scripts/audits/check_verdict_precondition.py`
+  (BLOCKED: `distinct_expert_hash_count = 1`); lift is a named, dated operator
+  authorization.
+
 ### Added (ADR-0014 provisional candidate pool — accepted + enacted 2026-07-17)
 - **ADR-0014 — Provisional candidate pool (screen/verdict split), ACCEPTED.**
   Splits ADR-0002 admission into a singleton SCREEN (persistent, ex-ante-selectable

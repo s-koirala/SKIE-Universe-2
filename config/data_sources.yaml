@@ -42,8 +42,11 @@ sources:
           so the December volume-crossover into the next year's H (March)
           contract is invisible until the next year's file begins. Every
           Z->H roll 2016-2025 therefore commits at the FIRST JANUARY
-          session, ~3 weeks after the true mid-December crossover (CME
-          guidance: volume migrates ~8 calendar days before last-trade).
+          session, ~3 weeks after the true mid-December crossover
+          (equity-index roll convention: volume migrates ~8 calendar days
+          before last-trade; attribution note 2026-07-19 — no official CME
+          citation is on file, pin one at repair registration; audit
+          finding LITERATURE-1-4).
           Bars in each late window (~Dec 08 .. first January session, per
           year) carry a misattributed front-month in every derivative built
           from this store, including the registered 1.0 reference output —

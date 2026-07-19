@@ -1,6 +1,6 @@
 # SKIE-Universe 2.0 — program-level phased roadmap
 
-*Last updated: 2026-07-18.*
+*Last updated: 2026-07-19.*
 
 **Living planning note (of record; not a frozen design.md).** The single
 strategic roadmap for the universe. It is
@@ -26,7 +26,10 @@ ledger, through the non-waivable ADR-0007 confirmation ladder.
 
 ## Governance status (binding; read first)
 
-- **In force:** ADR-0001…0014 (all accepted). Admission is governed by
+- **In force:** ADR-0001…0016 (all accepted; ADR-0015 accepted 2026-07-18 —
+  the ratified pool HOLD + verdict precondition; ADR-0016 accepted 2026-07-19 —
+  Tier-2 execution-fidelity scoping, **stage A only, no spend authorized**).
+  Admission is governed by
   **ADR-0002 as amended by [ADR-0014](../decisions/ADR-0014-provisional-candidate-pool-screen-verdict.md)**
   (accepted 2026-07-17) — the screen/verdict split + provisional pool +
   `pool-hold-reconsider` + the standing-monitored `P1-2.0-POOL-PRIORITY-CALIBRATE`.
@@ -134,10 +137,17 @@ CLAUDE.md and the memo addenda).
 
 - **First bullet, gating:** source, pre-register, backfill, and screen **new
   forward hypotheses whose competence windows are disjoint from ORB** — the
-  operator-approved mechanism directions are overnight/Globex, mean-reversion,
-  macro-calendar-conditioned, and spread/liquidity-regime, each subject to its
-  feasibility/cost gate (coverage-gap computation, substrate checks, PIT
-  calendar availability, ADR-0006 tier reportability, burned-span operator
+  operator-approved mechanism directions, **in priority order (principal
+  direction 2026-07-19)**: **(1) overnight/Globex, (2) mean-reversion**,
+  (3) macro-calendar-conditioned, (4) spread/liquidity-regime — with **OD-G
+  Form A DEFERRED out of the Step-5 batch** (weakest a-priori disjointness;
+  extra proxy fork; its spans are Form B's — ratified
+  [setup plan](od_g_spread_liquidity_setup_plan_2026-07-18.md) §§2–4). Each
+  direction remains subject to its feasibility/cost gate (coverage-gap
+  computation; substrate checks — for overnight/Globex the ETH-bars check
+  plus the declared December/Globex blind spot pending DR-1/DR-2,
+  [cost sheet](databento_pull_spec_cost_sheet_2026-07-18.md) §2.1.4; PIT
+  calendar availability; ADR-0006 tier reportability; burned-span operator
   approval) before any pre-registration. Only a disjoint-window forward expert
   can lift the ADR-0015 verdict precondition (≥ 2 distinct expert hashes with
   non-overlapping coverage vectors) and make the pool verdict-eligible.
@@ -184,13 +194,14 @@ CLAUDE.md and the memo addenda).
 | Gate (follow-up) | Status | Unlocks |
 |---|---|---|
 | ADR-0014 acceptance | **accepted 2026-07-17** | Phase 0 (done) → screen/verdict shape for Phase 2+ |
-| ADR-0015 verdict precondition (operator-directed, provisional) | **BLOCKED** (checker: `distinct_expert_hash_count = 1`; ADR proposed, HOLD ratified 2026-07-18) | first-admission VERDICT (completes Phase 2; with Phase 4's entry condition arsenal ≥ 2 downstream); lift = ≥ 2 distinct expert hashes with non-overlapping coverage vectors **+ explicit operator authorization** |
+| ADR-0015 verdict precondition (operator-directed, provisional) | **BLOCKED** (checker: `distinct_expert_hash_count = 1`; **ADR-0015 accepted 2026-07-18**, HOLD in force) | first-admission VERDICT (completes Phase 2; with Phase 4's entry condition arsenal ≥ 2 downstream); lift = ≥ 2 distinct expert hashes with non-overlapping coverage vectors **+ explicit operator authorization** |
 | `P1-2.0-KELLY-SWEEP-DISCOVERY-ALPHA-CALIBRATE` | **numeric instantiated 2026-07-17** (level 0.7401, retain-fwer) | certification level + screen (S-c)/(S-d) bounds SET |
 | `P1-2.0-KELLY-GROWTH-CONCAVITY-RUIN-DERIVE` | **numeric instantiated 2026-07-17** (record only; bracketing inconclusive-on-null-ledger) | fraction selection still a Phase-4 champion action (arsenal ≥ 1) |
 | `P1-2.0-H900-BOCPD-WHITENED` (on-ledger numeric) | **executed 2026-07-17** (latent-state latency UNATTAINABLE; amended S-e rule) | ADR-0014 (S-e) selectability input QUANTIFIED |
 | `P1-2.0-POOL-PRIORITY-CALIBRATE` | opened 2026-07-17 (standing/monitored) | Phase 3 → data-fitted pool ranking |
 | `P1-2.0-CHAMPION-MARGIN-DWELL-CALIBRATE` | registered, non-operational | Phase 5 → champion dethroning |
-| `P1-2.0-DATABENTO-DEC-ROLL-REPULL` | operator-only vendor spend | breadth (Dec-roll substrate repair) |
+| `P1-2.0-DATABENTO-DEC-ROLL-REPULL` | **elevated 2026-07-19 to quote-ready TOP purchase priority** (DR-1/DR-2 spec: [cost sheet](databento_pull_spec_cost_sheet_2026-07-18.md) §2.1/§4; operator-only vendor spend, NOT yet authorized) | Dec-roll substrate repair; December-inclusive / confirmation-grade overnight-Globex evidence; year-end observability |
+| ADR-0016 stage B (bounded ES `mbo`+`mbp-10` validation pull) | **undecided** (stage A accepted 2026-07-19; requires a named, dated operator authorization or decline) | Tier-2 stages C–D; native OD-G (Form B, successor HID per ADR-0016 D10(b)); H104 wick-fill claim class |
 
 ## Non-waivable throughout (ADR-0008 / ADR-0013 §8)
 
