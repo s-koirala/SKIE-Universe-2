@@ -1,0 +1,733 @@
+{
+  "decision_rule": "ADR-0014 SCREEN: a cell passes iff S-a canary AND mean gross > 0 AND RW-adjusted p < 0.7400550140326007 (S-c) AND DSR >= 0.2599 AND PBO <= 0.7400550140326007 (S-d) AND cell dwell >= the observation lag (S-e). >= 1 passing cell -> pool entry; else archive-no-persistent-window. NOTHING certified; VERDICT deferred (ADR-0015 HOLD).",
+  "design_md_sha256": "cb18e545ddb263cea7483932faba7661d4159de5d41affde4ff65aed2634d7b1",
+  "disposition": "screen-pass -> provisional pool (pool-hold-reconsider eligible; VERDICT deferred under the ADR-0015 ratified operator HOLD)",
+  "dwell_bars_per_session": 273.0,
+  "hypothesis_id": "H106",
+  "instruments": [
+    {
+      "block_length": 4.354687287487868,
+      "canary": {
+        "instrument": "ES",
+        "n_bars": 5000,
+        "pass": true
+      },
+      "cell_dependence": {
+        "n_estimable_pairs": 8,
+        "note": "pairwise-complete member-overlap correlations; disjoint cell pairs are not estimable and are skipped",
+        "rho_bar_pairwise_complete": 1.0
+      },
+      "cells": [
+        {
+          "cell": "unconditional",
+          "mean_gross": 0.00224976865070603,
+          "n": 2312,
+          "rw_adj_pvalue": 0.000999000999000999,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 0.9808706606919598,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": true,
+            "hac_vif": 1.1619775655984066,
+            "n_eff_corr_adjusted_reported": 1.0,
+            "n_eff_hac": 1990,
+            "n_trials_gate": 40,
+            "pass": true,
+            "pbo": 0.04654234654234654,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.0035703195607341997,
+              0.002741255180415493,
+              0.003619657549378172,
+              0.0015883356115144525,
+              0.0028331326676840412,
+              0.0020215691623803374,
+              0.005203637417837606,
+              0.0026680607053173474,
+              0.0013177111675942664,
+              0.0011720154384480437,
+              0.001920023645861696,
+              0.0022457175182663772,
+              0.0015925243860888895,
+              0.0017612052874896576,
+              0.0009271299383136667
+            ],
+            "positive_window_fraction": 1.0
+          },
+          "s_e": {
+            "cell_dwell_bars": 631176.0,
+            "cell_mechanism": "rule-based-causal-covariate",
+            "latent_state_latency_attainable": false,
+            "latent_state_note": "latent-state unsupervised latency UNATTAINABLE on the reproducible 1c emission; a latent-state cell would FAIL this gate outright",
+            "median_membership_run_sessions": 2312.0,
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": true,
+          "sharpe": 0.24465246778049024,
+          "stat": 11.763688492109342
+        },
+        {
+          "cell": "vr_range_at_open",
+          "mean_gross": 0.0026698065702401,
+          "n": 1640,
+          "rw_adj_pvalue": 0.000999000999000999,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 0.9951355101182809,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": true,
+            "hac_vif": 1.1285664828427384,
+            "n_eff_corr_adjusted_reported": 1.0,
+            "n_eff_hac": 1453,
+            "n_trials_gate": 40,
+            "pass": true,
+            "pbo": 0.04654234654234654,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.004079822162731309,
+              0.0030884660713265803,
+              0.004600502712570276,
+              0.0020656839762547424,
+              0.0034252787212736267,
+              0.0020570464340925044,
+              0.0038628780629374523,
+              0.0029868915871551927,
+              0.0019103656970115453,
+              0.0016637434534339894,
+              0.002951756268678459,
+              0.0036598113225403354,
+              0.0019323380583569577,
+              0.0016912146298589594,
+              0.0007582796985629012
+            ],
+            "positive_window_fraction": 1.0
+          },
+          "s_e": {
+            "cell_dwell_bars": 546.0,
+            "cell_mechanism": "rule-based-causal-covariate",
+            "latent_state_latency_attainable": false,
+            "latent_state_note": "latent-state unsupervised latency UNATTAINABLE on the reproducible 1c emission; a latent-state cell would FAIL this gate outright",
+            "median_membership_run_sessions": 2.0,
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": true,
+          "sharpe": 0.27446565861937045,
+          "stat": 11.115012025573263
+        },
+        {
+          "cell": "vr_trend_at_open",
+          "mean_gross": 0.0012267168262974056,
+          "n": 671,
+          "rw_adj_pvalue": 0.000999000999000999,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 0.1474398149138902,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0534999372087512,
+            "n_eff_corr_adjusted_reported": 1.0,
+            "n_eff_hac": 637,
+            "n_trials_gate": 40,
+            "pass": false,
+            "pbo": 0.04654234654234654,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.0011300702564322606,
+              0.0013358777648229993,
+              0.00044171922063575357,
+              0.0004426995361377565,
+              0.001078625842233416,
+              0.0019293282559287024,
+              0.010100323757472954,
+              0.00186035580466147,
+              0.00013240210875970754,
+              -1.7869199055040141e-06,
+              0.0002950447649252948,
+              -7.484667336268088e-05,
+              0.0009913155813069227,
+              0.0018661912739357047,
+              0.0013017664077606779
+            ],
+            "positive_window_fraction": 0.8666666666666667
+          },
+          "s_e": {
+            "cell_dwell_bars": 273.0,
+            "cell_mechanism": "rule-based-causal-covariate",
+            "latent_state_latency_attainable": false,
+            "latent_state_note": "latent-state unsupervised latency UNATTAINABLE on the reproducible 1c emission; a latent-state cell would FAIL this gate outright",
+            "median_membership_run_sessions": 1.0,
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.16008284543039944,
+          "stat": 4.146732831535389
+        },
+        {
+          "cell": "high_vol",
+          "mean_gross": 0.0034095049572586116,
+          "n": 541,
+          "rw_adj_pvalue": 0.000999000999000999,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 0.7745271341005997,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": true,
+            "hac_vif": 1.1407490817954136,
+            "n_eff_corr_adjusted_reported": 1.0,
+            "n_eff_hac": 474,
+            "n_trials_gate": 40,
+            "pass": true,
+            "pbo": 0.04654234654234654,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.0038631110072878307,
+              0.003258010856603273,
+              0.0038390824701772927,
+              0.00037499099492887015,
+              0.003324595746754486,
+              0.00037324918355932196,
+              0.006374078301682665,
+              0.004338469825944292,
+              0.004301335934330778,
+              0.0037289197746871857,
+              0.003181939107406199,
+              0.002381790765626107,
+              0.007277559013158815,
+              0.0032910907553208926,
+              -0.01175263846358596
+            ],
+            "positive_window_fraction": 0.9333333333333333
+          },
+          "s_e": {
+            "cell_dwell_bars": 546.0,
+            "cell_mechanism": "rule-based-causal-covariate",
+            "latent_state_latency_attainable": false,
+            "latent_state_note": "latent-state unsupervised latency UNATTAINABLE on the reproducible 1c emission; a latent-state cell would FAIL this gate outright",
+            "median_membership_run_sessions": 2.0,
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": true,
+          "sharpe": 0.22962443876883928,
+          "stat": 5.340928209405955
+        },
+        {
+          "cell": "low_vol",
+          "mean_gross": 0.001770368395478062,
+          "n": 585,
+          "rw_adj_pvalue": 0.000999000999000999,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 0.9999767319490618,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": true,
+            "hac_vif": 1.3048748946466042,
+            "n_eff_corr_adjusted_reported": 1.0,
+            "n_eff_hac": 448,
+            "n_trials_gate": 40,
+            "pass": true,
+            "pbo": 0.04654234654234654,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.0035938403015250155,
+              0.002703958558716455,
+              -0.0015782690313231227,
+              0.002243262731495858,
+              0.0014610006577252328,
+              0.0028814700880869975,
+              0.00038646193127883074,
+              0.0034610433143520566,
+              0.0003464050637478413,
+              0.0014932919509363365,
+              null,
+              -0.0015705595280200775,
+              0.0009019827052434179,
+              0.001551359065857437,
+              0.0006045867695528736
+            ],
+            "positive_window_fraction": 0.8571428571428571
+          },
+          "s_e": {
+            "cell_dwell_bars": 546.0,
+            "cell_mechanism": "rule-based-causal-covariate",
+            "latent_state_latency_attainable": false,
+            "latent_state_note": "latent-state unsupervised latency UNATTAINABLE on the reproducible 1c emission; a latent-state cell would FAIL this gate outright",
+            "median_membership_run_sessions": 2.0,
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": true,
+          "sharpe": 0.37844873326794104,
+          "stat": 9.153453696369684
+        }
+      ],
+      "instrument": "ES",
+      "pbo": {
+        "construction": "NaN-masked T x n_cells per-session matrix over the full joined session panel, member-only Sharpe score_fn (RC-*-2 screen rule)",
+        "n_combinations": 12870,
+        "pbo": 0.04654234654234654,
+        "s_splits": 16
+      },
+      "section8": {
+        "kpss_entered_series": {
+          "level_c": {
+            "crit": {
+              "1%": 0.739,
+              "10%": 0.347,
+              "2.5%": 0.574,
+              "5%": 0.463
+            },
+            "nlags": 3,
+            "pvalue_clipped": 0.01,
+            "reject_stationarity_5pct": true,
+            "stat": 1.5076366814265092
+          },
+          "reject_stationarity_5pct": true,
+          "stat": 1.5076366814265092,
+          "trend_ct": {
+            "crit": {
+              "1%": 0.216,
+              "10%": 0.119,
+              "2.5%": 0.176,
+              "5%": 0.146
+            },
+            "nlags": 6,
+            "pvalue_clipped": 0.1,
+            "reject_stationarity_5pct": false,
+            "stat": 0.0815123029313186
+          }
+        },
+        "pairwise_contrast": {
+          "cells": [
+            "vr_range_at_open",
+            "vr_trend_at_open"
+          ],
+          "ci_high": 0.2158518403184168,
+          "ci_low": 0.07050744164669649,
+          "construction": "cell-masked-to-zero paired series (RC-H103-1 rule)",
+          "method": "Ledoit-Wolf 2008 studentized time-series bootstrap",
+          "p_value": 0.000999000999000999,
+          "sharpe_diff": 0.14317964098255664,
+          "studentized_stat": 4.353443896818333
+        },
+        "primary_cell": {
+          "cell": "vr_range_at_open",
+          "ci95_stationary_bootstrap": [
+            0.0021221416390459096,
+            0.003132869734527695
+          ],
+          "ci_half_width": 0.0005053640477408927,
+          "hac_vif": 1.1285664828427384,
+          "mean_gross": 0.0026698065702401,
+          "n": 1640,
+          "n_eff_hac": 1453,
+          "precision_fraction": 0.25,
+          "precision_ratio_half_width_over_mean": 0.1892886373769934,
+          "precision_report_eligible": true,
+          "sharpe": 0.27446565861937045,
+          "sharpe_se_lo2002_hac": 0.026723659116208495
+        }
+      },
+      "sr_std_surface": {
+        "n_current_sigma_cells": 8,
+        "n_register_trials": 24,
+        "note": "cross-trial dispersion pooled over the register's recorded non-unconditional trial Sharpes plus the current scan's sigma cells \u2014 matched to the gate count's surface (H105 audit QUANT-1-4)",
+        "register_families": [
+          "rc-h101-2",
+          "rc-h103-2",
+          "rc-h105-1"
+        ],
+        "sr_std": 0.0880444709633516
+      }
+    },
+    {
+      "block_length": 4.6292764643480915,
+      "canary": {
+        "instrument": "NQ",
+        "n_bars": 5000,
+        "pass": true
+      },
+      "cell_dependence": {
+        "n_estimable_pairs": 8,
+        "note": "pairwise-complete member-overlap correlations; disjoint cell pairs are not estimable and are skipped",
+        "rho_bar_pairwise_complete": 1.0
+      },
+      "cells": [
+        {
+          "cell": "unconditional",
+          "mean_gross": 0.0010750944824591746,
+          "n": 2252,
+          "rw_adj_pvalue": 0.000999000999000999,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 2.3576043268065857e-05,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0974167435091382,
+            "n_eff_corr_adjusted_reported": 1.0,
+            "n_eff_hac": 2052,
+            "n_trials_gate": 40,
+            "pass": false,
+            "pbo": 0.2,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.0006787616905115847,
+              0.00046101330101664745,
+              0.0024263335906244353,
+              0.0003149477137381751,
+              0.00161914878315649,
+              0.0006135428062840091,
+              0.004321745911195632,
+              0.001738883939546788,
+              0.000877768378934573,
+              0.00039069716030729615,
+              -3.486900780103046e-05,
+              -0.0007186442762149865,
+              0.001451353092196216,
+              0.001275467670481062,
+              0.00046108969009333044
+            ],
+            "positive_window_fraction": 0.8666666666666667
+          },
+          "s_e": {
+            "cell_dwell_bars": 614796.0,
+            "cell_mechanism": "rule-based-causal-covariate",
+            "latent_state_latency_attainable": false,
+            "latent_state_note": "latent-state unsupervised latency UNATTAINABLE on the reproducible 1c emission; a latent-state cell would FAIL this gate outright",
+            "median_membership_run_sessions": 2252.0,
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.10503197042941667,
+          "stat": 4.9843175819030385
+        },
+        {
+          "cell": "vr_range_at_open",
+          "mean_gross": 0.0014480916895261364,
+          "n": 1422,
+          "rw_adj_pvalue": 0.000999000999000999,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 0.006138834405396491,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.057289193625878,
+            "n_eff_corr_adjusted_reported": 1.0,
+            "n_eff_hac": 1345,
+            "n_trials_gate": 40,
+            "pass": false,
+            "pbo": 0.2,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.000839696599733166,
+              0.00042636702328316823,
+              0.002549922226481866,
+              0.0007746174533685963,
+              0.002043510671014975,
+              0.0014169276828260825,
+              0.0055044412485601175,
+              0.0025566479303841053,
+              0.0008190406348401084,
+              0.0007687816565091051,
+              0.0005354421958552033,
+              -0.001569481501215224,
+              0.0013857499641850171,
+              0.0018860410577413948,
+              -0.00034902566545645994
+            ],
+            "positive_window_fraction": 0.8666666666666667
+          },
+          "s_e": {
+            "cell_dwell_bars": 546.0,
+            "cell_mechanism": "rule-based-causal-covariate",
+            "latent_state_latency_attainable": false,
+            "latent_state_note": "latent-state unsupervised latency UNATTAINABLE on the reproducible 1c emission; a latent-state cell would FAIL this gate outright",
+            "median_membership_run_sessions": 2.0,
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.12586557701602807,
+          "stat": 4.746317311886711
+        },
+        {
+          "cell": "vr_trend_at_open",
+          "mean_gross": 0.0004499818661522344,
+          "n": 829,
+          "rw_adj_pvalue": 0.08091908091908091,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 4.673079496837226e-05,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0,
+            "n_eff_corr_adjusted_reported": 1.0,
+            "n_eff_hac": 829,
+            "n_trials_gate": 40,
+            "pass": false,
+            "pbo": 0.2,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.00023044301482289366,
+              0.0005211884149747956,
+              0.0021297208645666044,
+              -0.00031709817825365395,
+              0.0007041184624616312,
+              -0.0003949616132049762,
+              0.0012073148561358186,
+              0.00015008532877714198,
+              0.0009610798298592788,
+              -0.00016742757218108902,
+              -0.0009653767611348863,
+              0.0007939552348965469,
+              0.0015635689690574777,
+              0.00040930542343733446,
+              0.0015657924476612261
+            ],
+            "positive_window_fraction": 0.7333333333333333
+          },
+          "s_e": {
+            "cell_dwell_bars": 273.0,
+            "cell_mechanism": "rule-based-causal-covariate",
+            "latent_state_latency_attainable": false,
+            "latent_state_note": "latent-state unsupervised latency UNATTAINABLE on the reproducible 1c emission; a latent-state cell would FAIL this gate outright",
+            "median_membership_run_sessions": 1.0,
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.0596740300600243,
+          "stat": 1.7181561619737253
+        },
+        {
+          "cell": "high_vol",
+          "mean_gross": 0.0020090939188268015,
+          "n": 547,
+          "rw_adj_pvalue": 0.003996003996003996,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 0.11420067116050625,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.2771483611226118,
+            "n_eff_corr_adjusted_reported": 1.0,
+            "n_eff_hac": 428,
+            "n_trials_gate": 40,
+            "pass": false,
+            "pbo": 0.2,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.004460134273557226,
+              0.0002643693478821823,
+              0.0023364355630632314,
+              -0.000710917589369428,
+              0.0031611174254415285,
+              0.0008201909618312864,
+              0.005434314836149222,
+              0.002527888370018181,
+              0.004141889843914427,
+              0.0032669249621597738,
+              0.00032607060022886057,
+              5.41291873507901e-05,
+              0.003268984430535775,
+              0.015306422024855047,
+              -0.003625202460734377
+            ],
+            "positive_window_fraction": 0.8666666666666667
+          },
+          "s_e": {
+            "cell_dwell_bars": 546.0,
+            "cell_mechanism": "rule-based-causal-covariate",
+            "latent_state_latency_attainable": false,
+            "latent_state_note": "latent-state unsupervised latency UNATTAINABLE on the reproducible 1c emission; a latent-state cell would FAIL this gate outright",
+            "median_membership_run_sessions": 2.0,
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.13540309478063103,
+          "stat": 3.1668117954287065
+        },
+        {
+          "cell": "low_vol",
+          "mean_gross": 0.0004429156209118962,
+          "n": 539,
+          "rw_adj_pvalue": 0.08091908091908091,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 0.00211873052693304,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0,
+            "n_eff_corr_adjusted_reported": 1.0,
+            "n_eff_hac": 539,
+            "n_trials_gate": 40,
+            "pass": false,
+            "pbo": 0.2,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.0002979082468774375,
+              0.000842494080938652,
+              -0.000712152851375075,
+              0.003512537392173265,
+              -0.00010083731123900984,
+              0.0006682509200304843,
+              0.0004000277581952723,
+              -0.0024561574003183462,
+              0.0001796195378680687,
+              0.0008867154565938435,
+              null,
+              0.000951288300022109,
+              0.0003601710961176631,
+              -0.0003782681296169508,
+              0.0006678779154845076
+            ],
+            "positive_window_fraction": 0.7142857142857143
+          },
+          "s_e": {
+            "cell_dwell_bars": 546.0,
+            "cell_mechanism": "rule-based-causal-covariate",
+            "latent_state_latency_attainable": false,
+            "latent_state_note": "latent-state unsupervised latency UNATTAINABLE on the reproducible 1c emission; a latent-state cell would FAIL this gate outright",
+            "median_membership_run_sessions": 2.0,
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.07098262010066786,
+          "stat": 1.647959022571782
+        }
+      ],
+      "instrument": "NQ",
+      "pbo": {
+        "construction": "NaN-masked T x n_cells per-session matrix over the full joined session panel, member-only Sharpe score_fn (RC-*-2 screen rule)",
+        "n_combinations": 12870,
+        "pbo": 0.2,
+        "s_splits": 16
+      },
+      "section8": {
+        "kpss_entered_series": {
+          "level_c": {
+            "crit": {
+              "1%": 0.739,
+              "10%": 0.347,
+              "2.5%": 0.574,
+              "5%": 0.463
+            },
+            "nlags": 3,
+            "pvalue_clipped": 0.1,
+            "reject_stationarity_5pct": false,
+            "stat": 0.2230724834316188
+          },
+          "reject_stationarity_5pct": false,
+          "stat": 0.2230724834316188,
+          "trend_ct": {
+            "crit": {
+              "1%": 0.216,
+              "10%": 0.119,
+              "2.5%": 0.176,
+              "5%": 0.146
+            },
+            "nlags": 4,
+            "pvalue_clipped": 0.1,
+            "reject_stationarity_5pct": false,
+            "stat": 0.07152756669555324
+          }
+        },
+        "pairwise_contrast": {
+          "cells": [
+            "vr_range_at_open",
+            "vr_trend_at_open"
+          ],
+          "ci_high": 0.12111428224611162,
+          "ci_low": 0.006005352818234923,
+          "construction": "cell-masked-to-zero paired series (RC-H103-1 rule)",
+          "method": "Ledoit-Wolf 2008 studentized time-series bootstrap",
+          "p_value": 0.030969030969030968,
+          "sharpe_diff": 0.06355981753217327,
+          "studentized_stat": 2.1852191646277617
+        },
+        "primary_cell": {
+          "cell": "vr_range_at_open",
+          "ci95_stationary_bootstrap": [
+            0.0008314111416193108,
+            0.0020374400528455285
+          ],
+          "ci_half_width": 0.0006030144556131089,
+          "hac_vif": 1.057289193625878,
+          "mean_gross": 0.0014480916895261364,
+          "n": 1422,
+          "n_eff_hac": 1345,
+          "precision_fraction": 0.25,
+          "precision_ratio_half_width_over_mean": 0.4164200789042821,
+          "precision_report_eligible": false,
+          "sharpe": 0.12586557701602807,
+          "sharpe_se_lo2002_hac": 0.027374873451032903
+        }
+      },
+      "sr_std_surface": {
+        "n_current_sigma_cells": 8,
+        "n_register_trials": 24,
+        "note": "cross-trial dispersion pooled over the register's recorded non-unconditional trial Sharpes plus the current scan's sigma cells \u2014 matched to the gate count's surface (H105 audit QUANT-1-4)",
+        "register_families": [
+          "rc-h101-2",
+          "rc-h103-2",
+          "rc-h105-1"
+        ],
+        "sr_std": 0.0880444709633516
+      }
+    }
+  ],
+  "ledger_expert_id": "vr_range_reversal_k1.0@1.0.0",
+  "n_bootstrap": 1000,
+  "primary_cell": "vr_range_at_open",
+  "repro_log": "repro_log_04547d701fca4e419f5dbffa47063fd0.json",
+  "s_d_s_e_stages": "deterministic (no RNG consumed)",
+  "s_e_emission": {
+    "definition": "smallest KM median delay among operating points whose calibrated Newcombe 95% CI on net detection excludes 0 from above AND whose false-alarm rate is below the registered 0-1-loss majority standard (fp < alarm_prob) \u2014 rule v2 (whitened unsupervised BOCPD, primary variant); null = UNATTAINABLE (no accurate, non-degenerate operating point). Latent-state cells fail ADR-0014 S-e under a null emission; rule-based causal covariate cells carry their structural observation lag instead (screen-addendum protocol). The supervised-CUSUM oracle latency is FORBIDDEN as this input.",
+    "latent_state_latency_attainable": false,
+    "per_instrument_bars": {
+      "ES": null,
+      "NQ": null
+    },
+    "verdicts": {
+      "ES": {
+        "max_net_detection": 0.0,
+        "max_net_fp_rate": 1.0,
+        "max_net_mover95": [
+          -0.0010315849541859823,
+          0.002346872875190642
+        ],
+        "no_accurate_operating_point": true,
+        "note": "no operating point passes the v2 qualification (calibrated Newcombe 95% CI on net excluding 0 AND false-alarm rate below the registered 0-1-loss majority standard fp < alarm_prob): unsupervised latent-state detection has no accurate, non-degenerate operating point on this substrate"
+      },
+      "NQ": {
+        "max_net_detection": 0.02144392872412959,
+        "max_net_fp_rate": 0.8569254185692542,
+        "max_net_mover95": [
+          0.0036750776010413336,
+          0.04005275365845372
+        ],
+        "no_accurate_operating_point": true,
+        "note": "no operating point passes the v2 qualification (calibrated Newcombe 95% CI on net excluding 0 AND false-alarm rate below the registered 0-1-loss majority standard fp < alarm_prob): unsupervised latent-state detection has no accurate, non-degenerate operating point on this substrate"
+      }
+    }
+  },
+  "scan": "RC-H106-1",
+  "screen_level": 0.7400550140326007,
+  "seed_s_c": 20260720
+}
