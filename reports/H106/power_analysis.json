@@ -1,0 +1,136 @@
+{
+  "design_md_sha256": "cb18e545ddb263cea7483932faba7661d4159de5d41affde4ff65aed2634d7b1",
+  "effect_anchors": {
+    "mu_h900_anchor": 0.00012
+  },
+  "hid": "H106",
+  "instruments": {
+    "ES": {
+      "bars_per_session_mean": 270.36299376299377,
+      "cell_prevalence": {
+        "high_vol": 0.3333333333333333,
+        "low_vol": 0.3333333333333333,
+        "unconditional": 1.0,
+        "vr_range_at_open": 0.6587499653811002,
+        "vr_trend_at_open": 0.34125003461889974
+      },
+      "cells": {
+        "high_vol": {
+          "mu_h900_anchor": {
+            "n_available": 801.6666666666666,
+            "n_required_precision": 376227.44359176885,
+            "power_s_c_approx": 0.8426497052794217,
+            "precision_met": false,
+            "se_at_n": 0.00033159004716108736
+          }
+        },
+        "low_vol": {
+          "mu_h900_anchor": {
+            "n_available": 801.6666666666666,
+            "n_required_precision": 376227.44359176885,
+            "power_s_c_approx": 0.8426497052794217,
+            "precision_met": false,
+            "se_at_n": 0.00033159004716108736
+          }
+        },
+        "unconditional": {
+          "mu_h900_anchor": {
+            "n_available": 2405.0,
+            "n_required_precision": 376227.44359176885,
+            "power_s_c_approx": 0.8980167089262575,
+            "precision_met": false,
+            "se_at_n": 0.00019144360298905446
+          }
+        },
+        "vr_range_at_open": {
+          "mu_h900_anchor": {
+            "n_available": 1584.293666741546,
+            "n_required_precision": 376227.44359176885,
+            "power_s_c_approx": 0.875393008610755,
+            "precision_met": false,
+            "se_at_n": 0.0002358742631358576
+          }
+        },
+        "vr_trend_at_open": {
+          "mu_h900_anchor": {
+            "n_available": 820.7063332584539,
+            "n_required_precision": 376227.44359176885,
+            "power_s_c_approx": 0.8436756726505881,
+            "precision_met": false,
+            "se_at_n": 0.00032772117786981973
+          }
+        }
+      },
+      "n_sessions": 2405,
+      "range_state_bar_prevalence": 0.6587499653811002,
+      "sigma_bar": 0.0007035006020064471,
+      "sigma_note": "sqrt(E[#range-state bars/session]) x per-bar return std \u2014 the signal's per-session second moment under symmetric signs; no signed edge used (prospective-only rule)",
+      "sigma_session": 0.00938854731929604
+    },
+    "NQ": {
+      "bars_per_session_mean": 269.68370739817124,
+      "cell_prevalence": {
+        "high_vol": 0.3333333333333333,
+        "low_vol": 0.3333333333333333,
+        "unconditional": 1.0,
+        "vr_range_at_open": 0.559143962872165,
+        "vr_trend_at_open": 0.4408560371278351
+      },
+      "cells": {
+        "high_vol": {
+          "mu_h900_anchor": {
+            "n_available": 802.0,
+            "n_required_precision": 481883.43647843855,
+            "power_s_c_approx": 0.8323137325803749,
+            "precision_met": false,
+            "se_at_n": 0.0003751949453902847
+          }
+        },
+        "low_vol": {
+          "mu_h900_anchor": {
+            "n_available": 802.0,
+            "n_required_precision": 481883.43647843855,
+            "power_s_c_approx": 0.8323137325803749,
+            "precision_met": false,
+            "se_at_n": 0.0003751949453902847
+          }
+        },
+        "unconditional": {
+          "mu_h900_anchor": {
+            "n_available": 2406.0,
+            "n_required_precision": 481883.43647843855,
+            "power_s_c_approx": 0.8844408826631255,
+            "precision_met": false,
+            "se_at_n": 0.0002166189027196678
+          }
+        },
+        "vr_range_at_open": {
+          "mu_h900_anchor": {
+            "n_available": 1345.300374670429,
+            "n_required_precision": 481883.43647843855,
+            "power_s_c_approx": 0.854915271179844,
+            "precision_met": false,
+            "se_at_n": 0.0002896906855495258
+          }
+        },
+        "vr_trend_at_open": {
+          "mu_h900_anchor": {
+            "n_available": 1060.6996253295713,
+            "n_required_precision": 481883.43647843855,
+            "power_s_c_approx": 0.8440715296205592,
+            "precision_met": false,
+            "se_at_n": 0.0003262480731478747
+          }
+        }
+      },
+      "n_sessions": 2406,
+      "range_state_bar_prevalence": 0.559143962872165,
+      "sigma_bar": 0.0008652766577597656,
+      "sigma_note": "sqrt(E[#range-state bars/session]) x per-bar return std \u2014 the signal's per-session second moment under symmetric signs; no signed edge used (prospective-only rule)",
+      "sigma_session": 0.010625372470235
+    }
+  },
+  "prospective_only_note": "no signal mean or edge statistic computed (Hoenig & Heisey 2001); sigma/prevalence are design-stage substrate quantities",
+  "repro_log": "repro_log_79bde57d42d0474a92744f67e1558ba2.json",
+  "screen_level_runtime": 0.7400550140326007
+}

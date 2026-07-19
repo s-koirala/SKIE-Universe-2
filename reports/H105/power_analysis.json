@@ -1,0 +1,201 @@
+{
+  "design_md_sha256": "64753d968289e4227e28b729afac094d7930c98d84ca174809e80a51f4b6a7f5",
+  "effect_anchors": {
+    "mu_boyarchenko_lower": 0.00014682539682539682,
+    "mu_h900_anchor": 0.00012
+  },
+  "hid": "H105",
+  "instruments": {
+    "ES": {
+      "cell_prevalence": {
+        "high_vol": 0.3333333333333333,
+        "low_vol": 0.3333333333333333,
+        "prior_rth_down": 0.43344425956738775,
+        "prior_rth_up": 0.5083194675540765,
+        "unconditional": 1.0
+      },
+      "cells": {
+        "high_vol": {
+          "mu_boyarchenko_lower": {
+            "n_available": 801.3333333333333,
+            "n_required_precision": 107812.9702341392,
+            "power_s_c_approx": 0.9064839494503472,
+            "precision_met": false,
+            "se_at_n": 0.00021723110037894972
+          },
+          "mu_h900_anchor": {
+            "n_available": 801.3333333333333,
+            "n_required_precision": 161402.73343513857,
+            "power_s_c_approx": 0.8841365219087788,
+            "precision_met": false,
+            "se_at_n": 0.00021723110037894972
+          }
+        },
+        "low_vol": {
+          "mu_boyarchenko_lower": {
+            "n_available": 801.3333333333333,
+            "n_required_precision": 107812.9702341392,
+            "power_s_c_approx": 0.9064839494503472,
+            "precision_met": false,
+            "se_at_n": 0.00021723110037894972
+          },
+          "mu_h900_anchor": {
+            "n_available": 801.3333333333333,
+            "n_required_precision": 161402.73343513857,
+            "power_s_c_approx": 0.8841365219087788,
+            "precision_met": false,
+            "se_at_n": 0.00021723110037894972
+          }
+        },
+        "prior_rth_down": {
+          "mu_boyarchenko_lower": {
+            "n_available": 1042.0000000000002,
+            "n_required_precision": 107812.9702341392,
+            "power_s_c_approx": 0.9213560998576795,
+            "precision_met": false,
+            "se_at_n": 0.0001904998977639853
+          },
+          "mu_h900_anchor": {
+            "n_available": 1042.0000000000002,
+            "n_required_precision": 161402.73343513857,
+            "power_s_c_approx": 0.8985684247816133,
+            "precision_met": false,
+            "se_at_n": 0.0001904998977639853
+          }
+        },
+        "prior_rth_up": {
+          "mu_boyarchenko_lower": {
+            "n_available": 1222.0,
+            "n_required_precision": 107812.9702341392,
+            "power_s_c_approx": 0.9303191654195644,
+            "precision_met": false,
+            "se_at_n": 0.00017591100243913
+          },
+          "mu_h900_anchor": {
+            "n_available": 1222.0,
+            "n_required_precision": 161402.73343513857,
+            "power_s_c_approx": 0.9075268360111223,
+            "precision_met": false,
+            "se_at_n": 0.00017591100243913
+          }
+        },
+        "unconditional": {
+          "mu_boyarchenko_lower": {
+            "n_available": 2404.0,
+            "n_required_precision": 107812.9702341392,
+            "power_s_c_approx": 0.9651764805700945,
+            "precision_met": false,
+            "se_at_n": 0.00012541843428014524
+          },
+          "mu_h900_anchor": {
+            "n_available": 2404.0,
+            "n_required_precision": 161402.73343513857,
+            "power_s_c_approx": 0.9452353253744067,
+            "precision_met": false,
+            "se_at_n": 0.00012541843428014524
+          }
+        }
+      },
+      "n_sessions": 2404,
+      "sigma_note": "std of summed overnight-segment 5-min log-returns per session (second moment only; the H105 signal is deterministic long, so this is the design-stage sigma of its per-session gross)",
+      "sigma_session": 0.006149341421006691
+    },
+    "NQ": {
+      "cell_prevalence": {
+        "high_vol": 0.3333333333333333,
+        "low_vol": 0.3333333333333333,
+        "prior_rth_down": 0.4266112266112266,
+        "prior_rth_up": 0.5151767151767153,
+        "unconditional": 1.0
+      },
+      "cells": {
+        "high_vol": {
+          "mu_boyarchenko_lower": {
+            "n_available": 801.6666666666666,
+            "n_required_precision": 149826.97174064605,
+            "power_s_c_approx": 0.8881948641390458,
+            "precision_met": false,
+            "se_at_n": 0.0002560301960863208
+          },
+          "mu_h900_anchor": {
+            "n_available": 801.6666666666666,
+            "n_required_precision": 224300.3112587663,
+            "power_s_c_approx": 0.8669760085419362,
+            "precision_met": false,
+            "se_at_n": 0.0002560301960863208
+          }
+        },
+        "low_vol": {
+          "mu_boyarchenko_lower": {
+            "n_available": 801.6666666666666,
+            "n_required_precision": 149826.97174064605,
+            "power_s_c_approx": 0.8881948641390458,
+            "precision_met": false,
+            "se_at_n": 0.0002560301960863208
+          },
+          "mu_h900_anchor": {
+            "n_available": 801.6666666666666,
+            "n_required_precision": 224300.3112587663,
+            "power_s_c_approx": 0.8669760085419362,
+            "precision_met": false,
+            "se_at_n": 0.0002560301960863208
+          }
+        },
+        "prior_rth_down": {
+          "mu_boyarchenko_lower": {
+            "n_available": 1026.0,
+            "n_required_precision": 149826.97174064605,
+            "power_s_c_approx": 0.9018697374871372,
+            "precision_met": false,
+            "se_at_n": 0.00022631556373309744
+          },
+          "mu_h900_anchor": {
+            "n_available": 1026.0,
+            "n_required_precision": 224300.3112587663,
+            "power_s_c_approx": 0.8797520324742847,
+            "precision_met": false,
+            "se_at_n": 0.00022631556373309744
+          }
+        },
+        "prior_rth_up": {
+          "mu_boyarchenko_lower": {
+            "n_available": 1239.0000000000002,
+            "n_required_precision": 149826.97174064605,
+            "power_s_c_approx": 0.9125216727220213,
+            "precision_met": false,
+            "se_at_n": 0.00020594556722624505
+          },
+          "mu_h900_anchor": {
+            "n_available": 1239.0000000000002,
+            "n_required_precision": 224300.3112587663,
+            "power_s_c_approx": 0.8899370208553408,
+            "precision_met": false,
+            "se_at_n": 0.00020594556722624505
+          }
+        },
+        "unconditional": {
+          "mu_boyarchenko_lower": {
+            "n_available": 2405.0,
+            "n_required_precision": 149826.97174064605,
+            "power_s_c_approx": 0.9491630911205632,
+            "precision_met": false,
+            "se_at_n": 0.00014781910263110998
+          },
+          "mu_h900_anchor": {
+            "n_available": 2405.0,
+            "n_required_precision": 224300.3112587663,
+            "power_s_c_approx": 0.9272093883407829,
+            "precision_met": false,
+            "se_at_n": 0.00014781910263110998
+          }
+        }
+      },
+      "n_sessions": 2405,
+      "sigma_note": "std of summed overnight-segment 5-min log-returns per session (second moment only; the H105 signal is deterministic long, so this is the design-stage sigma of its per-session gross)",
+      "sigma_session": 0.007249166950892581
+    }
+  },
+  "prospective_only_note": "no signal mean or edge statistic computed (Hoenig & Heisey 2001); sigma/prevalence are design-stage substrate quantities",
+  "repro_log": "repro_log_1f0df0143c0c470a891975a576d8448a.json",
+  "screen_level_runtime": 0.7400550140326007
+}

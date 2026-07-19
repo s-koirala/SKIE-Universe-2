@@ -73,6 +73,7 @@ from skie_universe2.features.variance_ratio_state import (  # noqa: E402
     VarianceRatioState,
     variance_ratio_state,
 )
+from skie_universe2.screening import screen_spine as spine  # noqa: E402
 from skie_universe2.utils import reproducibility  # noqa: E402
 from skie_universe2.utils.paths import ProjectPaths  # noqa: E402
 from skie_universe2.utils.sessions import SEGMENT_OVERNIGHT_ETH  # noqa: E402
@@ -106,7 +107,7 @@ def _load_h105_harness():
 
 
 def _screen_level(paths: ProjectPaths) -> float:
-    return _load_h105_harness()._screen_level(paths)
+    return spine.screen_level(paths)
 
 
 def _h105_design_inputs(paths: ProjectPaths, symbol: str) -> dict:

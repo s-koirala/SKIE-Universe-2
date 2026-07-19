@@ -1,0 +1,23 @@
+{
+  "config_resolved_sha256": "64753d968289e4227e28b729afac094d7930c98d84ca174809e80a51f4b6a7f5",
+  "dataset_checksums": {
+    "design.md": "64753d968289e4227e28b729afac094d7930c98d84ca174809e80a51f4b6a7f5"
+  },
+  "env_id": "f7beca402321e9eb9a711aafca3bf6714a315037ada20c11018b3d9949cee783",
+  "git_dirty": true,
+  "git_head": "9e792c60a43527b55a5b9a5165a6f9e349d896aa",
+  "host": {
+    "cpu": "AMD64",
+    "os": "Windows 10",
+    "python": "3.11.15"
+  },
+  "hypothesis_id": "H105",
+  "model_hash": null,
+  "phase": "h105-power-analysis",
+  "pip_freeze_path": "logs/reproducibility/env/5d702427f4b4705475b8bcaf93635e8810581c15a9dfa87f17fac118daffd5e8.txt",
+  "pip_freeze_sha256": "5d702427f4b4705475b8bcaf93635e8810581c15a9dfa87f17fac118daffd5e8",
+  "rng_seed": 20260719,
+  "run_id": "1f0df0143c0c470a891975a576d8448a",
+  "timestamp_utc": "2026-07-19T17:05:45.963504+00:00",
+  "working_tree_hash": "29e93c35c55dfa23d7312e3c4e0e53c071674097033ed02933d382d1d5b07c80"
+}
