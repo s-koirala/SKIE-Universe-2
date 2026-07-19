@@ -7,6 +7,54 @@ and this project adheres to [Semantic Versioning 2.0.0](https://semver.org/spec/
 
 ## [Unreleased]
 
+### Added (Phase-3 forward batch — H105/H106 screened into the pool, 2026-07-19)
+- **P3-A overnight/Globex substrate feasibility: GO.** ETH bars present at
+  full session coverage (186 five-minute overnight bars/session at the
+  median, both instruments); December/Globex blind spot quantified from the
+  provenance register (91 ES / 101 NQ excluded sessions, 3.32%/3.66%;
+  69.0%/67.8% of excluded bars are overnight-ETH; processed substrate ends
+  2025-12-03 ES / 2025-12-05 NQ). Harness
+  `scripts/run_overnight_substrate_check.py`; record
+  `docs/research_notes/overnight_globex_substrate_feasibility_2026-07-19.md`;
+  session-segment classifier single-sourced into
+  `src/skie_universe2/utils/sessions.py` (+9 boundary/DST tests). 2-round
+  audit accept (`docs/audits/audit_trail_2026-07-19_p3a-overnight-substrate-check.md`).
+- **H105 (overnight/Globex session drift) + H106 (VR range-state reversal)
+  pre-registered and FROZEN** (design SHAs `64753d968289…` /
+  `cb18e545ddb2…`; freeze ReproLogs f69c1cdb359c / 3e5e41a1d9c3) after a
+  3-round audit-remediate ACCEPT
+  (`docs/audits/audit_trail_2026-07-19_h105-h106-preregistration.md`; 20
+  confirmed majors remediated across rounds incl. a refuter-reproduced HAC
+  bandwidth-cap crash; 4 false positives killed at the adversarial gate).
+  New experts `overnight_drift.py` / `vr_range_reversal.py` (+17 tests);
+  packaged ADR-0014 screen spine
+  `src/skie_universe2/screening/screen_spine.py` (leakage-clean per-origin
+  vol cells, matched DSR count/dispersion surfaces, §8 KPSS/CI/precision/
+  Lo-SE/Ledoit-Wolf exhibits, fail-closed dispersion + ledger-checksum
+  binding; +14 tests); v1 disposition emitter
+  `scripts/emit_screen_expert_card_v1.py` (card + pool + register trials +
+  scripted burned-span mirror); pre-data power gates (S-c well-powered at
+  the enacted level; §8 precision declared unreachable at literature
+  effects).
+- **Both candidates backfilled and SCREEN PASS at the enacted level.**
+  5,196,320 rows × 2 experts (ES+NQ × Kelly {0.5,0.75,1.0,1.25}, canaries
+  PASS). RC-H105-1: 6 passing cells (unconditional overnight drift present
+  gross but fails S-d — persistent windows are conditional). RC-H106-1: 4
+  passing ES cells (ES:low_vol DSR 1.000 / PBO 0.047; NQ fails S-d
+  everywhere). Pool: **16 records / 4 HIDs / 3 distinct expert_hash**;
+  trial register +20; burned-data ledger +60 window-spans.
+- **ADR-0015 verdict precondition: MET (label-based, reporting-only) — and
+  the mandatory M1 companion inverts it** (`reports/M1_overlap/`):
+  ORB↔H105 realized-bar Jaccard **0.0 exactly** (frozen §12(c) identity
+  confirmed) yet label-blocked by a `NQ:high_vol` name collision;
+  ORB↔H106 label-disjoint yet sharing 8.9% of realized bars. Operator
+  brief `docs/research_notes/verdict_readiness_memo_2026-07-19.md`:
+  cold-start queue H106 > H105 > H101 > H103 (H106 net-not-monetizable
+  caveat declared); **DR-1/DR-2 now BINDING for confirmation-grade
+  adjudication of H105**. STOPPED at the operator gates (ADR-0015
+  `lift_action`; DR-1/DR-2 spend; ADR-0016 stage B undecided). Nothing
+  certified; no Kelly fraction selected; arsenal EMPTY.
+
 ### Added (OD-G adjudication + ADR-0016 Tier-2 scoping — accepted 2026-07-19)
 - **ADR-0016 — Tier-2 execution-fidelity scoping, ACCEPTED (stage A only; by
   principal direction 2026-07-19; no spend authorized).** Queue-position +

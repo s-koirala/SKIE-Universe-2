@@ -1,0 +1,62 @@
+{
+  "coverage_sizes": {
+    "orb_first_hour_k1.0@1.0.0": {
+      "n_bars": 167883,
+      "n_sessions": 3298
+    },
+    "overnight_session_drift_k1.0@1.0.0": {
+      "n_bars": 592227,
+      "n_sessions": 3580
+    },
+    "vr_range_reversal_k1.0@1.0.0": {
+      "n_bars": 327663,
+      "n_sessions": 2312
+    }
+  },
+  "governing_rule": "ADR-0015 label-based verdict precondition GOVERNS; M1 is the mandatory REPORTED companion (setup plan \u00a72.3); meeting any threshold is reported, never acted on autonomously",
+  "pairs": [
+    {
+      "bar_level_jaccard": 0.0,
+      "experts": [
+        "orb_first_hour_k1.0@1.0.0",
+        "overnight_session_drift_k1.0@1.0.0"
+      ],
+      "n_shared_bars": 0,
+      "n_shared_sessions": 2539,
+      "pre_scan_prediction": {
+        "bar_level": "EXACTLY 0 (H105 design \u00a712(c) identity; nonzero falsifies the implementation)",
+        "session_level": "\u2248 0.75-0.95 (H105 design \u00a712(c))"
+      },
+      "session_level_jaccard": 0.5851578704770685
+    },
+    {
+      "bar_level_jaccard": 0.08867183380786671,
+      "experts": [
+        "orb_first_hour_k1.0@1.0.0",
+        "vr_range_reversal_k1.0@1.0.0"
+      ],
+      "n_shared_bars": 40362,
+      "n_shared_sessions": 1297,
+      "pre_scan_prediction": {
+        "bar_level": "\u2248 0.05-0.25 (H106 design \u00a712(c); structural guess, declared)",
+        "session_level": "\u2248 0.85-1.0 (H106 design \u00a712(c))"
+      },
+      "session_level_jaccard": 0.30071875724553676
+    },
+    {
+      "bar_level_jaccard": 0.21159795953042332,
+      "experts": [
+        "overnight_session_drift_k1.0@1.0.0",
+        "vr_range_reversal_k1.0@1.0.0"
+      ],
+      "n_shared_bars": 160653,
+      "n_shared_sessions": 1723,
+      "pre_scan_prediction": {
+        "bar_level": "no frozen numeric band (required report per H106 design \u00a712(c))",
+        "session_level": "no frozen numeric band (required report)"
+      },
+      "session_level_jaccard": 0.4132885584072919
+    }
+  ],
+  "repro_log": "repro_log_8f40fc91f700494aa5034b5d50a45727.json"
+}

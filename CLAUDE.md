@@ -426,6 +426,48 @@ Progress (as of 2026-07-19):
   declared). ADR-0015 HOLD unchanged; arsenal EMPTY; nothing certified; no
   Kelly fraction selected. Next: overnight/Globex ETH-substrate check →
   `/hypothesis-new` → `/preregister` → backfill → screen.
+- **Phase 3 forward batch EXECUTED — pool at 3 distinct hashes; ADR-0015
+  precondition MET (label-based, reporting-only); M1 exposes a label/realized
+  inversion (2026-07-19, roadmap-execution session).** (1) **P3-A GO**: the
+  roll-adjusted store carries full Globex ETH (186 five-min overnight
+  bars/session at the median both instruments); December/Globex blind spot
+  quantified (91 ES / 101 NQ sessions, 3.32%/3.66%; 69.0%/67.8% of excluded
+  bars are overnight-ETH; processed substrate ends 2025-12-03 ES /
+  2025-12-05 NQ) — [feasibility record](docs/research_notes/overnight_globex_substrate_feasibility_2026-07-19.md),
+  2-round audit accept; session-segment classifier single-sourced in
+  [utils/sessions.py](src/skie_universe2/utils/sessions.py). (2) **H105
+  (overnight session drift; Boyarchenko-Larsen-Whelan 2023 RFS + the 2026
+  attenuation expectation pre-registered) and H106 (VR range-state reversal;
+  Lo-MacKinlay 1988/1990, single-instrument own-autocovariance channel)
+  frozen** (SHAs `64753d968289…`, `cb18e545ddb2…`) after a 3-round
+  audit-remediate ACCEPT ([trail](docs/audits/audit_trail_2026-07-19_h105-h106-preregistration.md))
+  that forced the packaged screen spine
+  ([screening/screen_spine.py](src/skie_universe2/screening/screen_spine.py)),
+  the CERTIFIED per-origin vol-cell construction (full-sample terciles
+  convicted again), matched DSR count/dispersion surfaces, in-spine §8
+  exhibits, and a restored frozen HAC bandwidth cap (refuter-reproduced
+  crash). (3) Both backfilled (5.196M rows × 2 experts, canaries PASS) and
+  **both SCREEN PASS at the enacted level**: RC-H105-1 six cells (ES+NQ
+  high/low-vol, prior-RTH-up; the unconditional overnight drift is present
+  gross, p=0.037/0.010, but fails the S-d DSR bound — the persistent
+  windows are conditional), RC-H106-1 four ES cells (ES:low_vol DSR 1.000,
+  PBO 0.047; range-state gross ≈ 2.2× trend-state per the mechanism prior;
+  ALL NQ cells fail S-d). v1 Expert Cards script-generated; pool now **16
+  records / 4 HIDs / 3 distinct `expert_hash`**; `rc-h105-1`/`rc-h106-1`
+  trial families +20 records; burned ledger +60 scripted window-spans.
+  (4) **Verdict precondition MET (exit 0, reporting-only)** via the
+  label-disjoint (ORB, H106) pair — but the
+  [M1 report](reports/M1_overlap/m1_realized_overlap.json) INVERTS it:
+  ORB↔H105 realized-bar Jaccard = **0.0 exactly** (the frozen §12(c)
+  identity confirmed) yet label-BLOCKED by the `NQ:high_vol` name
+  collision, while ORB↔H106 shares 8.9% of realized bars. Operator brief:
+  [verdict_readiness_memo_2026-07-19.md](docs/research_notes/verdict_readiness_memo_2026-07-19.md)
+  (cold-start queue H106 > H105 > H101 > H103 with H106's
+  net-not-monetizable caveat; **DR-1/DR-2 now BINDING for
+  confirmation-grade adjudication of H105**). ADR-0015 HOLD in force —
+  STOPPED at the operator gate: the `lift_action` + first-admission VERDICT
+  authorization are named, dated operator actions; nothing certified, no
+  Kelly fraction selected, arsenal EMPTY.
 
 ## Directory layout
 

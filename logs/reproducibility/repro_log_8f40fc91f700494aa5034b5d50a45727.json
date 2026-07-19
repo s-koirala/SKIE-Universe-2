@@ -1,0 +1,21 @@
+{
+  "config_resolved_sha256": null,
+  "dataset_checksums": {},
+  "env_id": "f7beca402321e9eb9a711aafca3bf6714a315037ada20c11018b3d9949cee783",
+  "git_dirty": true,
+  "git_head": "90e07ca3e4c44b2b6310de8ecf20f500080f231e",
+  "host": {
+    "cpu": "AMD64",
+    "os": "Windows 10",
+    "python": "3.11.15"
+  },
+  "hypothesis_id": "n/a",
+  "model_hash": null,
+  "phase": "m1-realized-overlap-report",
+  "pip_freeze_path": "logs/reproducibility/env/5d702427f4b4705475b8bcaf93635e8810581c15a9dfa87f17fac118daffd5e8.txt",
+  "pip_freeze_sha256": "5d702427f4b4705475b8bcaf93635e8810581c15a9dfa87f17fac118daffd5e8",
+  "rng_seed": 20260719,
+  "run_id": "8f40fc91f700494aa5034b5d50a45727",
+  "timestamp_utc": "2026-07-19T17:25:47.247271+00:00",
+  "working_tree_hash": "f56b18bd8694f1406a405dbfed5d1119d3cfef3b6fa7df8fcf9e7ff1e915f85e"
+}
