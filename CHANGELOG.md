@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning 2.0.0](https://semver.org/spec/
 
 ## [Unreleased]
 
+### Added (VERDICT-1 freeze + first-admission queue — NO ADMISSION, 2026-07-19)
+- **VERDICT-1 first-admission protocol FROZEN** (SHA-256
+  `ac611bc4a786717a249c93b58b61ed5b400f686a18e4735b911e3db7137e10ef`; freeze
+  ReproLog `repro_log_f975dcef3c05…`;
+  `research/02_verdict/VERDICT-1_protocol.md`;
+  `docs/audits/audit_trail_2026-07-19_verdict-1-freeze.md`, 3-round ACCEPT)
+  under the operator's 2026-07-19 authorization (ADR-0015 lift + ADR-0017
+  realized-bar precondition input + verdict authorization). Two prerequisite
+  frozen estimators: **Hansen 2005 SPA** (`src/skie_universe2/inference/hansen_spa.py`,
+  arch==8.0.0 cross-validation, 13 tests, memo) and **panel Romano-Wolf
+  StepM** (`romano_wolf_stepm_panel`, k=1 masked-equivalence, 7 tests, memo).
+  Session-aligned 8-column (instrument × Kelly-arm) joint panel; registered
+  surface 16/40; rolling-train B1/B3; level read at runtime. Shared candidate
+  registry `src/skie_universe2/verdict/registry.py`; adjudication harness
+  `scripts/run_verdict.py`; disposition emitter
+  `scripts/emit_verdict_disposition.py` (protocol §7 substrate-grade labeling).
+- **First-admission queue executed: H106 and H105 both NOT admitted; arsenal
+  remains EMPTY** (`docs/reports/VERDICT-1/verdict_queue_outcome_2026-07-19.md`).
+  H106 fails the matched-turnover rotor (net-not-monetizable); H105 fails the
+  non-waivable DSR persistence bound under the cumulative 72-trial deflation.
+  The ADR-0014 D3 ORB re-adjudication and the Work-Plan-D first-admission
+  triggers did NOT fire (no incumbent-set change). Append-only:
+  `first-admission-verdict` register +32 trials, pool +8 copy-forward records,
+  burned ledger +60 `admission-verdict` spans, two Expert Card v2s. No
+  `config/arsenal.yaml`; no Kelly fraction selected.
+- **DR-1/DR-2 December-roll repair — agent-side prep AUDIT-ACCEPTED** (3-round;
+  `docs/audits/audit_trail_2026-07-19_dr-repair-phase4-bundle.md`): the
+  append-only `DEC_ROLL_LATE_COMMIT` defect record restored byte-identical,
+  roll-citation attribution reconciled (LITERATURE-1-4 partially closed —
+  roll-date convention pinned, ~8-day early-migration figure an internal
+  estimate), runbook §5.0 flags the ingest-merge stage NOT-YET-BUILT.
+  Governance-level spend authorized; execution operator-only.
+- **Phase-4 confirmation protocol drafted `proposed`**
+  (`research/02_verdict/PHASE4_confirmation_protocol_PROPOSED.md`) — authorizes,
+  runs, and registers nothing.
+
 ### Added (Phase-3 forward batch — H105/H106 screened into the pool, 2026-07-19)
 - **P3-A overnight/Globex substrate feasibility: GO.** ETH bars present at
   full session coverage (186 five-minute overnight bars/session at the

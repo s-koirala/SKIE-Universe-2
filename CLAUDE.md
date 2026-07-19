@@ -468,6 +468,48 @@ Progress (as of 2026-07-19):
   STOPPED at the operator gate: the `lift_action` + first-admission VERDICT
   authorization are named, dated operator actions; nothing certified, no
   Kelly fraction selected, arsenal EMPTY.
+- **ADR-0015 HOLD LIFTED; VERDICT-1 protocol FROZEN + queue EXECUTED — NO
+  ADMISSION, arsenal still EMPTY (2026-07-19, orchestrator session).** Under
+  the operator's 2026-07-19 authorization (ADR-0015 lift + ADR-0017
+  realized-bar precondition input + verdict authorization + DR-1/DR-2
+  governance-level spend), the first-admission VERDICT was frozen and run.
+  (1) **VERDICT-1 protocol FROZEN** (SHA-256
+  `ac611bc4a786717a249c93b58b61ed5b400f686a18e4735b911e3db7137e10ef`,
+  freeze ReproLog `repro_log_f975dcef3c05…`;
+  [protocol](research/02_verdict/VERDICT-1_protocol.md),
+  [audit trail](docs/audits/audit_trail_2026-07-19_verdict-1-freeze.md), 3-round
+  ACCEPT) with two prerequisite frozen estimators — **Hansen 2005 SPA**
+  ([hansen_spa.py](src/skie_universe2/inference/hansen_spa.py), arch==8.0.0
+  cross-validation, 13 tests) and **panel Romano-Wolf StepM**
+  (`romano_wolf_stepm_panel`, k=1 masked-equivalence, 7 tests). The
+  adjudicated object is a SESSION-ALIGNED 8-column (instrument × Kelly-arm)
+  joint panel (audit QUANT-2-2: cross-instrument dependence in columns, not
+  end-to-end concatenation); registered surface 16/40; DSR/PBO on the
+  8-column Δ matrix; rolling-train B1/B3 both-bounds-binding; the enacted
+  level read at runtime. (2) **Queue H106 → H105 EXECUTED; both NOT
+  admitted** ([outcome report](docs/reports/VERDICT-1/verdict_queue_outcome_2026-07-19.md)):
+  **H106** fails the matched-turnover rotor rung in all 8 columns (marginal
+  Δ Sharpe negative — the net-not-monetizable caveat realized on-ledger);
+  **H105** clears SPA/StepM/rotor/PBO with 5 qualifying columns but fails the
+  non-waivable DSR persistence bound (DSR ≈ 0 < 0.2599; the modest
+  overnight-drift edge, best NQ:k0.5 ≈ 0.044/session, does not survive the
+  cumulative 72-trial deflation — the ADR-0013 "aggression bought with more
+  conservative multiplicity" mandate made concrete). **C3 ORB
+  re-adjudication NOT triggered** (no incumbent-set change, ADR-0014 D3);
+  **Work-Plan-D first-admission triggers did NOT fire.** Append-only effects:
+  `first-admission-verdict` register +32 trials, pool +8 copy-forward records
+  (with §7 substrate-grade + Tier-0 cost labels), burned ledger +60
+  `admission-verdict` spans, two script-generated Expert Card v2s; **no
+  `config/arsenal.yaml` created.** (3) **DR-1/DR-2 December-roll repair** —
+  agent-side prep AUDIT-ACCEPTED (append-only defect record restored;
+  roll-citation attribution reconciled, LITERATURE-1-4 partially closed;
+  runbook §5.0 flags the ingest-merge stage NOT-YET-BUILT); the
+  confirmation-grade H105 re-adjudication on the repaired ledger is a
+  registered FUTURE-SESSION event. (4) **Phase-4 confirmation protocol
+  drafted `proposed`** ([draft](research/02_verdict/PHASE4_confirmation_protocol_PROPOSED.md)) —
+  authorizes nothing. Nothing certified; no Kelly fraction selected; arsenal
+  EMPTY; ADR-0010 untouched. STOPPED at the F stop rule (Phase-4 entry NOT
+  authorized this session).
 
 ## Directory layout
 
