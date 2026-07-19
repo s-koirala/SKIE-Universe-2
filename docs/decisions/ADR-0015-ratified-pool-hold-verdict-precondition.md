@@ -20,6 +20,44 @@ superseded_by: ""
 > action remains a named, explicit operator authorization; a MET precondition is
 > reported, never acted on autonomously.
 
+> **LIFT AUTHORIZATION RECORD (Decision 3 `lift_action`): HOLD LIFTED —
+> first-admission VERDICT AUTHORIZED. Authorized by principal direction
+> 2026-07-19; conveyed via session; not self-authorized.** This is the named,
+> dated operator authorization Decision 3 requires; the decision body above is
+> not rewritten. Grounds, both cited verbatim per the authorization record:
+>
+> - **(i) Label basis (the registered rule): MET.**
+>   [check_verdict_precondition.py](../../scripts/audits/check_verdict_precondition.py)
+>   exits 0 — 2 pairwise-disjoint coverage vectors across 3 distinct
+>   `expert_hash` values; the disjoint pair is (`orb_first_hour_k1.0@1.0.0`,
+>   `vr_range_reversal_k1.0@1.0.0`). ORB↔H105 is label-BLOCKED solely by the
+>   `NQ:high_vol` cell-name collision (two different constructions sharing a
+>   string).
+> - **(ii) Realized-bar basis (M1 companion,
+>   [m1_realized_overlap.json](../../reports/M1_overlap/m1_realized_overlap.json)):
+>   ORB↔H105 realized-bar Jaccard = exactly 0.0** — the frozen H105 design
+>   §12(c) identity, the strongest disjointness in the pool — vs ORB↔H106
+>   0.089. The label and realized statistics INVERT (the label-disjoint pair
+>   shares 8.9% of realized bars; the label-blocked pair shares none).
+>
+> **The realized-bar disjointness is the OPERATIVE ground of this lift.** The
+> label rule is satisfied on its own terms, but the operator's authorization
+> rests on the realized-bar evidence; the companion amendment
+> ([ADR-0017](ADR-0017-realized-bar-verdict-precondition-input.md), accepted
+> 2026-07-19) makes that input first-class. Scope of this authorization: the
+> ADR-0014 Decision 2 set-level VERDICT protocol, queue per the
+> [verdict-readiness memo](../research_notes/verdict_readiness_memo_2026-07-19.md)
+> §3 (H106 first, H105 second, held-member re-adjudication on incumbent-set
+> change), under the binding labeling rules: any H106 admission record carries
+> its net-not-monetizable caveat verbatim (memo §5(i)); H105's adjudication on
+> the current substrate is CONDITIONAL-GRADE on every artifact with a
+> REGISTERED re-adjudication on the DR-1/DR-2-repaired ledger. Explicitly NOT
+> authorized by this record (absence of a record is "undecided", never implied
+> consent): ADR-0016 stage B (no spend, no Tier-2 estimator build); any
+> ADR-0010 live-capital step; Kelly-fraction selection (all four registered
+> fractions stay computed, reported, UNSELECTED); Phase-4 entry / champion
+> certification (its own future named, dated operator authorization).
+
 ## Context
 
 As of 2026-07-18 the ADR-0014 provisional candidate pool

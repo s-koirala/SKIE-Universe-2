@@ -364,6 +364,25 @@ verdict_precondition:
     directions.
   enforcement: reporting-check-only  # NOT wired into pre-commit, CI, or any commit-blocking path
   checker: scripts/audits/check_verdict_precondition.py
+  # SUBORDINATE record: the PRIMARY durable record of this lift is the dated
+  # authorization banner in ADR-0015 (Decision 3 lift_action); this sub-block
+  # mirrors it for machine consumers and alters none of the keys above.
+  lift_record:
+    date: "2026-07-19"
+    authorized_by: "principal direction, conveyed via session"
+    basis: >-
+      label rule MET (checker exit 0) + M1 realized-bar evidence —
+      realized-bar disjointness is the OPERATIVE ground (ORB<->H105
+      realized-bar Jaccard exactly 0.0, the frozen H105 design 12(c)
+      identity, while label-blocked by the NQ:high_vol name collision;
+      the label-disjoint ORB<->H106 pair shares 0.089 of realized bars —
+      the label/realized inversion is recorded, not resolved, here).
+    grounds_refs:
+      - "scripts/audits/check_verdict_precondition.py (exit 0, 2026-07-19)"
+      - "reports/M1_overlap/m1_realized_overlap.json"
+    primary_record: >-
+      docs/decisions/ADR-0015-ratified-pool-hold-verdict-precondition.md
+      (LIFT AUTHORIZATION RECORD banner, 2026-07-19)
   consequence: >-
     At |arsenal| = 0 this defers the first admission, and the first admission
     is what authors the arsenal-covariance / residual-correlation anchor
