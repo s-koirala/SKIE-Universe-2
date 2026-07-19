@@ -56,6 +56,35 @@ from skie_universe2.verdict.registry import KELLY_GRID, VERDICT_REGISTRY  # noqa
 # Candidate registry + Kelly grid — single source of truth shared with the
 # adjudication harness (skie_universe2.verdict.registry; audit CODE-3-1).
 _REGISTRY = VERDICT_REGISTRY
+# VERDICT-1 protocol §7 substrate-grade labels, applied to every disposition
+# artifact (card + pool record). The universal Tier-0 label binds all; H105
+# carries the CONDITIONAL-GRADE Dec/Globex caveat + the registered
+# DR-repaired re-adjudication; H106 carries the net-not-monetizable caveat.
+_TIER0_LABEL = "Tier-0, constant-1-tick-slippage (ADR-0006 D2; not live-capital eligibility)"
+_GRADE_NOTES = {
+    "H105": (
+        "CONDITIONAL-GRADE (§7): December/Globex blind spot inside the competence "
+        "window (91 ES / 101 NQ excluded sessions; 69.0%/67.8% overnight-ETH). A "
+        "confirmation-grade re-adjudication on the DR-1/DR-2-repaired ledger is a "
+        "REGISTERED future-session event (fresh trial-register increment + appended "
+        "card), never an automatic step."
+    ),
+    "H106": (
+        "net-not-monetizable caveat (§7): the screened edge is pre-cost; at the "
+        "Tier-0 constant-1-tick-per-side floor the 1-bar-hold net is deeply negative. "
+        "Any admission is an allocator-unit marginal-contribution judgment (ADR-0001), "
+        "not a tradable-standalone claim."
+    ),
+    "ORB": "standard Tier-0 grade (§7).",
+}
+
+
+def _grade_note(candidate: str) -> str:
+    hid0 = _REGISTRY[candidate]["hids"][0]
+    key = candidate if candidate in _GRADE_NOTES else hid0
+    return _GRADE_NOTES.get(key, _GRADE_NOTES.get(candidate, "standard Tier-0 grade (§7)."))
+
+
 _ANCHOR = "    # [VERDICT-1 trial-append anchor - do not remove]"
 _EMPTY_TRIALS_LINE = (
     "    trials: []   # appended by the VERDICT-1 disposition emitter "
@@ -206,6 +235,8 @@ def append_pool_records(  # noqa: PLR0913
                 "value": ("arsenal-admit-conditional" if admitted else "pool-hold-reconsider"),
                 "reconsider_on_set_change": not admitted,
                 "last_adjudicated_against": set_hash,
+                "substrate_grade": _grade_note(candidate),  # protocol §7 label
+                "cost_label": _TIER0_LABEL,
                 "adjudication": {
                     "protocol": result["protocol"],
                     "protocol_sha256": result["protocol_sha256"],
@@ -334,6 +365,11 @@ Degenerate rungs this adjudication: {result["degenerate_rungs"] or "none"};
 B2 identity anchor: {result["identity_anchor_b2"]}.
 Trial identifiers: `VERDICT:{stem}:A{adj_index}:{{instrument}}:k{{arm}}:{{object}}`
 in the `first-admission-verdict` family.
+
+## §7 substrate grade & labeling (binding)
+
+- {_TIER0_LABEL}.
+- {_grade_note(candidate)}
 """
         path.write_text(body, encoding="utf-8", newline="\n")
         out[hid] = path

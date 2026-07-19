@@ -243,6 +243,42 @@ class TestPoolCopyForward:
             raise AssertionError("must raise when the candidate has no pool records")
 
 
+class TestGradeLabeling:
+    def test_grade_note_per_candidate(self) -> None:
+        # Protocol §7: H105 conditional-grade, H106 net-not-monetizable, ORB standard.
+        assert "CONDITIONAL-GRADE" in _E._grade_note("H105")
+        assert "net-not-monetizable" in _E._grade_note("H106")
+        assert "Tier-0" in _E._grade_note("ORB")
+
+    def test_pool_record_carries_grade_and_cost_label(self, tmp_path: Path) -> None:
+        p = _paths(tmp_path)
+        # minimal pool ledger with H105 records
+        (p.data_processed / "pool_ledger").mkdir(parents=True)
+        recs = [
+            {
+                "hid": "H105",
+                "kelly_fraction": f,
+                "provenance": {"expert_hash": f"overnight_session_drift_k{f}@1.0.0"},
+                "disposition": {"value": "pool-hold-reconsider"},
+            }
+            for f in _E.KELLY_GRID
+        ]
+        (p.data_processed / "pool_ledger" / "pool_ledger.jsonl").write_text(
+            "\n".join(json.dumps(r) for r in recs) + "\n", encoding="utf-8"
+        )
+        cards = {"H105": p.root / "r" / "expert_card_v2.md"}
+        _E.append_pool_records(p, "H105", _result(), 1, "2026-07-19", cards)
+        appended = [
+            json.loads(x)
+            for x in (p.data_processed / "pool_ledger" / "pool_ledger.jsonl")
+            .read_text(encoding="utf-8")
+            .splitlines()
+            if x.strip()
+        ][4:]
+        assert all("CONDITIONAL-GRADE" in r["disposition"]["substrate_grade"] for r in appended)
+        assert all("Tier-0" in r["disposition"]["cost_label"] for r in appended)
+
+
 class TestHashAndFormat:
     def test_incumbent_hash_order_invariant(self) -> None:
         assert _E._incumbent_set_hash(["H106", "H105"]) == _E._incumbent_set_hash(["H105", "H106"])
