@@ -1,0 +1,523 @@
+{
+  "dataset": "vendor_legacy_1min_roll_adjusted",
+  "exclusion_variant": "primary (pit_provisional + coverage_gaps excluded)",
+  "instruments": {
+    "ES": {
+      "december_globex_blind_spot": {
+        "per_year": {
+          "2015": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 12982,
+              "first_session": "2015-12-08",
+              "last_session": "2016-01-04",
+              "overnight_eth_bars_1min_excluded": 9068,
+              "sessions_excluded": 10,
+              "window": "2015-12-08 .. 2016-01-04"
+            },
+            "terminal_window": null
+          },
+          "2016": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 10033,
+              "first_session": "2016-12-08",
+              "last_session": "2017-01-03",
+              "overnight_eth_bars_1min_excluded": 6992,
+              "sessions_excluded": 8,
+              "window": "2016-12-08 .. 2017-01-03"
+            },
+            "terminal_window": null
+          },
+          "2017": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 8588,
+              "first_session": "2017-12-08",
+              "last_session": "2018-01-02",
+              "overnight_eth_bars_1min_excluded": 5979,
+              "sessions_excluded": 7,
+              "window": "2017-12-08 .. 2018-01-02"
+            },
+            "terminal_window": null
+          },
+          "2018": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 12343,
+              "first_session": "2018-12-10",
+              "last_session": "2019-01-02",
+              "overnight_eth_bars_1min_excluded": 8428,
+              "sessions_excluded": 10,
+              "window": "2018-12-08 .. 2019-01-02"
+            },
+            "terminal_window": null
+          },
+          "2019": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 13545,
+              "first_session": "2019-12-09",
+              "last_session": "2020-01-02",
+              "overnight_eth_bars_1min_excluded": 9199,
+              "sessions_excluded": 11,
+              "window": "2019-12-08 .. 2020-01-02"
+            },
+            "terminal_window": null
+          },
+          "2020": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 12999,
+              "first_session": "2020-12-08",
+              "last_session": "2021-01-04",
+              "overnight_eth_bars_1min_excluded": 9086,
+              "sessions_excluded": 10,
+              "window": "2020-12-08 .. 2021-01-04"
+            },
+            "terminal_window": null
+          },
+          "2021": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 11909,
+              "first_session": "2021-12-08",
+              "last_session": "2022-01-03",
+              "overnight_eth_bars_1min_excluded": 8309,
+              "sessions_excluded": 9,
+              "window": "2021-12-08 .. 2022-01-03"
+            },
+            "terminal_window": null
+          },
+          "2022": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 10483,
+              "first_session": "2022-12-08",
+              "last_session": "2023-01-03",
+              "overnight_eth_bars_1min_excluded": 7335,
+              "sessions_excluded": 8,
+              "window": "2022-12-08 .. 2023-01-03"
+            },
+            "terminal_window": null
+          },
+          "2023": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 8273,
+              "first_session": "2023-12-08",
+              "last_session": "2024-01-02",
+              "overnight_eth_bars_1min_excluded": 5575,
+              "sessions_excluded": 7,
+              "window": "2023-12-08 .. 2024-01-02"
+            },
+            "terminal_window": null
+          },
+          "2024": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 13807,
+              "first_session": "2024-12-09",
+              "last_session": "2025-01-02",
+              "overnight_eth_bars_1min_excluded": 9307,
+              "sessions_excluded": 11,
+              "window": "2024-12-08 .. 2025-01-02"
+            },
+            "terminal_window": null
+          },
+          "2025": {
+            "late_committed_roll": null,
+            "terminal_window": {
+              "bars_1min_excluded": 0,
+              "first_session": null,
+              "last_session": null,
+              "overnight_eth_bars_1min_excluded": 0,
+              "sessions_excluded": 0,
+              "window": "2025-12-08 .. (successor takeover unobserved; sample ends 2025-12-04)"
+            }
+          }
+        },
+        "totals": {
+          "bars_overnight_eth": 79278,
+          "bars_total": 114962,
+          "excluded_session_share": 0.033151183970856105,
+          "sessions": 91,
+          "sessions_in_store": 2745
+        }
+      },
+      "hour_histogram_local_post_exclusion": {
+        "0": 143481,
+        "1": 144438,
+        "10": 145390,
+        "11": 145316,
+        "12": 145305,
+        "13": 140477,
+        "14": 140219,
+        "15": 140220,
+        "16": 119499,
+        "17": 2521,
+        "18": 145260,
+        "19": 144754,
+        "2": 145278,
+        "20": 145367,
+        "21": 145247,
+        "22": 144628,
+        "23": 144167,
+        "3": 145673,
+        "4": 145730,
+        "5": 145662,
+        "6": 145647,
+        "7": 145705,
+        "8": 145785,
+        "9": 145531
+      },
+      "per_session_1min": {
+        "halt_anomaly": {
+          "per_session_max": 16,
+          "per_session_median": 0.0,
+          "per_session_min": 0,
+          "per_session_p05": 0.0,
+          "per_session_p95": 15.0,
+          "present": true,
+          "sessions_with_any": 228,
+          "total_bars": 2521
+        },
+        "n_sessions": 2449,
+        "overnight_eth": {
+          "per_session_max": 930,
+          "per_session_median": 930.0,
+          "per_session_min": 0,
+          "per_session_p05": 900.0,
+          "per_session_p95": 930.0,
+          "present": true,
+          "sessions_with_any": 2448,
+          "total_bars": 2249672
+        },
+        "post_rth_eth": {
+          "per_session_max": 60,
+          "per_session_median": 45.0,
+          "per_session_min": 0,
+          "per_session_p05": 44.0,
+          "per_session_p95": 60.0,
+          "present": true,
+          "sessions_with_any": 2337,
+          "total_bars": 119499
+        },
+        "rth": {
+          "per_session_max": 390,
+          "per_session_median": 390.0,
+          "per_session_min": 0,
+          "per_session_p05": 390.0,
+          "per_session_p95": 390.0,
+          "present": true,
+          "sessions_with_any": 2425,
+          "total_bars": 929608
+        }
+      },
+      "per_session_5min": {
+        "halt_anomaly": {
+          "per_session_max": 4,
+          "per_session_median": 0.0,
+          "per_session_min": 0,
+          "per_session_p05": 0.0,
+          "per_session_p95": 3.0,
+          "present": true,
+          "sessions_with_any": 228,
+          "total_bars": 562
+        },
+        "n_sessions": 2449,
+        "overnight_eth": {
+          "per_session_max": 186,
+          "per_session_median": 186.0,
+          "per_session_min": 0,
+          "per_session_p05": 186.0,
+          "per_session_p95": 186.0,
+          "present": true,
+          "sessions_with_any": 2448,
+          "total_bars": 452433
+        },
+        "post_rth_eth": {
+          "per_session_max": 12,
+          "per_session_median": 9.0,
+          "per_session_min": 0,
+          "per_session_p05": 9.0,
+          "per_session_p95": 12.0,
+          "present": true,
+          "sessions_with_any": 2337,
+          "total_bars": 23967
+        },
+        "rth": {
+          "per_session_max": 78,
+          "per_session_median": 78.0,
+          "per_session_min": 0,
+          "per_session_p05": 78.0,
+          "per_session_p95": 78.0,
+          "present": true,
+          "sessions_with_any": 2425,
+          "total_bars": 185933
+        }
+      },
+      "rows_1min_post_exclusion": 3301300,
+      "rows_1min_pre_exclusion": 3694534,
+      "rows_pit_provisional": 291959,
+      "span_post_exclusion_utc": [
+        "2015-01-01 23:00:00+00:00",
+        "2025-12-03 23:59:00+00:00"
+      ]
+    },
+    "NQ": {
+      "december_globex_blind_spot": {
+        "per_year": {
+          "2015": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 11117,
+              "first_session": "2015-12-08",
+              "last_session": "2016-01-04",
+              "overnight_eth_bars_1min_excluded": 7260,
+              "sessions_excluded": 10,
+              "window": "2015-12-08 .. 2016-01-04"
+            },
+            "terminal_window": null
+          },
+          "2016": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 8422,
+              "first_session": "2016-12-08",
+              "last_session": "2017-01-03",
+              "overnight_eth_bars_1min_excluded": 5420,
+              "sessions_excluded": 8,
+              "window": "2016-12-08 .. 2017-01-03"
+            },
+            "terminal_window": null
+          },
+          "2017": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 7768,
+              "first_session": "2017-12-08",
+              "last_session": "2018-01-02",
+              "overnight_eth_bars_1min_excluded": 5185,
+              "sessions_excluded": 7,
+              "window": "2017-12-08 .. 2018-01-02"
+            },
+            "terminal_window": null
+          },
+          "2018": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 12309,
+              "first_session": "2018-12-10",
+              "last_session": "2019-01-02",
+              "overnight_eth_bars_1min_excluded": 8394,
+              "sessions_excluded": 10,
+              "window": "2018-12-08 .. 2019-01-02"
+            },
+            "terminal_window": null
+          },
+          "2019": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 13601,
+              "first_session": "2019-12-09",
+              "last_session": "2020-01-02",
+              "overnight_eth_bars_1min_excluded": 9254,
+              "sessions_excluded": 11,
+              "window": "2019-12-08 .. 2020-01-02"
+            },
+            "terminal_window": null
+          },
+          "2020": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 12818,
+              "first_session": "2020-12-08",
+              "last_session": "2021-01-04",
+              "overnight_eth_bars_1min_excluded": 8909,
+              "sessions_excluded": 10,
+              "window": "2020-12-08 .. 2021-01-04"
+            },
+            "terminal_window": null
+          },
+          "2021": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 11756,
+              "first_session": "2021-12-08",
+              "last_session": "2022-01-03",
+              "overnight_eth_bars_1min_excluded": 8158,
+              "sessions_excluded": 9,
+              "window": "2021-12-08 .. 2022-01-03"
+            },
+            "terminal_window": null
+          },
+          "2022": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 10423,
+              "first_session": "2022-12-08",
+              "last_session": "2023-01-03",
+              "overnight_eth_bars_1min_excluded": 7276,
+              "sessions_excluded": 8,
+              "window": "2022-12-08 .. 2023-01-03"
+            },
+            "terminal_window": null
+          },
+          "2023": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 8262,
+              "first_session": "2023-12-08",
+              "last_session": "2024-01-02",
+              "overnight_eth_bars_1min_excluded": 5563,
+              "sessions_excluded": 7,
+              "window": "2023-12-08 .. 2024-01-02"
+            },
+            "terminal_window": null
+          },
+          "2024": {
+            "late_committed_roll": {
+              "bars_1min_excluded": 13825,
+              "first_session": "2024-12-09",
+              "last_session": "2025-01-02",
+              "overnight_eth_bars_1min_excluded": 9327,
+              "sessions_excluded": 11,
+              "window": "2024-12-08 .. 2025-01-02"
+            },
+            "terminal_window": null
+          },
+          "2025": {
+            "late_committed_roll": null,
+            "terminal_window": {
+              "bars_1min_excluded": 12872,
+              "first_session": "2025-12-08",
+              "last_session": "2025-12-19",
+              "overnight_eth_bars_1min_excluded": 8825,
+              "sessions_excluded": 10,
+              "window": "2025-12-08 .. (successor takeover unobserved; sample ends 2025-12-19)"
+            }
+          }
+        },
+        "totals": {
+          "bars_overnight_eth": 83571,
+          "bars_total": 123173,
+          "excluded_session_share": 0.03664731494920174,
+          "sessions": 101,
+          "sessions_in_store": 2756
+        }
+      },
+      "hour_histogram_local_post_exclusion": {
+        "0": 138303,
+        "1": 139994,
+        "10": 145147,
+        "11": 145068,
+        "12": 145049,
+        "13": 140297,
+        "14": 140039,
+        "15": 140040,
+        "16": 118648,
+        "17": 2286,
+        "18": 141277,
+        "19": 140564,
+        "2": 143626,
+        "20": 142502,
+        "21": 142200,
+        "22": 141017,
+        "23": 139462,
+        "3": 145055,
+        "4": 145058,
+        "5": 144737,
+        "6": 144642,
+        "7": 144945,
+        "8": 145273,
+        "9": 145217
+      },
+      "per_session_1min": {
+        "halt_anomaly": {
+          "per_session_max": 16,
+          "per_session_median": 0.0,
+          "per_session_min": 0,
+          "per_session_p05": 0.0,
+          "per_session_p95": 13.0,
+          "present": true,
+          "sessions_with_any": 196,
+          "total_bars": 2286
+        },
+        "n_sessions": 2450,
+        "overnight_eth": {
+          "per_session_max": 930,
+          "per_session_median": 930.0,
+          "per_session_min": 0,
+          "per_session_p05": 802.0,
+          "per_session_p95": 930.0,
+          "present": true,
+          "sessions_with_any": 2449,
+          "total_bars": 2211314
+        },
+        "post_rth_eth": {
+          "per_session_max": 60,
+          "per_session_median": 45.0,
+          "per_session_min": 0,
+          "per_session_p05": 33.0,
+          "per_session_p95": 60.0,
+          "present": true,
+          "sessions_with_any": 2334,
+          "total_bars": 118648
+        },
+        "rth": {
+          "per_session_max": 390,
+          "per_session_median": 390.0,
+          "per_session_min": 0,
+          "per_session_p05": 390.0,
+          "per_session_p95": 390.0,
+          "present": true,
+          "sessions_with_any": 2421,
+          "total_bars": 928198
+        }
+      },
+      "per_session_5min": {
+        "halt_anomaly": {
+          "per_session_max": 4,
+          "per_session_median": 0.0,
+          "per_session_min": 0,
+          "per_session_p05": 0.0,
+          "per_session_p95": 3.0,
+          "present": true,
+          "sessions_with_any": 196,
+          "total_bars": 526
+        },
+        "n_sessions": 2450,
+        "overnight_eth": {
+          "per_session_max": 186,
+          "per_session_median": 186.0,
+          "per_session_min": 0,
+          "per_session_p05": 185.0,
+          "per_session_p95": 186.0,
+          "present": true,
+          "sessions_with_any": 2449,
+          "total_bars": 451431
+        },
+        "post_rth_eth": {
+          "per_session_max": 12,
+          "per_session_median": 9.0,
+          "per_session_min": 0,
+          "per_session_p05": 9.0,
+          "per_session_p95": 12.0,
+          "present": true,
+          "sessions_with_any": 2334,
+          "total_bars": 23918
+        },
+        "rth": {
+          "per_session_max": 78,
+          "per_session_median": 78.0,
+          "per_session_min": 0,
+          "per_session_p05": 78.0,
+          "per_session_p95": 78.0,
+          "present": true,
+          "sessions_with_any": 2421,
+          "total_bars": 185656
+        }
+      },
+      "rows_1min_post_exclusion": 3260446,
+      "rows_1min_pre_exclusion": 3659532,
+      "rows_pit_provisional": 289587,
+      "span_post_exclusion_utc": [
+        "2015-01-01 23:00:00+00:00",
+        "2025-12-05 21:59:00+00:00"
+      ]
+    }
+  },
+  "provenance_file": "vendor_legacy_1min_roll_adjusted_20260711.json",
+  "repro_log": "repro_log_5e370d881cbe4f289c21ea596bc07449.json",
+  "run_id": "5e370d881cbe4f289c21ea596bc07449",
+  "segment_definitions": {
+    "halt_anomaly": "[17:00, 18:00) America/New_York (daily maintenance halt)",
+    "overnight_eth": ">= 18:00 or < 09:30 America/New_York",
+    "post_rth_eth": "[16:00, 17:00) America/New_York",
+    "rth": "[09:30, 16:00) America/New_York",
+    "session_date": "CME rule via utils.sessions.cme_session_date_expr",
+    "source": "skie_universe2.utils.sessions.session_segment_expr (single source of truth)"
+  }
+}
