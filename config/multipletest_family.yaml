@@ -661,7 +661,328 @@ families:
     correction: romano-wolf
     prds_argument_ref: null
     measured_dependence: null   # appended at first swept scan (rho_bar, n pairs)
-    trials: []   # appended by the VERDICT-1 disposition emitter (every adjudication, admit or not)
+    trials:   # per-trial records, VERDICT-1 adjudications (protocol §6)
+      - hid: VERDICT:H106:A1:ES:k0.5:marginal-flat
+        sharpe_estimate: -1.295241
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k0.5@1.0.0 asset=ES (delta panel column per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:ES:k0.75:marginal-flat
+        sharpe_estimate: -1.296063
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k0.75@1.0.0 asset=ES (delta panel column per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:ES:k1.0:marginal-flat
+        sharpe_estimate: -1.296871
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k1.0@1.0.0 asset=ES (delta panel column per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:ES:k1.25:marginal-flat
+        sharpe_estimate: -1.297665
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k1.25@1.0.0 asset=ES (delta panel column per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:NQ:k0.5:marginal-flat
+        sharpe_estimate: -0.473677
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k0.5@1.0.0 asset=NQ (delta panel column per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:NQ:k0.75:marginal-flat
+        sharpe_estimate: -0.475199
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k0.75@1.0.0 asset=NQ (delta panel column per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:NQ:k1.0:marginal-flat
+        sharpe_estimate: -0.476715
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k1.0@1.0.0 asset=NQ (delta panel column per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:NQ:k1.25:marginal-flat
+        sharpe_estimate: -0.478225
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k1.25@1.0.0 asset=NQ (delta panel column per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:ES:k0.5:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k0.5@1.0.0 asset=ES (OOS net rotor per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:ES:k0.75:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k0.75@1.0.0 asset=ES (OOS net rotor per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:ES:k1.0:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k1.0@1.0.0 asset=ES (OOS net rotor per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:ES:k1.25:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k1.25@1.0.0 asset=ES (OOS net rotor per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:NQ:k0.5:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k0.5@1.0.0 asset=NQ (OOS net rotor per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:NQ:k0.75:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k0.75@1.0.0 asset=NQ (OOS net rotor per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:NQ:k1.0:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k1.0@1.0.0 asset=NQ (OOS net rotor per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H106:A1:NQ:k1.25:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=vr_range_reversal_k1.25@1.0.0 asset=NQ (OOS net rotor per reports/VERDICT-1/verdict_h106.json)
+        clustering:
+          cluster_key: verdict-h106-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:ES:k0.5:marginal-flat
+        sharpe_estimate: 0.026443
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k0.5@1.0.0 asset=ES (delta panel column per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:ES:k0.75:marginal-flat
+        sharpe_estimate: 0.025519
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k0.75@1.0.0 asset=ES (delta panel column per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:ES:k1.0:marginal-flat
+        sharpe_estimate: 0.024594
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k1.0@1.0.0 asset=ES (delta panel column per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:ES:k1.25:marginal-flat
+        sharpe_estimate: 0.023668
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k1.25@1.0.0 asset=ES (delta panel column per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:NQ:k0.5:marginal-flat
+        sharpe_estimate: 0.044421
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k0.5@1.0.0 asset=NQ (delta panel column per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:NQ:k0.75:marginal-flat
+        sharpe_estimate: 0.043340
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k0.75@1.0.0 asset=NQ (delta panel column per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:NQ:k1.0:marginal-flat
+        sharpe_estimate: 0.042256
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k1.0@1.0.0 asset=NQ (delta panel column per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:NQ:k1.25:marginal-flat
+        sharpe_estimate: 0.041170
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k1.25@1.0.0 asset=NQ (delta panel column per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:ES:k0.5:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k0.5@1.0.0 asset=ES (OOS net rotor per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:ES:k0.75:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k0.75@1.0.0 asset=ES (OOS net rotor per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:ES:k1.0:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k1.0@1.0.0 asset=ES (OOS net rotor per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:ES:k1.25:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k1.25@1.0.0 asset=ES (OOS net rotor per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:NQ:k0.5:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k0.5@1.0.0 asset=NQ (OOS net rotor per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:NQ:k0.75:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k0.75@1.0.0 asset=NQ (OOS net rotor per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:NQ:k1.0:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k1.0@1.0.0 asset=NQ (OOS net rotor per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+      - hid: VERDICT:H105:A1:NQ:k1.25:rotor
+        sharpe_estimate: null
+        return_series_ref: data/processed/shadow_ledger/expert_id=overnight_session_drift_k1.25@1.0.0 asset=NQ (OOS net rotor per reports/VERDICT-1/verdict_h105.json)
+        clustering:
+          cluster_key: verdict-h105-column-object-overlap
+          notes: >-
+            8 (instrument x Kelly arm) columns of one candidate x nested
+            inference objects on one session-aligned OOS panel; N_eff via
+            the HAC-adjusted per-column counts in the adjudication artifact
+        registered_at: "2026-07-19"
+    # [VERDICT-1 trial-append anchor - do not remove]
     registered_at: "2026-07-19"
 # families:
 #   - family_id: <slug>

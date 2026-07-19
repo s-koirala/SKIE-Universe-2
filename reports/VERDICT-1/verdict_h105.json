@@ -1,0 +1,371 @@
+{
+  "candidate": "H105",
+  "columns": [
+    "ES:k0.5",
+    "ES:k0.75",
+    "ES:k1.0",
+    "ES:k1.25",
+    "NQ:k0.5",
+    "NQ:k0.75",
+    "NQ:k1.0",
+    "NQ:k1.25"
+  ],
+  "conjunction": {
+    "admitted": false,
+    "best_qualifying_column_reported_not_selected": "NQ:k0.5",
+    "ladder_iu_pass": true,
+    "ladder_iu_spa_max_p": 0.01,
+    "marginal_spa_pass": true,
+    "persistence_pass": false,
+    "qualifying_columns": [
+      "ES:k0.5",
+      "NQ:k0.5",
+      "NQ:k0.75",
+      "NQ:k1.0",
+      "NQ:k1.25"
+    ],
+    "rotor_min_sidak_p": 0.27245884563283573
+  },
+  "current_trial_surface": 16,
+  "degenerate_rungs": [
+    "b1",
+    "b3"
+  ],
+  "disposition": "pool-hold-reconsider (re-affirmed)",
+  "dsr_by_column": {
+    "ES:k0.5": {
+      "dsr": 0.0,
+      "dsr_bound": 0.25994498596739934,
+      "n_eff_hac": 1636,
+      "n_trials_gate": 72
+    },
+    "ES:k0.75": {
+      "dsr": 0.0,
+      "dsr_bound": 0.25994498596739934,
+      "n_eff_hac": 1636,
+      "n_trials_gate": 72
+    },
+    "ES:k1.0": {
+      "dsr": 0.0,
+      "dsr_bound": 0.25994498596739934,
+      "n_eff_hac": 1636,
+      "n_trials_gate": 72
+    },
+    "ES:k1.25": {
+      "dsr": 0.0,
+      "dsr_bound": 0.25994498596739934,
+      "n_eff_hac": 1636,
+      "n_trials_gate": 72
+    },
+    "NQ:k0.5": {
+      "dsr": 2.365376873687639e-305,
+      "dsr_bound": 0.25994498596739934,
+      "n_eff_hac": 1636,
+      "n_trials_gate": 72
+    },
+    "NQ:k0.75": {
+      "dsr": 1.297018427976902e-305,
+      "dsr_bound": 0.25994498596739934,
+      "n_eff_hac": 1636,
+      "n_trials_gate": 72
+    },
+    "NQ:k1.0": {
+      "dsr": 6.586578238509035e-306,
+      "dsr_bound": 0.25994498596739934,
+      "n_eff_hac": 1636,
+      "n_trials_gate": 72
+    },
+    "NQ:k1.25": {
+      "dsr": 3.1417605021212936e-306,
+      "dsr_bound": 0.25994498596739934,
+      "n_eff_hac": 1636,
+      "n_trials_gate": 72
+    }
+  },
+  "expert_family": "overnight_session_drift",
+  "hids": [
+    "H105"
+  ],
+  "identity_anchor_b2": "EW(U) is the \u00a71 set functional (recorded, not tested)",
+  "incumbents_at_adjudication": [],
+  "inference": {
+    "b4": {
+      "block_length": 14.099078419295415,
+      "column_means": [
+        9.419662486992195e-05,
+        0.0001363614394782576,
+        0.00017523443631883848,
+        0.00021081292310923505,
+        0.00018813987238755958,
+        0.00027526507040958833,
+        0.0003577622466093645,
+        0.00043563148933480045
+      ],
+      "column_sharpes": [
+        0.026442850270334564,
+        0.02551882875066305,
+        0.024593782570219797,
+        0.023667723171574562,
+        0.04442136557245585,
+        0.0433397565593824,
+        0.04225608808531886,
+        0.04117039144339246
+      ],
+      "columns": [
+        "ES:k0.5",
+        "ES:k0.75",
+        "ES:k1.0",
+        "ES:k1.25",
+        "NQ:k0.5",
+        "NQ:k0.75",
+        "NQ:k1.0",
+        "NQ:k1.25"
+      ],
+      "note": "identical to marginal at |S|=0",
+      "spa_p_consistent": 0.01,
+      "spa_p_lower": 0.01,
+      "spa_p_upper": 0.01,
+      "spa_statistic": 2.2694407374781576,
+      "stepm_adjusted_p": [
+        0.0979020979020979,
+        0.10589410589410589,
+        0.11288711288711288,
+        0.12187812187812187,
+        0.023976023976023976,
+        0.027972027972027972,
+        0.027972027972027972,
+        0.028971028971028972
+      ],
+      "stepm_identified": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    "marginal": {
+      "block_length": 14.099078419295415,
+      "column_means": [
+        9.419662486992195e-05,
+        0.0001363614394782576,
+        0.00017523443631883848,
+        0.00021081292310923505,
+        0.00018813987238755958,
+        0.00027526507040958833,
+        0.0003577622466093645,
+        0.00043563148933480045
+      ],
+      "column_sharpes": [
+        0.026442850270334564,
+        0.02551882875066305,
+        0.024593782570219797,
+        0.023667723171574562,
+        0.04442136557245585,
+        0.0433397565593824,
+        0.04225608808531886,
+        0.04117039144339246
+      ],
+      "columns": [
+        "ES:k0.5",
+        "ES:k0.75",
+        "ES:k1.0",
+        "ES:k1.25",
+        "NQ:k0.5",
+        "NQ:k0.75",
+        "NQ:k1.0",
+        "NQ:k1.25"
+      ],
+      "spa_p_consistent": 0.01,
+      "spa_p_lower": 0.01,
+      "spa_p_upper": 0.01,
+      "spa_statistic": 2.2694407374781576,
+      "stepm_adjusted_p": [
+        0.0979020979020979,
+        0.10589410589410589,
+        0.11288711288711288,
+        0.12187812187812187,
+        0.023976023976023976,
+        0.027972027972027972,
+        0.027972027972027972,
+        0.028971028971028972
+      ],
+      "stepm_identified": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    }
+  },
+  "kelly_note": "all four registered fractions computed and reported per instrument; the qualifying-column set is a REPORTED identification of (instrument, arm) pairs, not a selection (protocol \u00a75; ADR-0013 D3)",
+  "n_aligned_sessions": 2394,
+  "n_bootstrap": 1000,
+  "n_rotors": 2000,
+  "n_selected_sessions": 1636,
+  "n_trials_cumulative": 72,
+  "pbo": {
+    "bound": 0.7400550140326007,
+    "pbo": 0.006293706293706294,
+    "s_splits": 16
+  },
+  "per_instrument": [
+    {
+      "arms": {
+        "0.5": {
+          "delta_mean": 9.419662486992202e-05,
+          "delta_sharpe": 0.026442850270334564,
+          "n_oos_sessions": 1636
+        },
+        "0.75": {
+          "delta_mean": 0.00013636143947825757,
+          "delta_sharpe": 0.02551882875066305,
+          "n_oos_sessions": 1636
+        },
+        "1.0": {
+          "delta_mean": 0.0001752344363188381,
+          "delta_sharpe": 0.024593782570219797,
+          "n_oos_sessions": 1636
+        },
+        "1.25": {
+          "delta_mean": 0.00021081292310923526,
+          "delta_sharpe": 0.023667723171574562,
+          "n_oos_sessions": 1636
+        }
+      },
+      "instrument": "ES",
+      "per_window_delta_k1.0": [
+        4.203675257905366e-05,
+        0.0002658176049448082,
+        8.123946880451777e-05,
+        0.00013423996231044715,
+        4.14725975081864e-05,
+        0.000837204708062455,
+        0.0002813134900676278,
+        0.0005545205146655662,
+        0.00039996231151608166,
+        0.00011768971539392077,
+        0.00028032950524356124,
+        -0.0006626198721256659,
+        -0.00041081594532464493,
+        0.00019495617848939168,
+        0.0004700624864552395
+      ]
+    },
+    {
+      "arms": {
+        "0.5": {
+          "delta_mean": 0.00018813987238755974,
+          "delta_sharpe": 0.04442136557245585,
+          "n_oos_sessions": 1636
+        },
+        "0.75": {
+          "delta_mean": 0.0002752650704095884,
+          "delta_sharpe": 0.0433397565593824,
+          "n_oos_sessions": 1636
+        },
+        "1.0": {
+          "delta_mean": 0.0003577622466093645,
+          "delta_sharpe": 0.04225608808531886,
+          "n_oos_sessions": 1636
+        },
+        "1.25": {
+          "delta_mean": 0.00043563148933480034,
+          "delta_sharpe": 0.04117039144339246,
+          "n_oos_sessions": 1636
+        }
+      },
+      "instrument": "NQ",
+      "per_window_delta_k1.0": [
+        0.00048660135460800965,
+        0.0004543367328676199,
+        2.7111229965352535e-05,
+        0.00011155965430133167,
+        0.0001338992475850827,
+        0.0010234389694531386,
+        0.0008763173608727717,
+        0.0004463639150168493,
+        0.0005401183713527819,
+        0.0003839640484273189,
+        0.0006971921090983331,
+        -0.0007575730013102298,
+        -0.0004176960443609272,
+        0.00034625024530935956,
+        0.001009012822519644
+      ]
+    }
+  ],
+  "per_window_delta_k1.0_by_instrument": "see per_instrument exhibits",
+  "protocol": "research/02_verdict/VERDICT-1_protocol.md",
+  "protocol_sha256": "ac611bc4a786717a249c93b58b61ed5b400f686a18e4735b911e3db7137e10ef",
+  "repro_log": "repro_log_1b56058f868e46c19f7bed86e6cbd062.json",
+  "rotor_by_column": {
+    "ES:k0.5": {
+      "entry_count": 1638,
+      "expert_mean": 9.35717539016767e-05,
+      "expert_percentile": 0.8635,
+      "p_sidak_column_union": 0.6921338140133533,
+      "p_value": 0.13693153423288357
+    },
+    "ES:k0.75": {
+      "entry_count": 1638,
+      "expert_mean": 0.0001354287599830645,
+      "expert_percentile": 0.836,
+      "p_sidak_column_union": 0.7623633202871846,
+      "p_value": 0.16441779110444776
+    },
+    "ES:k1.0": {
+      "entry_count": 1638,
+      "expert_mean": 0.0001739970363069876,
+      "expert_percentile": 0.8225,
+      "p_sidak_column_union": 0.7913826092649069,
+      "p_value": 0.17791104447776113
+    },
+    "ES:k1.25": {
+      "entry_count": 1638,
+      "expert_mean": 0.00020927389382560966,
+      "expert_percentile": 0.8285,
+      "p_sidak_column_union": 0.7788925590060423,
+      "p_value": 0.17191404297851073
+    },
+    "NQ:k0.5": {
+      "entry_count": 1638,
+      "expert_mean": 0.0001877752447500942,
+      "expert_percentile": 0.9615,
+      "p_sidak_column_union": 0.27245884563283573,
+      "p_value": 0.038980509745127435
+    },
+    "NQ:k0.75": {
+      "entry_count": 1638,
+      "expert_mean": 0.0002747263712647933,
+      "expert_percentile": 0.9585,
+      "p_sidak_column_union": 0.2904219151735936,
+      "p_value": 0.041979010494752625
+    },
+    "NQ:k1.0": {
+      "entry_count": 1638,
+      "expert_mean": 0.00035705496862742646,
+      "expert_percentile": 0.961,
+      "p_sidak_column_union": 0.2754800348280696,
+      "p_value": 0.03948025987006497
+    },
+    "NQ:k1.25": {
+      "entry_count": 1638,
+      "expert_mean": 0.0004347611250766298,
+      "expert_percentile": 0.9415,
+      "p_sidak_column_union": 0.38506975932908016,
+      "p_value": 0.05897051474262868
+    }
+  },
+  "screen_level_runtime": 0.7400550140326007,
+  "seed": 20260721,
+  "set_size_augmented": 1,
+  "sr_std_matched_surface": 0.4015268521159391
+}

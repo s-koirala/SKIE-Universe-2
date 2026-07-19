@@ -1,0 +1,25 @@
+{
+  "config_resolved_sha256": "ac611bc4a786717a249c93b58b61ed5b400f686a18e4735b911e3db7137e10ef",
+  "dataset_checksums": {
+    "config/multipletest_family.yaml": "57b90cbea45eba7f72934f966c63e3e1c39e088bb218b0717767fe6c0385c98a",
+    "research/02_verdict/VERDICT-1_protocol.md": "ac611bc4a786717a249c93b58b61ed5b400f686a18e4735b911e3db7137e10ef",
+    "shadow_ledger:vr_range_reversal (19340 parts)": "cf24aa345816aadebab106fdb4e3ce6742256e105e867bd06bc2409cb83b747d"
+  },
+  "env_id": "c7aeb4014013e7ce56e49faa83e82b60cc3aba3bf6ab8b8b7f9ba21e9a431b97",
+  "git_dirty": true,
+  "git_head": "d17e41590f5793217860817db0adb7ec2b538316",
+  "host": {
+    "cpu": "AMD64",
+    "os": "Windows 10",
+    "python": "3.11.15"
+  },
+  "hypothesis_id": "H106",
+  "model_hash": null,
+  "phase": "verdict-1-h106",
+  "pip_freeze_path": "logs/reproducibility/env/7473a06b20eda6e7806ae8176ce28fd1013c70d8a0d1f635855cb80a6fca14ed.txt",
+  "pip_freeze_sha256": "7473a06b20eda6e7806ae8176ce28fd1013c70d8a0d1f635855cb80a6fca14ed",
+  "rng_seed": 20260721,
+  "run_id": "b2f7cd83d20144b68e01928e93855e0d",
+  "timestamp_utc": "2026-07-19T22:45:38.606100+00:00",
+  "working_tree_hash": "23ee0d10cbb3fd34e345f54a9b5753047e3519fcd9a095ec2aa10c1719080036"
+}

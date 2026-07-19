@@ -754,3 +754,425 @@ burned_spans:
     purpose: admission-screen  # eval window 14 (rolling-origin, design §6)
     recorded_at: "2026-07-19"
     expert_card_ref: research/01_hypothesis_register/H106/expert_card_v1.md
+  # VERDICT-1 H106 A1 adjudication windows (scripted mirror; register-conserved span reuse, protocol §3):
+  - hid: H106
+    instrument: ES
+    start: 2017-01-01
+    end: 2017-07-01
+    purpose: admission-verdict  # eval window 0, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: ES
+    start: 2017-07-01
+    end: 2018-01-01
+    purpose: admission-verdict  # eval window 1, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: ES
+    start: 2018-01-01
+    end: 2018-07-01
+    purpose: admission-verdict  # eval window 2, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: ES
+    start: 2018-07-01
+    end: 2019-01-01
+    purpose: admission-verdict  # eval window 3, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: ES
+    start: 2019-01-01
+    end: 2019-07-01
+    purpose: admission-verdict  # eval window 4, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: ES
+    start: 2019-07-01
+    end: 2020-01-01
+    purpose: admission-verdict  # eval window 5, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: ES
+    start: 2020-01-01
+    end: 2020-07-01
+    purpose: admission-verdict  # eval window 6, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: ES
+    start: 2020-07-01
+    end: 2021-01-01
+    purpose: admission-verdict  # eval window 7, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: ES
+    start: 2021-01-01
+    end: 2021-07-01
+    purpose: admission-verdict  # eval window 8, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: ES
+    start: 2021-07-01
+    end: 2022-01-01
+    purpose: admission-verdict  # eval window 9, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: ES
+    start: 2022-01-01
+    end: 2022-07-01
+    purpose: admission-verdict  # eval window 10, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: ES
+    start: 2022-07-01
+    end: 2023-01-01
+    purpose: admission-verdict  # eval window 11, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: ES
+    start: 2023-01-01
+    end: 2023-07-01
+    purpose: admission-verdict  # eval window 12, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: ES
+    start: 2023-07-01
+    end: 2024-01-01
+    purpose: admission-verdict  # eval window 13, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: ES
+    start: 2024-01-01
+    end: 2024-07-01
+    purpose: admission-verdict  # eval window 14, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2017-01-01
+    end: 2017-07-01
+    purpose: admission-verdict  # eval window 0, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2017-07-01
+    end: 2018-01-01
+    purpose: admission-verdict  # eval window 1, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2018-01-01
+    end: 2018-07-01
+    purpose: admission-verdict  # eval window 2, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2018-07-01
+    end: 2019-01-01
+    purpose: admission-verdict  # eval window 3, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2019-01-01
+    end: 2019-07-01
+    purpose: admission-verdict  # eval window 4, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2019-07-01
+    end: 2020-01-01
+    purpose: admission-verdict  # eval window 5, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2020-01-01
+    end: 2020-07-01
+    purpose: admission-verdict  # eval window 6, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2020-07-01
+    end: 2021-01-01
+    purpose: admission-verdict  # eval window 7, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2021-01-01
+    end: 2021-07-01
+    purpose: admission-verdict  # eval window 8, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2021-07-01
+    end: 2022-01-01
+    purpose: admission-verdict  # eval window 9, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2022-01-01
+    end: 2022-07-01
+    purpose: admission-verdict  # eval window 10, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2022-07-01
+    end: 2023-01-01
+    purpose: admission-verdict  # eval window 11, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2023-01-01
+    end: 2023-07-01
+    purpose: admission-verdict  # eval window 12, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2023-07-01
+    end: 2024-01-01
+    purpose: admission-verdict  # eval window 13, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  - hid: H106
+    instrument: NQ
+    start: 2024-01-01
+    end: 2024-07-01
+    purpose: admission-verdict  # eval window 14, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H106/expert_card_v2.md
+  # VERDICT-1 H105 A1 adjudication windows (scripted mirror; register-conserved span reuse, protocol §3):
+  - hid: H105
+    instrument: ES
+    start: 2017-01-01
+    end: 2017-07-01
+    purpose: admission-verdict  # eval window 0, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: ES
+    start: 2017-07-01
+    end: 2018-01-01
+    purpose: admission-verdict  # eval window 1, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: ES
+    start: 2018-01-01
+    end: 2018-07-01
+    purpose: admission-verdict  # eval window 2, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: ES
+    start: 2018-07-01
+    end: 2019-01-01
+    purpose: admission-verdict  # eval window 3, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: ES
+    start: 2019-01-01
+    end: 2019-07-01
+    purpose: admission-verdict  # eval window 4, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: ES
+    start: 2019-07-01
+    end: 2020-01-01
+    purpose: admission-verdict  # eval window 5, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: ES
+    start: 2020-01-01
+    end: 2020-07-01
+    purpose: admission-verdict  # eval window 6, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: ES
+    start: 2020-07-01
+    end: 2021-01-01
+    purpose: admission-verdict  # eval window 7, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: ES
+    start: 2021-01-01
+    end: 2021-07-01
+    purpose: admission-verdict  # eval window 8, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: ES
+    start: 2021-07-01
+    end: 2022-01-01
+    purpose: admission-verdict  # eval window 9, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: ES
+    start: 2022-01-01
+    end: 2022-07-01
+    purpose: admission-verdict  # eval window 10, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: ES
+    start: 2022-07-01
+    end: 2023-01-01
+    purpose: admission-verdict  # eval window 11, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: ES
+    start: 2023-01-01
+    end: 2023-07-01
+    purpose: admission-verdict  # eval window 12, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: ES
+    start: 2023-07-01
+    end: 2024-01-01
+    purpose: admission-verdict  # eval window 13, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: ES
+    start: 2024-01-01
+    end: 2024-07-01
+    purpose: admission-verdict  # eval window 14, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2017-01-01
+    end: 2017-07-01
+    purpose: admission-verdict  # eval window 0, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2017-07-01
+    end: 2018-01-01
+    purpose: admission-verdict  # eval window 1, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2018-01-01
+    end: 2018-07-01
+    purpose: admission-verdict  # eval window 2, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2018-07-01
+    end: 2019-01-01
+    purpose: admission-verdict  # eval window 3, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2019-01-01
+    end: 2019-07-01
+    purpose: admission-verdict  # eval window 4, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2019-07-01
+    end: 2020-01-01
+    purpose: admission-verdict  # eval window 5, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2020-01-01
+    end: 2020-07-01
+    purpose: admission-verdict  # eval window 6, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2020-07-01
+    end: 2021-01-01
+    purpose: admission-verdict  # eval window 7, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2021-01-01
+    end: 2021-07-01
+    purpose: admission-verdict  # eval window 8, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2021-07-01
+    end: 2022-01-01
+    purpose: admission-verdict  # eval window 9, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2022-01-01
+    end: 2022-07-01
+    purpose: admission-verdict  # eval window 10, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2022-07-01
+    end: 2023-01-01
+    purpose: admission-verdict  # eval window 11, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2023-01-01
+    end: 2023-07-01
+    purpose: admission-verdict  # eval window 12, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2023-07-01
+    end: 2024-01-01
+    purpose: admission-verdict  # eval window 13, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
+  - hid: H105
+    instrument: NQ
+    start: 2024-01-01
+    end: 2024-07-01
+    purpose: admission-verdict  # eval window 14, A1
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v2.md
