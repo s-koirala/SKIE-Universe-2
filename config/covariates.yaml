@@ -27,8 +27,7 @@
 schema_version: 1
 
 expert_families:
-  # Documented example (no live registration yet — Phase A/B admission
-  # candidates register here when their design.md freezes):
+  # Documented example (registration shape):
   #
   #   toy_momentum:
   #     registered_at: "2026-07-10"
@@ -37,4 +36,24 @@ expert_families:
   #       - cov_realized_vol_60m
   #       - cov_session_phase
   #
-  {}
+  overnight_session_drift:
+    registered_at: "2026-07-19"
+    design_md: "research/01_hypothesis_register/H105/design.md"
+    # EMPTY registered set (design §3): the H105 ledger partitions carry NO
+    # cov_ columns; the RC-H105-1 screen computes the frozen conditioning
+    # set (rvol_entry terciles, prior_rth_sign) inline from the substrate at
+    # scan time — the leakage-clean RC-H101-2/RC-H103-2 path. A materialized
+    # full-sample percentile column would be the leaked construction the
+    # H103 exhibit convicted (construction_dependence_note,
+    # config/conditioning_covariates.yaml). Promoting any covariate to a
+    # ledger column is a fresh registered cycle per ADR-0008 Decision 4.
+    covariates: []
+  vr_range_reversal:
+    registered_at: "2026-07-19"
+    design_md: "research/01_hypothesis_register/H106/design.md"
+    # EMPTY registered set (design §3): screen covariates (rvol_entry
+    # terciles, vr_state_at_open) computed inline at scan time — the same
+    # leakage-clean path as overnight_session_drift above. The expert's
+    # signal-internal VR state (registered feature constants, window 288 /
+    # q 2) is a Layer-1 input, not a ledger covariate column.
+    covariates: []

@@ -390,6 +390,38 @@ families:
             in the screen artifact (cell_dependence)
         registered_at: "2026-07-18"
     registered_at: "2026-07-17"
+  - family_id: rc-h105-1
+    # ADR-0014 SCREEN of H105 (overnight/Globex session-drift expert; design
+    # FROZEN 2026-07-19, research/01_hypothesis_register/H105/design.md §5).
+    # First fresh forward candidate of the Phase-3 sourcing priority; the
+    # ADR-0015 disjointness candidate (overnight ETH competence window,
+    # bar-disjoint from the ORB pool by construction). Cell family = 5 cells
+    # x 2 instruments (design §3: unconditional PRIMARY, high_vol, low_vol,
+    # prior_rth_up, prior_rth_down). Level = the enacted
+    # screening_error_rate_target (full-precision value at the top of this
+    # file governs, read at runtime); correction = romano-wolf per the RD5
+    # retain-fwer decision. Registered BEFORE the screen run per ADR-0008 D6;
+    # per-cell trial records appended by the RC-H105-1 disposition emitter
+    # (scripts/emit_screen_expert_card_v1.py).
+    correction: romano-wolf
+    prds_argument_ref: null
+    trials: []   # appended by RC-H105-1 at scan time (pass or fail, every cell)
+    registered_at: "2026-07-19"
+  - family_id: rc-h106-1
+    # ADR-0014 SCREEN of H106 (variance-ratio range-state reversal expert;
+    # design FROZEN 2026-07-19, research/01_hypothesis_register/H106/design.md
+    # §5). Second fresh forward candidate (mean-reversion, Phase-3 rank 2).
+    # Cell family = 5 cells x 2 instruments (design §3: unconditional,
+    # vr_range_at_open PRIMARY, vr_trend_at_open, high_vol, low_vol). Level =
+    # the enacted screening_error_rate_target (full-precision value at the
+    # top of this file governs, read at runtime); correction = romano-wolf
+    # per the RD5 retain-fwer decision. Registered BEFORE the screen run per
+    # ADR-0008 D6; per-cell trial records appended by the RC-H106-1
+    # disposition emitter (scripts/emit_screen_expert_card_v1.py).
+    correction: romano-wolf
+    prds_argument_ref: null
+    trials: []   # appended by RC-H106-1 at scan time (pass or fail, every cell)
+    registered_at: "2026-07-19"
 # families:
 #   - family_id: <slug>
 #     correction: romano-wolf | benjamini-hochberg-prds | benjamini-yekutieli

@@ -39,7 +39,9 @@ from skie_universe2.costs.futures_rt_v1 import FuturesRtV1CostModel  # noqa: E40
 from skie_universe2.execution.tier0_barclose import tier0_counterfactual  # noqa: E402
 from skie_universe2.experts.base import BarWindow, Expert, assert_prefix_invariant  # noqa: E402
 from skie_universe2.experts.orb_first_hour import OrbFirstHourExpert  # noqa: E402
+from skie_universe2.experts.overnight_drift import OvernightSessionDriftExpert  # noqa: E402
 from skie_universe2.experts.reference import CausalMomentumExpert  # noqa: E402
+from skie_universe2.experts.vr_range_reversal import VrRangeReversalExpert  # noqa: E402
 from skie_universe2.features.regime_emissions import (  # noqa: E402
     apply_registered_exclusions,
     compute_emissions,
@@ -164,7 +166,11 @@ def _make_expert(name: str) -> Expert:
         return CausalMomentumExpert()
     if name == "h101":
         return OrbFirstHourExpert()
-    raise ValueError(f"unknown expert {name!r}; choose reference|h101")
+    if name == "h105":
+        return OvernightSessionDriftExpert()
+    if name == "h106":
+        return VrRangeReversalExpert()
+    raise ValueError(f"unknown expert {name!r}; choose reference|h101|h105|h106")
 
 
 def run_backfill(
@@ -213,7 +219,7 @@ def main() -> int:
     parser.add_argument(
         "--smoke", action="store_true", help="validate to a scratch ledger (no evidence)"
     )
-    parser.add_argument("--expert", default="h101", choices=["reference", "h101"])
+    parser.add_argument("--expert", default="h101", choices=["reference", "h101", "h105", "h106"])
     parser.add_argument("--hypothesis-id", default=None, help="ledger hypothesis_id")
     parser.add_argument("--instruments", default="ES,NQ")
     parser.add_argument("--max-bars", type=int, default=None, help="bar cap (dev/smoke)")
