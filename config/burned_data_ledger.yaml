@@ -332,3 +332,214 @@ burned_spans:
     purpose: dwell-feasibility-gate  # ADR-0004 Decision 6; eval window 14 (rolling-origin, design.md §2)
     recorded_at: "2026-07-11"
     expert_card_ref: reports/H900/H900_dwell_feasibility_report_2026-07-11.md
+  # RC-H105-1 screen windows (scripted mirror; ADR-0004 rolling regime):
+  - hid: H105
+    instrument: ES
+    start: 2017-01-01
+    end: 2017-07-01
+    purpose: admission-screen  # eval window 0 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: ES
+    start: 2017-07-01
+    end: 2018-01-01
+    purpose: admission-screen  # eval window 1 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: ES
+    start: 2018-01-01
+    end: 2018-07-01
+    purpose: admission-screen  # eval window 2 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: ES
+    start: 2018-07-01
+    end: 2019-01-01
+    purpose: admission-screen  # eval window 3 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: ES
+    start: 2019-01-01
+    end: 2019-07-01
+    purpose: admission-screen  # eval window 4 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: ES
+    start: 2019-07-01
+    end: 2020-01-01
+    purpose: admission-screen  # eval window 5 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: ES
+    start: 2020-01-01
+    end: 2020-07-01
+    purpose: admission-screen  # eval window 6 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: ES
+    start: 2020-07-01
+    end: 2021-01-01
+    purpose: admission-screen  # eval window 7 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: ES
+    start: 2021-01-01
+    end: 2021-07-01
+    purpose: admission-screen  # eval window 8 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: ES
+    start: 2021-07-01
+    end: 2022-01-01
+    purpose: admission-screen  # eval window 9 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: ES
+    start: 2022-01-01
+    end: 2022-07-01
+    purpose: admission-screen  # eval window 10 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: ES
+    start: 2022-07-01
+    end: 2023-01-01
+    purpose: admission-screen  # eval window 11 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: ES
+    start: 2023-01-01
+    end: 2023-07-01
+    purpose: admission-screen  # eval window 12 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: ES
+    start: 2023-07-01
+    end: 2024-01-01
+    purpose: admission-screen  # eval window 13 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: ES
+    start: 2024-01-01
+    end: 2024-07-01
+    purpose: admission-screen  # eval window 14 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2017-01-01
+    end: 2017-07-01
+    purpose: admission-screen  # eval window 0 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2017-07-01
+    end: 2018-01-01
+    purpose: admission-screen  # eval window 1 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2018-01-01
+    end: 2018-07-01
+    purpose: admission-screen  # eval window 2 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2018-07-01
+    end: 2019-01-01
+    purpose: admission-screen  # eval window 3 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2019-01-01
+    end: 2019-07-01
+    purpose: admission-screen  # eval window 4 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2019-07-01
+    end: 2020-01-01
+    purpose: admission-screen  # eval window 5 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2020-01-01
+    end: 2020-07-01
+    purpose: admission-screen  # eval window 6 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2020-07-01
+    end: 2021-01-01
+    purpose: admission-screen  # eval window 7 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2021-01-01
+    end: 2021-07-01
+    purpose: admission-screen  # eval window 8 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2021-07-01
+    end: 2022-01-01
+    purpose: admission-screen  # eval window 9 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2022-01-01
+    end: 2022-07-01
+    purpose: admission-screen  # eval window 10 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2022-07-01
+    end: 2023-01-01
+    purpose: admission-screen  # eval window 11 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2023-01-01
+    end: 2023-07-01
+    purpose: admission-screen  # eval window 12 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2023-07-01
+    end: 2024-01-01
+    purpose: admission-screen  # eval window 13 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
+  - hid: H105
+    instrument: NQ
+    start: 2024-01-01
+    end: 2024-07-01
+    purpose: admission-screen  # eval window 14 (rolling-origin, design §6)
+    recorded_at: "2026-07-19"
+    expert_card_ref: research/01_hypothesis_register/H105/expert_card_v1.md
