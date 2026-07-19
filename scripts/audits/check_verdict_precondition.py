@@ -75,6 +75,10 @@ class PreconditionResult:
 
 def _load_min_required(schema_path: Path) -> int:
     schema = yaml.safe_load(schema_path.read_text(encoding="utf-8"))
+    if not isinstance(schema, dict):
+        raise ValueError(
+            f"{schema_path}: schema must parse to a mapping, got {type(schema).__name__}"
+        )
     block = schema.get("verdict_precondition")
     if not isinstance(block, dict):
         raise ValueError(
@@ -99,7 +103,17 @@ def _load_coverage_by_hash(pool_ledger_path: Path) -> dict[str, set[str]]:
                 record = json.loads(line)
             except json.JSONDecodeError as exc:
                 raise ValueError(f"{pool_ledger_path}:{line_no}: invalid JSON ({exc})") from exc
+            if not isinstance(record, dict):
+                raise ValueError(
+                    f"{pool_ledger_path}:{line_no}: record must be a JSON object, "
+                    f"got {type(record).__name__}"
+                )
             provenance = record.get("provenance", {})
+            if not isinstance(provenance, dict):
+                raise ValueError(
+                    f"{pool_ledger_path}:{line_no}: provenance must be an object, "
+                    f"got {type(provenance).__name__}"
+                )
             expert_hash = provenance.get("expert_hash")
             if not expert_hash:
                 raise ValueError(
@@ -113,7 +127,15 @@ def _load_coverage_by_hash(pool_ledger_path: Path) -> dict[str, set[str]]:
                     f"{pool_ledger_path}:{line_no}: record missing "
                     "competence_structure.competence_window_cells"
                 )
-            coverage.setdefault(expert_hash, set()).update(competence["competence_window_cells"])
+            cells = competence["competence_window_cells"]
+            # Shape validation (round-2 audit QUANT-2-2): a str is an iterable
+            # of characters and would silently decompose under set.update,
+            # flipping the label verdict — refuse, never substitute (S6).
+            if not isinstance(cells, list) or not all(isinstance(c, str) for c in cells):
+                raise ValueError(
+                    f"{pool_ledger_path}:{line_no}: competence_window_cells must be a list of str"
+                )
+            coverage.setdefault(expert_hash, set()).update(cells)
     return coverage
 
 
@@ -223,11 +245,13 @@ def realized_bar_report_lines(schema_path: Path) -> list[str]:
             f"  realized-bar basis (ADR-0017): schema unreadable for the addendum "
             f"({exc.__class__.__name__}); label basis only. No substitute is reported."
         ]
-    block = ((schema or {}).get("verdict_precondition") or {}).get("realized_bar_input")
-    if not isinstance(block, dict) or "artifact" not in block:
+    parsed = schema if isinstance(schema, dict) else {}
+    vp = parsed.get("verdict_precondition")
+    block = vp.get("realized_bar_input") if isinstance(vp, dict) else None
+    if not isinstance(block, dict) or not isinstance(block.get("artifact"), str):
         return [
-            "  realized-bar basis (ADR-0017): schema carries no realized_bar_input "
-            "addendum; label basis only."
+            "  realized-bar basis (ADR-0017): schema carries no (well-formed) "
+            "realized_bar_input addendum; label basis only."
         ]
     roots = (schema_path.resolve().parent.parent, schema_path.resolve().parent)
     candidates = [r / block["artifact"] for r in roots]
@@ -254,10 +278,12 @@ def realized_bar_report_lines(schema_path: Path) -> list[str]:
             continue
         experts = pair.get("experts")
         a, b = (list(experts) + ["?", "?"])[:2] if isinstance(experts, list) else ("?", "?")
+        pred = pair.get("pre_scan_prediction")
+        pred = pred if isinstance(pred, dict) else {}
         lines.append(
             f"    {a} <-> {b}: J_bar={pair.get('bar_level_jaccard')} "
             f"J_session={pair.get('session_level_jaccard')} "
-            f"(prediction: {(pair.get('pre_scan_prediction') or {}).get('bar_level', 'n/a')})"
+            f"(prediction: {pred.get('bar_level', 'n/a')})"
         )
     lines.append(
         "    (both bases are reports; the exit code keys on the label rule — "
@@ -291,7 +317,7 @@ def main() -> int:
             )
             schema = Path(args.schema) if args.schema else paths.config / "pool_ledger_schema.yaml"
         result = evaluate_precondition(pool_ledger, schema)
-    except (OSError, ValueError, RuntimeError) as exc:
+    except Exception as exc:  # noqa: BLE001 — deliberate contract guard: ANY label-path failure is an unusable-input condition, which is exactly what EXIT_ERROR exists for (round-2 audit QUANT-2-1: yaml.YAMLError and shape AttributeErrors are not ValueError subclasses and must not fall through to an OS exit 1 masquerading as BLOCKED)
         print(f"[verdict-precondition] ERROR: {exc}", file=sys.stderr, flush=True)
         return EXIT_ERROR
 

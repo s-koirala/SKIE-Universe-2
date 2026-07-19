@@ -204,7 +204,7 @@ class TestRealizedBarReport:
     def test_absent_addendum_reports_label_only(self, tmp_path: Path) -> None:
         lines = realized_bar_report_lines(_write_schema(tmp_path))
         assert len(lines) == 1
-        assert "no realized_bar_input addendum" in lines[0]
+        assert "realized_bar_input addendum" in lines[0]
 
     def test_absent_artifact_states_absence(self, tmp_path: Path) -> None:
         cfg = tmp_path / "config"
@@ -319,3 +319,60 @@ class TestRealizedBarRobustness:
         out = capsys.readouterr().out
         assert "MET" in out
         assert "unreadable" in out
+
+
+class TestLabelPathInputErrors:
+    """Round-2 audit QUANT-2-1/QUANT-2-2: every unusable-input shape on the
+    LABEL pipeline maps to EXIT_ERROR (2), and malformed cells are refused
+    rather than character-decomposed into a false verdict."""
+
+    def _run_main(self, monkeypatch: pytest.MonkeyPatch, ledger: Path, schema: Path) -> int:
+        monkeypatch.setattr(
+            "sys.argv", ["check", "--pool-ledger", str(ledger), "--schema", str(schema)]
+        )
+        return main()
+
+    def test_malformed_yaml_schema_exits_error(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        schema = tmp_path / "schema.yaml"
+        schema.write_text("verdict_precondition: [1, 2", encoding="utf-8")
+        ledger = _write_ledger(tmp_path, [_record("a@1", ["ES:x"])])
+        assert self._run_main(monkeypatch, ledger, schema) == EXIT_ERROR
+
+    def test_non_mapping_schema_exits_error(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        schema = tmp_path / "schema.yaml"
+        schema.write_text("- just\n- a\n- list\n", encoding="utf-8")
+        ledger = _write_ledger(tmp_path, [_record("a@1", ["ES:x"])])
+        assert self._run_main(monkeypatch, ledger, schema) == EXIT_ERROR
+
+    def test_non_object_ledger_record_exits_error(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        ledger = _write_ledger(tmp_path, ['"just a json string"'])
+        assert self._run_main(monkeypatch, ledger, _write_schema(tmp_path)) == EXIT_ERROR
+
+    def test_non_dict_provenance_exits_error(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        row = json.dumps(
+            {
+                "provenance": ["not", "a", "dict"],
+                "competence_structure": {"competence_window_cells": []},
+            }
+        )
+        ledger = _write_ledger(tmp_path, [row])
+        assert self._run_main(monkeypatch, ledger, _write_schema(tmp_path)) == EXIT_ERROR
+
+    def test_string_valued_cells_refused_not_decomposed(self, tmp_path: Path) -> None:
+        row = json.dumps(
+            {
+                "provenance": {"expert_hash": "a@1"},
+                "competence_structure": {"competence_window_cells": "ES:x"},
+            }
+        )
+        ledger = _write_ledger(tmp_path, [row, _record("b@1", ["NQ:y"])])
+        with pytest.raises(ValueError, match="list of str"):
+            evaluate_precondition(ledger, _write_schema(tmp_path))
