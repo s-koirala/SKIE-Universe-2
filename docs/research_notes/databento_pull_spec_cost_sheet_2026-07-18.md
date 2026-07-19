@@ -2,7 +2,25 @@
 
 **Living planning note (of record; not a frozen design.md).**
 
-*Last updated: 2026-07-18.*
+*Last updated: 2026-07-19.*
+
+> **AUTHORIZATION ADDENDUM (2026-07-19; authorized by principal direction,
+> conveyed via session; not self-authorized).** **DR-1 + DR-2 spend is
+> AUTHORIZED at the governance level.** The standing execution rule is
+> UNCHANGED: agents never place vendor orders, run metered downloads, or
+> touch payment (§5(d)); execution remains operator-only and pending. Agent
+> scope under this authorization = registration + exact request parameters +
+> operator runbook (the 2026-07-19 session's Work Plan E), ending at
+> quotable parameters. Every price cell in this sheet stays
+> `TBD — operator to quote`. Recorded in the same addendum, NOT authorized
+> (unchanged): **ADR-0016 stage B remains UNDECIDED** — no T2-B spend, no
+> Tier-2 estimator build (stage B needs its own named, dated operator
+> authorization); MX-1, T2-D*, and CAL-1 remain unauthorized. Context for
+> priority: the ADR-0015 lift (2026-07-19) authorized the first-admission
+> VERDICT with H105's adjudication CONDITIONAL-GRADE on the current
+> substrate and a REGISTERED re-adjudication on the DR-1/DR-2-repaired
+> ledger — the repair is now the binding path to confirmation-grade
+> overnight evidence (§2.1.4).
 
 No hypothesis design.md is frozen, no ledger partition is written, and **no
 vendor order is placed** on the strength of this document. Its sole purpose is

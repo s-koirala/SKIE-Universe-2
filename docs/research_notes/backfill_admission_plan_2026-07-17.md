@@ -269,11 +269,17 @@ Carried from the two archived notes; still open.
 - **OD-C (H104 fresh-cycle scope).** Confirm MGC/SIL enter as a new admission
   cycle with their own trial-register entry and that RC-H104-3 is a hard
   pre-admission gate.
-- **OD-D (Databento December-roll repull) — RESOLVED 2026-07-19 (ELEVATED).**
+- **OD-D (Databento December-roll repull) — RESOLVED 2026-07-19 (ELEVATED);
+  SPEND AUTHORIZED AT GOVERNANCE LEVEL 2026-07-19.**
   `P1-2.0-DATABENTO-DEC-ROLL-REPULL` is the **top purchase priority**:
   quote-ready DR-1/DR-2 spec in the
-  [cost sheet](databento_pull_spec_cost_sheet_2026-07-18.md) §2.1/§4
-  (operator-only spend, **not yet authorized**). The December-roll windows
+  [cost sheet](databento_pull_spec_cost_sheet_2026-07-18.md) §2.1/§4.
+  **Authorization update (2026-07-19, principal direction, conveyed via
+  session):** the DR-1+DR-2 spend is authorized at the governance level;
+  execution remains operator-only and pending (§5(d) unchanged — agents
+  never place orders or run metered downloads; agent scope = registration +
+  request parameters + runbook). ADR-0016 stage B remains UNDECIDED
+  (recorded in the same authorization; no T2-B spend, no Tier-2 build). The December-roll windows
   are currently *excluded*, not *corrected*
   ([config/data_sources.yaml](../../config/data_sources.yaml)); the repair is
   prerequisite for December-inclusive / confirmation-grade overnight-Globex
