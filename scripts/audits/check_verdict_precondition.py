@@ -9,6 +9,14 @@ accepted 2026-07-18) against the live pool ledger
 coverage vectors (union of ``competence_window_cells`` per distinct
 ``expert_hash``) are pairwise non-overlapping.
 
+**ADR-0017 (accepted 2026-07-19) extension:** the REALIZED-BAR basis — the
+pairwise realized-bar/session Jaccards from the M1 machinery
+(``scripts/run_m1_overlap_report.py``) — is reported ALONGSIDE the label
+basis, read from the artifact the schema's ``realized_bar_input`` addendum
+names. Both bases are reports; the exit code keys on the registered LABEL
+rule exactly as before (no consumer's semantics change), and the checker
+says plainly when the M1 artifact is absent rather than substituting.
+
 REPORTING CHECK ONLY (ADR-0015 Decision 3): this script must NOT be wired
 into pre-commit, CI, or any path that blocks a commit. A MET result does NOT
 trigger a verdict — the lift action is explicit, dated operator authorization
@@ -25,6 +33,7 @@ Usage:
         [--schema config/pool_ledger_schema.yaml]
 
 Exit codes: 0 = MET (reported, not acted on); 1 = BLOCKED; 2 = input error.
+The exit code is the LABEL-rule verdict (ADR-0017 Decision 2).
 """
 
 from __future__ import annotations
@@ -194,7 +203,51 @@ def evaluate_precondition(pool_ledger_path: Path, schema_path: Path) -> Precondi
     )
 
 
+def realized_bar_report_lines(schema_path: Path) -> list[str]:
+    """ADR-0017 Decision 2: the realized-bar basis, reported alongside.
+
+    Reads the artifact path from the schema's ``realized_bar_input`` addendum
+    (never a hard-coded path) and renders the pairwise Jaccards. Pure
+    reporting: returns printable lines; absence of the addendum or the
+    artifact is stated plainly, never substituted (S6). The artifact path is
+    resolved relative to the schema's repo root (schema lives in config/).
+    """
+    schema = yaml.safe_load(schema_path.read_text(encoding="utf-8"))
+    block = (schema.get("verdict_precondition") or {}).get("realized_bar_input")
+    if not isinstance(block, dict) or "artifact" not in block:
+        return [
+            "  realized-bar basis (ADR-0017): schema carries no realized_bar_input "
+            "addendum; label basis only."
+        ]
+    artifact = schema_path.resolve().parent.parent / block["artifact"]
+    if not artifact.is_file():
+        return [
+            f"  realized-bar basis (ADR-0017): M1 artifact absent ({block['artifact']}); "
+            f"run {block.get('machinery', 'scripts/run_m1_overlap_report.py')} first. "
+            "No substitute is reported."
+        ]
+    blob = json.loads(artifact.read_text(encoding="utf-8"))
+    lines = [f"  realized-bar basis (ADR-0017; {block['artifact']}):"]
+    for pair in blob.get("pairs", []):
+        a, b = pair.get("experts", ["?", "?"])
+        lines.append(
+            f"    {a} <-> {b}: J_bar={pair.get('bar_level_jaccard')} "
+            f"J_session={pair.get('session_level_jaccard')} "
+            f"(prediction: {pair.get('pre_scan_prediction', {}).get('bar_level', 'n/a')})"
+        )
+    lines.append(
+        "    (both bases are reports; the exit code keys on the label rule — "
+        "ADR-0017 D2; neither basis gates mechanically)"
+    )
+    return lines
+
+
 def main() -> int:
+    # Robust console encoding: the M1 artifact carries non-cp1252 glyphs
+    # (e.g. the approx sign in frozen prediction strings); a Windows console
+    # must degrade to replacement characters, never crash the report.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="replace")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pool-ledger", default=None, help="pool ledger JSONL path")
     parser.add_argument("--schema", default=None, help="pool ledger schema YAML path")
@@ -219,6 +272,8 @@ def main() -> int:
     print(f"[verdict-precondition] {result.status}: {result.reason}", flush=True)
     for expert_hash, cells in sorted(result.coverage_by_hash.items()):
         print(f"  {expert_hash}: coverage = {sorted(cells)}", flush=True)
+    for line in realized_bar_report_lines(schema):
+        print(line, flush=True)
     if result.status == "MET":
         print(
             "  NOTE: MET is a report to the operator, not a trigger; the "

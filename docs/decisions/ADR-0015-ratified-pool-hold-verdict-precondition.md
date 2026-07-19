@@ -6,9 +6,16 @@ status: accepted
 date: 2026-07-18
 supersedes: ""
 superseded_by: ""
+amended_by: "ADR-0017 (accepted 2026-07-19)"
 ---
 
 # ADR-0015 — Ratified pool hold (verdict precondition at empty arsenal)
+
+> **AMENDED BY [ADR-0017](ADR-0017-realized-bar-verdict-precondition-input.md)
+> (accepted 2026-07-19):** the pairwise realized-bar Jaccard (M1 machinery)
+> is a first-class, reported verdict-precondition input alongside the label
+> rule below; the block stays provisional, operator-directed, and
+> reporting-check-only. The decision body below is not rewritten.
 
 > **STATUS: accepted (2026-07-18, principal direction).** This ADR records a
 > HOLD the operator ratified on 2026-07-18 and was accepted by the operator the

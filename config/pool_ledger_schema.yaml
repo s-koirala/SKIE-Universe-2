@@ -383,6 +383,21 @@ verdict_precondition:
     primary_record: >-
       docs/decisions/ADR-0015-ratified-pool-hold-verdict-precondition.md
       (LIFT AUTHORIZATION RECORD banner, 2026-07-19)
+  # ADR-0017 addendum (accepted 2026-07-19; amends ADR-0015 by addition —
+  # the keys above are unaltered): the realized-bar overlap is a
+  # FIRST-CLASS, REPORTED precondition input alongside the label rule.
+  realized_bar_input:
+    adr: ADR-0017 (accepted 2026-07-19)
+    statistic: >-
+      pairwise realized-bar Jaccard J(A,B) = |T_A n T_B| / |T_A u T_B| over
+      (instrument, bar_ts) tuples with non-zero exposure within passing
+      competence-window sessions, from the shadow ledger (ADR-0003);
+      session-level Jaccard reported alongside (two granularities).
+    machinery: scripts/run_m1_overlap_report.py
+    artifact: reports/M1_overlap/m1_realized_overlap.json
+    provisional: true
+    derivation: operator-directed, NOT calibrated  # no numeric cutoff exists (ADR-0017 D3)
+    enforcement: reporting-check-only  # both bases reported; neither gates mechanically
   consequence: >-
     At |arsenal| = 0 this defers the first admission, and the first admission
     is what authors the arsenal-covariance / residual-correlation anchor

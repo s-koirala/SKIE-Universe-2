@@ -23,6 +23,7 @@ from scripts.audits.check_verdict_precondition import (
     EXIT_MET,
     evaluate_precondition,
     main,
+    realized_bar_report_lines,
 )
 
 _MIN_REQUIRED = 2  # mirrors the operator instruction registered in the schema block
@@ -194,3 +195,62 @@ def test_main_exit_codes(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Non
         ["check", "--pool-ledger", str(tmp_path / "missing.jsonl"), "--schema", str(schema)],
     )
     assert main() == EXIT_ERROR
+
+
+class TestRealizedBarReport:
+    """ADR-0017 D2: the realized-bar basis is reported alongside; the exit
+    code stays keyed on the label rule; absence is stated, never substituted."""
+
+    def test_absent_addendum_reports_label_only(self, tmp_path: Path) -> None:
+        lines = realized_bar_report_lines(_write_schema(tmp_path))
+        assert len(lines) == 1
+        assert "no realized_bar_input addendum" in lines[0]
+
+    def test_absent_artifact_states_absence(self, tmp_path: Path) -> None:
+        cfg = tmp_path / "config"
+        cfg.mkdir()
+        schema = cfg / "pool_ledger_schema.yaml"
+        schema.write_text(
+            "verdict_precondition:\n"
+            "  min_distinct_disjoint_coverage: 2\n"
+            "  realized_bar_input:\n"
+            "    artifact: reports/M1_overlap/m1_realized_overlap.json\n"
+            "    machinery: scripts/run_m1_overlap_report.py\n",
+            encoding="utf-8",
+        )
+        lines = realized_bar_report_lines(schema)
+        assert len(lines) == 1
+        assert "M1 artifact absent" in lines[0]
+        assert "No substitute" in lines[0]
+
+    def test_present_artifact_renders_pairs(self, tmp_path: Path) -> None:
+        cfg = tmp_path / "config"
+        cfg.mkdir()
+        schema = cfg / "pool_ledger_schema.yaml"
+        schema.write_text(
+            "verdict_precondition:\n"
+            "  min_distinct_disjoint_coverage: 2\n"
+            "  realized_bar_input:\n"
+            "    artifact: reports/M1_overlap/m1_realized_overlap.json\n",
+            encoding="utf-8",
+        )
+        art = tmp_path / "reports" / "M1_overlap"
+        art.mkdir(parents=True)
+        (art / "m1_realized_overlap.json").write_text(
+            json.dumps(
+                {
+                    "pairs": [
+                        {
+                            "experts": ["a@1", "b@1"],
+                            "bar_level_jaccard": 0.0,
+                            "session_level_jaccard": 0.5,
+                            "pre_scan_prediction": {"bar_level": "EXACTLY 0"},
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        lines = realized_bar_report_lines(schema)
+        assert any("a@1 <-> b@1" in ln and "J_bar=0.0" in ln for ln in lines)
+        assert any("exit code keys on the label rule" in ln for ln in lines)
