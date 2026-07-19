@@ -1,0 +1,29 @@
+{
+  "config_resolved_sha256": "ac611bc4a786717a249c93b58b61ed5b400f686a18e4735b911e3db7137e10ef",
+  "dataset_checksums": {
+    "config/multipletest_family.yaml": "57b90cbea45eba7f72934f966c63e3e1c39e088bb218b0717767fe6c0385c98a",
+    "research/02_verdict/VERDICT-1_protocol.md": "ac611bc4a786717a249c93b58b61ed5b400f686a18e4735b911e3db7137e10ef",
+    "scripts/emit_verdict_disposition.py": "415eb01773ac2715a73138ef9f55d8a5a631bb942d8a8851446988b7a5c9ed44",
+    "scripts/run_verdict.py": "511dc22e5966b3260387e0aa69d35964228b15132f4d4423a927ed24995e77a3",
+    "src/skie_universe2/inference/hansen_spa.py": "ab2052bae0d8e0eb7d37d71cc5418030c9fb81258d02f1b924dca62118383235",
+    "src/skie_universe2/inference/romano_wolf.py": "618a3b8af18a4b5ee0f2c36b914d6cbf83c3784e154a231bba787023ba1d40af",
+    "src/skie_universe2/verdict/registry.py": "2c26245e4ebd646c8dc53760611bf0e8a720ad61be66ca749d0b508fe6cf0ea9"
+  },
+  "env_id": "c7aeb4014013e7ce56e49faa83e82b60cc3aba3bf6ab8b8b7f9ba21e9a431b97",
+  "git_dirty": true,
+  "git_head": "1ba07ffc40f6aec2b1fabdef9802477ebac513ca",
+  "host": {
+    "cpu": "AMD64",
+    "os": "Windows 10",
+    "python": "3.11.15"
+  },
+  "hypothesis_id": "VERDICT-1",
+  "model_hash": null,
+  "phase": "validation",
+  "pip_freeze_path": "logs/reproducibility/env/7473a06b20eda6e7806ae8176ce28fd1013c70d8a0d1f635855cb80a6fca14ed.txt",
+  "pip_freeze_sha256": "7473a06b20eda6e7806ae8176ce28fd1013c70d8a0d1f635855cb80a6fca14ed",
+  "rng_seed": 20260721,
+  "run_id": "f975dcef3c0545779c06ac7dcc41a1a6",
+  "timestamp_utc": "2026-07-19T22:43:25.400736+00:00",
+  "working_tree_hash": "aaf1d485063904e9a530a6eaa6732b5fef5a9afe4c949b2ecee0fedb90114aa7"
+}

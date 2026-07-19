@@ -135,32 +135,125 @@ def romano_wolf_stepm(
             if sd > 0:
                 boot[b, c] = (float(v.mean()) - means[c]) / (sd / np.sqrt(v.size))
 
-    # Step-down (Romano-Wolf 2016 efficient adjusted-p algorithm): order cells by
-    # observed stat descending; at position j the step-down p-value for cell c is
-    # P*(max centered-bootstrap-stat over the STILL-UNTESTED suffix {j, j+1, ...} >=
-    # stat_c), enforced monotone non-decreasing along the order. EVERY cell receives
-    # its adjusted p-value — the loop does NOT break at the first non-rejection (that
-    # would leave lower-ranked cells, including the pre-registered primary, at the 1.0
-    # initializer instead of their true stepdown-adjusted value).
+    adjusted, rejected = _stepdown_adjust(stats, boot, alpha=alpha, n_bootstrap=n_bootstrap)
+
+    return StepMResult(
+        stat=stats,
+        adjusted_pvalue=adjusted,
+        rejected=rejected,
+        alpha=alpha,
+        n_bootstrap=n_bootstrap,
+        block_length=float(block_length),
+    )
+
+
+def _stepdown_adjust(
+    stats: NDArray[np.float64],
+    boot: NDArray[np.float64],
+    *,
+    alpha: float,
+    n_bootstrap: int,
+) -> tuple[NDArray[np.float64], NDArray[np.bool_]]:
+    """Shared Romano-Wolf 2016 efficient step-down adjusted-p + consonance walk.
+
+    Extracted verbatim from the two variants (audit CODE-1-1; behavior pinned
+    by the existing masked-variant and panel test suites, including the k=1
+    masked/panel equivalence test). Order hypotheses by observed stat
+    descending; at position j the step-down p-value for hypothesis c is
+    P*(max centered-bootstrap-stat over the STILL-UNTESTED suffix
+    {j, j+1, ...} >= stat_c), enforced monotone non-decreasing along the
+    order. EVERY hypothesis receives its adjusted p-value — the loop does NOT
+    break at the first non-rejection (that would leave lower-ranked
+    hypotheses, including a pre-registered primary, at the 1.0 initializer).
+    Rejection then walks the order with step-down consonance: reject until
+    the first non-rejection.
+    """
+    n_hyp = stats.shape[0]
     order = np.argsort(-stats)
-    adjusted = np.ones(n_cells, dtype=np.float64)
+    adjusted = np.ones(n_hyp, dtype=np.float64)
     prev_p = 0.0
     for j, c in enumerate(order):
-        active = order[j:]  # this cell + all lower-stat cells (the untested suffix)
+        active = order[j:]  # this hypothesis + all lower-stat ones (untested suffix)
         active_boot_max = boot[:, active].max(axis=1)
         p = (1.0 + np.sum(active_boot_max >= stats[c])) / (1.0 + n_bootstrap)
         p = max(p, prev_p)  # monotone non-decreasing along the step-down order
         adjusted[c] = min(p, 1.0)
         prev_p = adjusted[c]
 
-    # Rejection with step-down consonance: walk the order and reject until the first
-    # non-rejection (a cell rejects only if all higher-stat cells rejected).
-    rejected = np.zeros(n_cells, dtype=bool)
+    rejected = np.zeros(n_hyp, dtype=bool)
     for c in order:
         if adjusted[c] <= alpha and np.isfinite(stats[c]):
             rejected[c] = True
         else:
             break
+    return adjusted, rejected
+
+
+def romano_wolf_stepm_panel(
+    panel: NDArray[np.float64],
+    *,
+    block_length: float,
+    rng: np.random.Generator,
+    n_bootstrap: int,
+    alpha: float = 0.05,
+    min_n: int = 2,
+) -> StepMResult:
+    """Stepdown max-t FWER control over a PANEL of one-sided mean hypotheses.
+
+    Panel counterpart of :func:`romano_wolf_stepm` (added 2026-07-19 for the
+    VERDICT-1 protocol; append-only — the masked variant above is untouched):
+    the family members are K distinct per-session value series over the SAME
+    session axis (e.g. the four registered Kelly-arm marginal-growth-delta
+    streams of one verdict candidate), rather than masked subsets of one
+    series. H0_k: ``E[panel[:, k]] <= 0``; one-sided studentized
+    ``t_k = mean_k / (sd_k / sqrt(t))`` with the identical degenerate-column
+    conventions as ``_cell_stats``; the joint null resamples ROWS with the
+    stationary bootstrap (cross-column dependence preserved — one index draw
+    per replicate applied to every column); the adjusted p-values use the
+    same Romano-Wolf 2016 efficient step-down algorithm and consonant
+    rejection walk as the masked variant, verbatim.
+
+    Parameters mirror :func:`romano_wolf_stepm`; ``panel`` has shape
+    ``(n_sessions, k)``. The panel must be fully finite (raises otherwise —
+    a partially-observed family is a different estimand), so every column
+    shares the same ``n_sessions`` row count and ``min_n`` binds ONCE at
+    the panel level (``n_sessions >= min_n`` enforced below); there is no
+    reachable per-column membership path in this variant (audit
+    CODE-1-3/QUANT-1-7 docstring correction). A degenerate (sd == 0)
+    column still gets the same ±inf convention as the masked variant.
+    """
+    x = np.asarray(panel, dtype=np.float64)
+    if x.ndim != 2:
+        raise ValueError(f"panel must be 2-D (n_sessions, k); got ndim={x.ndim}")
+    if not np.isfinite(x).all():
+        raise ValueError("panel contains non-finite values")
+    n_sessions, n_cols = x.shape
+    if n_sessions < min_n:
+        raise ValueError(f"need at least {min_n} sessions, got {n_sessions}")
+
+    means = np.full(n_cols, np.nan, dtype=np.float64)
+    stats = np.full(n_cols, -np.inf, dtype=np.float64)
+    for c in range(n_cols):
+        v = x[:, c]
+        m = float(v.mean())
+        sd = float(v.std(ddof=1))
+        means[c] = m
+        if sd > 0:
+            stats[c] = m / (sd / np.sqrt(v.size))
+        else:
+            stats[c] = np.inf if m > 0 else (-np.inf if m < 0 else 0.0)
+
+    boot = np.full((n_bootstrap, n_cols), -np.inf, dtype=np.float64)
+    for b in range(n_bootstrap):
+        idx = stationary_bootstrap_indices(n_sessions, block_length=block_length, rng=rng)
+        xb = x[idx]
+        for c in range(n_cols):
+            v = xb[:, c]
+            sd = float(v.std(ddof=1))
+            if sd > 0:
+                boot[b, c] = (float(v.mean()) - means[c]) / (sd / np.sqrt(v.size))
+
+    adjusted, rejected = _stepdown_adjust(stats, boot, alpha=alpha, n_bootstrap=n_bootstrap)
 
     return StepMResult(
         stat=stats,

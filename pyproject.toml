@@ -44,6 +44,18 @@ data = [
     # implementation. Declared here so the registered test is runnable in the pinned
     # reproducible env rather than silently falling back to the rolling exhibit.
     "statsmodels",
+    # justify: arch.bootstrap.SPA (Sheppard) is the vetted reference
+    # implementation of the Hansen 2005 SPA test
+    # (10.1198/073500105000000063); declared SOLELY as the numerical
+    # cross-validation benchmark for the frozen in-repo estimator
+    # src/skie_universe2/inference/hansen_spa.py (CLAUDE.md Verification:
+    # confirm numerical results against a reference implementation —
+    # the Phase C polars-benchmark precedent). The verdict machinery calls
+    # ONLY the frozen in-repo estimator, never arch. Pinned exactly (the
+    # polars precedent): the benchmark test couples to private internals
+    # (SPA._compute_variance / _check_column_validity), so an unpinned
+    # upgrade could silently break or weaken the cross-validation.
+    "arch==8.0.0",
 ]
 
 # Justify: the H900 dwell-time study (research/01_hypothesis_register/H900/

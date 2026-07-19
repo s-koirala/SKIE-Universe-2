@@ -622,6 +622,47 @@ families:
             in the screen artifact (cell_dependence)
         registered_at: "2026-07-19"
     registered_at: "2026-07-19"
+  - family_id: first-admission-verdict
+    # VERDICT-1 (protocol frozen 2026-07-19, research/02_verdict/
+    # VERDICT-1_protocol.md §6; registered BEFORE any verdict statistic per
+    # ADR-0008 D6 / the multipletest-gate). This block carries the
+    # POOL/ADMISSION-VERDICT dimension of the single ADR-0014 D4
+    # (config x Kelly x pool) family whose Phase-4 (allocator-config x
+    # Kelly) confirmation dimension lives in the accepted
+    # allocator-confirmation-kelly-sweep block above — ONE logical family
+    # registered across two scoped blocks; no trial appears in both; DSR
+    # counts use the CUMULATIVE register surface (protocol §6).
+    # PRE-REGISTERED SURFACE RULE (branch-enumerated): per adjudication,
+    # trials = candidate x 8 columns (instrument x Kelly arm; the
+    # session-aligned joint-panel geometry, VERDICT-1 protocol §1, audit
+    # QUANT-2-2) x the non-degenerate inference objects at the then-current
+    # augmented set size |U| —
+    #   |U| = 1: marginal/flat panel (8) + rotor rung (8)       = 16 trials
+    #   |U| >= 2: marginal (8) + rungs 1,3,4 (24) + rotor (8)   = 40 trials
+    # The 8 rotor trials per branch are declaredly Sharpe-less
+    # (distributional null; h900 non-Sharpe-trial precedent), so the DSR
+    # count surface and the dispersion surface differ only by that declared
+    # rotor exception (protocol §2.2 clause 4 / §6).
+    # No-admission branches consume and register the SAME surface;
+    # subsequent adjudications proceed at unchanged |U|. Per-trial records
+    # (VERDICT:{HID}:A{adjudication_index}:{instrument}:k{arm}:{object} —
+    # the instrument keeps each column-trial unique and the adjudication
+    # index keeps every append unique across re-adjudications of the same
+    # HID, audit QUANT-1-6/QUANT-2-2) appended by the verdict disposition
+    # emitter at adjudication time.
+    # CRITERION RE-DECISION (discovery-alpha memo §A.8(3), recorded BEFORE
+    # adjudication): retain-fwer stands as the INCUMBENT. Re-decision rule:
+    # at this family's first swept scan the cross-trial dependence is
+    # measured (pairwise-complete correlations of the trial differential
+    # streams) and appended here; a move to FDR/BH requires BOTH a
+    # documented PRDS/BY justification (prds_argument_ref non-null) AND a
+    # cost-analysis case — absent that affirmative case the criterion
+    # REMAINS retain-fwer.
+    correction: romano-wolf
+    prds_argument_ref: null
+    measured_dependence: null   # appended at first swept scan (rho_bar, n pairs)
+    trials: []   # appended by the VERDICT-1 disposition emitter (every adjudication, admit or not)
+    registered_at: "2026-07-19"
 # families:
 #   - family_id: <slug>
 #     correction: romano-wolf | benjamini-hochberg-prds | benjamini-yekutieli
