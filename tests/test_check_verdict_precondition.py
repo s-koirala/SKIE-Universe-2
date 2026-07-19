@@ -376,3 +376,15 @@ class TestLabelPathInputErrors:
         ledger = _write_ledger(tmp_path, [row, _record("b@1", ["NQ:y"])])
         with pytest.raises(ValueError, match="list of str"):
             evaluate_precondition(ledger, _write_schema(tmp_path))
+
+    def test_string_cells_via_main_exits_error(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        row = json.dumps(
+            {
+                "provenance": {"expert_hash": "a@1"},
+                "competence_structure": {"competence_window_cells": "ES:x"},
+            }
+        )
+        ledger = _write_ledger(tmp_path, [row])
+        assert self._run_main(monkeypatch, ledger, _write_schema(tmp_path)) == EXIT_ERROR

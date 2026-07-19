@@ -115,9 +115,10 @@ def _load_coverage_by_hash(pool_ledger_path: Path) -> dict[str, set[str]]:
                     f"got {type(provenance).__name__}"
                 )
             expert_hash = provenance.get("expert_hash")
-            if not expert_hash:
+            if not isinstance(expert_hash, str) or not expert_hash:
                 raise ValueError(
-                    f"{pool_ledger_path}:{line_no}: record missing provenance.expert_hash"
+                    f"{pool_ledger_path}:{line_no}: provenance.expert_hash must be a "
+                    "non-empty str"
                 )
             competence = record.get("competence_structure")
             if not isinstance(competence, dict) or "competence_window_cells" not in competence:
