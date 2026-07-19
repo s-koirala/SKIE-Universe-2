@@ -208,32 +208,56 @@ def realized_bar_report_lines(schema_path: Path) -> list[str]:
 
     Reads the artifact path from the schema's ``realized_bar_input`` addendum
     (never a hard-coded path) and renders the pairwise Jaccards. Pure
-    reporting: returns printable lines; absence of the addendum or the
-    artifact is stated plainly, never substituted (S6). The artifact path is
-    resolved relative to the schema's repo root (schema lives in config/).
+    reporting: returns printable lines; absence OR unreadability of the
+    addendum/artifact is stated plainly, never substituted, and never
+    propagated as an exception (round-1 audit CR-1-1: the label-keyed exit
+    code must be unreachable by any realized-bar reporting failure). The
+    artifact path is tried relative to the schema's parent-of-parent (the
+    ``config/`` layout) then the schema's own directory (root layouts,
+    round-1 audit CR-1-2); both tried paths are named on absence.
     """
-    schema = yaml.safe_load(schema_path.read_text(encoding="utf-8"))
-    block = (schema.get("verdict_precondition") or {}).get("realized_bar_input")
+    try:
+        schema = yaml.safe_load(schema_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError, yaml.YAMLError) as exc:
+        return [
+            f"  realized-bar basis (ADR-0017): schema unreadable for the addendum "
+            f"({exc.__class__.__name__}); label basis only. No substitute is reported."
+        ]
+    block = ((schema or {}).get("verdict_precondition") or {}).get("realized_bar_input")
     if not isinstance(block, dict) or "artifact" not in block:
         return [
             "  realized-bar basis (ADR-0017): schema carries no realized_bar_input "
             "addendum; label basis only."
         ]
-    artifact = schema_path.resolve().parent.parent / block["artifact"]
-    if not artifact.is_file():
+    roots = (schema_path.resolve().parent.parent, schema_path.resolve().parent)
+    candidates = [r / block["artifact"] for r in roots]
+    artifact = next((p for p in candidates if p.is_file()), None)
+    if artifact is None:
+        tried = "; ".join(str(r / block["artifact"]) for r in roots)
         return [
-            f"  realized-bar basis (ADR-0017): M1 artifact absent ({block['artifact']}); "
+            f"  realized-bar basis (ADR-0017): M1 artifact absent (tried {tried}); "
             f"run {block.get('machinery', 'scripts/run_m1_overlap_report.py')} first. "
             "No substitute is reported."
         ]
-    blob = json.loads(artifact.read_text(encoding="utf-8"))
+    try:
+        blob = json.loads(artifact.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        return [
+            f"  realized-bar basis (ADR-0017): M1 artifact unreadable "
+            f"({exc.__class__.__name__}: {exc}); no substitute is reported."
+        ]
     lines = [f"  realized-bar basis (ADR-0017; {block['artifact']}):"]
-    for pair in blob.get("pairs", []):
-        a, b = pair.get("experts", ["?", "?"])
+    pairs = blob.get("pairs") if isinstance(blob, dict) else None
+    for pair in pairs if isinstance(pairs, list) else []:
+        if not isinstance(pair, dict):
+            lines.append("    (malformed pair entry skipped)")
+            continue
+        experts = pair.get("experts")
+        a, b = (list(experts) + ["?", "?"])[:2] if isinstance(experts, list) else ("?", "?")
         lines.append(
             f"    {a} <-> {b}: J_bar={pair.get('bar_level_jaccard')} "
             f"J_session={pair.get('session_level_jaccard')} "
-            f"(prediction: {pair.get('pre_scan_prediction', {}).get('bar_level', 'n/a')})"
+            f"(prediction: {(pair.get('pre_scan_prediction') or {}).get('bar_level', 'n/a')})"
         )
     lines.append(
         "    (both bases are reports; the exit code keys on the label rule — "
@@ -245,9 +269,11 @@ def realized_bar_report_lines(schema_path: Path) -> list[str]:
 def main() -> int:
     # Robust console encoding: the M1 artifact carries non-cp1252 glyphs
     # (e.g. the approx sign in frozen prediction strings); a Windows console
-    # must degrade to replacement characters, never crash the report.
-    if hasattr(sys.stdout, "reconfigure"):
-        sys.stdout.reconfigure(errors="replace")
+    # must degrade to replacement characters, never crash the report — on
+    # BOTH channels (stderr carries exception text; round-1 audit CR-1-4).
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(errors="replace")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pool-ledger", default=None, help="pool ledger JSONL path")
     parser.add_argument("--schema", default=None, help="pool ledger schema YAML path")
@@ -272,8 +298,17 @@ def main() -> int:
     print(f"[verdict-precondition] {result.status}: {result.reason}", flush=True)
     for expert_hash, cells in sorted(result.coverage_by_hash.items()):
         print(f"  {expert_hash}: coverage = {sorted(cells)}", flush=True)
-    for line in realized_bar_report_lines(schema):
-        print(line, flush=True)
+    # Belt-and-braces (CR-1-1): the function is total by construction, but no
+    # realized-bar reporting failure may ever reach the label-keyed exit code.
+    try:
+        for line in realized_bar_report_lines(schema):
+            print(line, flush=True)
+    except Exception as exc:  # noqa: BLE001 — deliberate contract guard, degraded to a report line
+        print(
+            f"  realized-bar basis (ADR-0017): reporting failed "
+            f"({exc.__class__.__name__}); label basis only.",
+            flush=True,
+        )
     if result.status == "MET":
         print(
             "  NOTE: MET is a report to the operator, not a trigger; the "

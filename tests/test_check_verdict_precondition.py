@@ -254,3 +254,68 @@ class TestRealizedBarReport:
         lines = realized_bar_report_lines(schema)
         assert any("a@1 <-> b@1" in ln and "J_bar=0.0" in ln for ln in lines)
         assert any("exit code keys on the label rule" in ln for ln in lines)
+
+
+class TestRealizedBarRobustness:
+    """CR-1-1/CR-1-3/CR-1-5: no realized-bar reporting failure may reach the
+    label-keyed exit code; malformed inputs degrade to plain report lines."""
+
+    def _schema_with_artifact(self, tmp_path: Path) -> Path:
+        cfg = tmp_path / "config"
+        cfg.mkdir()
+        schema = cfg / "pool_ledger_schema.yaml"
+        schema.write_text(
+            "verdict_precondition:\n"
+            "  min_distinct_disjoint_coverage: 2\n"
+            "  realized_bar_input:\n"
+            "    artifact: reports/M1_overlap/m1_realized_overlap.json\n",
+            encoding="utf-8",
+        )
+        return schema
+
+    def test_corrupt_artifact_degrades_to_line(self, tmp_path: Path) -> None:
+        schema = self._schema_with_artifact(tmp_path)
+        art = tmp_path / "reports" / "M1_overlap"
+        art.mkdir(parents=True)
+        (art / "m1_realized_overlap.json").write_text("{not json", encoding="utf-8")
+        lines = realized_bar_report_lines(schema)
+        assert len(lines) == 1
+        assert "unreadable" in lines[0]
+        assert "no substitute is reported" in lines[0].lower()
+
+    def test_malformed_experts_entry_degrades(self, tmp_path: Path) -> None:
+        schema = self._schema_with_artifact(tmp_path)
+        art = tmp_path / "reports" / "M1_overlap"
+        art.mkdir(parents=True)
+        (art / "m1_realized_overlap.json").write_text(
+            json.dumps({"pairs": [{"experts": ["only_one"], "bar_level_jaccard": 0.1}, "junk"]}),
+            encoding="utf-8",
+        )
+        lines = realized_bar_report_lines(schema)
+        assert any("only_one <-> ?" in ln for ln in lines)
+        assert any("malformed pair entry skipped" in ln for ln in lines)
+
+    def test_main_exit_code_immune_to_corrupt_artifact(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture
+    ) -> None:
+        """A MET label verdict must exit 0 even when the M1 artifact is corrupt
+        (ADR-0017 D2: the exit code keys on the label rule)."""
+        schema = self._schema_with_artifact(tmp_path)
+        art = tmp_path / "reports" / "M1_overlap"
+        art.mkdir(parents=True)
+        (art / "m1_realized_overlap.json").write_text("{corrupt", encoding="utf-8")
+        ledger = _write_ledger(
+            tmp_path,
+            [
+                _record("expert_a@1.0.0", ["ES:cell_a"]),
+                _record("expert_b@1.0.0", ["NQ:cell_b"]),
+            ],
+        )
+        monkeypatch.setattr(
+            "sys.argv",
+            ["check", "--pool-ledger", str(ledger), "--schema", str(schema)],
+        )
+        assert main() == EXIT_MET
+        out = capsys.readouterr().out
+        assert "MET" in out
+        assert "unreadable" in out
