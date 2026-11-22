@@ -1,0 +1,85 @@
+{
+  "schema_version": "WI-3-§2-v1",
+  "deliverable": "Canonical hypothesis-agnostic performance-tearsheet tooling (library + template + CLI + tests) and the first rendered instance (H107 EMA_9 k1.0)",
+  "date": "2026-11-22",
+  "repo_head": "2c24fe0c1942fb3fb52ef65b82814d18887e2934",
+  "worktree_clean": false,
+  "mechanism": "audit-remediate-loop, parallel-Agent fallback (not the Workflow engine); 2 specialist branches (code-reviewer, quant-auditor) + each branch's adversarial refute step; converged round 1, all findings remediated.",
+  "rounds_completed": 1,
+  "rounds_cap": 3,
+  "cap_reached": false,
+  "termination": "converged",
+  "verdict": "accept",
+  "counts": {"critical": 0, "major": 2, "minor": 11, "remediated": 13, "refuted_dropped": 2, "logged_no_change": 0, "deferred": 0},
+  "branches": [
+    {
+      "branch": "quant-auditor",
+      "verdict": "accept",
+      "clean_checks": ["equity/drawdown log-compounding", "Sortino N-denominator (Sortino-Price 1994)", "CAGR/annualization no double-count", "expectancy == mean*1e4 identity", "monthly compounding", "mc prob_loss = P(terminal<1)", "tuple precedence of mean/sd guard"],
+      "findings": [
+        {"id": "F-1-1", "severity": "minor", "target": "subject", "disposition": "remediated",
+         "summary": "drawdown/MaxDD/Calmar referenced the first-bar close, not the 1.0 inception, excluding a first-session loss from drawdown.",
+         "remediation": "drawdown() and mc_cone maxdd now prepend 1.0 to the equity path before cummax; test_drawdown_captures_first_session_loss added."},
+        {"id": "F-1-2", "severity": "minor", "target": "subject", "disposition": "remediated",
+         "summary": "profit_factor computed on log-return sums, not the canonical simple-return gross-profit/gross-loss.",
+         "remediation": "profit_factor now = sum(expm1(r)[>0]) / |sum(expm1(r)[<0])|; test expectation updated to 2.045556."},
+        {"id": "F-1-3", "severity": "minor", "target": "subject", "disposition": "remediated",
+         "summary": "Sortino guarded to 0.0 on zero downside, colliding with a genuinely poor value.",
+         "remediation": "returns +inf when dsd==0 and mean>0 (round_floats -> None -> template '—'); test updated to math.isinf."},
+        {"id": "F-1-4", "severity": "minor", "target": "apparatus", "disposition": "remediated",
+         "summary": "iid MC docstring did not state the directional consequence of discarding serial dependence.",
+         "remediation": "module + mc_cone docstrings now state the iid resampling understates cone/maxdd risk under positive autocorrelation."}
+      ]
+    },
+    {
+      "branch": "code-reviewer",
+      "verdict": "proceed-with-remediation",
+      "clean_checks": ["_ledger_session_sums byte-equivalent to run_screen_h107", "turnover = cost/(switch_drag_notional/2) matches grid_screen", "net_central reproduces grid_screen net_descriptive", "_ninjatrader_variants isolates the E-mini parent (no MES/ES swap)"],
+      "findings": [
+        {"id": "CR-1-1", "severity": "major", "target": "subject", "disposition": "remediated",
+         "summary": "_screen_cell read sd['dsr_bound'] directly; grid_screen._dsr_block omits it on a degenerate cell -> KeyError crashes the whole build.",
+         "remediation": "all construction-dependent s_d fields read via .get(); degenerate cell renders 'degenerate (no bound)' / '—' instead of crashing."},
+        {"id": "CR-1-2", "severity": "major", "target": "subject", "disposition": "remediated",
+         "summary": "template carried no Content-Security-Policy; a standalone file:// report had no script-source/egress enforcement.",
+         "remediation": "template is now a complete HTML document with a meta CSP (default-src 'none'; connect-src 'none'; script-src cdnjs + 'unsafe-inline'; style/font from Google Fonts; img data:/self)."},
+        {"id": "CR-1-3", "severity": "minor", "target": "subject", "disposition": "remediated",
+         "summary": "dead local spy_sqrt=None (ruff F841).", "remediation": "removed."},
+        {"id": "CR-1-4", "severity": "minor", "target": "subject", "disposition": "remediated",
+         "summary": "no <!DOCTYPE html> -> quirks mode.", "remediation": "added DOCTYPE + html/head/body (with CR-1-2)."},
+        {"id": "CR-1-5", "severity": "minor", "target": "subject", "disposition": "remediated",
+         "summary": "args.title substituted into <title> unescaped; __TITLE__ replaced before __DATA__.",
+         "remediation": "html.escape(title) and substitute __DATA__ first."},
+        {"id": "CR-1-6", "severity": "minor", "target": "subject", "disposition": "remediated",
+         "summary": "no finite-guard on the gross/cost panel (a ruin -inf row would become a silent null).",
+         "remediation": "SystemExit naming the offending session_date(s) if gross/cost not all finite, matching grid_screen's contract."},
+        {"id": "CR-1-7", "severity": "minor", "target": "subject", "disposition": "remediated",
+         "summary": "function-local imports (yaml, per_unit_drag).", "remediation": "hoisted to the top import block."},
+        {"id": "CR-1-8", "severity": "minor", "target": "apparatus", "disposition": "remediated",
+         "summary": "bare exhibit constants (n_mc/cone_points/bins/downsample/seed) lacked a # justify note.",
+         "remediation": "lifted to named module constants with a # justify block (diagnostic-resolution rationale; seed mirrors run_screen_h107)."},
+        {"id": "CR-1-9", "severity": "minor", "target": "apparatus", "disposition": "remediated",
+         "summary": "public return_hist had no docstring.", "remediation": "one-line docstring added."}
+      ],
+      "refuted_dropped": [
+        {"id": "CR-R1", "claim": "MES/ES contract-selection bug in _ninjatrader_variants", "refutation": "the contract != symbol clause provably excludes micros; E-mini parent isolated."},
+        {"id": "CR-R2", "claim": "turnover reconstruction diverges from the screen", "refutation": "the /2.0 half-notional drag and median-reference-price construction are byte-identical across build_tearsheet and grid_screen."}
+      ]
+    }
+  ],
+  "verification": {
+    "ruff": "clean (src/skie_universe2/reporting, scripts/build_tearsheet.py, tests/test_tearsheet.py)",
+    "pytest": "tests/test_tearsheet.py 10 passed",
+    "regeneration": "H107 instance reproduces ES -77.2%/Sharpe -0.855, NQ -23.9%/-0.126 after fixes (MaxDD stable; first-session not the worst DD)",
+    "html": "generated report has DOCTYPE + CSP, parses, closes body/html; app JS node --check OK"
+  },
+  "residual_risks": [
+    "The MC cone is an iid path-reshuffle; under serial dependence it understates risk (now documented; a stationary-block variant per Politis-Romano 1994 is a possible future option, not implemented).",
+    "CR-1-2 CSP uses script-src 'unsafe-inline' for the page's own inline bootstrap (no hash/nonce) — acceptable for a trusted self-generated file with the title escaped and the JSON non-executable; default-src/connect-src 'none' still block all egress.",
+    "Sampling caveat: two specialist branches (code quality, statistical-formula fidelity) at effort default via the parallel-Agent fallback; critical-reviewer / scope-auditor / reproducibility branches were not run (the tooling emits no ReproLog — it is a diagnostic renderer, not an artifact-producing inference run). Where no empirical check applied (the HTML contract, magic-number style), the refute gate ran without an empirical backstop."
+  ],
+  "ai_assistance": {
+    "models": "Claude Opus 4.8 (claude-opus-4-8) — author and both audit branches (inherited session default)",
+    "roles": "idea=user (make the tearsheet canonical); code=Claude (library/template/CLI/tests); audit=Claude (2 branches + refute gates)",
+    "repro_log_dir": "n/a — diagnostic renderer, no artifact-producing inference run"
+  }
+}

@@ -193,7 +193,7 @@ uv run pytest
 - **Python version pin:** `>=3.11,<3.13`
 - **Bootstrap script HEAD:** `fe9bcd1b6fee` (see `manifest.json`)
 
-Progress (as of 2026-07-19):
+Progress (as of 2026-11-22):
 
 - **Dwell-time feasibility gate (ADR-0004 Decision 6) — CLOSED GO.** H900
   established dwell-time separation feasible; first registered analysis, opens
@@ -510,18 +510,36 @@ Progress (as of 2026-07-19):
   authorizes nothing. Nothing certified; no Kelly fraction selected; arsenal
   EMPTY; ADR-0010 untouched. STOPPED at the F stop rule (Phase-4 entry NOT
   authorized this session).
-- **H107 (session-VWAP × EMA(N) crossover grid) — DESIGN FROZEN, NOT YET RUN
-  (2026-11-22).** Principal-proposed practitioner rule: sign(EMA_N − CME-session
-  VWAP), always-in, flat 15:00–17:00 CT; EMA span a registered 7-point grid
-  (14 trials; `n_trials_gate` 87). Grid screen
-  [grid_screen.py](src/skie_universe2/screening/grid_screen.py) (panel
-  Romano-Wolf, grid CSCV PBO, DSR); NinjaTrader cost schedule
-  [ninjatrader_v1.yaml](config/cost_schedules/ninjatrader_v1.yaml) for
-  ES/NQ/MES/MNQ (descriptive at screen, binding at verdict). Design SHA
-  `912198045de4`; 1-round audit accept
+- **H107 (session-VWAP × EMA(N) crossover grid) — EXECUTED, disposition
+  `archive-no-persistent-window` (2026-11-22).** Principal-proposed practitioner
+  rule: sign(EMA_N − CME-session VWAP), always-in, flat 15:00–17:00 CT; EMA span
+  a registered 7-point grid (14 trials; `n_trials_gate` 87). Design SHA
+  `912198045de4`; freeze audit
   ([trail](docs/audits/audit_trail_2026-11-22_h107-preregistration.md)).
-  Run sequence (data machine): design §11. A regime-bias successor is declared
-  with binding constraints (design §1). Arsenal EMPTY; nothing certified.
+  Backfilled 56 `vwap_ema*` k-sweep streams (ES+NQ × 7 spans × 4 Kelly, 28.57M
+  rows) — a driver fix deferred the per-write whole-project manifest rebuild to
+  one post-loop pass
+  ([run_shadow_ledger_backfill.py](scripts/run_shadow_ledger_backfill.py)) — then
+  ran RC-H107-1 ([run_screen_h107.py](scripts/run_screen_h107.py) →
+  [rc_h107_1_screen.json](reports/H107/rc_h107_1_screen.json)): **13/14 cells pass
+  S-c gross + PBO, but DSR ≈ 1e-24…1e-15 on every cell** (≪ the 0.2599 bound) and
+  **net is loss-making at every NinjaTrader cost variant** — no grid point
+  survives the 87-trial deflation. NOT admitted; `pool_ledger` unchanged (0 pool
+  records); Expert Card v1 emitted; `rc-h107-1` +14 trials; arsenal EMPTY; no
+  Kelly fraction or EMA span selected. 4-branch audit-remediate accept
+  ([trail](docs/audits/audit_trail_h107-screen_2026-11-22.md)); commit `2c24fe0`.
+  A regime-bias successor is declared with binding constraints (design §1).
+- **Canonical performance-tearsheet tooling (2026-11-22).** Hypothesis-agnostic
+  reporting module [tearsheet.py](src/skie_universe2/reporting/tearsheet.py)
+  (equity / drawdown / iid-bootstrap Monte Carlo / monthly / platform metrics;
+  9 tests), data-driven template
+  [tearsheet_template.html](docs/templates/tearsheet_template.html), and CLI
+  [build_tearsheet.py](scripts/build_tearsheet.py) render any shadow-ledger
+  `expert_id` into a MultiCharts/TradingView-style report (a diagnostic exhibit;
+  certifies nothing). First instance: the H107 EMA_9 k1.0 report
+  [reports/H107/H107_tearsheet.html](reports/H107/H107_tearsheet.html) — gross
+  marginally positive, net destroyed by whipsaw (ES terminal 0.23×, Monte-Carlo
+  P(loss) 99.7%).
 
 ## Directory layout
 

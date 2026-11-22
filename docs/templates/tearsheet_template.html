@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src https://cdnjs.cloudflare.com 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>__TITLE__</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  /* Canonical SKIE tearsheet — fixed header + scrolling terminal panels; one accent (cyan), semantic green/red for P&L; series tokens s0..s4. */
+  :root{
+    --bg:#f4f6f9; --panel:#ffffff; --panel2:#eef1f6; --fg:#121820; --muted:#5a6676;
+    --grid:#dce1e8; --line:#c8d0da; --accent:#0e7c86; --accent2:#8a94a3; --onaccent:#ffffff;
+    --pos:#108a4e; --neg:#c0392b; --warn:#b7791f; --warnbg:#fbeec3;
+    --s0:#0e7c86; --s1:#c0392b; --s2:#8a5a00; --s3:#6b3fa0; --s4:#1f6feb;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#0b0f14; --panel:#131a22; --panel2:#0f151c; --fg:#e6edf3; --muted:#8b97a6;
+    --grid:#1f2a36; --line:#2a3744; --accent:#3fd0c9; --accent2:#5a6676; --onaccent:#06201f;
+    --pos:#35d07f; --neg:#ff5d5d; --warn:#f0b429; --warnbg:#3a2e12;
+    --s0:#3fd0c9; --s1:#ff5d5d; --s2:#f0b429; --s3:#c08cff; --s4:#58a6ff; color-scheme:dark;
+  }}
+  :root[data-theme="dark"]{
+    --bg:#0b0f14; --panel:#131a22; --panel2:#0f151c; --fg:#e6edf3; --muted:#8b97a6;
+    --grid:#1f2a36; --line:#2a3744; --accent:#3fd0c9; --accent2:#5a6676; --onaccent:#06201f;
+    --pos:#35d07f; --neg:#ff5d5d; --warn:#f0b429; --warnbg:#3a2e12;
+    --s0:#3fd0c9; --s1:#ff5d5d; --s2:#f0b429; --s3:#c08cff; --s4:#58a6ff; color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;margin:0;line-height:1.45}
+  .wrap{max-width:1180px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;margin:0;text-wrap:balance}
+  .mono{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+  header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);border-bottom:1px solid var(--line);
+    padding-block:14px;display:flex;flex-wrap:wrap;gap:12px 18px;align-items:baseline}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+  .brand{display:flex;flex-direction:column;gap:2px}
+  .brand h1{font-size:1.32rem;letter-spacing:-.01em}
+  .brand .sub{color:var(--muted);font-size:.8rem}
+  .spacer{flex:1 1 40px}
+  .pill{font-size:.72rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:5px 10px;border-radius:999px;
+    background:var(--warnbg);color:var(--warn);border:1px solid color-mix(in srgb,var(--warn) 40%,transparent);white-space:nowrap}
+  .toggle{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
+  .toggle button{font:inherit;font-weight:600;font-size:.82rem;padding:6px 16px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+  .toggle button[aria-pressed="true"]{background:var(--accent);color:var(--onaccent)}
+  section{margin-top:22px}
+  .eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-bottom:8px}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+  .tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 14px;display:flex;flex-direction:column;gap:3px;min-width:0}
+  .tile .lab{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+  .tile .val{font-family:'IBM Plex Mono',monospace;font-size:1.5rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}
+  .tile .sub{font-size:.74rem;color:var(--muted);font-family:'IBM Plex Mono',monospace}
+  .pos{color:var(--pos)} .neg{color:var(--neg)}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+  .panel h3{font-size:.98rem;margin-bottom:2px}
+  .panel .note{font-size:.76rem;color:var(--muted);margin-bottom:12px}
+  .cols{display:grid;gap:16px}
+  @media(min-width:760px){.cols.two{grid-template-columns:1fr 1fr}.cols.wide{grid-template-columns:1.6fr 1fr}}
+  .chartbox{position:relative;height:300px}
+  .chartbox.sm{height:220px}
+  table.perf{width:100%;border-collapse:collapse;font-size:.85rem}
+  table.perf th,table.perf td{text-align:right;padding:7px 8px;border-bottom:1px solid var(--grid)}
+  table.perf th:first-child,table.perf td:first-child{text-align:left;color:var(--muted);font-weight:500}
+  table.perf thead th{color:var(--muted);font-weight:600;font-size:.74rem;text-transform:uppercase;letter-spacing:.04em}
+  table.perf td.mono{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+  .tablewrap{overflow-x:auto}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.78rem;color:var(--muted);margin-top:10px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .swatch{width:12px;height:3px;border-radius:2px;display:inline-block}
+  .heat{display:grid;grid-template-columns:auto repeat(12,1fr) auto;gap:3px;font-size:.68rem;min-width:620px}
+  .heat .hh{color:var(--muted);text-align:center;font-weight:600;padding:3px 0}
+  .heat .yr{color:var(--muted);font-weight:600;font-family:'IBM Plex Mono',monospace;display:flex;align-items:center}
+  .heat .cell{border-radius:3px;padding:5px 2px;text-align:center;font-family:'IBM Plex Mono',monospace;color:var(--fg);min-width:0}
+  .heat .cell.empty{background:transparent}
+  .heat .ytd{font-weight:600;border-left:2px solid var(--line)}
+  .verdict{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  .gate{background:var(--panel2);border:1px solid var(--grid);border-radius:9px;padding:11px 12px}
+  .gate .g-lab{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+  .gate .g-val{font-family:'IBM Plex Mono',monospace;font-size:1.05rem;font-weight:600;margin-top:3px}
+  .gate .g-sub{font-size:.72rem;color:var(--muted);margin-top:2px}
+  .tag{display:inline-block;font-size:.68rem;font-weight:700;padding:1px 7px;border-radius:4px;letter-spacing:.03em}
+  .tag.fail{background:color-mix(in srgb,var(--neg) 18%,transparent);color:var(--neg)}
+  .tag.pass{background:color-mix(in srgb,var(--pos) 18%,transparent);color:var(--pos)}
+  .foot{margin-top:28px;font-size:.74rem;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+  .callout{font-size:.86rem;line-height:1.5}
+  .callout b{color:var(--fg)}
+  .seriestoggle{display:inline-flex;gap:4px;margin-left:auto}
+  .seriestoggle button{font:inherit;font-size:.72rem;font-weight:600;padding:3px 9px;border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--muted);cursor:pointer}
+  .seriestoggle button[aria-pressed="true"]{background:var(--panel2);color:var(--fg);border-color:var(--accent)}
+  @media(max-width:520px){.brand h1{font-size:1.12rem}.tile .val{font-size:1.3rem}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="brand"><h1 id="hTitle"></h1><span class="sub" id="hSub"></span></div>
+    <span class="pill" id="dispoPill" hidden></span>
+    <div class="spacer"></div>
+    <div class="toggle" id="instToggle" role="group" aria-label="Instrument"></div>
+  </header>
+
+  <section>
+    <div class="eyebrow" id="heroEyebrow"></div>
+    <div class="tiles" id="heroTiles"></div>
+  </section>
+
+  <section class="cols wide">
+    <div class="panel">
+      <h3>Equity curve <span style="font-weight:400;color:var(--muted);font-size:.8rem">(compounded, log scale)</span></h3>
+      <div class="note">Starting equity = 1.0×. Per-session compounded log-wealth.</div>
+      <div class="chartbox"><canvas id="equityChart"></canvas></div>
+      <div class="legend" id="equityLegend"></div>
+    </div>
+    <div class="panel">
+      <h3>Drawdown</h3>
+      <div class="note" id="ddNote"></div>
+      <div class="chartbox"><canvas id="ddChart"></canvas></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h3>Performance summary</h3>
+    <div class="note">Per-session compounded log-wealth. Bps = per-session basis points. Sharpe/Sortino annualized by realized sessions/year.</div>
+    <div class="tablewrap"><table class="perf" id="perfTable"></table></div>
+  </section>
+
+  <section class="cols two">
+    <div class="panel">
+      <h3>Monte Carlo <span style="font-weight:400;color:var(--muted);font-size:.8rem" id="mcSub"></span></h3>
+      <div class="note">Iid bootstrap of per-session returns — percentile cone of compounded wealth.</div>
+      <div class="chartbox"><canvas id="mcChart"></canvas></div>
+      <div class="legend" id="mcLegend"></div>
+    </div>
+    <div class="panel">
+      <h3>Terminal-wealth distribution</h3>
+      <div class="note">Where the resampled equity paths end. 1.0× = break-even.</div>
+      <div class="chartbox sm"><canvas id="termChart"></canvas></div>
+      <div class="callout" id="mcCallout" style="margin-top:12px"></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:8px">
+      <h3>Monthly returns</h3>
+      <div class="seriestoggle" id="heatToggle"></div>
+    </div>
+    <div class="note">Compounded return per calendar month, % (red = loss, green = gain).</div>
+    <div class="tablewrap"><div class="heat" id="heatmap"></div></div>
+  </section>
+
+  <section class="cols two">
+    <div class="panel">
+      <h3>Per-session return distribution</h3>
+      <div class="note" id="histNote"></div>
+      <div class="chartbox sm"><canvas id="histChart"></canvas></div>
+    </div>
+    <div class="panel" id="verdictPanel" hidden>
+      <h3>Screen verdict</h3>
+      <div class="note" id="verdictNote"></div>
+      <div class="verdict" id="verdictGrid"></div>
+      <div class="callout" id="verdictCallout" style="margin-top:12px"></div>
+    </div>
+  </section>
+
+  <div class="foot" id="foot"></div>
+</div>
+
+<script id="reportdata" type="application/json">__DATA__</script>
+<script>
+let REPORT=null, SYM=null, HEAT_S=null;
+const charts={};
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const col=spec=>{const m=/var\((--[\w-]+)\)/.exec(spec);return m?css(m[1]):spec;};
+const fmtPct=x=>(x==null||!isFinite(x))?"—":(x>=0?"+":"")+x.toFixed(2)+"%";
+const fmtNum=(x,d=3)=>(x==null||!isFinite(x))?"—":x.toFixed(d);
+const fmtBps=x=>(x==null||!isFinite(x))?"—":(x>=0?"+":"")+x.toFixed(2);
+const signCls=x=>x>0?"pos":(x<0?"neg":"");
+const seriesByKey=k=>REPORT.series.find(s=>s.key===k);
+function destroy(){Object.values(charts).forEach(c=>c&&c.destroy());}
+function axisOpts(){const g=css('--grid'),m=css('--muted');return{grid:{color:g},ticks:{color:m,font:{family:"'IBM Plex Mono',monospace",size:10}}};}
+
+function heroTiles(d){
+  const pk=REPORT.primary_net_key, gk=REPORT.gross_key;
+  const g=d.metrics[pk], gg=d.metrics[gk];
+  const sameGross=pk===gk;
+  const sub=v=>sameGross?"":"gross "+v;
+  const items=[
+    {lab:"Net return",val:fmtPct(g.total_return_pct),cls:signCls(g.total_return_pct),sub:sub(fmtPct(gg.total_return_pct))},
+    {lab:"CAGR",val:fmtPct(g.cagr_pct),cls:signCls(g.cagr_pct),sub:sub(fmtPct(gg.cagr_pct))},
+    {lab:"Sharpe (ann.)",val:fmtNum(g.sharpe_ann),cls:signCls(g.sharpe_ann),sub:sub(fmtNum(gg.sharpe_ann))},
+    {lab:"Max drawdown",val:fmtPct(g.max_drawdown_pct),cls:"neg",sub:sub(fmtPct(gg.max_drawdown_pct))},
+    {lab:"Profit factor",val:fmtNum(g.profit_factor,3),cls:signCls(g.profit_factor-1),sub:sub(fmtNum(gg.profit_factor,3))},
+    {lab:"Win rate",val:g.win_rate_pct.toFixed(1)+"%",cls:"",sub:g.n_sessions+" sessions"},
+  ];
+  document.getElementById('heroTiles').innerHTML=items.map(i=>
+    `<div class="tile"><span class="lab">${i.lab}</span><span class="val ${i.cls}">${i.val}</span><span class="sub">${i.sub}</span></div>`).join('');
+}
+
+function perfTable(d){
+  const rows=[
+    ["Total return %",m=>fmtPct(m.total_return_pct)],["CAGR %",m=>fmtPct(m.cagr_pct)],
+    ["Sharpe (annualized)",m=>fmtNum(m.sharpe_ann)],["Sortino (annualized)",m=>fmtNum(m.sortino_ann)],
+    ["Max drawdown %",m=>fmtPct(m.max_drawdown_pct)],["Calmar",m=>fmtNum(m.calmar)],
+    ["Mean / session (bps)",m=>fmtBps(m.mean_bps)],["Volatility / session (bps)",m=>fmtNum(m.std_bps,2)],
+    ["Win rate %",m=>m.win_rate_pct.toFixed(1)+"%"],["Profit factor",m=>fmtNum(m.profit_factor,3)],
+    ["Avg win (bps)",m=>fmtBps(m.avg_win_bps)],["Avg loss (bps)",m=>fmtBps(m.avg_loss_bps)],
+    ["Best / worst (bps)",m=>fmtBps(m.best_bps)+" / "+fmtBps(m.worst_bps)],["Turnover / session",m=>fmtNum(m.avg_turnover,1)],
+  ];
+  let h="<thead><tr><th>Metric</th>"+REPORT.series.map(s=>`<th>${s.label}</th>`).join("")+"</tr></thead><tbody>";
+  for(const [lab,fn] of rows)
+    h+=`<tr><td>${lab}</td>`+REPORT.series.map(s=>`<td class="mono">${fn(d.metrics[s.key])}</td>`).join("")+"</tr>";
+  document.getElementById('perfTable').innerHTML=h+"</tbody>";
+}
+
+function equityChart(d){
+  charts.eq=new Chart(document.getElementById('equityChart'),{type:'line',data:{labels:d.dates_ds,
+    datasets:REPORT.series.map(s=>({label:s.label,data:d.equity[s.key],borderColor:col(s.color),
+      borderWidth:s.dash?1.3:1.6,borderDash:s.dash?[4,3]:[],pointRadius:0,tension:.05}))},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+": "+c.parsed.y.toFixed(3)+"×"}}},
+      scales:{x:{...axisOpts(),ticks:{...axisOpts().ticks,maxTicksLimit:8,autoSkip:true}},
+        y:{type:'logarithmic',...axisOpts(),ticks:{...axisOpts().ticks,callback:v=>v+"×"}}}}});
+  document.getElementById('equityLegend').innerHTML=REPORT.series.map(s=>
+    `<span><i class="swatch" style="background:${s.color}"></i>${s.label}</span>`).join("");
+}
+
+function ddChart(d){
+  const pk=REPORT.primary_net_key, gk=REPORT.gross_key;
+  const ds=[{label:seriesByKey(pk).label+" DD",data:d.drawdown[pk],borderColor:col(seriesByKey(pk).color),
+    backgroundColor:'color-mix(in srgb,'+col(seriesByKey(pk).color)+' 22%,transparent)',fill:true,borderWidth:1.2,pointRadius:0,tension:.05}];
+  if(gk!==pk)ds.push({label:"Gross DD",data:d.drawdown[gk],borderColor:css('--accent2'),borderWidth:1,pointRadius:0,tension:.05});
+  charts.dd=new Chart(document.getElementById('ddChart'),{type:'line',data:{labels:d.dates_ds,datasets:ds},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+": "+c.parsed.y.toFixed(1)+"%"}}},
+      scales:{x:{...axisOpts(),ticks:{...axisOpts().ticks,maxTicksLimit:8,autoSkip:true}},
+        y:{...axisOpts(),ticks:{...axisOpts().ticks,callback:v=>v+"%"}}}}});
+  document.getElementById('ddNote').textContent="Underwater equity, % from peak ("+seriesByKey(pk).label+").";
+}
+
+function mcChart(d){
+  const mc=d.mc[REPORT.mc_cone_key]; if(!mc)return;
+  const a=css('--accent'), netc=col(seriesByKey(REPORT.primary_net_key).color);
+  charts.mc=new Chart(document.getElementById('mcChart'),{type:'line',data:{labels:mc.t_index,datasets:[
+    {label:'95',data:mc.p95,borderColor:'transparent',backgroundColor:'color-mix(in srgb,'+a+' 10%,transparent)',pointRadius:0,fill:'+1',tension:.05},
+    {label:'5',data:mc.p05,borderColor:'transparent',pointRadius:0,fill:false,tension:.05},
+    {label:'75',data:mc.p75,borderColor:'transparent',backgroundColor:'color-mix(in srgb,'+a+' 16%,transparent)',pointRadius:0,fill:'+1',tension:.05},
+    {label:'25',data:mc.p25,borderColor:'transparent',pointRadius:0,fill:false,tension:.05},
+    {label:'Median',data:mc.p50,borderColor:netc,borderWidth:1.4,pointRadius:0,tension:.05},
+    {label:'Break-even',data:mc.t_index.map(_=>1),borderColor:css('--muted'),borderWidth:1,borderDash:[5,4],pointRadius:0},
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{filter:i=>['Median','Break-even'].includes(i.dataset.label),callbacks:{label:c=>c.dataset.label+": "+c.parsed.y.toFixed(3)+"×"}}},
+    scales:{x:{display:false},y:{type:'logarithmic',...axisOpts(),ticks:{...axisOpts().ticks,callback:v=>v+"×"}}}}});
+  document.getElementById('mcLegend').innerHTML=
+    `<span><i class="swatch" style="background:${seriesByKey(REPORT.primary_net_key).color}"></i>Median path</span>
+     <span><i class="swatch" style="background:color-mix(in srgb,var(--accent) 40%,transparent)"></i>5–95 / 25–75 pctile</span>
+     <span><i class="swatch" style="background:var(--muted)"></i>Break-even (1.0×)</span>`;
+}
+
+function termChart(d){
+  const mc=d.mc[REPORT.mc_cone_key]; if(!mc)return;
+  const t=mc.terminal, c=t.hist_counts, e=t.hist_edges;
+  const labels=c.map((_,i)=>((e[i]+e[i+1])/2).toFixed(2));
+  const cols=labels.map(x=>parseFloat(x)<1?css('--neg'):css('--pos'));
+  charts.term=new Chart(document.getElementById('termChart'),{type:'bar',data:{labels,datasets:[{data:c,backgroundColor:cols,borderWidth:0,barPercentage:1,categoryPercentage:1}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>"≈ "+i[0].label+"×",label:c=>c.parsed.y+" paths"}}},
+      scales:{x:{...axisOpts(),ticks:{...axisOpts().ticks,maxTicksLimit:7,autoSkip:true,callback:function(v){return this.getLabelForValue(v)+"×"}}},y:{...axisOpts()}}}});
+  document.getElementById('mcCallout').innerHTML=
+    `Terminal wealth: <b class="mono">${t.p05.toFixed(2)}×</b> / <b class="mono">${t.p50.toFixed(2)}×</b> / <b class="mono">${t.p95.toFixed(2)}×</b> (5th/median/95th). `+
+    `Probability of ending below break-even: <b class="${t.prob_loss_pct>50?'neg':'pos'}">${t.prob_loss_pct.toFixed(1)}%</b>.`;
+}
+
+function histChart(d){
+  const pk=REPORT.primary_net_key, h=d.ret_hist[pk], c=h.counts, e=h.edges;
+  const labels=c.map((_,i)=>((e[i]+e[i+1])/2).toFixed(0));
+  const cols=labels.map(x=>parseFloat(x)<0?css('--neg'):css('--pos'));
+  charts.hist=new Chart(document.getElementById('histChart'),{type:'bar',data:{labels,datasets:[{data:c,backgroundColor:cols,borderWidth:0,barPercentage:1,categoryPercentage:1}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>"≈ "+i[0].label+" bps",label:c=>c.parsed.y+" sessions"}}},
+      scales:{x:{...axisOpts(),ticks:{...axisOpts().ticks,maxTicksLimit:9,autoSkip:true}},y:{...axisOpts()}}}});
+  document.getElementById('histNote').textContent=seriesByKey(pk).label+", bps per session.";
+}
+
+function heatmap(d){
+  const rows=d.monthly[HEAT_S];
+  const months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  let maxAbs=1e-4;
+  rows.forEach(r=>r.months.forEach(v=>{if(v!=null)maxAbs=Math.max(maxAbs,Math.abs(v));}));
+  const color=v=>{if(v==null)return "transparent";
+    const a=Math.min(1,Math.abs(v)/maxAbs)*0.82+0.08;
+    return `color-mix(in srgb,${v>=0?css('--pos'):css('--neg')} ${(a*100).toFixed(0)}%,transparent)`;};
+  let h=`<div class="hh"></div>`+months.map(m=>`<div class="hh">${m}</div>`).join("")+`<div class="hh">YTD</div>`;
+  for(const r of rows){
+    h+=`<div class="yr">${r.year}</div>`;
+    for(let i=0;i<12;i++){const v=r.months[i];
+      h+= v==null?`<div class="cell empty"></div>`:`<div class="cell" style="background:${color(v)}" title="${months[i]} ${r.year}: ${v.toFixed(2)}%">${v.toFixed(1)}</div>`;}
+    h+=`<div class="cell ytd" style="background:${color(r.ytd_pct)}">${r.ytd_pct.toFixed(1)}</div>`;
+  }
+  document.getElementById('heatmap').innerHTML=h;
+}
+
+function verdict(d){
+  const panel=document.getElementById('verdictPanel');
+  const s=d.screen;
+  if(!s||!s.gates){panel.hidden=true;return;}
+  panel.hidden=false;
+  document.getElementById('verdictNote').innerHTML=s.note||"";
+  document.getElementById('verdictGrid').innerHTML=s.gates.map(g=>
+    `<div class="gate"><div class="g-lab">${g.lab}</div><div class="g-val">${g.val}</div>
+     <div class="g-sub">${g.sub||""} <span class="tag ${g.pass?'pass':'fail'}">${g.tag}</span></div></div>`).join("");
+  document.getElementById('verdictCallout').innerHTML=s.callout||"";
+}
+
+function render(){
+  const d=REPORT.instruments[SYM];
+  destroy();
+  heroTiles(d);perfTable(d);equityChart(d);ddChart(d);mcChart(d);termChart(d);histChart(d);heatmap(d);verdict(d);
+}
+
+function boot(){
+  document.getElementById('hTitle').textContent=REPORT.title;
+  document.getElementById('hSub').textContent=REPORT.subtitle;
+  document.getElementById('heroEyebrow').textContent="Headline — "+REPORT.cost_note;
+  document.getElementById('mcSub').textContent="("+REPORT.n_mc.toLocaleString()+" resamples, "+seriesByKey(REPORT.mc_cone_key).label+")";
+  if(REPORT.disposition){const p=document.getElementById('dispoPill');p.hidden=false;p.textContent=REPORT.disposition.split("(")[0].trim();}
+  // instrument toggle
+  SYM=REPORT.instrument_order[0];
+  document.getElementById('instToggle').innerHTML=REPORT.instrument_order.map((s,i)=>
+    `<button data-sym="${s}" aria-pressed="${i===0}">${s}</button>`).join("");
+  document.getElementById('instToggle').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+    SYM=b.dataset.sym;[...e.currentTarget.children].forEach(x=>x.setAttribute('aria-pressed',x===b));render();});
+  // heatmap series toggle (primary net + gross)
+  HEAT_S=REPORT.primary_net_key;
+  const hopts=[[REPORT.primary_net_key,"Net"]]; if(REPORT.gross_key!==REPORT.primary_net_key)hopts.push([REPORT.gross_key,"Gross"]);
+  document.getElementById('heatToggle').innerHTML=hopts.map((o,i)=>
+    `<button data-s="${o[0]}" aria-pressed="${i===0}">${o[1]}</button>`).join("");
+  document.getElementById('heatToggle').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+    HEAT_S=b.dataset.s;[...e.currentTarget.children].forEach(x=>x.setAttribute('aria-pressed',x===b));heatmap(REPORT.instruments[SYM]);});
+  const dispo=REPORT.disposition?(" · disposition "+REPORT.disposition):"";
+  document.getElementById('foot').innerHTML=
+    `${REPORT.hid}${dispo}. ${REPORT.note} Monte Carlo: ${REPORT.n_mc.toLocaleString()} iid bootstrap resamples, seed ${REPORT.seed}. `+
+    `Generated ${REPORT.generated}. Diagnostic exhibit — not investment advice.`;
+  render();
+}
+
+try{REPORT=JSON.parse(document.getElementById('reportdata').textContent);boot();}
+catch(e){document.querySelector('.wrap').insertAdjacentHTML('afterbegin','<p style="color:var(--neg);padding:20px">Could not parse report data: '+e+'</p>');}
+</script>
+</body>
+</html>
