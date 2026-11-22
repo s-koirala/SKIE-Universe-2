@@ -26,6 +26,7 @@ from __future__ import annotations
 import argparse
 import json
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -251,6 +252,35 @@ def run_backfill(
     return 0
 
 
+def _rebuild_full_manifest(paths: ProjectPaths) -> None:
+    """One whole-project data-manifest rebuild after the backfill loop.
+
+    The writer's per-write ``_rebuild_data_manifest`` re-hashes the ENTIRE
+    project ledger after every ``write_partitions`` call. Across a parameter
+    grid that is one write per (span x instrument) — 14 writes for the H107
+    EMA grid — the rebuild is repeated 14x over an ever-growing ledger and
+    crossed the writer's hardcoded 600s cap at the ema9 ES write. Deferring it
+    (``update_manifest=False`` on the canonical writer) and running a single
+    catch-up pass here yields the identical end-state manifest (ADR-0011
+    Decision 4: every partition SHA present) at a fraction of the work and with
+    no per-write timeout, which the single long pass must not inherit.
+    """
+    script = paths.root / "scripts" / "build_data_manifest.py"
+    if not script.is_file():
+        # Hard fail, not a soft skip: with the per-write rebuild deferred, this
+        # single pass is the ONLY thing that brings data/_manifest.json current,
+        # so a missing builder must not exit 0 with a stale/partial manifest
+        # (ADR-0011 Decision 4 is load-bearing here). code-reviewer Minor-1.
+        raise FileNotFoundError(
+            f"Manifest builder not found at {script}; the deferred single rebuild "
+            "cannot run and the canonical ledger manifest would be left stale "
+            "(ADR-0011 D4). Refusing to report success."
+        )
+    print("[manifest] rebuilding data/_manifest.json (single post-backfill pass)", flush=True)
+    subprocess.run([sys.executable, str(script), "--root", str(paths.root)], check=True)
+    print("[manifest] data/_manifest.json rebuilt", flush=True)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -297,8 +327,12 @@ def main() -> int:
             "for a canonical evidence backfill (frozen design H101)."
         )
     hyp = args.hypothesis_id or args.expert.upper()
-    writer = ShadowLedgerWriter(paths=paths)  # canonical data/processed/shadow_ledger/
-    return run_backfill(
+    # Defer the data-manifest rebuild to a single post-loop pass: the writer's
+    # per-write whole-project rebuild does not scale across a parameter grid
+    # (14 writes for the H107 EMA grid) and exceeded the 600s cap at ema9. The
+    # end-state manifest is identical; resume skips already-complete streams.
+    writer = ShadowLedgerWriter(paths=paths, update_manifest=False)  # canonical ledger
+    rc = run_backfill(
         paths,
         experts=experts,
         hypothesis_id=hyp,
@@ -307,6 +341,9 @@ def main() -> int:
         writer=writer,
         label=hyp,
     )
+    if rc == 0:
+        _rebuild_full_manifest(paths)
+    return rc
 
 
 if __name__ == "__main__":

@@ -1,0 +1,98 @@
+{
+  "schema_version": "WI-3-§2-v1",
+  "deliverable": "RC-H107-1 ADR-0014 SCREEN of the session-VWAP x EMA(N) crossover grid (H107); disposition + Expert Card v1",
+  "date": "2026-11-22",
+  "repo_head": "a4cf00454e8c97dbf45cd492f4fd3d4bcae8a1a4",
+  "worktree_clean": false,
+  "disposition_of_record": "archive-no-persistent-window",
+  "mechanism": "audit-remediate-loop, parallel-Agent fallback (not the Workflow engine); 4 specialist branches + each branch's adversarial refute step; 3-round cap, converged round 1",
+  "rounds_completed": 1,
+  "rounds_cap": 3,
+  "cap_reached": false,
+  "termination": "converged",
+  "verdict": "accept",
+  "counts": {
+    "critical": 0,
+    "major": 2,
+    "minor": 6,
+    "remediated": 3,
+    "refuted_dropped": 5,
+    "logged_no_change": 6,
+    "deferred": 0
+  },
+  "branches": [
+    {
+      "branch": "literature-check",
+      "verdict": "accept",
+      "findings": [
+        {"id": "L-1", "severity": "minor", "target": "subject", "disposition": "logged",
+         "summary": "Gao-Han-Li-Zhou 2018 (doi 10.1016/j.jfineco.2018.05.009) exists, attributed correctly in every field, used within scope with explicit hedging; Crossref PENDING flag empirically discharged.",
+         "note": "Discharge recorded here only; design.md is frozen (SHA 912198045de4) and not edited."}
+      ]
+    },
+    {
+      "branch": "code-reviewer",
+      "verdict": "accept",
+      "scope": "scripts/run_shadow_ledger_backfill.py defer-manifest change",
+      "findings": [
+        {"id": "CR-Minor-1", "severity": "minor", "target": "subject", "disposition": "remediated",
+         "summary": "builder-missing was a soft-skip returning exit 0 with a stale manifest (silent ADR-0011 D4 waiver on success).",
+         "remediation": "_rebuild_full_manifest now raises FileNotFoundError on missing builder (loud fail, matching check=True philosophy)."},
+        {"id": "CR-Minor-2", "severity": "minor", "target": "apparatus", "disposition": "logged",
+         "summary": "check=True is the intended loud-fail; confirmed correct, no change."},
+        {"id": "CR-Minor-3", "severity": "minor", "target": "subject", "disposition": "logged",
+         "summary": "unbounded subprocess.run on the single deferred pass; acceptable tradeoff vs reintroducing a magic-number timeout; no change."},
+        {"id": "CR-Minor-4", "severity": "minor", "target": "apparatus", "disposition": "logged",
+         "summary": "capture_output omitted vs the per-write path (builder output streams to console); benign, no manifest-content effect."}
+      ],
+      "central_guarantee": "deferred single build_data_manifest.py pass is a whole-tree catch-all rebuild; end-state manifest byte-equivalent to 14 per-write rebuilds; ADR-0011 D4 satisfied; resume/skip idempotent."
+    },
+    {
+      "branch": "quant-auditor",
+      "verdict": "accept",
+      "findings": [],
+      "refuted_candidates": [
+        {"id": "QA-R1", "claim": "DSR floored/degenerate", "refutation": "no clip/guard triggered; DSR varies smoothly 2.98e-24..1.30e-15 tracking Sharpe; independent z-score recompute (per-session SR ~0.02 vs 87-trial benchmark 0.1909, z ~ -8 to -10) matches reported to leading order; console 0.000 is :.3f rounding, JSON carries full precision."},
+        {"id": "QA-R2", "claim": "S-c used masked estimator / wrong block column", "refutation": "explicit romano_wolf_stepm_panel call on T x 7 g; block length from g[:, k_primary=ema9]; monotone adjusted-p vector matches panel step-down."},
+        {"id": "QA-R3", "claim": "level transcribed not read", "refutation": "screen_level(paths) reads YAML at runtime; dsr_bound = 1 - 0.7400550140326007 to full precision (exactly complementary)."},
+        {"id": "QA-R4", "claim": "PBO matrix mis-constructed", "refutation": "inner-join panel fully finite; member_only_sharpe = per-column Sharpe; S=16 -> C(16,8)=12870 as reported."},
+        {"id": "QA-R5", "claim": "routing should be screen-pass or no-gross-edge", "refutation": "no cell clears all gates (DSR fails all); S-c passes somewhere so no-gross-edge sub-reason correctly not taken."}
+      ],
+      "observational_note": "DSR count surface (87) and dispersion surface (32) differ; design-acknowledged (§8 audit finding 6); immaterial since DSR ~1e-15 << 0.2599 bound."
+    },
+    {
+      "branch": "reproducibility-verifier",
+      "verdict": "reproducible-with-gaps",
+      "findings": [
+        {"id": "F-1", "severity": "major", "target": "subject", "disposition": "remediated",
+         "summary": "design §11 does not reproduce from clean HEAD a4cf004 (needs the uncommitted defer-manifest driver patch).",
+         "remediation": "commit the executed tree (driver patch + manifest + artifacts) in this trail's commit; the frozen §11 commands then reproduce against the committed patched driver (driver is referenced infra, not part of the frozen design; design SHA unchanged)."},
+        {"id": "F-2", "severity": "major", "target": "subject", "disposition": "remediated",
+         "summary": "entire run executed on a dirty working tree; HEAD pins env (uv.lock) but not the code/manifest, only working_tree_hash does.",
+         "remediation": "same commit pins the executed tree; ReproLogs record git_dirty=true + working_tree_hash so the executed code was content-addressable meanwhile."},
+        {"id": "F-3", "severity": "minor", "target": "subject", "disposition": "logged",
+         "summary": "screen binds substrate via data/_manifest.json rather than re-hashing scanned parquet bytes; no manifest-vs-disk --check gate in §11 or the screen.",
+         "note": "empirically clean this run: verifier recomputed the vwap_ema9_cross_k1.0 digest -> exact match to the screen ReproLog; append-only ledger + immediate single rebuild + tight timeline (last write 17:02 UTC -> rebuild -> screen 17:19 UTC).",
+         "follow_up": "P1-2.0-SCREEN-MANIFEST-DISK-CHECK (proposed): add a build_data_manifest.py --check assertion (manifest == disk) as the screen's first step."}
+      ],
+      "passes": [
+        "13-field ReproLog on all 15 runs (14 backfill + screen); model_hash=null correct (rule-based causal expert).",
+        "four-way design-SHA identity (912198045de4) across screen JSON design_md_sha256, ReproLog config_resolved_sha256, dataset_checksums[design.md], on-disk recompute.",
+        "substrate-checksum binding: 7 grid-ledger digests + 22 substrate parquets + register + cost schedule + design.",
+        "seed determinism: SEED_SC=20261122 (screen), backfill SEED=20260716, both recorded and used.",
+        "manifest-deferral end-state verified byte-equivalent (recomputed ema9 k1.0 digest matches)."
+      ]
+    }
+  ],
+  "residual_risks": [
+    "F-3: screen substrate binding is manifest-mediated, not re-hashed from scanned bytes (empirically clean this run; follow-up registered).",
+    "quant-auditor residual: upstream ledger gross/turnover generation and register-trial Sharpes feeding sr_std are outside the screen's code/scope (ledger provenance separately confirmed by the ReproLogs).",
+    "CR-Minor-3: the single deferred manifest pass runs unbounded (no timeout) by design.",
+    "Sampling caveat: four specialist branches (citation, code, statistical fidelity, reproducibility) at effort default; critical-reviewer and scope-auditor of the full orchestrate contract were NOT run as separate branches this round (parallel-Agent fallback, scoped to the delegation spec); the frozen design itself carries a prior 1-round upstream audit (SHA 912198045de4)."
+  ],
+  "ai_assistance": {
+    "models": "Claude Opus 4.8 (claude-opus-4-8) — orchestrator and all four specialist branches (inherited session default; agent defs specify no model override)",
+    "roles": "idea=operator (principal-proposed rule); code=Claude (defer-manifest driver fix); execution=Claude (frozen backfill/screen/emit harness); audit=Claude (4 branches)",
+    "repro_log_dir": "logs/reproducibility/"
+  }
+}

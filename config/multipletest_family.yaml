@@ -998,7 +998,147 @@ families:
     # (scripts/emit_screen_expert_card_v1.py --hid H107).
     correction: romano-wolf
     prds_argument_ref: null
-    trials: []   # appended by RC-H107-1 at scan time (pass or fail, every cell)
+    trials:   # per-cell records, RC-H107-1 screen (ADR-0008 D6)
+      - hid: H107:ES:ema3
+        sharpe_estimate: -0.014932
+        return_series_ref: data/processed/shadow_ledger/expert_id=vwap_ema3_cross_k1.0@1.0.0 (cell per reports/H107/rc_h107_1_screen.json)
+        clustering:
+          cluster_key: h107-ledger-es-cell-overlap
+          notes: >-
+            correlated EMA-span grid points (separate ledgers, same rule
+            family, common session axis); N_eff via the pairwise grid
+            correlation recorded in the screen artifact (cell_dependence)
+        registered_at: "2026-11-22"
+      - hid: H107:ES:ema5
+        sharpe_estimate: 0.013191
+        return_series_ref: data/processed/shadow_ledger/expert_id=vwap_ema5_cross_k1.0@1.0.0 (cell per reports/H107/rc_h107_1_screen.json)
+        clustering:
+          cluster_key: h107-ledger-es-cell-overlap
+          notes: >-
+            correlated EMA-span grid points (separate ledgers, same rule
+            family, common session axis); N_eff via the pairwise grid
+            correlation recorded in the screen artifact (cell_dependence)
+        registered_at: "2026-11-22"
+      - hid: H107:ES:ema9
+        sharpe_estimate: 0.018454
+        return_series_ref: data/processed/shadow_ledger/expert_id=vwap_ema9_cross_k1.0@1.0.0 (cell per reports/H107/rc_h107_1_screen.json)
+        clustering:
+          cluster_key: h107-ledger-es-cell-overlap
+          notes: >-
+            correlated EMA-span grid points (separate ledgers, same rule
+            family, common session axis); N_eff via the pairwise grid
+            correlation recorded in the screen artifact (cell_dependence)
+        registered_at: "2026-11-22"
+      - hid: H107:ES:ema13
+        sharpe_estimate: 0.008425
+        return_series_ref: data/processed/shadow_ledger/expert_id=vwap_ema13_cross_k1.0@1.0.0 (cell per reports/H107/rc_h107_1_screen.json)
+        clustering:
+          cluster_key: h107-ledger-es-cell-overlap
+          notes: >-
+            correlated EMA-span grid points (separate ledgers, same rule
+            family, common session axis); N_eff via the pairwise grid
+            correlation recorded in the screen artifact (cell_dependence)
+        registered_at: "2026-11-22"
+      - hid: H107:ES:ema21
+        sharpe_estimate: 0.015639
+        return_series_ref: data/processed/shadow_ledger/expert_id=vwap_ema21_cross_k1.0@1.0.0 (cell per reports/H107/rc_h107_1_screen.json)
+        clustering:
+          cluster_key: h107-ledger-es-cell-overlap
+          notes: >-
+            correlated EMA-span grid points (separate ledgers, same rule
+            family, common session axis); N_eff via the pairwise grid
+            correlation recorded in the screen artifact (cell_dependence)
+        registered_at: "2026-11-22"
+      - hid: H107:ES:ema34
+        sharpe_estimate: 0.024159
+        return_series_ref: data/processed/shadow_ledger/expert_id=vwap_ema34_cross_k1.0@1.0.0 (cell per reports/H107/rc_h107_1_screen.json)
+        clustering:
+          cluster_key: h107-ledger-es-cell-overlap
+          notes: >-
+            correlated EMA-span grid points (separate ledgers, same rule
+            family, common session axis); N_eff via the pairwise grid
+            correlation recorded in the screen artifact (cell_dependence)
+        registered_at: "2026-11-22"
+      - hid: H107:ES:ema55
+        sharpe_estimate: 0.025244
+        return_series_ref: data/processed/shadow_ledger/expert_id=vwap_ema55_cross_k1.0@1.0.0 (cell per reports/H107/rc_h107_1_screen.json)
+        clustering:
+          cluster_key: h107-ledger-es-cell-overlap
+          notes: >-
+            correlated EMA-span grid points (separate ledgers, same rule
+            family, common session axis); N_eff via the pairwise grid
+            correlation recorded in the screen artifact (cell_dependence)
+        registered_at: "2026-11-22"
+      - hid: H107:NQ:ema3
+        sharpe_estimate: 0.023612
+        return_series_ref: data/processed/shadow_ledger/expert_id=vwap_ema3_cross_k1.0@1.0.0 (cell per reports/H107/rc_h107_1_screen.json)
+        clustering:
+          cluster_key: h107-ledger-nq-cell-overlap
+          notes: >-
+            correlated EMA-span grid points (separate ledgers, same rule
+            family, common session axis); N_eff via the pairwise grid
+            correlation recorded in the screen artifact (cell_dependence)
+        registered_at: "2026-11-22"
+      - hid: H107:NQ:ema5
+        sharpe_estimate: 0.032209
+        return_series_ref: data/processed/shadow_ledger/expert_id=vwap_ema5_cross_k1.0@1.0.0 (cell per reports/H107/rc_h107_1_screen.json)
+        clustering:
+          cluster_key: h107-ledger-nq-cell-overlap
+          notes: >-
+            correlated EMA-span grid points (separate ledgers, same rule
+            family, common session axis); N_eff via the pairwise grid
+            correlation recorded in the screen artifact (cell_dependence)
+        registered_at: "2026-11-22"
+      - hid: H107:NQ:ema9
+        sharpe_estimate: 0.032695
+        return_series_ref: data/processed/shadow_ledger/expert_id=vwap_ema9_cross_k1.0@1.0.0 (cell per reports/H107/rc_h107_1_screen.json)
+        clustering:
+          cluster_key: h107-ledger-nq-cell-overlap
+          notes: >-
+            correlated EMA-span grid points (separate ledgers, same rule
+            family, common session axis); N_eff via the pairwise grid
+            correlation recorded in the screen artifact (cell_dependence)
+        registered_at: "2026-11-22"
+      - hid: H107:NQ:ema13
+        sharpe_estimate: 0.023549
+        return_series_ref: data/processed/shadow_ledger/expert_id=vwap_ema13_cross_k1.0@1.0.0 (cell per reports/H107/rc_h107_1_screen.json)
+        clustering:
+          cluster_key: h107-ledger-nq-cell-overlap
+          notes: >-
+            correlated EMA-span grid points (separate ledgers, same rule
+            family, common session axis); N_eff via the pairwise grid
+            correlation recorded in the screen artifact (cell_dependence)
+        registered_at: "2026-11-22"
+      - hid: H107:NQ:ema21
+        sharpe_estimate: 0.019060
+        return_series_ref: data/processed/shadow_ledger/expert_id=vwap_ema21_cross_k1.0@1.0.0 (cell per reports/H107/rc_h107_1_screen.json)
+        clustering:
+          cluster_key: h107-ledger-nq-cell-overlap
+          notes: >-
+            correlated EMA-span grid points (separate ledgers, same rule
+            family, common session axis); N_eff via the pairwise grid
+            correlation recorded in the screen artifact (cell_dependence)
+        registered_at: "2026-11-22"
+      - hid: H107:NQ:ema34
+        sharpe_estimate: 0.018861
+        return_series_ref: data/processed/shadow_ledger/expert_id=vwap_ema34_cross_k1.0@1.0.0 (cell per reports/H107/rc_h107_1_screen.json)
+        clustering:
+          cluster_key: h107-ledger-nq-cell-overlap
+          notes: >-
+            correlated EMA-span grid points (separate ledgers, same rule
+            family, common session axis); N_eff via the pairwise grid
+            correlation recorded in the screen artifact (cell_dependence)
+        registered_at: "2026-11-22"
+      - hid: H107:NQ:ema55
+        sharpe_estimate: 0.011698
+        return_series_ref: data/processed/shadow_ledger/expert_id=vwap_ema55_cross_k1.0@1.0.0 (cell per reports/H107/rc_h107_1_screen.json)
+        clustering:
+          cluster_key: h107-ledger-nq-cell-overlap
+          notes: >-
+            correlated EMA-span grid points (separate ledgers, same rule
+            family, common session axis); N_eff via the pairwise grid
+            correlation recorded in the screen artifact (cell_dependence)
+        registered_at: "2026-11-22"
     registered_at: "2026-11-22"
 # families:
 #   - family_id: <slug>

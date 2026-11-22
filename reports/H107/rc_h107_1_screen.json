@@ -1,0 +1,1068 @@
+{
+  "cost_schedule": "config/cost_schedules/ninjatrader_v1.yaml",
+  "decision_rule": "ADR-0014 SCREEN over the registered grid: a grid point passes iff S-a canary AND mean gross > 0 AND panel-RW-adjusted p < 0.7400550140326007 (S-c) AND DSR >= 0.2599 AND grid PBO <= 0.7400550140326007 (S-d) AND S-e (lag 0). NOTHING certified; net columns descriptive.",
+  "design_md_sha256": "912198045de4bee2dbffebf9efaa2998c8553431c2898f1367cebf8fd24b1397",
+  "disposition": "archive-no-persistent-window (gross edge present in >= 1 grid point but persistence gates fail)",
+  "dwell_bars_per_session": 263.0,
+  "family_shape": "parameter-grid panel (K expert ids x common session axis)",
+  "hypothesis_id": "H107",
+  "instruments": [
+    {
+      "block_length": 5.995975864944492,
+      "block_length_source": "politis-white on primary column ema9",
+      "canary": {
+        "instrument": "ES",
+        "n_bars": 5000,
+        "pass": true,
+        "spans": [
+          3,
+          5,
+          9,
+          13,
+          21,
+          34,
+          55
+        ]
+      },
+      "cell_dependence": {
+        "n_eff_corr_adjusted_reported": 1.4102541556183692,
+        "n_estimable_pairs": 21,
+        "rho_bar_pairwise": 0.7057093920813571
+      },
+      "cells": [
+        {
+          "cell": "ema3",
+          "mean_gross": -0.0001566446597409012,
+          "mean_turnover_per_session": 25.708523908523908,
+          "n": 2405,
+          "net_descriptive": {
+            "ES/free/central": -0.0015915790624794824,
+            "ES/free/pessimistic": -0.0035584504200441283,
+            "ES/lifetime/central": -0.0014814387156812223,
+            "ES/lifetime/pessimistic": -0.00344830164647982,
+            "ES/monthly/central": -0.0015443759989296698,
+            "ES/monthly/pessimistic": -0.003511243745014311,
+            "MES/free/central": -0.002619053887575662,
+            "MES/free/pessimistic": -0.00458600385830803,
+            "MES/lifetime/central": -0.0021470082867617694,
+            "MES/lifetime/pessimistic": -0.004113922140403984,
+            "MES/monthly/central": -0.0024617043909203468,
+            "MES/monthly/pessimistic": -0.004428642322475289
+          },
+          "rw_adj_pvalue": 0.7622377622377622,
+          "s_c_pass": false,
+          "s_d": {
+            "dsr": 2.981974221989993e-24,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0,
+            "n_eff_hac": 2405,
+            "n_trials_gate": 87,
+            "pass": false,
+            "pbo": 0.49642579642579643,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              -0.0005721790948135659,
+              -0.0007413369196409658,
+              -0.0013478308333625328,
+              -9.609588611560191e-05,
+              0.00010762483674850437,
+              -7.299552949351879e-05,
+              0.0028908050937904834,
+              -0.00218527038164785,
+              0.0004215434997335196,
+              0.0011518266704543699,
+              0.00019596840703321695,
+              0.00024302670845942744,
+              -0.0003829360348649488,
+              -0.0009043052003332659,
+              -0.0008279273793636227
+            ],
+            "positive_window_fraction": 0.4
+          },
+          "s_e": {
+            "cell_dwell_bars": 263.0,
+            "cell_mechanism": "rule-based-causal-expert (grid point)",
+            "note": "lag-0 rule: S-e definitionally satisfied (reported, not discriminating)",
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": -0.01493192530041696,
+          "stat": -0.732273552431906
+        },
+        {
+          "cell": "ema5",
+          "mean_gross": 0.00013562263496468097,
+          "mean_turnover_per_session": 20.265696465696465,
+          "n": 2405,
+          "net_descriptive": {
+            "ES/free/central": -0.0009955175719782697,
+            "ES/free/pessimistic": -0.0025459767917027244,
+            "ES/lifetime/central": -0.0009086953629404334,
+            "ES/lifetime/pessimistic": -0.00245914793995434,
+            "ES/monthly/central": -0.0009583080082726572,
+            "ES/monthly/pessimistic": -0.002508764381114193,
+            "MES/free/central": -0.0018054626705624735,
+            "MES/free/pessimistic": -0.0033559838600289832,
+            "MES/lifetime/central": -0.0014333552365417333,
+            "MES/lifetime/pessimistic": -0.0029838479553738013,
+            "MES/monthly/central": -0.001681426100061844,
+            "MES/monthly/pessimistic": -0.0032319377992006994
+          },
+          "rw_adj_pvalue": 0.35264735264735264,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 1.3577887166904204e-18,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0,
+            "n_eff_hac": 2405,
+            "n_trials_gate": 87,
+            "pass": false,
+            "pbo": 0.49642579642579643,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              -0.000283467951447554,
+              -0.0004643463534804551,
+              -0.0007166365744546597,
+              -7.488519198220082e-05,
+              0.0001187345108058468,
+              0.0001919133918950729,
+              0.0034981414521779047,
+              -0.0011116908519471394,
+              0.0007885908004238904,
+              0.001314088080223299,
+              0.0002451604966726832,
+              -0.00021905251015774476,
+              0.0001829866464581207,
+              -0.0005964391446649259,
+              -0.0005415863070283767
+            ],
+            "positive_window_fraction": 0.4666666666666667
+          },
+          "s_e": {
+            "cell_dwell_bars": 263.0,
+            "cell_mechanism": "rule-based-causal-expert (grid point)",
+            "note": "lag-0 rule: S-e definitionally satisfied (reported, not discriminating)",
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.013190737840369504,
+          "stat": 0.6468843275887282
+        },
+        {
+          "cell": "ema9",
+          "mean_gross": 0.0001929297794827821,
+          "mean_turnover_per_session": 15.656133056133056,
+          "n": 2405,
+          "net_descriptive": {
+            "ES/free/central": -0.0006809252895999429,
+            "ES/free/pessimistic": -0.001878722556681436,
+            "ES/lifetime/central": -0.0006138513521596658,
+            "ES/lifetime/pessimistic": -0.0018116434874579823,
+            "ES/monthly/central": -0.0006521792812245672,
+            "ES/monthly/pessimistic": -0.0018499743489650286,
+            "MES/free/central": -0.0013066431499785106,
+            "MES/free/pessimistic": -0.0025044882913844175,
+            "MES/lifetime/central": -0.0010191739525558525,
+            "MES/lifetime/pessimistic": -0.0022169970991568057,
+            "MES/monthly/central": -0.001210819497686502,
+            "MES/monthly/pessimistic": -0.0024086573074010085
+          },
+          "rw_adj_pvalue": 0.3066933066933067,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 1.1906572482599673e-17,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0,
+            "n_eff_hac": 2405,
+            "n_trials_gate": 87,
+            "pass": false,
+            "pbo": 0.49642579642579643,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              -1.6596653265205824e-05,
+              -0.0004939227603156588,
+              -6.643069047045421e-05,
+              8.660225560223954e-05,
+              0.00025136492640577177,
+              0.0002907816171926323,
+              0.0032336795705875995,
+              -0.0011205629821376434,
+              0.0006539440590295248,
+              0.000821482843362959,
+              0.0007622894967169061,
+              -0.000669454215182702,
+              0.00011516835556687922,
+              -0.00037531969955315557,
+              -0.0005615931398367217
+            ],
+            "positive_window_fraction": 0.5333333333333333
+          },
+          "s_e": {
+            "cell_dwell_bars": 263.0,
+            "cell_mechanism": "rule-based-causal-expert (grid point)",
+            "note": "lag-0 rule: S-e definitionally satisfied (reported, not discriminating)",
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.018454200677158347,
+          "stat": 0.9050087524062737
+        },
+        {
+          "cell": "ema13",
+          "mean_gross": 9.093618334965185e-05,
+          "mean_turnover_per_session": 13.52889812889813,
+          "n": 2405,
+          "net_descriptive": {
+            "ES/free/central": -0.000664186180943887,
+            "ES/free/pessimistic": -0.0016992359692484188,
+            "ES/lifetime/central": -0.0006062257341668893,
+            "ES/lifetime/pessimistic": -0.001641271087955467,
+            "ES/monthly/central": -0.0006393459590622417,
+            "ES/monthly/pessimistic": -0.001674393846855283,
+            "MES/free/central": -0.0012048863116940918,
+            "MES/free/pessimistic": -0.002239977469528103,
+            "MES/lifetime/central": -0.0009564762175039602,
+            "MES/lifetime/pessimistic": -0.001991548369017922,
+            "MES/monthly/central": -0.0011220824401665884,
+            "MES/monthly/pessimistic": -0.002157167262483028
+          },
+          "rw_adj_pvalue": 0.4275724275724276,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 1.600165096405699e-19,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0,
+            "n_eff_hac": 2405,
+            "n_trials_gate": 87,
+            "pass": false,
+            "pbo": 0.49642579642579643,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              -0.00019689936501671754,
+              -0.0005671202396369549,
+              -0.0004933094348163484,
+              -9.409088605580195e-05,
+              -5.047727414427393e-05,
+              0.00040458436456053545,
+              0.003347379019772585,
+              -0.001669622667653369,
+              0.0005526879145064344,
+              0.0006268379634069827,
+              0.0006338780482671941,
+              -0.00044550820640626215,
+              -0.0004912282317738543,
+              -0.00017465110211232788,
+              -0.0007333495881352895
+            ],
+            "positive_window_fraction": 0.3333333333333333
+          },
+          "s_e": {
+            "cell_dwell_bars": 263.0,
+            "cell_mechanism": "rule-based-causal-expert (grid point)",
+            "note": "lag-0 rule: S-e definitionally satisfied (reported, not discriminating)",
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.008424520384979825,
+          "stat": 0.4131452137435968
+        },
+        {
+          "cell": "ema21",
+          "mean_gross": 0.00016629255255617943,
+          "mean_turnover_per_session": 11.427442827442828,
+          "n": 2405,
+          "net_descriptive": {
+            "ES/free/central": -0.0004715360099381909,
+            "ES/free/pessimistic": -0.0013458106305846377,
+            "ES/lifetime/central": -0.0004225786088633461,
+            "ES/lifetime/pessimistic": -0.0012968494838109896,
+            "ES/monthly/central": -0.00045055424093756816,
+            "ES/monthly/pessimistic": -0.0013248272562805979,
+            "MES/free/central": -0.0009282487275645201,
+            "MES/free/pessimistic": -0.0018025582917760984,
+            "MES/lifetime/central": -0.0007184243854731357,
+            "MES/lifetime/pessimistic": -0.001592717895632591,
+            "MES/monthly/central": -0.0008583068521245481,
+            "MES/monthly/pessimistic": -0.0017326110649199108
+          },
+          "rw_adj_pvalue": 0.33766233766233766,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 5.407126402759208e-17,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0784262602278558,
+            "n_eff_hac": 2230,
+            "n_trials_gate": 87,
+            "pass": false,
+            "pbo": 0.49642579642579643,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              -6.136128377702538e-05,
+              -6.134434580014227e-05,
+              0.0004952066715137271,
+              -0.0001491116219981992,
+              0.0002135305158142924,
+              1.9353969139525944e-05,
+              0.0044181496550891475,
+              -0.0013094737788141154,
+              0.0004693889982948036,
+              0.0007060411314670954,
+              -0.00046589596436816776,
+              -0.0008660820353875795,
+              -0.0004761616765952596,
+              -0.0004957565555630749,
+              -0.0011224997327357552
+            ],
+            "positive_window_fraction": 0.4
+          },
+          "s_e": {
+            "cell_dwell_bars": 263.0,
+            "cell_mechanism": "rule-based-causal-expert (grid point)",
+            "note": "lag-0 rule: S-e definitionally satisfied (reported, not discriminating)",
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.015639088459001617,
+          "stat": 0.7669533989933734
+        },
+        {
+          "cell": "ema34",
+          "mean_gross": 0.00024599084311992253,
+          "mean_turnover_per_session": 9.625363825363825,
+          "n": 2405,
+          "net_descriptive": {
+            "ES/free/central": -0.0002912537587496761,
+            "ES/free/pessimistic": -0.001027657469892732,
+            "ES/lifetime/central": -0.00025001681673164373,
+            "ES/lifetime/pessimistic": -0.0009864173728631799,
+            "ES/monthly/central": -0.0002735807619663767,
+            "ES/monthly/pessimistic": -0.001009983120958328,
+            "MES/free/central": -0.0006759440291106953,
+            "MES/free/pessimistic": -0.0014123771733065191,
+            "MES/lifetime/central": -0.000499208458209649,
+            "MES/lifetime/pessimistic": -0.0012356280800370054,
+            "MES/monthly/central": -0.0006170318115740396,
+            "MES/monthly/pessimistic": -0.0013534604482585298
+          },
+          "rw_adj_pvalue": 0.22877122877122877,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 8.76061333326388e-16,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0566110665662698,
+            "n_eff_hac": 2276,
+            "n_trials_gate": 87,
+            "pass": false,
+            "pbo": 0.49642579642579643,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              -0.00021887117276092225,
+              0.0002806844195385689,
+              0.00017906851534947333,
+              0.0005851677347147641,
+              0.0007660525551015731,
+              0.0004665388794114855,
+              0.00395517196614996,
+              -0.00136301449238261,
+              0.0006227708995411223,
+              0.00014640781048062747,
+              -0.0009747486340993429,
+              -9.714423352944885e-05,
+              -0.00030283900588318414,
+              -0.00016150526321523836,
+              -0.0006425837562435869
+            ],
+            "positive_window_fraction": 0.5333333333333333
+          },
+          "s_e": {
+            "cell_dwell_bars": 263.0,
+            "cell_mechanism": "rule-based-causal-expert (grid point)",
+            "note": "lag-0 rule: S-e definitionally satisfied (reported, not discriminating)",
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.024158643357015393,
+          "stat": 1.1847591812211338
+        },
+        {
+          "cell": "ema55",
+          "mean_gross": 0.0002531614539754204,
+          "mean_turnover_per_session": 8.716424116424117,
+          "n": 2405,
+          "net_descriptive": {
+            "ES/free/central": -0.00023335021343969016,
+            "ES/free/pessimistic": -0.0009002140519075236,
+            "ES/lifetime/central": -0.00019600734698653843,
+            "ES/lifetime/pessimistic": -0.000862868328376032,
+            "ES/monthly/central": -0.00021734610822701127,
+            "ES/monthly/pessimistic": -0.0008842087222297015,
+            "MES/free/central": -0.0005817135180134535,
+            "MES/free/pessimistic": -0.0012486040101201128,
+            "MES/lifetime/central": -0.00042166739192599245,
+            "MES/lifetime/pessimistic": -0.0010885456386047635,
+            "MES/monthly/central": -0.0005283644827972061,
+            "MES/monthly/pessimistic": -0.0011952508930446017
+          },
+          "rw_adj_pvalue": 0.22877122877122877,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 1.2992334426724113e-15,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0667136217262376,
+            "n_eff_hac": 2255,
+            "n_trials_gate": 87,
+            "pass": false,
+            "pbo": 0.49642579642579643,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              -0.0005074186778573066,
+              0.000194893236955347,
+              0.0011104227419981173,
+              1.4168137196611088e-06,
+              -0.0003162626726906878,
+              -0.00020168468867583008,
+              0.0044100993247073025,
+              -0.0017683189896571209,
+              7.191222484023096e-05,
+              1.4733726288956886e-05,
+              -0.0010364260805841425,
+              0.0017661803182927218,
+              0.00109250968528846,
+              -0.00042658944891901985,
+              -0.0005659311772921405
+            ],
+            "positive_window_fraction": 0.5333333333333333
+          },
+          "s_e": {
+            "cell_dwell_bars": 263.0,
+            "cell_mechanism": "rule-based-causal-expert (grid point)",
+            "note": "lag-0 rule: S-e definitionally satisfied (reported, not discriminating)",
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.02524392203443478,
+          "stat": 1.237982115069477
+        }
+      ],
+      "extras": {
+        "n_sessions_non_finite_gross": 0,
+        "per_unit_drag_futures_rt_v1": 9.027742736918357e-05,
+        "reference_price_median_unadjusted": 3268.0
+      },
+      "instrument": "ES",
+      "pbo": {
+        "construction": "CSCV on the T x K grid matrix (member-only Sharpe)",
+        "n_combinations": 12870,
+        "pbo": 0.49642579642579643,
+        "s_splits": 16
+      },
+      "section8": {
+        "kpss_primary": {
+          "level_c": {
+            "crit": {
+              "1%": 0.739,
+              "10%": 0.347,
+              "2.5%": 0.574,
+              "5%": 0.463
+            },
+            "nlags": 3,
+            "pvalue_clipped": 0.1,
+            "reject_stationarity_5pct": false,
+            "stat": 0.07296580665073672
+          },
+          "reject_stationarity_5pct": false,
+          "stat": 0.07296580665073672,
+          "trend_ct": {
+            "crit": {
+              "1%": 0.216,
+              "10%": 0.119,
+              "2.5%": 0.176,
+              "5%": 0.146
+            },
+            "nlags": 4,
+            "pvalue_clipped": 0.1,
+            "reject_stationarity_5pct": false,
+            "stat": 0.05683737421179594
+          }
+        }
+      },
+      "sr_std_surface": {
+        "n_current_sigma_cells": 14,
+        "n_register_trials": 32,
+        "sr_std": 0.07693979487084371
+      }
+    },
+    {
+      "block_length": 5.152125396929866,
+      "block_length_source": "politis-white on primary column ema9",
+      "canary": {
+        "instrument": "NQ",
+        "n_bars": 5000,
+        "pass": true,
+        "spans": [
+          3,
+          5,
+          9,
+          13,
+          21,
+          34,
+          55
+        ]
+      },
+      "cell_dependence": {
+        "n_eff_corr_adjusted_reported": 1.4174696944630683,
+        "n_estimable_pairs": 21,
+        "rho_bar_pairwise": 0.702057832428037
+      },
+      "cells": [
+        {
+          "cell": "ema3",
+          "mean_gross": 0.00030791271020473706,
+          "mean_turnover_per_session": 24.878636741479635,
+          "n": 2406,
+          "net_descriptive": {
+            "MNQ/free/central": -0.00147729905328394,
+            "MNQ/free/pessimistic": -0.002097194212075168,
+            "MNQ/lifetime/central": -0.0011053693718492564,
+            "MNQ/lifetime/pessimistic": -0.00172525526330963,
+            "MNQ/monthly/central": -0.0013533218749980233,
+            "MNQ/monthly/pessimistic": -0.0019732139446481775,
+            "NQ/free/central": -0.0006677392337419325,
+            "NQ/free/pessimistic": -0.0012876142209978375,
+            "NQ/lifetime/central": -0.0005809579680062188,
+            "NQ/lifetime/pessimistic": -0.0012008307930008678,
+            "NQ/monthly/central": -0.0006305472256459226,
+            "NQ/monthly/pessimistic": -0.0012504212862165852
+          },
+          "rw_adj_pvalue": 0.22377622377622378,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 1.0942156666886959e-16,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0,
+            "n_eff_hac": 2406,
+            "n_trials_gate": 87,
+            "pass": false,
+            "pbo": 0.4455322455322455,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.00015288150764084757,
+              8.537960999855895e-06,
+              0.00039567772637303424,
+              0.0007154878959688491,
+              -4.75448124302365e-05,
+              0.001250228627917407,
+              0.004012202788845189,
+              -0.00041031605475155527,
+              0.0012310497514851299,
+              4.068056224133761e-05,
+              -0.0002566653468106386,
+              -0.0005202618207515491,
+              0.0003410982750090446,
+              -0.0010005319340890696,
+              -0.001065327804352118
+            ],
+            "positive_window_fraction": 0.6
+          },
+          "s_e": {
+            "cell_dwell_bars": 263.0,
+            "cell_mechanism": "rule-based-causal-expert (grid point)",
+            "note": "lag-0 rule: S-e definitionally satisfied (reported, not discriminating)",
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.0236119664457335,
+          "stat": 1.1581904214762242
+        },
+        {
+          "cell": "ema5",
+          "mean_gross": 0.0004246971455966537,
+          "mean_turnover_per_session": 19.76475477971737,
+          "n": 2406,
+          "net_descriptive": {
+            "MNQ/free/central": -0.000993558729991247,
+            "MNQ/free/pessimistic": -0.001486032490911392,
+            "MNQ/lifetime/central": -0.0006980803633410926,
+            "MNQ/lifetime/pessimistic": -0.0011905467618593623,
+            "MNQ/monthly/central": -0.0008950654502924848,
+            "MNQ/monthly/pessimistic": -0.0013875367570542118,
+            "NQ/free/central": -0.00035040647534691156,
+            "NQ/free/pessimistic": -0.0008428642110542074,
+            "NQ/lifetime/central": -0.0002814633714878429,
+            "NQ/lifetime/pessimistic": -0.0007739193893934786,
+            "NQ/monthly/central": -0.0003208594013885825,
+            "NQ/monthly/pessimistic": -0.0008133164008936997
+          },
+          "rw_adj_pvalue": 0.11588411588411589,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 3.2437765563526506e-15,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0,
+            "n_eff_hac": 2406,
+            "n_trials_gate": 87,
+            "pass": false,
+            "pbo": 0.4455322455322455,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.0006222628355774855,
+              -5.646788749953681e-05,
+              -0.00027310260689945344,
+              7.392302013880928e-05,
+              3.590942241266588e-05,
+              0.0009333656478714235,
+              0.004242079375586249,
+              -0.0008156657070899577,
+              0.001569225480768399,
+              0.00017624942467025863,
+              0.0006983968084404015,
+              -0.00017051737916955748,
+              0.00030466870815227626,
+              -0.0009584405701953116,
+              -0.0008817667090848585
+            ],
+            "positive_window_fraction": 0.6
+          },
+          "s_e": {
+            "cell_dwell_bars": 263.0,
+            "cell_mechanism": "rule-based-causal-expert (grid point)",
+            "note": "lag-0 rule: S-e definitionally satisfied (reported, not discriminating)",
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.03220857471196113,
+          "stat": 1.5798626008777514
+        },
+        {
+          "cell": "ema9",
+          "mean_gross": 0.0004333796126651825,
+          "mean_turnover_per_session": 15.311720698254364,
+          "n": 2406,
+          "net_descriptive": {
+            "MNQ/free/central": -0.000665340714892084,
+            "MNQ/free/pessimistic": -0.0010468592696361253,
+            "MNQ/lifetime/central": -0.00043643414494230726,
+            "MNQ/lifetime/pessimistic": -0.0008179469960465899,
+            "MNQ/monthly/central": -0.0005890381446750171,
+            "MNQ/monthly/pessimistic": -0.000970554798186857,
+            "NQ/free/central": -0.00016709179658663508,
+            "NQ/free/pessimistic": -0.0005485979366265221,
+            "NQ/lifetime/central": -0.00011368169551904702,
+            "NQ/lifetime/pessimistic": -0.0004951865047810148,
+            "NQ/monthly/central": -0.00014420173045918343,
+            "NQ/monthly/pessimistic": -0.0005257073001645397
+          },
+          "rw_adj_pvalue": 0.1108891108891109,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 3.6819441061335774e-15,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0,
+            "n_eff_hac": 2406,
+            "n_trials_gate": 87,
+            "pass": false,
+            "pbo": 0.4455322455322455,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.0004316098680950425,
+              0.00011467477165200639,
+              -0.0007143318341082366,
+              0.0003968053564146547,
+              -0.00019559017386010257,
+              0.0006419363638692117,
+              0.004705140363124563,
+              -0.001013397828534214,
+              0.0013159426159435543,
+              0.00032215189841687747,
+              0.0010495099216962093,
+              -0.000405753033131554,
+              0.0007494533801685314,
+              -0.0010595137845393755,
+              -6.81308156368379e-05
+            ],
+            "positive_window_fraction": 0.6
+          },
+          "s_e": {
+            "cell_dwell_bars": 263.0,
+            "cell_mechanism": "rule-based-causal-expert (grid point)",
+            "note": "lag-0 rule: S-e definitionally satisfied (reported, not discriminating)",
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.03269475883948313,
+          "stat": 1.6037104155383344
+        },
+        {
+          "cell": "ema13",
+          "mean_gross": 0.00031581663260294866,
+          "mean_turnover_per_session": 13.333333333333334,
+          "n": 2406,
+          "net_descriptive": {
+            "MNQ/free/central": -0.0006409409164751488,
+            "MNQ/free/pessimistic": -0.0009731644570883098,
+            "MNQ/lifetime/central": -0.00044161076544396423,
+            "MNQ/lifetime/pessimistic": -0.0007738293393697348,
+            "MNQ/monthly/central": -0.0005744972016932948,
+            "MNQ/monthly/pessimistic": -0.0009067190867274916,
+            "NQ/free/central": -0.0002070694371255614,
+            "NQ/free/pessimistic": -0.0005392821671060057,
+            "NQ/lifetime/central": -0.0001605603154575855,
+            "NQ/lifetime/pessimistic": -0.0004927718866064433,
+            "NQ/monthly/central": -0.00018713693654552203,
+            "NQ/monthly/pessimistic": -0.000519349169882868
+          },
+          "rw_adj_pvalue": 0.22377622377622378,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 9.21343663374753e-17,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0,
+            "n_eff_hac": 2406,
+            "n_trials_gate": 87,
+            "pass": false,
+            "pbo": 0.4455322455322455,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.00036891981193111945,
+              -0.0002438699725742274,
+              -0.0008779608612480576,
+              0.0002890176912161139,
+              -0.00032507676122588294,
+              0.0005656355051220401,
+              0.0040759472948029086,
+              -0.000868100263134725,
+              0.0010256777191593534,
+              -9.065755746518551e-05,
+              0.0008677749926053169,
+              -0.0007761171839802505,
+              0.0013293600017617651,
+              -0.0003161392260357262,
+              -0.0007961634622506336
+            ],
+            "positive_window_fraction": 0.4666666666666667
+          },
+          "s_e": {
+            "cell_dwell_bars": 263.0,
+            "cell_mechanism": "rule-based-causal-expert (grid point)",
+            "note": "lag-0 rule: S-e definitionally satisfied (reported, not discriminating)",
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.02354939569840625,
+          "stat": 1.1551212641324011
+        },
+        {
+          "cell": "ema21",
+          "mean_gross": 0.0002523007509064889,
+          "mean_turnover_per_session": 11.210307564422278,
+          "n": 2406,
+          "net_descriptive": {
+            "MNQ/free/central": -0.0005521152283246347,
+            "MNQ/free/pessimistic": -0.00083143983360575,
+            "MNQ/lifetime/central": -0.0003845238058304604,
+            "MNQ/lifetime/pessimistic": -0.000663844235254584,
+            "MNQ/monthly/central": -0.0004962511424425847,
+            "MNQ/monthly/pessimistic": -0.000775574355757496,
+            "NQ/free/central": -0.0001873277738041525,
+            "NQ/free/pessimistic": -0.000466643289796439,
+            "NQ/lifetime/central": -0.0001482241569204666,
+            "NQ/lifetime/pessimistic": -0.0004275386985983654,
+            "NQ/monthly/central": -0.00017056906415188245,
+            "NQ/monthly/pessimistic": -0.0004498841625800276
+          },
+          "rw_adj_pvalue": 0.25374625374625376,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 1.7724966530319794e-17,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0,
+            "n_eff_hac": 2406,
+            "n_trials_gate": 87,
+            "pass": false,
+            "pbo": 0.4455322455322455,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.000758952577010799,
+              -0.00029137808501340237,
+              -0.0007796753545565951,
+              0.0004610750404461737,
+              -0.00027613079375649844,
+              0.0006858810216786273,
+              0.00480106408767686,
+              -5.720259817830655e-05,
+              0.0011552148092776806,
+              3.308716916817352e-05,
+              -0.0008019028916048352,
+              -0.0011031796123994683,
+              0.001276032033146863,
+              -0.00043521200156013796,
+              -0.0021759701318584098
+            ],
+            "positive_window_fraction": 0.4666666666666667
+          },
+          "s_e": {
+            "cell_dwell_bars": 263.0,
+            "cell_mechanism": "rule-based-causal-expert (grid point)",
+            "note": "lag-0 rule: S-e definitionally satisfied (reported, not discriminating)",
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.01905980136469831,
+          "stat": 0.934902199974192
+        },
+        {
+          "cell": "ema34",
+          "mean_gross": 0.0002439632660614241,
+          "mean_turnover_per_session": 9.507065669160433,
+          "n": 2406,
+          "net_descriptive": {
+            "MNQ/free/central": -0.00043823349757986024,
+            "MNQ/free/pessimistic": -0.0006751188238886334,
+            "MNQ/lifetime/central": -0.0002961051349025747,
+            "MNQ/lifetime/pessimistic": -0.0005329869198146096,
+            "MNQ/monthly/central": -0.0003908571405998064,
+            "MNQ/monthly/pessimistic": -0.0006277412864312345,
+            "NQ/free/central": -0.00012887014911843684,
+            "NQ/free/pessimistic": -0.00036574776712257286,
+            "NQ/lifetime/central": -9.570775357500547e-05,
+            "NQ/lifetime/pessimistic": -0.0003325845452975422,
+            "NQ/monthly/central": -0.00011465767972106086,
+            "NQ/monthly/pessimistic": -0.00035153494360380585
+          },
+          "rw_adj_pvalue": 0.25374625374625376,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 1.640998484285837e-17,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0,
+            "n_eff_hac": 2406,
+            "n_trials_gate": 87,
+            "pass": false,
+            "pbo": 0.4455322455322455,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.0005159549705372105,
+              -0.001330786016995447,
+              -0.0005129676160144499,
+              0.00020467270070857301,
+              0.0002112475806521731,
+              6.510197600862057e-05,
+              0.0033899772014167125,
+              0.000954829817181195,
+              0.0005579656999283583,
+              -6.142001355410904e-05,
+              -0.0008656382919841124,
+              0.00020764132663138294,
+              0.0019215748652035066,
+              -5.1823178218587716e-05,
+              -0.001263633133983452
+            ],
+            "positive_window_fraction": 0.6
+          },
+          "s_e": {
+            "cell_dwell_bars": 263.0,
+            "cell_mechanism": "rule-based-causal-expert (grid point)",
+            "note": "lag-0 rule: S-e definitionally satisfied (reported, not discriminating)",
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.018861224033782743,
+          "stat": 0.9251617845319922
+        },
+        {
+          "cell": "ema55",
+          "mean_gross": 0.00014850922613069963,
+          "mean_turnover_per_session": 8.383208645054031,
+          "n": 2406,
+          "net_descriptive": {
+            "MNQ/free/central": -0.0004530431356182165,
+            "MNQ/free/pessimistic": -0.0006619255799501197,
+            "MNQ/lifetime/central": -0.000327716167217375,
+            "MNQ/lifetime/pessimistic": -0.0005365954887910282,
+            "MNQ/monthly/central": -0.00041126727130556074,
+            "MNQ/monthly/pessimistic": -0.0006201486747076727,
+            "NQ/free/central": -0.00018025050037877828,
+            "NQ/free/pessimistic": -0.00038912614762645793,
+            "NQ/lifetime/central": -0.0001510083250657149,
+            "NQ/lifetime/pessimistic": -0.0003598832437088716,
+            "NQ/monthly/central": -0.00016771812704026857,
+            "NQ/monthly/pessimistic": -0.0003765934620282445
+          },
+          "rw_adj_pvalue": 0.25374625374625376,
+          "s_c_pass": true,
+          "s_d": {
+            "dsr": 7.989347471440512e-19,
+            "dsr_bound": 0.25994498596739934,
+            "dsr_pass": false,
+            "hac_vif": 1.0,
+            "n_eff_hac": 2406,
+            "n_trials_gate": 87,
+            "pass": false,
+            "pbo": 0.4455322455322455,
+            "pbo_bound": 0.7400550140326007,
+            "pbo_pass": true,
+            "per_window_growth": [
+              0.00014106547524355133,
+              -0.0007312823473027778,
+              -0.0002574937613555433,
+              0.0005273423141099533,
+              -0.0005693967925080451,
+              -0.00033800690846620874,
+              0.0031226109785256096,
+              0.001456592577628597,
+              9.282484777611226e-05,
+              0.00030699839976288426,
+              -0.0005065367848043309,
+              0.0023114941661632467,
+              0.0014641636842693724,
+              -0.0008304973222603754,
+              -0.001112676899360476
+            ],
+            "positive_window_fraction": 0.5333333333333333
+          },
+          "s_e": {
+            "cell_dwell_bars": 263.0,
+            "cell_mechanism": "rule-based-causal-expert (grid point)",
+            "note": "lag-0 rule: S-e definitionally satisfied (reported, not discriminating)",
+            "observation_lag_bars": 0.0,
+            "pass": true
+          },
+          "screen_pass": false,
+          "sharpe": 0.011697702807474656,
+          "stat": 0.5737839487460704
+        }
+      ],
+      "extras": {
+        "n_sessions_non_finite_gross": 0,
+        "per_unit_drag_futures_rt_v1": 3.6127572703771276e-05,
+        "reference_price_median_unadjusted": 10034.25
+      },
+      "instrument": "NQ",
+      "pbo": {
+        "construction": "CSCV on the T x K grid matrix (member-only Sharpe)",
+        "n_combinations": 12870,
+        "pbo": 0.4455322455322455,
+        "s_splits": 16
+      },
+      "section8": {
+        "kpss_primary": {
+          "level_c": {
+            "crit": {
+              "1%": 0.739,
+              "10%": 0.347,
+              "2.5%": 0.574,
+              "5%": 0.463
+            },
+            "nlags": 4,
+            "pvalue_clipped": 0.1,
+            "reject_stationarity_5pct": false,
+            "stat": 0.1099993255717971
+          },
+          "reject_stationarity_5pct": false,
+          "stat": 0.1099993255717971,
+          "trend_ct": {
+            "crit": {
+              "1%": 0.216,
+              "10%": 0.119,
+              "2.5%": 0.176,
+              "5%": 0.146
+            },
+            "nlags": 4,
+            "pvalue_clipped": 0.1,
+            "reject_stationarity_5pct": false,
+            "stat": 0.05617444524311703
+          }
+        }
+      },
+      "sr_std_surface": {
+        "n_current_sigma_cells": 14,
+        "n_register_trials": 32,
+        "sr_std": 0.07693979487084371
+      }
+    }
+  ],
+  "ledger_expert_ids": [
+    "vwap_ema3_cross_k1.0@1.0.0",
+    "vwap_ema5_cross_k1.0@1.0.0",
+    "vwap_ema9_cross_k1.0@1.0.0",
+    "vwap_ema13_cross_k1.0@1.0.0",
+    "vwap_ema21_cross_k1.0@1.0.0",
+    "vwap_ema34_cross_k1.0@1.0.0",
+    "vwap_ema55_cross_k1.0@1.0.0"
+  ],
+  "n_bootstrap": 1000,
+  "primary_cell": "ema9",
+  "repro_log": "repro_log_d117c7089a2240d19347ffd06b53ff44.json",
+  "s_e_emission": {
+    "definition": "smallest KM median delay among operating points whose calibrated Newcombe 95% CI on net detection excludes 0 from above AND whose false-alarm rate is below the registered 0-1-loss majority standard (fp < alarm_prob) \u2014 rule v2 (whitened unsupervised BOCPD, primary variant); null = UNATTAINABLE (no accurate, non-degenerate operating point). Latent-state cells fail ADR-0014 S-e under a null emission; rule-based causal covariate cells carry their structural observation lag instead (screen-addendum protocol). The supervised-CUSUM oracle latency is FORBIDDEN as this input.",
+    "latent_state_latency_attainable": false,
+    "per_instrument_bars": {
+      "ES": null,
+      "NQ": null
+    },
+    "verdicts": {
+      "ES": {
+        "max_net_detection": 0.0,
+        "max_net_fp_rate": 1.0,
+        "max_net_mover95": [
+          -0.0010315849541859823,
+          0.002346872875190642
+        ],
+        "no_accurate_operating_point": true,
+        "note": "no operating point passes the v2 qualification (calibrated Newcombe 95% CI on net excluding 0 AND false-alarm rate below the registered 0-1-loss majority standard fp < alarm_prob): unsupervised latent-state detection has no accurate, non-degenerate operating point on this substrate"
+      },
+      "NQ": {
+        "max_net_detection": 0.02144392872412959,
+        "max_net_fp_rate": 0.8569254185692542,
+        "max_net_mover95": [
+          0.0036750776010413336,
+          0.04005275365845372
+        ],
+        "no_accurate_operating_point": true,
+        "note": "no operating point passes the v2 qualification (calibrated Newcombe 95% CI on net excluding 0 AND false-alarm rate below the registered 0-1-loss majority standard fp < alarm_prob): unsupervised latent-state detection has no accurate, non-degenerate operating point on this substrate"
+      }
+    }
+  },
+  "scan": "RC-H107-1",
+  "screen_level": 0.7400550140326007,
+  "seed_s_c": 20261122
+}
