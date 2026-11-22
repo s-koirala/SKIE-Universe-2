@@ -183,6 +183,12 @@ def run_grid_screen(  # noqa: PLR0915 — one linear, auditable gate sequence (s
                 "cell_dependence": {
                     "rho_bar_pairwise": float(np.mean(rhos)) if rhos else None,
                     "n_estimable_pairs": len(rhos),
+                    # reported, never substituted for n_trials_gate (spine rule)
+                    "n_eff_corr_adjusted_reported": (
+                        float(n_trials_gate / (1.0 + (n_trials_gate - 1) * max(np.mean(rhos), 0.0)))
+                        if rhos
+                        else None
+                    ),
                 },
                 "section8": {"kpss_primary": kpss_stationarity(g[:, k_primary])},
                 **({"extras": p.extras} if p.extras else {}),

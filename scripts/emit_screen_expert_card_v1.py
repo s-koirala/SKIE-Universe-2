@@ -97,6 +97,16 @@ _REGISTRY = {
         # primary grid point; per-grid-point ledgers via cell_hash_template
         "expert_hash": "vwap_ema9_cross_k1.0@1.0.0",
         "cell_hash_template": "vwap_{cell}_cross_k1.0@1.0.0",
+        "family_note": (
+            "Trial family = the registered EMA-span grid (design §4; 7 spans x 2 "
+            "instruments; each cell = one grid point's own ledger, no conditioning "
+            "cells; no span selected at the screen)."
+        ),
+        "cluster_notes": (
+            "            correlated EMA-span grid points (separate ledgers, same rule",
+            "            family, common session axis); N_eff via the pairwise grid",
+            "            correlation recorded in the screen artifact (cell_dependence)",
+        ),
         "screen_script": "scripts/run_screen_h107.py",
         "mechanism": (
             "intraday time-series momentum filter (practitioner rule; nearest "
@@ -164,6 +174,9 @@ def _ledger_span(paths: ProjectPaths, expert_hash: str) -> dict:
 def render_card(paths: ProjectPaths, hid: str, blob: dict) -> Path:  # noqa: PLR0915 — one linear card-rendering sequence
     """Render the eight-section v1 card from the artifacts (fully derived)."""
     meta = _REGISTRY[hid]
+    family_note = meta.get(
+        "family_note", "Conditioning set frozen in design §3 (pre-scan, ADR-0002(b))."
+    )
     design_sha = blob["design_md_sha256"]
     screened = _screened_date(paths, blob)
     passing = _passing_cells(blob)
@@ -292,7 +305,7 @@ Coverage: {meta["coverage_claim"]}.
 
 ## 3. Conditional-edge panel
 
-Conditioning set frozen in design §3 (pre-scan, ADR-0002(b)). Correction:
+{family_note} Correction:
 Romano-Wolf StepM within scan (seed {blob["seed_s_c"]}), level = the enacted
 `screening_error_rate_target` ({level}; the config value governs); S-d
 bounds DSR ≥ 1 − level, PBO ≤ level at gate N = {n_gate}; S-e per the
@@ -394,104 +407,123 @@ def append_pool_records(paths: ProjectPaths, hid: str, blob: dict, card_path: Pa
             )
     card_rel = card_path.relative_to(paths.root).as_posix()
     screened = _screened_date(paths, blob)
-    head_inst, head = max(passing, key=lambda t: t[1]["s_d"]["dsr"])
+    # One pool-record set per BACKING LEDGER: a non-grid HID has one ledger
+    # (behaviour unchanged); a grid HID (cell_hash_template) gets one set per
+    # passing grid point, each keyed to its own ledger id — no span is
+    # selected at the screen (H107 design §1; pre-freeze audit finding 1).
+    groups: dict[str, list[tuple[str, dict]]] = {}
+    for i, c in passing:
+        groups.setdefault(_cell_hash(meta, c["cell"]), []).append((i, c))
+    all_passing = passing
+    base_slice = ledger_slice
     n_written = 0
     with ledger.open("a", encoding="utf-8", newline="\n") as fh:
-        for frac in KELLY_GRID:
-            key = (hid, "v1", frac, ledger_slice)
-            if key in existing_keys:
-                print(f"  pool record exists, skipped: {key}")
-                continue
-            rec = {
-                "hid": hid,
-                "expert_version": "v1",
-                "kelly_fraction": frac,
-                "ledger_slice": ledger_slice,
-                "provenance": {
-                    "expert_hash": _cell_hash(meta, head["cell"]),
-                    "design_md_sha256": blob["design_md_sha256"],
-                    "expert_card_path": card_rel,
-                    "cost_model_id": "futures_rt_v1",
-                    "execution_tier": 0,
-                    "repro_log_path": f"logs/reproducibility/{blob['repro_log']}",
-                    "trial_register_id": f"rc-{hid.lower()}-1",
-                    "screened_at": screened,
-                },
-                "screen": {
-                    "screen_pass": True,
-                    "conditional_edge_cell": "; ".join(f"{i}:{c['cell']}" for i, c in passing),
-                    "rw_adj_p": head["rw_adj_pvalue"],
-                    "screen_alpha_ref": (
-                        "config/multipletest_family.yaml:screening_error_rate_target"
-                    ),
-                    "dsr": head["s_d"]["dsr"],
-                    "dsr_bound_ref": (
-                        "1 - screening_error_rate_target (config/multipletest_family.yaml)"
-                    ),
-                    "pbo": head["s_d"]["pbo"],
-                    "pbo_bound_ref": (
-                        "screening_error_rate_target (config/multipletest_family.yaml)"
-                    ),
-                    "cell_dwell_bars": head["s_e"]["cell_dwell_bars"],
-                    "detection_latency_bars": head["s_e"]["observation_lag_bars"],
-                    "detection_latency_semantics": (
-                        "structural observation lag of the rule-based causal "
-                        "cell (amended S-e rule; latent-state latency "
-                        "UNATTAINABLE -> null for latent-state cells)"
-                    ),
-                    "selectable": bool(head["s_e"]["pass"]),
-                    "headline_cell": f"{head_inst}:{head['cell']}",
-                    "passing_cells_detail": [
-                        {
-                            "instrument": i,
-                            "cell": c["cell"],
-                            "rw_adj_p": c["rw_adj_pvalue"],
-                            "dsr": c["s_d"]["dsr"],
-                            "pbo": c["s_d"]["pbo"],
-                            "cell_dwell_bars": c["s_e"]["cell_dwell_bars"],
-                            "detection_latency_bars": c["s_e"]["observation_lag_bars"],
-                            "selectable": bool(c["s_e"]["pass"]),
-                        }
-                        for i, c in passing
-                    ],
-                },
-                "competence_structure": {
-                    "per_cell_oos_growth": {
-                        f"{i}:{c['cell']}": [
-                            g if isinstance(g, int | float) else None
-                            for g in c["s_d"]["per_window_growth"]
-                        ]
-                        for i, c in passing
+        for ehash, passing in groups.items():  # noqa: B020 — per-ledger subset by design
+            ledger_slice = (
+                f"{base_slice}:grid={passing[0][1]['cell']}"
+                if meta.get("cell_hash_template")
+                else base_slice
+            )
+            head_inst, head = max(passing, key=lambda t: t[1]["s_d"]["dsr"])
+            for frac in KELLY_GRID:
+                key = (hid, "v1", frac, ledger_slice)
+                if key in existing_keys:
+                    print(f"  pool record exists, skipped: {key}")
+                    continue
+                rec = {
+                    "hid": hid,
+                    "expert_version": "v1",
+                    "kelly_fraction": frac,
+                    "ledger_slice": ledger_slice,
+                    "provenance": {
+                        "expert_hash": ehash,
+                        "design_md_sha256": blob["design_md_sha256"],
+                        "expert_card_path": card_rel,
+                        "cost_model_id": "futures_rt_v1",
+                        "execution_tier": 0,
+                        "repro_log_path": f"logs/reproducibility/{blob['repro_log']}",
+                        "trial_register_id": f"rc-{hid.lower()}-1",
+                        "screened_at": screened,
                     },
-                    "competence_window_cells": [f"{i}:{c['cell']}" for i, c in passing],
-                },
-                "complementarity": {
-                    "marginal_growth_delta": None,  # undefined at |arsenal| = 0 (schema)
-                    "covers_uncovered_cell": True,  # cold-start: all cells uncovered
-                    "edge_corr_vs_incumbents": None,  # deferred: no incumbents
-                    # label-cell Jaccard deferred; the M1 report carries the
-                    # realized-bar statistic (setup plan §2.3)
-                    "window_overlap_jaccard": None,
-                },
-                "ruin_leverage": {
-                    "geom_growth_at_fraction": None,  # VERDICT-tier (selection blocked)
-                    "ruin_prob_contribution": None,  # VERDICT-tier
-                },
-                "disposition": {
-                    "value": "pool-hold-reconsider",
-                    "reconsider_on_set_change": True,
-                    "last_adjudicated_against": "arsenal:EMPTY (verdict deferred)",
-                },
-                "note": (
-                    "fraction-invariant screen statistics (k1.0 unit-exposure "
-                    "gross); kelly_fraction mirrors the ledger materialization, "
-                    "none selected; null growth entries = cell has no member "
-                    "session in that window; finer per-window records at the "
-                    "first verdict"
-                ),
-            }
-            fh.write(json.dumps(rec, sort_keys=True) + "\n")
-            n_written += 1
+                    "screen": {
+                        "screen_pass": True,
+                        "conditional_edge_cell": "; ".join(f"{i}:{c['cell']}" for i, c in passing),
+                        "rw_adj_p": head["rw_adj_pvalue"],
+                        "screen_alpha_ref": (
+                            "config/multipletest_family.yaml:screening_error_rate_target"
+                        ),
+                        "dsr": head["s_d"]["dsr"],
+                        "dsr_bound_ref": (
+                            "1 - screening_error_rate_target (config/multipletest_family.yaml)"
+                        ),
+                        "pbo": head["s_d"]["pbo"],
+                        "pbo_bound_ref": (
+                            "screening_error_rate_target (config/multipletest_family.yaml)"
+                        ),
+                        "cell_dwell_bars": head["s_e"]["cell_dwell_bars"],
+                        "detection_latency_bars": head["s_e"]["observation_lag_bars"],
+                        "detection_latency_semantics": (
+                            "structural observation lag of the rule-based causal "
+                            "cell (amended S-e rule; latent-state latency "
+                            "UNATTAINABLE -> null for latent-state cells)"
+                        ),
+                        "selectable": bool(head["s_e"]["pass"]),
+                        "headline_cell": f"{head_inst}:{head['cell']}",
+                        "passing_cells_detail": [
+                            {
+                                "instrument": i,
+                                "cell": c["cell"],
+                                "rw_adj_p": c["rw_adj_pvalue"],
+                                "dsr": c["s_d"]["dsr"],
+                                "pbo": c["s_d"]["pbo"],
+                                "cell_dwell_bars": c["s_e"]["cell_dwell_bars"],
+                                "detection_latency_bars": c["s_e"]["observation_lag_bars"],
+                                "selectable": bool(c["s_e"]["pass"]),
+                            }
+                            for i, c in passing
+                        ],
+                    },
+                    "competence_structure": {
+                        "per_cell_oos_growth": {
+                            f"{i}:{c['cell']}": [
+                                g if isinstance(g, int | float) else None
+                                for g in c["s_d"]["per_window_growth"]
+                            ]
+                            for i, c in passing
+                        },
+                        "competence_window_cells": [f"{i}:{c['cell']}" for i, c in passing],
+                    },
+                    "complementarity": {
+                        "marginal_growth_delta": None,  # undefined at |arsenal| = 0 (schema)
+                        "covers_uncovered_cell": True,  # cold-start: all cells uncovered
+                        "edge_corr_vs_incumbents": None,  # deferred: no incumbents
+                        # label-cell Jaccard deferred; the M1 report carries the
+                        # realized-bar statistic (setup plan §2.3)
+                        "window_overlap_jaccard": None,
+                    },
+                    "ruin_leverage": {
+                        "geom_growth_at_fraction": None,  # VERDICT-tier (selection blocked)
+                        "ruin_prob_contribution": None,  # VERDICT-tier
+                    },
+                    "disposition": {
+                        "value": "pool-hold-reconsider",
+                        "reconsider_on_set_change": True,
+                        "last_adjudicated_against": "arsenal:EMPTY (verdict deferred)",
+                    },
+                    "note": (
+                        "fraction-invariant screen statistics (k1.0 unit-exposure "
+                        "gross); kelly_fraction mirrors the ledger materialization, "
+                        "none selected; null growth entries = cell has no member "
+                        "session in that window; finer per-window records at the "
+                        "first verdict"
+                    ),
+                }
+                if meta.get("cell_hash_template"):
+                    rec["screen"]["all_passing_grid_points"] = sorted(
+                        {f"{i}:{c['cell']}" for i, c in all_passing}
+                    )
+                fh.write(json.dumps(rec, sort_keys=True) + "\n")
+                n_written += 1
     return n_written
 
 
@@ -531,9 +563,14 @@ def append_register_trials(paths: ProjectPaths, hid: str, blob: dict) -> bool:
                 + inst["instrument"].lower()
                 + "-cell-overlap",
                 "          notes: >-",
-                "            nested/overlapping conditioning cells of one ledger stream;",
-                "            N_eff via the pairwise-complete cell correlations recorded",
-                "            in the screen artifact (cell_dependence)",
+                *meta.get(
+                    "cluster_notes",
+                    (
+                        "            nested/overlapping conditioning cells of one ledger stream;",
+                        "            N_eff via the pairwise-complete cell correlations recorded",
+                        "            in the screen artifact (cell_dependence)",
+                    ),
+                ),
                 f'        registered_at: "{screened}"',
             ]
     new_block = "\n".join(lines)

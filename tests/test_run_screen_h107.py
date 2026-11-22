@@ -31,6 +31,7 @@ from skie_universe2.experts.vwap_ema_cross import (  # noqa: E402
     VwapEmaCrossExpert,
     cme_session_of,
 )
+from skie_universe2.ledger.shadow_ledger import ShadowLedgerWriter  # noqa: E402
 from skie_universe2.screening.grid_screen import run_grid_screen  # noqa: E402
 from skie_universe2.utils.paths import ProjectPaths  # noqa: E402
 
@@ -131,3 +132,19 @@ def test_grid_screen_runs_on_synthetic_ledger(fake_root: ProjectPaths) -> None:
     nets = res["instruments"][0]["cells"][0]["net_descriptive"]
     assert {"ES/lifetime/central", "MES/free/pessimistic"} <= set(nets)
     assert not any(k.startswith("NQ") for k in nets)
+
+
+def test_backfill_resume_guard(tmp_path: Path) -> None:
+    writer = ShadowLedgerWriter(paths=ProjectPaths(root=tmp_path), update_manifest=False)
+    exp = VwapEmaCrossExpert(9)
+    assert backfill._already_backfilled(writer, exp, "ES") is False
+    for k in backfill.KELLY_FRACTION_GRID[:2]:
+        (writer.base_dir / f"expert_id=vwap_ema9_cross_k{k}@1.0.0" / "asset=ES").mkdir(parents=True)
+    with pytest.raises(SystemExit):
+        backfill._already_backfilled(writer, exp, "ES")
+    for k in backfill.KELLY_FRACTION_GRID:
+        (writer.base_dir / f"expert_id=vwap_ema9_cross_k{k}@1.0.0" / "asset=ES").mkdir(
+            parents=True, exist_ok=True
+        )
+    assert backfill._already_backfilled(writer, exp, "ES") is True
+    assert backfill._already_backfilled(writer, exp, "NQ") is False

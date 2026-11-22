@@ -510,6 +510,18 @@ Progress (as of 2026-07-19):
   authorizes nothing. Nothing certified; no Kelly fraction selected; arsenal
   EMPTY; ADR-0010 untouched. STOPPED at the F stop rule (Phase-4 entry NOT
   authorized this session).
+- **H107 (session-VWAP × EMA(N) crossover grid) — DESIGN FROZEN, NOT YET RUN
+  (2026-11-22).** Principal-proposed practitioner rule: sign(EMA_N − CME-session
+  VWAP), always-in, flat 15:00–17:00 CT; EMA span a registered 7-point grid
+  (14 trials; `n_trials_gate` 87). Grid screen
+  [grid_screen.py](src/skie_universe2/screening/grid_screen.py) (panel
+  Romano-Wolf, grid CSCV PBO, DSR); NinjaTrader cost schedule
+  [ninjatrader_v1.yaml](config/cost_schedules/ninjatrader_v1.yaml) for
+  ES/NQ/MES/MNQ (descriptive at screen, binding at verdict). Design SHA
+  `912198045de4`; 1-round audit accept
+  ([trail](docs/audits/audit_trail_2026-11-22_h107-preregistration.md)).
+  Run sequence (data machine): design §11. A regime-bias successor is declared
+  with binding constraints (design §1). Arsenal EMPTY; nothing certified.
 
 ## Directory layout
 

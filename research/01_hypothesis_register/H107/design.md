@@ -155,15 +155,28 @@ Exactly as implemented in
    earns (t, t+1]) the last held label 15:50 ET earns to 16:00 ET = **15:00
    CT (flat)**, and the first new position is decided at the close of the
    18:00 ET = **17:00 CT reopen** bar. Weekends follow from the same rule
-   (flat Friday 15:00 CT → Sunday 17:00 CT). Decision bars per session:
-   264 (22 h).
+   (flat Friday 15:00 CT → Sunday 17:00 CT). Held decision labels per
+   session: 263 (18:00 → 15:50 ET labels, 21 h 55 min; audit-measured).
 6. **Strength** 1.0 on held bars. No stop-loss / target / time-stop (each
    would be a swept dimension adding trials; not registered).
-7. **Documented limitation (ORB/H106 precedent):** holiday early-close
-   sessions (~9/yr) are not special-cased (no exchange holiday calendar
-   in-repo): the last bar before an early halt can accrue the gap to the
-   next reopen. Within-session data gaps (registered exclusion windows) are
-   likewise not special-cased.
+7. **Documented limitation (ORB/H106 precedent; pre-freeze audit
+   finding 3, verified by execution):** holiday early-close sessions
+   (~9/yr) are not special-cased (no exchange holiday calendar in-repo).
+   Because the last bar before an early halt (e.g. 13:15 ET) lies INSIDE the
+   trading window, the held position accrues the full gap to the next
+   reopen, booked to the next session's `session_date` — and the worst
+   cases (Black Friday, Christmas Eve, July 3) span a whole weekend or
+   holiday. Weekends, ordinary daily halts and December exclusion windows
+   are clean (their last pre-gap bar is in the flat window). These gap
+   sessions are a known contaminant of the gross series: the screen
+   artifact does not exclude them; a holiday-calendar flatten is a
+   registered follow-up and would require a new HID.
+8. **VWAP is built from VALID bars only (audit finding 4).** The substrate
+   pipeline drops the 288-bar emission warm-up after each December
+   exclusion window and at series start, and excludes `pit_provisional`
+   1-min bars; in those sessions the VWAP anchor starts mid-session or has
+   holes. Documented, not corrected (the expert sees exactly what the
+   ledger backfill feeds it).
 
 **PIT:** EMA is a causal recursion; VWAP a causal cumulative sum within the
 session; the window is a function of the bar's own timestamp. Enforced by the
@@ -203,8 +216,13 @@ prefix-invariance canary for every grid point before any ledger write
 - **Appends (ADR-0008 D5/D6), named implementing path:**
   `scripts/emit_screen_expert_card_v1.py --hid H107` appends the 14
   per-grid-point trial records to `rc-h107-1`, the per-window burned spans
-  under `hid: H107`, the script-generated Expert Card v1, and (on PASS) pool
-  records whose `expert_hash` is the head passing grid point's own ledger id.
+  under `hid: H107`, the script-generated Expert Card v1, and (on PASS)
+  **one pool-record set (4 Kelly fractions) per passing grid point**, each
+  keyed to that grid point's own ledger id (`ledger_slice` suffix
+  `:grid=emaN`) — so no span is selected at the screen (audit finding 1).
+- **Resumable backfill:** an (expert, instrument) whose 4 Kelly streams
+  already exist is skipped; a partial set aborts for operator inspection
+  (append-only ledger; audit finding 2).
 - **What the screen does NOT do:** no span selection, no rotor, no set-level
   verdict, no non-redundancy test, no Kelly selection, no regime split.
 
@@ -213,8 +231,11 @@ prefix-invariance canary for every grid point before any ledger write
 H900 rolling-origin family by reference (`eval/windows.py::h900_windows()`:
 24-month train / 6-month step / first origin 2017-01-01, 15 windows × 2
 instruments). The rule is stateless (no fit). The S-c/S-d statistics use the
-full joined session panel (the RC-*-2 / H105 construction); the windows
-enter as the per-window growth exhibit and the burned-data mirror. Purge 288
+full joined session panel (the RC-*-2 / H105 construction) — **including the
+2015-2016 sessions before the first origin**, which the burned-data mirror
+(15 eval windows) does not record; a gap inherited from H105/H106 and
+disclosed here (audit). The windows enter as the per-window growth exhibit
+and the burned-data mirror. Purge 288
 bars (`MAX_FEATURE_LOOKBACK_BARS`); embargo Politis-White (H900 §6).
 
 ## 7. Cost model
@@ -252,9 +273,19 @@ bars (`MAX_FEATURE_LOOKBACK_BARS`); embargo Politis-White (H900 §6).
   first-admission-verdict 32) + this scan's 14 (7 spans × 2 instruments).
   The correlation-adjusted effective count (mean pairwise grid correlation)
   is reported alongside, not substituted.
-- **Dispersion surface:** recorded trial Sharpes of rc-h101-2, rc-h103-2,
-  rc-h105-1, rc-h106-1 (fail-closed if any is empty) + the 14 current grid
-  Sharpes (the spine's matched-surface rule).
+- **Dispersion surface:** recorded non-`unconditional` trial Sharpes of
+  rc-h101-2, rc-h103-2, rc-h105-1, rc-h106-1 (32; fail-closed if any family
+  is empty) + the 14 current grid Sharpes. Stated plainly (audit finding 6):
+  this surface omits the h900 and first-admission-verdict records that ARE
+  in the 87 count, so count and dispersion are not on an identical surface;
+  the larger count with the narrower dispersion is the conservative
+  direction for DSR. The correlation-adjusted effective count
+  (`n_eff_corr_adjusted_reported`, from the mean pairwise grid correlation)
+  is reported per instrument, never substituted.
+- **Turnover recovery (audit finding 9):** exact given the backfill's
+  reference price, which the screen recomputes from the substrate; the
+  ReproLog binds the substrate checksums, so a substrate change between
+  backfill and screen is detectable (re-run both if it occurs).
 - §8 exhibit: KPSS on the primary (EMA_9) column per instrument.
 
 ## 9. Stopping rule
@@ -302,6 +333,11 @@ the backlog at freeze.
   plausibly diversify (negative correlation expected in range states).
 - Consequence: H107 cannot help the ADR-0015/0017 coverage-disjointness
   precondition; its case rests entirely on marginal growth at the verdict.
+  **Label caveat (audit finding 8):** grid cell labels (`ES:ema5`, …) look
+  label-disjoint from every pool member to the label-based
+  `check_verdict_precondition.py`; that label count is NOT evidence of
+  disjoint coverage for H107 — the ADR-0017 realized-bar overlap report
+  governs.
 
 ## 13. Execution layer
 

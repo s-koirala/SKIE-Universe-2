@@ -65,9 +65,9 @@ SEED_SC = 20261122  # justify: registered scan seed (design §5; freeze date)
 # justify: design §8 — cumulative register trial count at freeze (73) + this
 # scan's 7 spans x 2 instruments (14) = 87; frozen, never recomputed at run.
 N_TRIALS_GATE = 87
-# justify: design §4 — decision bars per session inside the trading window
-# (18:00 ET -> 15:55 ET label = 22 h of 5-min bars).
-SESSION_BARS = 264
+# justify: design §4 — held decision labels per session inside the window
+# (18:00 ET .. 15:50 ET labels = 21 h 55 min of 5-min bars; audit-measured).
+SESSION_BARS = 263
 DISPERSION_FAMILIES = ("rc-h101-2", "rc-h103-2", "rc-h105-1", "rc-h106-1")
 DESIGN_RELPATH = "research/01_hypothesis_register/H107/design.md"
 COST_SCHEDULE_RELPATH = "config/cost_schedules/ninjatrader_v1.yaml"

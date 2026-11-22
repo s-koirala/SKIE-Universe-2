@@ -162,6 +162,26 @@ def _rows_for_expert_kelly(
     )
 
 
+def _already_backfilled(writer: ShadowLedgerWriter, expert: Expert, symbol: str) -> bool:
+    """Resume guard (H107 pre-freeze audit finding 2): True iff every Kelly
+    stream of (expert, symbol) already has ledger partitions; raises on a
+    PARTIAL set (an interrupted write needs operator inspection, not a silent
+    append — the ledger is append-only)."""
+    name, version = expert.expert_id.split("@")
+    present = [
+        (writer.base_dir / f"expert_id={name}_k{k}@{version}" / f"asset={symbol}").is_dir()
+        for k in KELLY_FRACTION_GRID
+    ]
+    if all(present):
+        return True
+    if any(present):
+        raise SystemExit(
+            f"partial ledger for {expert.expert_id}/{symbol} (Kelly streams present: "
+            f"{present}) — inspect the writer journal before re-running"
+        )
+    return False
+
+
 def _make_expert(name: str) -> Expert:
     if name == "reference":
         return CausalMomentumExpert()
@@ -206,6 +226,10 @@ def run_backfill(
         # full-span cut-sweep would re-signal the whole series ~16x).
         canary_bars = _bar_window(valid.head(_CANARY_SAMPLE_BARS))
         for expert in experts:  # bars loaded once per symbol; one pass per expert
+            done = _already_backfilled(writer, expert, symbol)
+            if done:
+                print(f"[{label}/{symbol}/{expert.expert_id}] already backfilled; skipped")
+                continue
             assert_prefix_invariant(expert, canary_bars)
             df = pl.concat(
                 [
