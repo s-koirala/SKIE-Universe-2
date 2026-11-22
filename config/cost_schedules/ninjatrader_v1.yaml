@@ -1,0 +1,57 @@
+# NinjaTrader broker cost schedule — `ninjatrader_v1` (H107 design §7).
+#
+# Registered 2026-11-22 at principal direction ("NinjaTrader will be our
+# platform"). DESCRIPTIVE at the screen (net-of-cost columns per instrument
+# variant x plan x slippage scenario); binding cost model for any H107
+# VERDICT-tier net claim. The ledger's ret_net stays futures_rt_v1 (unchanged,
+# append-only); this schedule is applied in the screen harness from ledger
+# turnover (scripts/run_screen_h107.py).
+#
+# Micros (MES/MNQ) trade on the SAME index price path as their E-mini parent
+# (identical underlying, 1/10 multiplier); they are evaluated on the parent's
+# roll-adjusted ledger, so only the cost-per-notional differs.
+#
+# Fee sources (retrieved 2026-11-22 by a research subagent; re-verify
+# quarterly — NinjaTrader states the table is "as of August 14, 2026"):
+#   - commission / exchange+NFA / clearing per side, per contract:
+#     https://ninjatrader.com/pricing/commissions/ (per-symbol JSON embedded
+#     in the page; all-in = commission + exch_nfa + clearing, internally
+#     consistent: ES lifetime 0.59 + 1.39 + 0.19 = 2.17)
+#   - plan prices: https://ninjatrader.com/pricing/ (Free $0; Monthly $99/mo;
+#     Lifetime $1,499 one-time) — fixed costs, not in per-trade drag
+#   - NFA assessment $0.01/side from 2026-07-01, rising to $0.02 on
+#     2027-07-01: https://www.nfa.futures.org/faqs/members/nfa-assessment-fees.html
+#     -> implied CME exchange fee 1.38 (E-mini) / 0.35 (micro): UNVERIFIED
+#     against the CME fee schedule (cmegroup.com blocked automated fetch).
+#   - Rithmic routing +$0.25/contract applies ONLY if routing via Rithmic;
+#     excluded here (NinjaTrader native routing assumed).
+# Slippage sources (research subagent, 2026-11-22; citation check pending):
+#   - ES RTH quoted spread ~1 tick (Andersen, Bondarenko, Kyle & Obizhaeva,
+#     AEA 2017 preliminary paper, Table 1; NY Fed Staff Report 917) ->
+#     ~0.5 tick/side marketable-order cost. NQ/MES/MNQ spread figures are
+#     practitioner-only (UNVERIFIED). No quantitative source found for
+#     open/close/reopen widening.
+#   - Scenarios below follow the ADR-0016 swept-assumption spirit: claims
+#     must survive the PESSIMISTIC endpoint.
+
+schema_version: 1
+cost_model_id: ninjatrader_v1
+retrieved: "2026-11-22"
+broker_table_as_of: "2026-08-14"
+
+contracts:
+  ES:  {parent: ES, multiplier: 50.0, tick_value: 12.50, exch_nfa: 1.39, clearing: 0.19}
+  NQ:  {parent: NQ, multiplier: 20.0, tick_value: 5.00,  exch_nfa: 1.39, clearing: 0.19}
+  MES: {parent: ES, multiplier: 5.0,  tick_value: 1.25,  exch_nfa: 0.36, clearing: 0.19}
+  MNQ: {parent: NQ, multiplier: 2.0,  tick_value: 0.50,  exch_nfa: 0.36, clearing: 0.19}
+
+# commission per side per contract (USD) by plan
+commission:
+  free:     {ES: 1.29, NQ: 1.29, MES: 0.39, MNQ: 0.39}
+  monthly:  {ES: 0.99, NQ: 0.99, MES: 0.29, MNQ: 0.29}
+  lifetime: {ES: 0.59, NQ: 0.59, MES: 0.09, MNQ: 0.09}
+
+# slippage, ticks per side (session-agnostic; H107 trades ~23h/day)
+slippage_ticks_per_side:
+  central:     {ES: 0.5, MES: 0.5, NQ: 1.0, MNQ: 1.0}   # ES measured half-spread; NQ +0.5 (unverified spread)
+  pessimistic: {ES: 1.5, MES: 1.5, NQ: 2.0, MNQ: 2.0}   # subagent's overnight conservative values

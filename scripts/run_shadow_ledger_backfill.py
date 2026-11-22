@@ -42,6 +42,7 @@ from skie_universe2.experts.orb_first_hour import OrbFirstHourExpert  # noqa: E4
 from skie_universe2.experts.overnight_drift import OvernightSessionDriftExpert  # noqa: E402
 from skie_universe2.experts.reference import CausalMomentumExpert  # noqa: E402
 from skie_universe2.experts.vr_range_reversal import VrRangeReversalExpert  # noqa: E402
+from skie_universe2.experts.vwap_ema_cross import EMA_SPAN_GRID, VwapEmaCrossExpert  # noqa: E402
 from skie_universe2.features.regime_emissions import (  # noqa: E402
     apply_registered_exclusions,
     compute_emissions,
@@ -170,13 +171,24 @@ def _make_expert(name: str) -> Expert:
         return OvernightSessionDriftExpert()
     if name == "h106":
         return VrRangeReversalExpert()
-    raise ValueError(f"unknown expert {name!r}; choose reference|h101|h105|h106")
+    if name == "h107":
+        # Primary grid point; production backfill iterates the whole registered
+        # grid (see _experts_for) — H107 design §5.
+        return VwapEmaCrossExpert()
+    raise ValueError(f"unknown expert {name!r}; choose reference|h101|h105|h106|h107")
+
+
+def _experts_for(name: str) -> list[Expert]:
+    """All experts a CLI choice materializes (H107 = the registered EMA-span grid)."""
+    if name == "h107":
+        return [VwapEmaCrossExpert(span) for span in EMA_SPAN_GRID]
+    return [_make_expert(name)]
 
 
 def run_backfill(
     paths: ProjectPaths,
     *,
-    expert: Expert,
+    experts: list[Expert],
     hypothesis_id: str,
     instruments: tuple[str, ...],
     max_bars: int | None,
@@ -193,23 +205,24 @@ def run_backfill(
         # is a property of the rule, so a bounded multi-session sample suffices (the
         # full-span cut-sweep would re-signal the whole series ~16x).
         canary_bars = _bar_window(valid.head(_CANARY_SAMPLE_BARS))
-        assert_prefix_invariant(expert, canary_bars)
-        df = pl.concat(
-            [
-                _rows_for_expert_kelly(
-                    expert=expert, kelly=k, symbol=symbol, valid=valid, cost_model=cost_model
-                )
-                for k in KELLY_FRACTION_GRID
-            ]
-        )
-        results = writer.write_partitions(df, rng_seed=SEED, hypothesis_id=hypothesis_id)
-        total_rows += int(df.height)
-        print(
-            f"[{label}/{symbol}] wrote {len(results)} partitions, "
-            f"{sum(rr.n_rows for rr in results)} rows "
-            f"({len(KELLY_FRACTION_GRID)} Kelly fractions); canary PASS",
-            flush=True,
-        )
+        for expert in experts:  # bars loaded once per symbol; one pass per expert
+            assert_prefix_invariant(expert, canary_bars)
+            df = pl.concat(
+                [
+                    _rows_for_expert_kelly(
+                        expert=expert, kelly=k, symbol=symbol, valid=valid, cost_model=cost_model
+                    )
+                    for k in KELLY_FRACTION_GRID
+                ]
+            )
+            results = writer.write_partitions(df, rng_seed=SEED, hypothesis_id=hypothesis_id)
+            total_rows += int(df.height)
+            print(
+                f"[{label}/{symbol}/{expert.expert_id}] wrote {len(results)} partitions, "
+                f"{sum(rr.n_rows for rr in results)} rows "
+                f"({len(KELLY_FRACTION_GRID)} Kelly fractions); canary PASS",
+                flush=True,
+            )
     print(f"[{label}] TOTAL {total_rows} rows across {len(instruments)} instruments", flush=True)
     return 0
 
@@ -219,7 +232,9 @@ def main() -> int:
     parser.add_argument(
         "--smoke", action="store_true", help="validate to a scratch ledger (no evidence)"
     )
-    parser.add_argument("--expert", default="h101", choices=["reference", "h101", "h105", "h106"])
+    parser.add_argument(
+        "--expert", default="h101", choices=["reference", "h101", "h105", "h106", "h107"]
+    )
     parser.add_argument("--hypothesis-id", default=None, help="ledger hypothesis_id")
     parser.add_argument("--instruments", default="ES,NQ")
     parser.add_argument("--max-bars", type=int, default=None, help="bar cap (dev/smoke)")
@@ -227,7 +242,7 @@ def main() -> int:
     args = parser.parse_args()
 
     paths = ProjectPaths.discover()
-    expert = _make_expert(args.expert)
+    experts = _experts_for(args.expert)
     instruments = tuple(s.strip() for s in args.instruments.split(","))
 
     if args.smoke:
@@ -242,7 +257,7 @@ def main() -> int:
         )
         return run_backfill(
             paths,
-            expert=expert,
+            experts=experts,
             hypothesis_id="n/a-smoke",
             instruments=instruments,
             max_bars=args.max_bars if args.max_bars is not None else 2000,
@@ -261,7 +276,7 @@ def main() -> int:
     writer = ShadowLedgerWriter(paths=paths)  # canonical data/processed/shadow_ledger/
     return run_backfill(
         paths,
-        expert=expert,
+        experts=experts,
         hypothesis_id=hyp,
         instruments=instruments,
         max_bars=args.max_bars,

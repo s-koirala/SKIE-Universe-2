@@ -1,201 +1,311 @@
 ---
-name: H107 — Session-VWAP × EMA(9) crossover expert (ES/NQ, 5-min RTH), shadow-ledger screen
-description: DRAFT pre-registration for hypothesis H107 (principal-proposed practitioner intraday trend rule); NOT frozen — no data contact permitted until /preregister freezes the SHA
+name: H107 — Session-VWAP × EMA(N) crossover grid (ES/NQ, 5-min, 22h window), shadow-ledger screen
+description: Pre-registered design doc for hypothesis H107 (principal-proposed practitioner intraday trend rule; EMA span a registered grid)
 type: project
 hypothesis_id: H107
 tier: 2
-status: draft  # draft → designed (on /preregister freeze) | running | evaluated | archived(...)
+status: designed  # designed | running | evaluated | archived(positive|null|negative)
 owner: SKIE
 created: 2026-11-22
 citations: 10.1016/j.jfineco.2018.05.009, 10.1111/j.1468-0262.2005.00615.x, 10.1080/01621459.1994.10476870, 10.3905/jpm.2014.40.5.094, 10.21314/JCF.2016.322
-citation_verification: PENDING (Crossref check required before freeze)
 external_doi: null
 ---
 
-# H107 — Session-VWAP × EMA(9) crossover expert (ES/NQ, 5-min RTH)
+# H107 — Session-VWAP × EMA(N) crossover grid (ES/NQ, 5-min, 22h window)
 
-**STATUS: DRAFT.** This file is the working pre-registration for the
-principal-proposed strategy (2026-11-22: "VWAP + 9 EMA crossover on the 5-min
-time frame"). No ledger backfill, screen, or any look at H107 returns is
-permitted until the design is frozen via `/preregister` (ADR-0008: pre-registered
-scans; every evaluation is a trial-register record). Choices marked
-**[OPEN-n]** are the principal's to confirm; each is set to the stated default.
-Any change after freeze requires a new HID.
+Pre-registration record for the principal-proposed strategy (2026-11-22:
+"VWAP + 9 EMA crossover on the 5 min time frame"), with the principal's
+specification decisions of the same day:
 
-Two objects are pre-registered, mirroring H105/H106: (A) the H107 expert
-([vwap_ema_cross.py](../../../src/skie_universe2/experts/vwap_ema_cross.py),
-`Expert` contract, prefix-invariance canary) backfilled to the shadow ledger
-(ADR-0003) over ES+NQ × the registered Kelly sweep; (B) the **RC-H107-1**
-ADR-0014 singleton SCREEN (S-a…S-e) on the packaged
-[screen spine](../../../src/skie_universe2/screening/screen_spine.py) at the
-ENACTED level read from `config/multipletest_family.yaml` at runtime.
+1. **EMA period is grid-searched** (§4) — every grid point is a registered
+   trial; no point is hand-picked.
+2. **Trading window:** flat at 15:00 CT, reopen at 17:00 CT; 24-hour trading
+   otherwise; Sunday 17:00 CT open (CME futures hours) (§4). Times are read as
+   Central Time because "Sundays 1700 open (futures hours)" is the CME Globex
+   Sunday open, which is 17:00 CT (18:00 ET).
+3. **No regime bias in this hypothesis.** A bull/bear/range bias layer is a
+   separately pre-registered SUCCESSOR hypothesis, designed after this screen
+   (§1, "Registered successor").
+4. **Platform = NinjaTrader:** the `ninjatrader_v1` cost schedule for ES, NQ,
+   MES, MNQ is registered (§7).
 
-Governance respected by construction: no Kelly fraction selected (Phase-4
-champion action); a screen pass disposes `pool-hold-reconsider` and STOPS —
-set-level VERDICT entry is a separate, operator-authorized event (VERDICT-1
-precedent).
+Two objects are pre-registered (the H105/H106 shape): (A) the H107 expert
+grid ([vwap_ema_cross.py](../../../src/skie_universe2/experts/vwap_ema_cross.py))
+backfilled to the shadow ledger (ADR-0003); (B) the **RC-H107-1** ADR-0014
+singleton SCREEN at the ENACTED level, read from
+[config/multipletest_family.yaml](../../../config/multipletest_family.yaml) at
+runtime. Frozen at `designed`; any change after freeze requires a new HID.
+
+**Governance blocks respected by construction.** Kelly-fraction selection is
+BLOCKED (Phase-4 champion action) — all four fractions materialized, none
+selected. EMA-span selection is likewise NOT performed at the screen: every
+grid point that passes enters the pool; choosing among them is a
+verdict-tier action reported with its PBO. A screen pass disposes
+`pool-hold-reconsider` and STOPS — VERDICT entry is a separate, named
+operator authorization (VERDICT-1 precedent).
 
 ## 1. Hypothesis
 
-- **H0:** the RTH stop-and-reverse position sign(EMA9 − session VWAP) has no
-  positive pre-cost per-session edge in any pre-declared cell (§3) on either
-  instrument at the enacted Romano-Wolf-corrected level, or no cell survives
-  (S-d)/(S-e).
-- **H1:** ∃ a cell on ≥ 1 instrument passing (S-c) at the enacted level AND
-  (S-d)/(S-e).
-- **Mechanism (Tier 2 — practitioner rule, weak direct evidence).** The rule is
-  an intraday time-series-momentum filter: EMA9 (≈45-minute half-life-scale
-  smoother of price) above the session's volume-weighted mean price means
-  recent prices trade above the session's average cost basis. The nearest
-  peer-reviewed support is intraday momentum in index futures/ETFs —
+- **H0:** for every registered EMA span N and both instruments, the
+  stop-and-reverse position sign(EMA_N − session VWAP) over the 22h trading
+  window has no positive pre-cost per-session edge at the enacted
+  Romano-Wolf-corrected level, or no grid point survives (S-d)/(S-e).
+- **H1:** ∃ (N, instrument) passing (S-c) AND (S-d) AND (S-e) — a persistent
+  gross edge admitting H107 to the provisional candidate pool.
+- **Mechanism (Tier 2 — practitioner rule, weak direct evidence).** An
+  intraday time-series-momentum filter: EMA_N above the session's
+  volume-weighted mean price means recent prices trade above the session's
+  average cost basis. Nearest peer-reviewed support: intraday momentum in
+  the S&P 500 ETF —
   [Gao, Han, Li & Zhou 2018, J. Financ. Econ. 129(2):394-414](https://doi.org/10.1016/j.jfineco.2018.05.009)
-  (first-half-hour return predicts last-half-hour return on SPY; stronger on
-  high-volatility days). That evidence is about a specific within-day
+  (first-half-hour return predicts last-half-hour return; stronger on
+  high-volatility days). That evidence concerns one specific within-day
   horizon, not a VWAP/EMA crossing rule; no peer-reviewed source for this
-  exact rule is registered. Practitioner VWAP-trend write-ups exist (SSRN
-  working papers, not peer-reviewed) and are not cited as support.
+  exact rule is registered (practitioner VWAP-trend write-ups are not cited
+  as support). Citation Crossref verification: PENDING (standing
+  `CITE-DOI-VERIFY` convention; does not gate the screen).
 - **A-priori expectations (registered before any scan):**
-  1. **Cost-dominated.** A 5-minute stop-and-reverse crossover whipsaws around
-     VWAP in range-bound sessions; expected several reversals/session, each a
-     round trip at Tier-0 `futures_rt_v1`. The SCREEN is on gross edge; the
-     VERDICT is net — the H106 "net-not-monetizable" failure mode is the
-     modal expected outcome. The per-session flip count is a registered
-     report object (§5).
-  2. **Redundancy with ORB (H101/H103).** Both are RTH intraday trend
-     followers; on breakout days they hold the same sign. Expected realized-bar
-     overlap with the ORB pool is HIGH (H107 is in-market every RTH bar except
-     15:55). Non-redundancy (marginal log-wealth growth vs the incumbent set)
-     is the binding verdict-tier question, not the screen.
-  3. **Opening bias.** EMA9 carries overnight state while VWAP re-anchors at
-     09:30, so the first ~5-10 RTH bars hold the overnight-drift sign until
-     the EMA catches up — a mechanical link to H105's overnight segment that
-     the §12 overlap report must state.
+  1. **Cost-dominated.** A 5-minute stop-and-reverse crossover whipsaws
+     around VWAP in range-bound periods: several reversals per session are
+     expected, more for small N. The SCREEN is on gross edge; net binds at
+     the VERDICT — the H106 "net-not-monetizable" failure mode is the modal
+     expected outcome, worst for MES/MNQ (fees ≈ 3× an E-mini's per $ of
+     notional, §7).
+  2. **Small-N spans are noise-dominated.** EMA_3/EMA_5 track price within a
+     bar or two, so the rule degenerates toward sign(price − VWAP) with
+     maximal turnover.
+  3. **Redundancy.** H107 is in the market ~22h/session, so its accrual rows
+     overlap every pool member (ORB RTH rows, H105 overnight rows, H106
+     whole-session rows). It cannot supply a disjoint coverage vector;
+     marginal log-wealth growth vs the incumbent set is the binding
+     verdict-tier question.
+- **Registered successor (regime bias), declared now.** The principal
+  intends a follow-up hypothesis that partitions time into
+  bullish / bearish / range periods and restricts H107 to long-only /
+  short-only / flat accordingly. Binding constraints declared here so the
+  successor cannot launder H107's multiplicity:
+  (a) it is a NEW HID with its own frozen design, registered BEFORE any
+  regime-conditioned H107 statistic is computed (the RC-H107-1 artifact
+  reports no regime split, by construction);
+  (b) its regime labels must be ex-ante computable (rule-based causal with a
+  stated observation lag; latent-state/HMM labels fail S-e outright per the
+  `P1-2.0-H900-BOCPD-WHITENED` verdict; full-sample cutoffs are the
+  convicted construction class — per-origin train-window CDFs only);
+  (c) it re-uses H107's burned windows, which the burned-data ledger records,
+  and its trials add to the cumulative DSR count (H107's 14 included);
+  (d) it inherits H107's EMA grid only if it pre-declares how one or more
+  spans are chosen without looking at regime-conditioned results.
 
 ## 2. Universe and sample period
 
-ES, NQ continuous roll-adjusted 5-minute substrate (the registered H900 §2 grid
-and exclusion filter), identical to H105/H106. Conditional-grade: the
-December-roll blind spot (DEC_ROLL_LATE_COMMIT) is declared; DR-1/DR-2 repaired
-substrate is the prerequisite for confirmation-grade evidence.
+- **Instruments:** ES and NQ continuous roll-adjusted 5-minute substrate
+  (`vendor_legacy_1min_roll_adjusted`, the registered H900 §2 grid and
+  exclusion filter — the backfill driver's `_load_valid_bars`), identical to
+  H105/H106. **MES and MNQ** are evaluated on their parent's ledger (ES/NQ):
+  same underlying index and price path at 1/10 the multiplier, so the gross
+  edge is identical by construction and only the per-notional cost differs
+  (§7). No separate micro substrate is ingested.
+- **Sample:** the full backfilled span (2015 → substrate end 2025-12);
+  screen evidence = the registered h900 rolling-window family (§6).
+  Conditional-grade: the December-roll blind spot (DEC_ROLL_LATE_COMMIT) is
+  declared; the DR-1/DR-2 repaired substrate is the prerequisite for
+  confirmation-grade evidence.
 
 ## 3. Features and conditioning set
 
-Per-session covariates decided at the close of the 09:30-labeled bar (the
-first decision bar), all causal, lag 0:
-
-- `rvol_entry` — `rvol_5m_24h@1.0.0` at the first RTH bar; `high_vol` /
-  `low_vol` via the CERTIFIED per-origin train-window-CDF terciles (H103 RC-2 /
-  H105 §3 construction, verbatim; full-sample terciles forbidden).
-- `overnight_sign` — sign of log(close(09:25 label) / close(prior session
-  15:55 label)); undefined (neither sign cell) under the H105 §3 rules
-  (missing label; prior session > 4 calendar days back). Motivated by
-  expectation 3 (opening bias).
-- **Cell family [OPEN-1] (5 cells × 2 instruments = 10 trials):**
-  `unconditional` (PRIMARY), `high_vol`, `low_vol`, `overnight_up`,
-  `overnight_down`. `high_vol` is the mechanism-favoured cell (Gao et al.
-  2018 high-vol concentration) but is NOT made primary — no concentration
-  prior is imposed.
-- (S-e): all cells rule-based causal, lag 0 → S-e definitionally satisfied
-  (reported, not discriminating; H105 §3 statement applies verbatim).
-- `cov_*` registration: `vwap_ema9_cross` family with `covariates: []` (screen
-  computes §3 inline — leakage-clean path).
+- **No conditioning cells.** The S-c family is the EMA-span grid (§4/§5),
+  not a cell partition; each grid point's "cell" is every session of its own
+  ledger stream. # justify: principal direction — regime conditioning is
+  the registered successor (§1), not part of H107.
+- **(S-e):** every grid point is a rule-based causal expert with
+  observation lag 0 → S-e definitionally satisfied (reported, not
+  discriminating; H105 §3 statement applies verbatim).
+- **`cov_*` registration:** family `vwap_ema_cross` in
+  [config/covariates.yaml](../../../config/covariates.yaml) with
+  `covariates: []` (no ledger covariate columns).
 
 ## 4. Signal construction
 
 Exactly as implemented in
-[vwap_ema_cross.py](../../../src/skie_universe2/experts/vwap_ema_cross.py):
+[vwap_ema_cross.py](../../../src/skie_universe2/experts/vwap_ema_cross.py)
+(tests [test_vwap_ema_cross_expert.py](../../../tests/test_vwap_ema_cross_expert.py)):
 
-1. **EMA9** of 5-min close, alpha = 2/10, continuous over the contiguous
-   stored bar sequence (all segments), seeded at the first close.
-   **[OPEN-2]** default = continuous (charting convention). Alternative:
-   RTH-only EMA reset each session (removes the opening bias, expectation 3).
-2. **VWAP** RTH-anchored at the first bar labeled ≥ 09:30 NY, cumulative
-   Σ(typical·vol)/Σvol, typical = (H+L+C)/3, reset each NY session date.
-   **[OPEN-3]** default = RTH anchor. Alternative: Globex-session anchor
-   (18:00) — would make the rule a 24h expert and change the estimand.
-3. **Direction** = sign(EMA9 − VWAP) on decision bars labeled [09:30, 15:55);
-   0 on ties / undefined VWAP / 15:55 label / outside RTH. Always-in during
-   RTH (stop-and-reverse). **[OPEN-4]** default = always-in. Alternative:
-   enter only on a *fresh* cross (flat from 09:30 until the first sign change)
-   — fewer trades, smaller n.
-4. **Strength** 1.0 on held bars. No stop-loss / target / time-stop grid
-   (each would be a swept dimension adding trials; not registered).
-5. **No extra parameters.** Span 9 is the principal's specification, not a
-   tuned value; no span grid is registered (a grid would be a forking-paths
-   family requiring its own trial accounting).
+1. **EMA_N** of the 5-min close, alpha = 2/(N+1), run continuously over the
+   contiguous stored bar sequence (charting-platform convention), seeded at
+   the first close.
+2. **EMA span grid (registered):** N ∈ {3, 5, 9, 13, 21, 34, 55} (7 points).
+   # justify: log-spaced (~1.6× ratio, Fibonacci-like) spans covering 15 min
+   to ~4.6 h of 5-min bars, containing the principal-specified 9 (the
+   PRIMARY grid point, used only for the S-c block length and the §8
+   exhibits — it has no privileged gate). A wider/denser grid adds trials
+   for every candidate's DSR count; 7 points span the plausible range at
+   ~1.6× resolution.
+3. **VWAP:** CME-trading-session-anchored: cumulative
+   Σ(typical·volume)/Σ(volume), typical = (H+L+C)/3, over every bar of the
+   current CME session (session opens 17:00 CT = 18:00 ET; Sunday's 17:00 CT
+   open starts Monday's session), reset at each session boundary. Bars in
+   the flat window still enter the VWAP (it is a market statistic, not a
+   position statistic).
+4. **Direction** = sign(EMA_N − VWAP) at every decision bar inside the
+   trading window; 0 on ties or undefined VWAP (zero cumulative session
+   volume). Always-in inside the window (stop-and-reverse: each crossover
+   reverses the position).
+5. **Trading window:** decisions only on NY-local labels outside
+   [15:55, 18:00) ET. Under Tier-0 accrual (a position decided at close(t)
+   earns (t, t+1]) the last held label 15:50 ET earns to 16:00 ET = **15:00
+   CT (flat)**, and the first new position is decided at the close of the
+   18:00 ET = **17:00 CT reopen** bar. Weekends follow from the same rule
+   (flat Friday 15:00 CT → Sunday 17:00 CT). Decision bars per session:
+   264 (22 h).
+6. **Strength** 1.0 on held bars. No stop-loss / target / time-stop (each
+   would be a swept dimension adding trials; not registered).
+7. **Documented limitation (ORB/H106 precedent):** holiday early-close
+   sessions (~9/yr) are not special-cased (no exchange holiday calendar
+   in-repo): the last bar before an early halt can accrue the gap to the
+   next reopen. Within-session data gaps (registered exclusion windows) are
+   likewise not special-cased.
 
-PIT: EMA is a causal recursion, VWAP a causal cumulative sum; enforced by the
-prefix-invariance canary (tests:
-[test_vwap_ema_cross_expert.py](../../../tests/test_vwap_ema_cross_expert.py)).
+**PIT:** EMA is a causal recursion; VWAP a causal cumulative sum within the
+session; the window is a function of the bar's own timestamp. Enforced by the
+prefix-invariance canary for every grid point before any ledger write
+(backfill driver) and again at screen time (S-a).
 
-## 5. Estimator — backfill + RC-H107-1 screen
+## 5. Estimator — ledger backfill + RC-H107-1 screen
 
-H105 §5 verbatim with the substitutions: expert ids
-`vwap_ema9_cross_k{f}@1.0.0`, f ∈ {0.5, 0.75, 1.0, 1.25}; screen family
-`rc-h107-1` (registered with empty trials at freeze); burned-data ledger
-`hid: H107`; per-session statistic = RTH gross log-return of the k1.0 stream.
-S-c Romano-Wolf StepM over the 5-cell family per instrument (stationary
-bootstrap, Politis-White block); S-d DSR ≥ 1 − level and PBO ≤ level from the
-same runtime config read (CSCV S = 16 on the T × 5 member-only-Sharpe panel);
-DSR trial count = the cumulative register count at run time (includes the 72
-VERDICT-1 trials and the 10 new H107 screen trials).
-
-**Additional registered report objects (descriptive, not gates):** per-session
-flip count distribution; gross-minus-net drag per session under
-`futures_rt_v1`; fraction of RTH bars long/short.
+- **(A) Backfill (ADR-0003, Tier 0).** 7 spans × {ES, NQ} × the registered
+  Kelly sweep {0.5, 0.75, 1.0, 1.25} → expert ids
+  `vwap_ema{N}_cross_k{f}@1.0.0` (56 ledger streams), via
+  `scripts/run_shadow_ledger_backfill.py --expert h107` (bars loaded once per
+  instrument, every span signalled on the same substrate): signal → Layer-2
+  Kelly sizing → Tier-0 bar-close execution + `futures_rt_v1` cost →
+  append-only `ShadowLedgerWriter`.
+- **(B) RC-H107-1 screen** (`scripts/run_screen_h107.py`; statistics in
+  [grid_screen.py](../../../src/skie_universe2/screening/grid_screen.py),
+  which reuses the packaged spine's public helpers). On the k1.0 ledgers
+  (unit exposure), per instrument, build the T × 7 panel of per-session
+  gross log-returns (inner join on session_date across the 7 spans):
+  - **(S-a)** expert-contract compliance + prefix-invariance canary for all
+    7 spans on the last 5,000 valid bars of the substrate.
+  - **(S-c)** Romano-Wolf StepM over the 7 grid columns per instrument —
+    the frozen PANEL estimator `romano_wolf_stepm_panel` (VERDICT-1;
+    rows resampled jointly, cross-span dependence preserved), stationary
+    bootstrap (Politis & Romano 1994) with the Politis-White block length of
+    the primary (EMA_9) column, 1,000 replicates, seed 20261122; PASS iff
+    mean gross > 0 AND adjusted p < the enacted level.
+  - **(S-d)** DSR ≥ 1 − level (Bailey & López de Prado 2014; HAC n_eff;
+    n_trials_gate and dispersion per §8) AND PBO ≤ level, PBO = CSCV
+    (Bailey et al. 2017; S = 16 contiguous row-blocks) on the T × 7 grid
+    matrix — exactly the probability that the in-sample-best span
+    underperforms the median span out of sample; one PBO per instrument,
+    shared by its 7 grid points.
+  - **(S-e)** lag-0 rule-based → pass (reported).
+  - Per-window growth (15 registered windows) reported per grid point.
+- **Appends (ADR-0008 D5/D6), named implementing path:**
+  `scripts/emit_screen_expert_card_v1.py --hid H107` appends the 14
+  per-grid-point trial records to `rc-h107-1`, the per-window burned spans
+  under `hid: H107`, the script-generated Expert Card v1, and (on PASS) pool
+  records whose `expert_hash` is the head passing grid point's own ledger id.
+- **What the screen does NOT do:** no span selection, no rotor, no set-level
+  verdict, no non-redundancy test, no Kelly selection, no regime split.
 
 ## 6. Splitter
 
-H900 rolling-origin family by reference (24-month train / 6-month step /
-first origin 2017-01-01, 15 windows × 2 instruments); purge 288 bars, embargo
-Politis-White. Rule is stateless.
+H900 rolling-origin family by reference (`eval/windows.py::h900_windows()`:
+24-month train / 6-month step / first origin 2017-01-01, 15 windows × 2
+instruments). The rule is stateless (no fit). The S-c/S-d statistics use the
+full joined session panel (the RC-*-2 / H105 construction); the windows
+enter as the per-window growth exhibit and the burned-data mirror. Purge 288
+bars (`MAX_FEATURE_LOOKBACK_BARS`); embargo Politis-White (H900 §6).
 
 ## 7. Cost model
 
-`futures_rt_v1` at Tier 0, bar-level, per-flip (turnover 2 per reversal; 1 at
-the session's first entry and final exit). Net is reported at the screen as a
-descriptive object; it binds at the verdict.
+- **Ledger (unchanged, append-only):** `futures_rt_v1`
+  ([config/instruments.yaml](../../../config/instruments.yaml)) —
+  `ret_net` in the ledger.
+- **Registered NinjaTrader schedule `ninjatrader_v1`**
+  ([config/cost_schedules/ninjatrader_v1.yaml](../../../config/cost_schedules/ninjatrader_v1.yaml)),
+  binding for any H107 verdict-tier net claim; DESCRIPTIVE at the screen.
+  All-in per side (commission + exchange/NFA + clearing; NinjaTrader table
+  as of 2026-08-14): ES/NQ Free $2.87, Monthly $2.57, Lifetime $2.17;
+  MES/MNQ Free $0.94, Monthly $0.84, Lifetime $0.64. Slippage per side:
+  central ES/MES 0.5 tick, NQ/MNQ 1.0 tick; pessimistic ES/MES 1.5, NQ/MNQ
+  2.0 ticks. Per the ADR-0016 swept-assumption rule, a net claim must
+  survive the pessimistic endpoint.
+- **Net columns (12 per grid point per instrument):** {E-mini, micro} ×
+  {free, monthly, lifetime} × {central, pessimistic}. Per-session turnover
+  is recovered EXACTLY from the ledger, turnover = (gross − net) /
+  per-unit `futures_rt_v1` drag (Tier-0 net is linear in turnover;
+  verified on a synthetic ledger in
+  [test_run_screen_h107.py](../../../tests/test_run_screen_h107.py)); variant
+  net = gross − turnover × that variant's per-unit notional drag at the same
+  median reference price.
+- Fixed costs (platform $99/mo or $1,499 lifetime; CME L1 data $12/mo
+  bundle) are not per-trade drag and are excluded from the per-session net.
 
 ## 8. Gate thresholds
 
-Inherited from the enacted level (no transcription): S-c RW-adj p < level;
-S-d DSR ≥ 1 − level, PBO ≤ level; §8 25% precision exhibit per RC-*-2.
+- Level, DSR bound and PBO bound read at runtime from
+  `config/multipletest_family.yaml` (`screening_error_rate_target`; never
+  transcribed).
+- **n_trials_gate = 87** (frozen): the register's 73 recorded trials at
+  freeze (h900 1; rc-h101-2 10; rc-h103-2 10; rc-h105-1 10; rc-h106-1 10;
+  first-admission-verdict 32) + this scan's 14 (7 spans × 2 instruments).
+  The correlation-adjusted effective count (mean pairwise grid correlation)
+  is reported alongside, not substituted.
+- **Dispersion surface:** recorded trial Sharpes of rc-h101-2, rc-h103-2,
+  rc-h105-1, rc-h106-1 (fail-closed if any is empty) + the 14 current grid
+  Sharpes (the spine's matched-surface rule).
+- §8 exhibit: KPSS on the primary (EMA_9) column per instrument.
 
-## 9-10. Stopping and decision rule
+## 9. Stopping rule
 
-Single pre-registered scan. Any cell passes S-a…S-e → `pool-hold-reconsider`
-(pool records × 4 fractions; Expert Card v1 script-generated). No cell passes →
-`provisional-archive-null` with an ADR-0009 Expert Card ("fail" is not a
-disposition). No re-scan with modified rules under this HID.
+Single pre-registered scan over the full grid. No re-scan with a modified
+grid, window or rule under this HID.
 
-## 11. Reproducibility
+## 10. Decision rule (ADR-0014 dispositions)
 
-13-field ReproLog per run; data manifest check; signal-layer prefix-invariance
-canary + ledger look-ahead canary before any ledger write; design SHA recorded
-in the backlog at freeze.
+- ≥ 1 grid point passes S-a…S-e → `screen-pass` → `pool-hold-reconsider`
+  (4 pool records, one per Kelly fraction, keyed to the head passing grid
+  point's ledger id; all passing points listed). VERDICT entry requires a
+  named operator authorization.
+- S-c passes somewhere but S-d fails → `archive-no-persistent-window`.
+- No S-c pass → `archive-no-persistent-window (archive-no-gross-edge)`.
+- Every disposition emits the ADR-0009 Expert Card ("fail" is not a
+  disposition). Net columns are reported in every case.
+
+## 11. Reproducibility and run sequence (data machine)
+
+```bash
+uv sync --all-extras
+uv run pytest tests/test_vwap_ema_cross_expert.py tests/test_grid_screen.py tests/test_run_screen_h107.py
+uv run python scripts/run_shadow_ledger_backfill.py --smoke --expert h107 --instruments ES
+uv run python scripts/run_shadow_ledger_backfill.py --expert h107          # canonical ledger
+uv run python scripts/run_screen_h107.py                                     # reports/H107/rc_h107_1_screen.json
+uv run python scripts/emit_screen_expert_card_v1.py --hid H107               # register + burned + card (+ pool)
+```
+
+13-field ReproLog per run (the screen binds the substrate checksums, a
+digest over each of the 7 grid ledgers' partition hashes, this design's
+SHA-256, the register config and the cost schedule). Design SHA recorded in
+the backlog at freeze.
 
 ## 12. Mechanism distinctness and expected overlap
 
-- vs **ORB (H101/H103)**: same RTH segment, same trend sign class → HIGH
-  expected realized-bar overlap and return correlation; must be measured (M1
-  report extended to H107), not assumed. Distinct `expert_hash` but likely
-  low marginal growth.
-- vs **H105 overnight drift**: accrual-row disjoint (H107 accrues only inside
-  RTH), but signal-linked through the continuous EMA [OPEN-2].
-- vs **H106 VR range reversal**: opposite mechanism (momentum vs
-  contrarian) over overlapping RTH bars — the only pool member H107 could
-  plausibly diversify.
+- vs **ORB (H101/H103):** same trend-following sign class over RTH; H107's
+  RTH rows ⊇ ORB's accrual hours → high realized-bar overlap and positive
+  return correlation expected on breakout days.
+- vs **H105 overnight drift:** H107 is in the market through the overnight
+  segment (H105's rows) with a SIGNED position; overlap in rows is total
+  over 18:00–09:30 ET, correlation sign undetermined.
+- vs **H106 VR range reversal:** opposite mechanism (momentum vs one-bar
+  contrarian) on overlapping rows — the only pool member H107 could
+  plausibly diversify (negative correlation expected in range states).
+- Consequence: H107 cannot help the ADR-0015/0017 coverage-disjointness
+  precondition; its case rests entirely on marginal growth at the verdict.
 
 ## 13. Execution layer
 
-Tier 0, market-at-close fills. No limit-order / scalping claim is reportable
-(ADR-0006: below Tier 2).
-
-## Pre-freeze checklist
-
-- [ ] Principal confirms [OPEN-1]…[OPEN-4]
-- [ ] Crossref verification of cited DOIs
-- [ ] `rc-h107-1` family + `vwap_ema9_cross` covariate registration (same commit as freeze)
-- [ ] Screen harness `scripts/run_screen_h107.py` on the spine + backfill-driver registration
-- [ ] `/preregister` audit-remediate rounds → freeze SHA → backlog row
-- [ ] Data access: the backfill needs the machine-level raw store (`~/datasets` / `SKIE_SHARED_DATA`), not present in the cloud container
+Tier 0, market-at-bar-close fills. No limit-order or scalping claim is
+reportable below Tier 2 (ADR-0006/ADR-0016). NinjaTrader live execution is
+NOT modelled beyond the §7 cost schedule; ADR-0010 live-vs-shadow tracking
+governs any future live use.

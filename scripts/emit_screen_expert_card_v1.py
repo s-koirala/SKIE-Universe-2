@@ -1,5 +1,5 @@
 """Emit the v1 Expert Card, pool records, register trials, and burned spans
-for a FRESH forward expert's first screen (H105 / H106).
+for a FRESH forward expert's first screen (H105 / H106 / H107).
 
 Counterpart of ``emit_screen_expert_card.py`` (the H101/H103 v2 emitter) for
 first-cycle forward candidates: no predecessor card, no RC-1 reproduction
@@ -92,7 +92,36 @@ _REGISTRY = {
             "'high-turnover regime - cost-model floor' per design §7"
         ),
     },
+    "H107": {
+        "title": "Session-VWAP x EMA(N) crossover grid (ES/NQ, 5-min, 22h) - RC-H107-1 screen",
+        # primary grid point; per-grid-point ledgers via cell_hash_template
+        "expert_hash": "vwap_ema9_cross_k1.0@1.0.0",
+        "cell_hash_template": "vwap_{cell}_cross_k1.0@1.0.0",
+        "screen_script": "scripts/run_screen_h107.py",
+        "mechanism": (
+            "intraday time-series momentum filter (practitioner rule; nearest "
+            "peer-reviewed support Gao-Han-Li-Zhou 2018, "
+            "10.1016/j.jfineco.2018.05.009); EMA span a registered 7-point grid "
+            "(design §4), cells = grid points"
+        ),
+        "coverage_claim": (
+            "always-in 22h/session (flat 15:00-17:00 CT): accrual rows overlap "
+            "EVERY pool member's rows (ORB RTH, H105 overnight, H106 whole-session) "
+            "- no disjointness claim; M1 overlap to be measured"
+        ),
+        "net_note": (
+            "stop-and-reverse crossover: multiple round trips per session; net "
+            "under the ninjatrader_v1 schedule (E-mini + micro x plan x slippage "
+            "scenario) is descriptive in the screen artifact and binds at VERDICT"
+        ),
+    },
 }
+
+
+def _cell_hash(meta: dict, cell: str) -> str:
+    """Ledger expert id backing a cell (grid HIDs: one ledger per grid point)."""
+    tmpl = meta.get("cell_hash_template")
+    return tmpl.format(cell=cell) if tmpl else meta["expert_hash"]
 
 
 def _load(paths: ProjectPaths, hid: str) -> dict:
@@ -379,7 +408,7 @@ def append_pool_records(paths: ProjectPaths, hid: str, blob: dict, card_path: Pa
                 "kelly_fraction": frac,
                 "ledger_slice": ledger_slice,
                 "provenance": {
-                    "expert_hash": meta["expert_hash"],
+                    "expert_hash": _cell_hash(meta, head["cell"]),
                     "design_md_sha256": blob["design_md_sha256"],
                     "expert_card_path": card_rel,
                     "cost_model_id": "futures_rt_v1",
@@ -495,7 +524,7 @@ def append_register_trials(paths: ProjectPaths, hid: str, blob: dict) -> bool:
                 f"        sharpe_estimate: {sr_txt}",
                 (
                     "        return_series_ref: data/processed/shadow_ledger/"
-                    f"expert_id={meta['expert_hash']} (cell mask per " + artifact_rel + ")"
+                    f"expert_id={_cell_hash(meta, c['cell'])} (cell per " + artifact_rel + ")"
                 ),
                 "        clustering:",
                 f"          cluster_key: {hid.lower()}-ledger-"

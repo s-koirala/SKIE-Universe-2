@@ -984,6 +984,22 @@ families:
         registered_at: "2026-07-19"
     # [VERDICT-1 trial-append anchor - do not remove]
     registered_at: "2026-07-19"
+  - family_id: rc-h107-1
+    # ADR-0014 SCREEN of H107 (session-VWAP x EMA(N) crossover, ES/NQ, 5-min,
+    # 22h trading window; design research/01_hypothesis_register/H107/design.md
+    # §5). Family = the registered EMA-span GRID (3,5,9,13,21,34,55) x 2
+    # instruments = 14 trials; each grid point is its own ledger expert id
+    # (vwap_ema{N}_cross_k1.0@1.0.0) — grid points, not conditioning cells.
+    # S-c = Romano-Wolf panel StepM over the 7 spans per instrument; S-d PBO =
+    # CSCV on the T x 7 grid matrix. Level = the enacted
+    # screening_error_rate_target (runtime read); correction = romano-wolf per
+    # the RD5 retain-fwer decision. Registered BEFORE the screen run per
+    # ADR-0008 D6; per-grid-point records appended by the disposition emitter
+    # (scripts/emit_screen_expert_card_v1.py --hid H107).
+    correction: romano-wolf
+    prds_argument_ref: null
+    trials: []   # appended by RC-H107-1 at scan time (pass or fail, every cell)
+    registered_at: "2026-11-22"
 # families:
 #   - family_id: <slug>
 #     correction: romano-wolf | benjamini-hochberg-prds | benjamini-yekutieli

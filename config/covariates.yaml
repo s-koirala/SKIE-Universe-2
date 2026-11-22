@@ -57,3 +57,11 @@ expert_families:
     # signal-internal VR state (registered feature constants, window 288 /
     # q 2) is a Layer-1 input, not a ledger covariate column.
     covariates: []
+  vwap_ema_cross:
+    registered_at: "2026-11-22"
+    design_md: "research/01_hypothesis_register/H107/design.md"
+    # EMPTY registered set (design §3): H107 registers NO conditioning cells
+    # (the family is the EMA-span grid); the regime-bias conditioning is a
+    # separately pre-registered successor hypothesis (design §1). Ledger
+    # families vwap_ema{N}_cross_k{f} carry no cov_ columns.
+    covariates: []
